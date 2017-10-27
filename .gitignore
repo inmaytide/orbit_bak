@@ -1,0 +1,17 @@
+# Intellij IDEA
+.idea/
+*.iml
+out/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Gradle
+.gradle/
+build/
+
+# frontend
+node_modules/
+e2e/*.js
+e2e/*.map

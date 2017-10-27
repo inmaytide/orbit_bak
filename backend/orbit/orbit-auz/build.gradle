@@ -1,0 +1,11 @@
+archivesBaseName = "orbit-auz"
+
+dependencies {
+    compile project(":orbit-attachment")
+    compile project(":orbit-exception")
+    compile ("org.apache.shiro:shiro-spring:$shiroVersion") {
+        exclude module: 'shiro-web'
+    }
+    compile "commons-io:commons-io:$commonsIOVersion"
+    compile "net.pusuo:patchca:0.5.0"
+}

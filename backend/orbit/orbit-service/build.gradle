@@ -1,0 +1,6 @@
+archivesBaseName = 'orbit-service'
+
+dependencies {
+    compile project(":orbit-auz")
+    compile project(":orbit-dao")
+}

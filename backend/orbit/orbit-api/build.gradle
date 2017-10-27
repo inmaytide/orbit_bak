@@ -1,0 +1,7 @@
+archivesBaseName = 'orbit-api'
+
+dependencies {
+    compile project(":orbit-i18n")
+    compile project(":orbit-service")
+    compile project(":orbit-attachment")
+}

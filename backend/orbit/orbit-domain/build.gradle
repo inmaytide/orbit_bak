@@ -1,0 +1,8 @@
+archivesBaseName = "orbit-domain"
+
+dependencies {
+    compile project(":orbit-util")
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    compile "com.ifrabbit:spring-data-mybatis:$springDataMybatisVersion"
+    compile "org.springframework.boot:spring-boot-starter-validation"
+}

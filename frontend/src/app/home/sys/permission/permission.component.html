@@ -1,0 +1,37 @@
+<div class="right_col" role="main" auto-height>
+  <div style="clear: both;"></div>
+  <div class="row">
+    <div class="col-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>菜单管理</h2>
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group btn-group-sm">
+              <button (click)="add()" type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>添加</button>
+              <button (click)="move('up')" type="button" class="btn btn-sm btn-success"><i class="fa fa-arrow-up"></i>上移
+              </button>
+              <button (click)="move('down')" type="button" class="btn btn-sm btn-success"><i
+                class="fa fa-arrow-down"></i>下移
+              </button>
+              <button (click)="remove()" type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>删除
+              </button>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="col-12" style="padding: 5px;">
+            <ul class="table-header">
+              <li>&nbsp;</li>
+              <li>名称</li>
+              <li>编码</li>
+              <li>类型</li>
+            </ul>
+            <permission-child-view *ngIf="permissions.length > 0" [level]="0"
+                                   [permissions]="permissions"></permission-child-view>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

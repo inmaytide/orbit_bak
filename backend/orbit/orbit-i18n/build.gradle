@@ -1,0 +1,6 @@
+archivesBaseName = 'orbit-i18n'
+
+dependencies {
+    compile project(":orbit-util")
+    compile "org.springframework.boot:spring-boot-starter-webflux"
+}

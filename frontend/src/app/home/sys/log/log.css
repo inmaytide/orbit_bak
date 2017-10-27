@@ -1,0 +1,137 @@
+.btn-toolbar {
+  padding: 5px;
+  justify-content: flex-end;
+}
+
+.btn > i {
+  margin-right: 3px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.table {
+  table-layout: fixed;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+.table-bordered td, .table-bordered th {
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  text-align: center;
+  width: 40px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 13%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 13%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 13%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th:nth-child(5),
+.table td:nth-child(5) {
+  width: 15%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th:nth-child(6),
+.table td:nth-child(6) {
+  width: 18%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th:nth-child(7),
+.table td:nth-child(7) {
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.form-control {
+  border-radius: .2rem;
+}
+
+.input-group {
+  padding-left: 0;
+}
+
+.control-label {
+  text-align: right;
+  margin-bottom: 0;
+  margin-top: 4px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label-to {
+  text-align: center !important;
+}
+
+.form-group:first-child {
+  margin-top: 8px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.input-group {
+  margin-bottom: 5px;
+}
+
+.input-group-addon {
+  padding: 2px 8px;
+}
+
+.input-group-addon i {
+  font-size: 12px;
+}
+
+.btn-reset {
+  padding: .23rem .3rem;
+  margin-top: 1px;
+}
+
+::-webkit-input-placeholder {
+  color: #73879C;
+  font-weight: normal;
+  opacity: .3;
+}
+
+.form-control:disabled, .form-control[readonly] {
+  background-color: #FFFFFF;
+}

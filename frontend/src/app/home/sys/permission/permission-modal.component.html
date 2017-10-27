@@ -1,0 +1,120 @@
+<div class="modal-header">
+  <h6 class="modal-title">编辑菜单</h6>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="btn-toolbar" role="toolbar">
+  <button *ngIf="state == 'lock'" (click)="changeState('edit')" type="button" class="btn btn-sm btn-success" title="编辑">
+    <i class="fa fa-pencil-square"></i></button>
+  <button *ngIf="state != 'add'" (click)="remove()" type="button" class="btn btn-sm btn-danger" title="删除"><i
+    class="fa fa-trash"></i></button>
+</div>
+<form class="form-horizontal" #form="ngForm" (ngSubmit)="save(form)">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="parent">
+        <i class="required"></i>上级菜单
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <input id="parent" readonly value="{{parent.name}}" required class="form-control form-control-sm"/>
+        <input [(ngModel)]="this.permission.parent" name="parent" type="hidden"/>
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <p class="control-value">{{parent.name}}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="code">
+        <i class="required"></i>菜单编码
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-10 col-sm-10 col-xs-12">
+        <input [(ngModel)]="this.permission.code" name="code" id="code" maxlength="32" #code="ngModel"
+               class="form-control form-control-sm col-md-7 col-sm-7 col-xs-12" required
+               notRepeat="sys/permissions/checkCode" [selfId]="this.permission.id">
+        <label class="control-label error-label col-md-5 col-sm-5 col-xs-12"
+               *ngIf="code?.getError('required') && (code?.touched || code?.dirty)">
+          菜单编码不能为空
+        </label>
+        <label class="control-label error-label col-md-5 col-sm-5 col-xs-12"
+               *ngIf="code?.getError('notRepeat') && (code?.touched || code?.dirty)">
+          菜单编码已存在
+        </label>
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <p class="control-value">{{permission.code}}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">
+        <i class="required"></i>菜单名称
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-10 col-sm-10 col-xs-12">
+        <input [(ngModel)]="this.permission.name" #name="ngModel" name="name" id="name"
+               maxlength="32" class="form-control form-control-sm  col-md-7 col-sm-7 col-xs-12" required>
+        <label class="control-label error-label col-md-5 col-sm-5 col-xs-12"
+               *ngIf="name.getError('required') && (name.touched || name.dirty)">
+          菜单名称不能为空
+        </label>
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <p class="control-value">{{permission.name}}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="category">
+        <i class="required"></i>菜单类别
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <select id="category" name="category" [(ngModel)]="this.permission.category"
+                class="form-control form-control-sm" #category="ngModel" required>
+          <option *ngFor="let category of categories" value="{{category.value}}">{{category.text}}</option>
+        </select>
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <p class="control-value">{{_categories[permission.category]}}</p>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="parent.id == -1">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="icon">
+        图标
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <select id="icon" [(ngModel)]="this.permission.icon" name="icon" class="form-control form-control-sm">
+          <option *ngFor="let icon of icons" value="{{icon}}">{{icon}}</option>
+        </select>
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <p class="control-value"><i class="fa fa-{{permission.icon}}"></i></p>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="parent.id != -1">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="action">
+        URL
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <input id="action" [(ngModel)]="this.permission.action" name="action" maxlength="255"
+               class="form-control form-control-sm">
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <p class="control-value">{{permission.action}}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="description">
+        描述
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <textarea rows="4" type="text" id="description" name="description" [(ngModel)]="this.permission.description"
+                  class="form-control form-control-sm"></textarea>
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <p class="control-value">{{permission.description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <input *ngIf="state != 'lock'" type="submit" class="btn btn-sm btn-success" value="保存"/>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="close()">取消</button>
+  </div>
+</form>

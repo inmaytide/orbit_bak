@@ -1,0 +1,9 @@
+archivesBaseName = "orbit-dao"
+
+dependencies {
+    compile project(":orbit-domain")
+    compile "com.ifrabbit:spring-boot-starter-data-mybatis:$springDataMybatisVersion"
+    compile "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
+    compile "mysql:mysql-connector-java:$mysqlVersion"
+
+}
