@@ -2,7 +2,7 @@ package com.inmaytide.orbit.attachment.configuration;
 
 import com.inmaytide.orbit.holder.ApplicationContextHolder;
 
-public abstract class AttachmentPropertiesHolder {
+public class AttachmentPropertiesHolder {
 
     private static AttachmentProperties attachmentProperties;
 

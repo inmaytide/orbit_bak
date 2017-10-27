@@ -11,7 +11,7 @@ public class AttachmentProperties implements InitializingBean {
 
     private String temporaryDirectory = System.getProperty("java.io.tmpdir");
 
-    private String baseStorageDirectory = System.getProperty("user.dir") + "/attachments/";
+    private String baseStorageDirectory = System.getProperty("user.home") + "/Attachments/";
 
     public String getTemporaryDirectory() {
         return temporaryDirectory;

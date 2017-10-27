@@ -5,6 +5,8 @@ import com.inmaytide.orbit.domain.basic.BasicEntity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity(table = "sys_user")
@@ -14,17 +16,21 @@ public class User extends BasicEntity {
 
     private String username;
     private String name;
+    private LocalDate brithday;
+    private String education;
     private String password;
     private String email;
     private String qq;
     private String wechat;
     private String telephone;
     private String cellphone;
-    private String photo;
+    private String avatar;
     private String remark;
     private String status;
     @Transient
     private String token;
+    @Transient
+    private List<Organization> organization;
 
     public User() {
     }
@@ -101,12 +107,12 @@ public class User extends BasicEntity {
         this.cellphone = cellphone;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getRemark() {
@@ -127,5 +133,21 @@ public class User extends BasicEntity {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public LocalDate getBrithday() {
+        return brithday;
+    }
+
+    public void setBrithday(LocalDate brithday) {
+        this.brithday = brithday;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
     }
 }

@@ -2,7 +2,7 @@ package com.inmaytide.orbit.attachment.handler;
 
 import com.inmaytide.orbit.attachment.util.AttachmentUtils;
 import com.inmaytide.orbit.attachment.util.FileUtils;
-import com.inmaytide.orbit.attachment.service.AttachmentService;
+import com.inmaytide.orbit.service.sys.AttachmentService;
 import com.inmaytide.orbit.domain.sys.Attachment;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.web.reactive.function.server.RouterFunction;

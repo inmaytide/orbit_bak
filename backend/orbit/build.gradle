@@ -53,7 +53,6 @@ subprojects {
         compile "org.aspectj:aspectjweaver:1.9.0.BETA-6"
         compile "com.google.code.findbugs:jsr305:3.0.2"
         testCompile "org.springframework.boot:spring-boot-starter-test"
-        optional "org.springframework.boot:spring-boot-configuration-processor"
     }
 
     jar {

@@ -60,17 +60,12 @@ public class FileUtils {
                 });
     }
 
-    private static String getStorageAddress() {
-        String folder = DateTimeUtils.format(LocalDate.now(), "yyyyMMdd");
-        return FilenameUtils.concat(AttachmentPropertiesHolder.get().getBaseStorageDirectory(), folder);
-    }
-
     private static Attachment buildAttachmentAndWriteFile(FilePart part, ServerRequest request) {
         Attachment attachment = new Attachment();
         attachment.setOriginalName(FilenameUtils.removeExtension(part.filename()));
         attachment.setStorageName(CommonUtils.uuid());
         attachment.setExtension(FilenameUtils.getExtension(part.filename()));
-        attachment.setStorageAddress(getStorageAddress());
+        attachment.setStorageAddress(DirectoryUtils.getStorageAddress());
         attachment.setStatus(0);
         request.queryParam("belong").map(NumberUtils::toLong).ifPresent(attachment::setBelong);
         FileSystemResource resource = AttachmentUtils.getResource(attachment);
