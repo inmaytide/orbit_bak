@@ -1,9 +1,8 @@
 package com.inmaytide.orbit.attachment.util;
 
-import com.inmaytide.orbit.attachment.configuration.AttachmentPropertiesHolder;
+import com.inmaytide.orbit.consts.AttachmentStatus;
 import com.inmaytide.orbit.domain.sys.Attachment;
 import com.inmaytide.orbit.util.CommonUtils;
-import com.inmaytide.orbit.util.DateTimeUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
@@ -36,7 +34,7 @@ public class FileUtils {
     private static final Logger log = LoggerFactory.getLogger(FileUtils.class);
 
     public static String getTemporaryFilename(String filename) {
-        return FilenameUtils.concat(AttachmentPropertiesHolder.get().getTemporaryDirectory(), filename);
+        return FilenameUtils.concat(DirectoryUtils.getTemporaryAddress(), filename);
     }
 
     public static FileSystemResource getTemporaryResource(String filename) {
@@ -65,8 +63,8 @@ public class FileUtils {
         attachment.setOriginalName(FilenameUtils.removeExtension(part.filename()));
         attachment.setStorageName(CommonUtils.uuid());
         attachment.setExtension(FilenameUtils.getExtension(part.filename()));
-        attachment.setStorageAddress(DirectoryUtils.getStorageAddress());
-        attachment.setStatus(0);
+        attachment.setStorageAddress(DirectoryUtils.getTemporaryAddress());
+        attachment.setStatus(AttachmentStatus.TEMPORARY.getValue());
         request.queryParam("belong").map(NumberUtils::toLong).ifPresent(attachment::setBelong);
         FileSystemResource resource = AttachmentUtils.getResource(attachment);
         part.transferTo(createIfNotExist(resource));

@@ -19,6 +19,10 @@ public class DirectoryUtils {
         return storageAddress;
     }
 
+    public static String getTemporaryAddress() {
+        return AttachmentPropertiesHolder.get().getTemporaryDirectory();
+    }
+
     public static void createIfNotExist(String directories) {
         Path path = Paths.get(directories);
         if (Files.notExists(path)) {

@@ -1,8 +1,9 @@
 package com.inmaytide.orbit.attachment.handler;
 
+import com.inmaytide.orbit.attachment.service.AttachmentService;
 import com.inmaytide.orbit.attachment.util.AttachmentUtils;
 import com.inmaytide.orbit.attachment.util.FileUtils;
-import com.inmaytide.orbit.service.sys.AttachmentService;
+import com.inmaytide.orbit.consts.AttachmentStatus;
 import com.inmaytide.orbit.domain.sys.Attachment;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -44,6 +45,7 @@ public class AttachmentHandler {
     public Mono<ServerResponse> uploadAttachment(ServerRequest request) {
         String formName = request.queryParam("formName").orElse(DEFAULT_FORM_ATTACHMENT_NAME);
         return FileUtils.upload(request, formName)
+                .map(service::insert)
                 .transform(mono -> ok().body(mono, Attachment.class));
     }
 
@@ -51,9 +53,12 @@ public class AttachmentHandler {
     public Mono<ServerResponse> downloadAttachment(ServerRequest request) {
         Long id = NumberUtils.toLong(request.pathVariable("id"));
         return request.queryParam("status")
+                .map(NumberUtils::toInt)
+                .map(AttachmentStatus::valueOf)
                 .map(status -> service.getByStatus(id, status))
                 .orElse(service.get(id))
-                .map(attachment -> FileUtils.download(AttachmentUtils.getResource(attachment)))
+                .map(AttachmentUtils::getResource)
+                .map(FileUtils::download)
                 .orElse(notFound().build());
     }
 

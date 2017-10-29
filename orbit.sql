@@ -16,6 +16,70 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `sys_attachment`
+--
+
+DROP TABLE IF EXISTS `sys_attachment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_attachment` (
+  `id` bigint(20) NOT NULL,
+  `original_name` varchar(128) DEFAULT NULL,
+  `storage_name` varchar(32) DEFAULT NULL,
+  `extension` varchar(16) DEFAULT NULL,
+  `storage_address` varchar(255) DEFAULT NULL,
+  `group_id` bigint(20) DEFAULT NULL,
+  `belong` bigint(20) DEFAULT NULL,
+  `size` bigint(20) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `creator` bigint(20) DEFAULT NULL,
+  `updater` bigint(20) DEFAULT NULL,
+  `version` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_attachment`
+--
+
+LOCK TABLES `sys_attachment` WRITE;
+/*!40000 ALTER TABLE `sys_attachment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_attachment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_attachment_group`
+--
+
+DROP TABLE IF EXISTS `sys_attachment_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_attachment_group` (
+  `id` bigint(20) NOT NULL,
+  `belong` bigint(20) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `creator` bigint(20) DEFAULT NULL,
+  `updater` bigint(20) DEFAULT NULL,
+  `version` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_attachment_group`
+--
+
+LOCK TABLES `sys_attachment_group` WRITE;
+/*!40000 ALTER TABLE `sys_attachment_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_attachment_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sys_log`
 --
 
@@ -42,6 +106,7 @@ CREATE TABLE `sys_log` (
 
 LOCK TABLES `sys_log` WRITE;
 /*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
+INSERT INTO `sys_log` VALUES (373210842751176704,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 20:46:39','登录成功',NULL,'127.0.0.1'),(373212344538501120,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 20:52:37','登录成功',NULL,'127.0.0.1'),(373213005523062784,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 20:55:14','登录成功',NULL,'127.0.0.1'),(373217507210825728,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:13:08','登录成功',NULL,'127.0.0.1'),(373218778575671296,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:18:11','登录成功',NULL,'127.0.0.1'),(373219253572210688,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:20:04','登录成功',NULL,'127.0.0.1'),(373219704870932480,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:21:52','登录成功',NULL,'127.0.0.1'),(373220065874677760,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:23:18','登录成功',NULL,'127.0.0.1'),(373220381844180992,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:24:33','登录成功',NULL,'127.0.0.1'),(373223156007178240,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:35:35','登录成功',NULL,'127.0.0.1'),(373223814470963200,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:38:12','登录成功',NULL,'127.0.0.1'),(373224682553479168,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:41:39','登录成功',NULL,'127.0.0.1'),(373225450299854848,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:44:42','登录成功',NULL,'127.0.0.1'),(373226304927043584,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:48:05','登录成功',NULL,'127.0.0.1'),(373226819224211456,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:50:08','登录成功',NULL,'127.0.0.1'),(373227234649051136,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:51:47','登录成功',NULL,'127.0.0.1'),(373230108007337984,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:03:12','登录成功',NULL,'127.0.0.1'),(373230434026393600,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:04:30','登录成功',NULL,'127.0.0.1'),(373233097136803840,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:15:05','登录成功',NULL,'127.0.0.1'),(373233743785234432,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:17:39','登录成功',NULL,'127.0.0.1'),(373234779195314176,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:21:46','登录成功',NULL,'127.0.0.1'),(373576393474314240,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 20:59:13','登录失败','java.lang.NoClassDefFoundError => javax/xml/bind/DatatypeConverter','127.0.0.1'),(373576831460315136,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:00:57','登录成功',NULL,'127.0.0.1'),(373577283912470528,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:02:45','登录成功',NULL,'127.0.0.1'),(373579250357374976,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:10:34','登录成功',NULL,'127.0.0.1'),(373581542515150848,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:19:41','登录成功',NULL,'127.0.0.1'),(373585424523857920,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:35:06','登录成功',NULL,'127.0.0.1'),(373586825996013568,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:40:40','登录成功',NULL,'127.0.0.1'),(373587448359424000,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:43:09','登录成功',NULL,'127.0.0.1');
 /*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,13 +257,15 @@ CREATE TABLE `sys_user` (
   `wechat` varchar(16) DEFAULT NULL,
   `telephone` varchar(16) DEFAULT NULL,
   `cellphone` varchar(16) DEFAULT NULL,
-  `photo` varchar(256) DEFAULT NULL,
+  `avatar` varchar(512) DEFAULT NULL,
   `remark` varchar(512) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `creator` bigint(20) DEFAULT NULL,
   `updater` bigint(20) DEFAULT NULL,
   `version` int(11) NOT NULL DEFAULT '0',
+  `brithday` date DEFAULT NULL,
+  `education` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
@@ -210,7 +277,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (9999,'admin','Administrator','431759ab506d1e4af78e7fe08b818edb','NORMAL',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0);
+INSERT INTO `sys_user` VALUES (9999,'admin','Administrator','431759ab506d1e4af78e7fe08b818edb','NORMAL',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0,NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,4 +339,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-25 22:19:21
+-- Dump completed on 2017-10-27 22:22:13

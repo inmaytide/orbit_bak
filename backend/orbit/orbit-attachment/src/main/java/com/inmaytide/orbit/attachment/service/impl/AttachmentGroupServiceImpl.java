@@ -1,11 +1,9 @@
-package com.inmaytide.orbit.service.sys.impl;
+package com.inmaytide.orbit.attachment.service.impl;
 
+import com.inmaytide.orbit.attachment.service.AttachmentGroupService;
 import com.inmaytide.orbit.dao.sys.AttachmentGroupRepository;
-import com.inmaytide.orbit.service.sys.AttachmentGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * @author Moss

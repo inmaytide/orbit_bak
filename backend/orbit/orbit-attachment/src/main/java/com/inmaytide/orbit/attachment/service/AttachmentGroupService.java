@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.service.sys;
+package com.inmaytide.orbit.attachment.service;
 
 import com.inmaytide.orbit.dao.sys.AttachmentGroupRepository;
 import com.inmaytide.orbit.domain.sys.AttachmentGroup;
