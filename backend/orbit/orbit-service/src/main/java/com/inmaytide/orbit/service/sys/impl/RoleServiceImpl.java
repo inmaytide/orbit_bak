@@ -1,9 +1,9 @@
 package com.inmaytide.orbit.service.sys.impl;
 
 import com.inmaytide.orbit.auz.cache.annotation.ClearAuthorizationCache;
-import com.inmaytide.orbit.dao.sys.RolePermissionRepository;
+import com.inmaytide.orbit.dao.sys.link.RolePermissionRepository;
 import com.inmaytide.orbit.dao.sys.RoleRepository;
-import com.inmaytide.orbit.dao.sys.UserRoleRepository;
+import com.inmaytide.orbit.dao.sys.link.UserRoleRepository;
 import com.inmaytide.orbit.domain.basic.RequestPageable;
 import com.inmaytide.orbit.domain.sys.Role;
 import com.inmaytide.orbit.domain.sys.User;

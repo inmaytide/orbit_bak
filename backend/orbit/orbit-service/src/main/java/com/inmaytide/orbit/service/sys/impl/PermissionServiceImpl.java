@@ -3,7 +3,7 @@ package com.inmaytide.orbit.service.sys.impl;
 import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.consts.PermissionCategory;
 import com.inmaytide.orbit.dao.sys.PermissionRepository;
-import com.inmaytide.orbit.dao.sys.RolePermissionRepository;
+import com.inmaytide.orbit.dao.sys.link.RolePermissionRepository;
 import com.inmaytide.orbit.domain.sys.Permission;
 import com.inmaytide.orbit.exception.VersionMatchedException;
 import com.inmaytide.orbit.log.LogAnnotation;

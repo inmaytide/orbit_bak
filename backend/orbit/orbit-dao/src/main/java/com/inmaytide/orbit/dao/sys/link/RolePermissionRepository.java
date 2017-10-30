@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.dao.sys;
+package com.inmaytide.orbit.dao.sys.link;
 
 import com.inmaytide.orbit.domain.sys.link.RolePermission;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;

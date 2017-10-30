@@ -12,6 +12,8 @@ public interface UserRepository extends MybatisRepository<User, Long> {
 
     User findByUsername(String username);
 
+    void deleteByIdIn(List<Long> ids);
+
     @Query(value = "findByRole")
     List<User> findByRole(@Param("roleId") Long roleId);
 

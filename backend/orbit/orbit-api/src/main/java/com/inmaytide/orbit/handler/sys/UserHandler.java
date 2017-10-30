@@ -19,6 +19,7 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Nonnull;
 import javax.annotation.Resource;
 
+import static org.springframework.web.reactive.function.server.ServerResponse.noContent;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 /**
@@ -38,6 +39,12 @@ public class UserHandler extends AbstractHandler {
     public Mono<ServerResponse> list(ServerRequest request) {
         Mono<Page> mono = Mono.just(service.list(buildConditions(request), RequestPageable.of(request)));
         return ok().body(mono, Page.class);
+    }
+
+    @Nonnull
+    public Mono<ServerResponse> remove(ServerRequest request) {
+        service.remove(request.pathVariable("ids"));
+        return noContent().build();
     }
 
     @Nonnull

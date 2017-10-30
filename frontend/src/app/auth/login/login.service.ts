@@ -18,7 +18,7 @@ export class LoginService {
       .toPromise()
       .then(user => {
         localStorage.setItem(GlobalVariable.CURRENT_USER, JSON.stringify(user));
-        return user;
+        return user as User;
       }).catch(reason => Promise.reject(reason));
   }
 

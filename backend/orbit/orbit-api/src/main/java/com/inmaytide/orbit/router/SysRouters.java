@@ -66,7 +66,8 @@ public class SysRouters {
 
     private RouterFunction<?> userRouters() {
         RouterFunction<ServerResponse> routers = route(GET("/"), userHandler::list)
-                .and(route(PUT("/{id}/avatar").and(accept(MULTIPART_FORM_DATA)), userHandler::uploadAvatar));
+                .and(route(PUT("/{id}/avatar").and(accept(MULTIPART_FORM_DATA)), userHandler::uploadAvatar))
+                .and(route(DELETE("/{ids}"), userHandler::remove));
         return nest(path("/users"), routers);
     }
 

@@ -7,7 +7,7 @@ export class Commons {
   static errorHandler(error: any, router: Router, modalService: NgbModal) {
     switch (error.status) {
       case 403:
-        router.navigateByUrl("error_403")
+        router.navigateByUrl("#403")
         break;
       case 401:
         router.navigateByUrl("login");

@@ -18,4 +18,5 @@ public interface UserService extends BasicService<UserRepository, User, Long>, U
 
     Page<User> list(RequestConditions conditions, RequestPageable pageable);
 
+    void remove(String ids);
 }

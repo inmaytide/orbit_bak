@@ -15,3 +15,4 @@ build/
 node_modules/
 e2e/*.js
 e2e/*.map
+*.log

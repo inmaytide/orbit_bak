@@ -18,6 +18,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.nest;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+import static org.springframework.web.reactive.function.server.ServerResponse.noContent;
 import static org.springframework.web.reactive.function.server.ServerResponse.notFound;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
@@ -36,13 +37,14 @@ public class AttachmentHandler {
     private AttachmentService service;
 
     public RouterFunction<?> routers() {
-        RouterFunction<?> routers = route(POST("/").and(accept(MULTIPART_FORM_DATA)), handler::uploadAttachment)
-                .and(route(GET("/{id}"), handler::downloadAttachment));
+        RouterFunction<?> routers = route(POST("/").and(accept(MULTIPART_FORM_DATA)), handler::upload)
+                .and(route(GET("/{id}"), handler::download))
+                .and(route(DELETE("/{ids}"), handler::remove));
         return nest(path("/attachments"), routers);
     }
 
     @Nonnull
-    public Mono<ServerResponse> uploadAttachment(ServerRequest request) {
+    public Mono<ServerResponse> upload(ServerRequest request) {
         String formName = request.queryParam("formName").orElse(DEFAULT_FORM_ATTACHMENT_NAME);
         return FileUtils.upload(request, formName)
                 .map(service::insert)
@@ -50,7 +52,7 @@ public class AttachmentHandler {
     }
 
     @Nonnull
-    public Mono<ServerResponse> downloadAttachment(ServerRequest request) {
+    public Mono<ServerResponse> download(ServerRequest request) {
         Long id = NumberUtils.toLong(request.pathVariable("id"));
         return request.queryParam("status")
                 .map(NumberUtils::toInt)
@@ -60,6 +62,12 @@ public class AttachmentHandler {
                 .map(AttachmentUtils::getResource)
                 .map(FileUtils::download)
                 .orElse(notFound().build());
+    }
+
+    @Nonnull
+    public Mono<ServerResponse> remove(ServerRequest request) {
+        service.remove(request.pathVariable("ids"));
+        return noContent().build();
     }
 
 }

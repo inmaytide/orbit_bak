@@ -5,6 +5,6 @@ export const appRoutes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'home', loadChildren: './home/home.module#HomeModule'},
-  {path: 'error_403', component: Error403Compontent},
+  {path: '#403', component: Error403Compontent},
   {path: '**', component: LoginComponent} // fallback router must in the last
 ];
