@@ -11,7 +11,7 @@ import {MTreeNode} from "./m-tree-node";
              [ngStyle]="{visibility: node.children.length > 0 ? 'none': 'hidden'}"
              class="fa fa-caret-{{node.spread ? 'down' : 'right'}}" aria-hidden="true"></i>
           <label class="form-check-label">
-            <input checked="{{node.selected == true ? 'checked' : ''}}" class="form-check-input" (click)="selectNode($event, node)" type="checkbox"/>{{node.name}}
+            <input checked="{{node.selected ? 'checked' : ''}}" class="form-check-input" (click)="selectNode($event, node)" type="checkbox"/>{{node.name}}
           </label>
         </div>
         <m-tree *ngIf="node.children.length > 0" [nodes]="node.children" [parent]="node"></m-tree>

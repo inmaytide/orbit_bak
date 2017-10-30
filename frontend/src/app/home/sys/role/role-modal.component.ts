@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 import {Commons} from "../../../commons";
 import {PermissionService} from "../permission/permission.service";
 import {Permission} from "../../../models/permission-model";
-import {MTreeNode} from "../../../m-tree/m-tree-node";
+import {MTreeNode} from "../../../m-controls/m-tree/m-tree-node";
 import {UserSelectModalComponent} from "../user/user-select-modal.component";
 import {User} from "../../../models/user-model";
 

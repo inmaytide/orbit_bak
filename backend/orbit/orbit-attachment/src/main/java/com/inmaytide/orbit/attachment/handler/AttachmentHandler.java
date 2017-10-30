@@ -18,9 +18,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.nest;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
-import static org.springframework.web.reactive.function.server.ServerResponse.noContent;
-import static org.springframework.web.reactive.function.server.ServerResponse.notFound;
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
+import static org.springframework.web.reactive.function.server.ServerResponse.*;
 
 /**
  * @author Moss
@@ -39,7 +37,8 @@ public class AttachmentHandler {
     public RouterFunction<?> routers() {
         RouterFunction<?> routers = route(POST("/").and(accept(MULTIPART_FORM_DATA)), handler::upload)
                 .and(route(GET("/{id}"), handler::download))
-                .and(route(DELETE("/{ids}"), handler::remove));
+                .and(route(DELETE("/{ids}"), handler::remove))
+                .and(route(DELETE("/"), handler::removeByBelong));
         return nest(path("/attachments"), routers);
     }
 
@@ -67,6 +66,13 @@ public class AttachmentHandler {
     @Nonnull
     public Mono<ServerResponse> remove(ServerRequest request) {
         service.remove(request.pathVariable("ids"));
+        return noContent().build();
+    }
+
+    @Nonnull
+    public Mono<ServerResponse> removeByBelong(ServerRequest request) {
+        request.queryParam("belong")
+                .ifPresent(service::removeByBelong);
         return noContent().build();
     }
 

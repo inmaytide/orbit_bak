@@ -18,11 +18,9 @@ import {NotRepeatValidator} from "../../directive/validators/not-repeat.validato
 import {LocalDateTimePipe} from "../../pipe/LocalDateTimePipe";
 import {TranslateModule} from "@ngx-translate/core";
 import {RoleModalComponent} from "./role/role-modal.component";
-import {MTreeComponent} from "../../m-tree/m-tree";
-import {MTreeModule} from "../../m-tree/m-tree.module";
-import {PaginationModule} from "../../pagination/pagination.module";
 import {UserComponent} from "./user/user.component";
 import {UserService} from "./user/user.service";
+import {MControlsModule} from "../../m-controls/m-controls.module";
 
 @NgModule({
   declarations: [
@@ -47,8 +45,7 @@ import {UserService} from "./user/user.service";
     NgbTabsetModule,
     NgbTooltipModule,
     TranslateModule,
-    MTreeModule,
-    PaginationModule
+    MControlsModule
   ],
   entryComponents: [
     PermissionModalComponent,

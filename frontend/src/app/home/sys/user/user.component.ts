@@ -47,5 +47,12 @@ export class UserComponent implements OnInit {
     this.loadData(1, this.page.size);
   }
 
+  public remove() {
+    let ids = ["12321", "123123"];
+    this.service.remove(ids)
+      .then(response => console.log(response))
+      .catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
+  }
+
 
 }

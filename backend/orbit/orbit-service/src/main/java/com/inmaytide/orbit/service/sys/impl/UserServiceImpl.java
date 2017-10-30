@@ -6,7 +6,6 @@ import com.inmaytide.orbit.dao.sys.link.UserRoleRepository;
 import com.inmaytide.orbit.domain.basic.RequestConditions;
 import com.inmaytide.orbit.domain.basic.RequestPageable;
 import com.inmaytide.orbit.domain.sys.User;
-import com.inmaytide.orbit.holder.WebExchangeHolder;
 import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.util.ApiUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,15 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.server.ServerRequest;
 
 import javax.annotation.Resource;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -90,11 +84,9 @@ public class UserServiceImpl implements UserService {
 
     private void removeAvatar(List<Long> ids) {
         String belongs = StringUtils.join(ids.toArray(new Long[ids.size()]), ",");
-        URI uri = WebExchangeHolder.get().getRequest().getURI();
-        ClientResponse response = ApiUtils.delete()
-                .uri("/orbit/attachments/{ids}", belongs)
-                .exchange().block();
-        System.out.println(response);
+        ApiUtils.delete()
+                .uri("/orbit/attachments?belong=" + belongs)
+                .exchange().subscribe();
     }
 
     @Override

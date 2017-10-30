@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {Page} from "../models/page-model";
+import {Page} from "../../models/page-model";
 
 @Component({
-  selector: "pagination",
-  templateUrl: "./pagination.component.html"
+  selector: "m-pagination",
+  templateUrl: "./m-pagination.component.html"
 })
-export class PaginationComponent {
+export class MPaginationComponent {
 
   @Input() page: Page<any>;
 

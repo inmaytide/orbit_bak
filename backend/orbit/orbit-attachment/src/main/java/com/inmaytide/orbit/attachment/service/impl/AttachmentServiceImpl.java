@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author Moss
@@ -70,15 +71,23 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public void remove(Long id) {
-        getFormal(id).ifPresent(attachment -> {
-            getRepository().delete(attachment);
-            AttachmentUtils.getResource(attachment).getFile().delete();
-        });
+        getFormal(id).ifPresent(this::remove);
+    }
+
+    @Override
+    public void remove(Attachment inst) {
+        getRepository().delete(inst);
+        AttachmentUtils.getResource(inst).getFile().delete();
     }
 
     @Override
     public void remove(String ids) {
         split(ids, NumberUtils::toLong).forEach(this::remove);
+    }
+
+    @Override
+    public void removeByBelong(String belongs) {
+        getRepository().findByBelongIn(split(belongs, NumberUtils::toLong, Collectors.toList())).forEach(this::remove);
     }
 
     @Override

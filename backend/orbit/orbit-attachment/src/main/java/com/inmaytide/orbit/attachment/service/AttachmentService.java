@@ -31,6 +31,9 @@ public interface AttachmentService extends BasicService<AttachmentRepository, At
 
     void remove(Long id);
 
+    void remove(Attachment inst);
+
     void remove(String ids);
 
+    void removeByBelong(String s);
 }

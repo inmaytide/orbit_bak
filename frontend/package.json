@@ -26,6 +26,7 @@
     "@ngx-translate/http-loader": "^2.0.0",
     "core-js": "^2.4.1",
     "file-saver": "^1.3.3",
+    "npm": "^5.5.1",
     "rxjs": "^5.4.3",
     "zone.js": "^0.8.17"
   },
