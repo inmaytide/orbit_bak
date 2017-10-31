@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Commons} from "../../../commons";
 import {Log} from "../../../models/log-model";
-import {Page} from "../../../models/page-model";
+import {MPage} from "../../../m-controls/models/m-page-model";
 import {saveAs} from "file-saver";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -15,7 +15,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class LogComponent implements OnInit {
 
-  public page: Page<Log> = new Page<Log>();
+  public page: MPage<Log> = new MPage<Log>();
 
   public conditions;
 
@@ -61,7 +61,7 @@ export class LogComponent implements OnInit {
   loadData(pageNumber, pageSize, conditions) {
     this.logService
       .list(conditions, pageNumber, pageSize)
-      .then(data => this.page = data as Page<Log>)
+      .then(data => this.page = data as MPage<Log>)
       .catch(reason => this.errorHandler(reason));
   }
 

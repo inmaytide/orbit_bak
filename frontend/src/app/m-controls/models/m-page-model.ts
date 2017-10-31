@@ -1,5 +1,5 @@
-export class Page<T> {
-  content: Array<T>;
+export class MPage<T> {
+  content: Array<T> = [];
   first: boolean;
   last: boolean;
   number: number;

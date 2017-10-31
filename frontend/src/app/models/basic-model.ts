@@ -1,7 +1,7 @@
 export class BasicModel {
   id: string;
   createTime: number[];
-  updatetime: number[];
+  updateTime: number[];
   creator: number;
   updater: number;
   version: number;

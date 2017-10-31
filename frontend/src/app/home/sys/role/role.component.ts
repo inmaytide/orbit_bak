@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Page} from "../../../models/page-model";
+import {MPage} from "../../../m-controls/models/m-page-model";
 import {Role} from "../../../models/role-model";
 import {RoleService} from "./role.service";
 import {Router} from "@angular/router";
@@ -17,7 +17,7 @@ export class RoleComponent implements OnInit {
 
   public keywords: string = "";
 
-  public page: Page<Role> = new Page<Role>();
+  public page: MPage<Role> = new MPage<Role>();
 
   public allChecked = "";
 

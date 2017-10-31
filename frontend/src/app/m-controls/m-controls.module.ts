@@ -5,11 +5,13 @@ import {FormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {MPaginationComponent} from "./m-pagination/m-pagination";
+import {MTableComponent} from "./m-table/m-table";
 
 @NgModule({
   declarations: [
     MTreeComponent,
-    MPaginationComponent
+    MPaginationComponent,
+    MTableComponent
   ],
   imports: [
     CommonModule,
@@ -18,8 +20,9 @@ import {MPaginationComponent} from "./m-pagination/m-pagination";
     NgbPaginationModule
   ],
   exports: [
-    MTreeComponent,
-    MPaginationComponent
+    MPaginationComponent,
+    MTableComponent,
+    MTreeComponent
   ]
 })
 export class MControlsModule {

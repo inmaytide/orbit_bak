@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {Page} from "../../models/page-model";
+import {MPage} from "../models/m-page-model";
 
 @Component({
   selector: "m-pagination",
-  templateUrl: "./m-pagination.component.html"
+  templateUrl: "./m-pagination.html"
 })
 export class MPaginationComponent {
 
-  @Input() page: Page<any>;
+  @Input() page: MPage<any>;
 
   @Output() pageChange: EventEmitter<any> = new EventEmitter<any>();
 

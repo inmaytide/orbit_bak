@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {MTreeNode} from "./m-tree-node";
+import {MTreeNode} from "../models/m-tree-node";
 
 @Component({
   selector: "m-tree",

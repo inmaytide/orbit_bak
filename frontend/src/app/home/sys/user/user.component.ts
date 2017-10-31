@@ -1,11 +1,12 @@
 import {Component, OnInit} from "@angular/core";
-import {Page} from "../../../models/page-model";
+import {MPage} from "../../../m-controls/models/m-page-model";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Commons} from "../../../commons";
 import {TranslateService} from "@ngx-translate/core";
 import {User} from "../../../models/user-model";
 import {UserService} from "./user.service";
+import {MColumnModel} from "../../../m-controls/models/m-column-model";
 
 @Component({
   selector: "user",
@@ -16,9 +17,9 @@ export class UserComponent implements OnInit {
 
   public keywords: string = "";
 
-  public page: Page<User> = new Page<User>();
+  public page: MPage<User> = new MPage<User>();
 
-  public allChecked = "";
+  public models = [];
 
   constructor(private service: UserService,
               private router: Router,
@@ -27,7 +28,26 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.models = [{
+      text: "user.column.username",
+      name: "username",
+      event: this.lookup
+    }, {
+      text: "user.column.name",
+      name: "name"
+    }, {
+      text: "user.column.org",
+      name: "organization"
+    }, {
+      text: "user.column.status",
+      name: "status"
+    }];
     this.loadData(1, 10);
+  }
+
+  public lookup(user) {
+    console.log(this.service);
+    console.log(user);
   }
 
   public pageChange(pageable) {

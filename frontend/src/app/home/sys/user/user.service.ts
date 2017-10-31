@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../models/user-model";
 import * as GlobalVariable from "../../../globals";
-import {Page} from "../../../models/page-model";
+import {MPage} from "../../../m-controls/models/m-page-model";
 import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable()
@@ -14,9 +14,9 @@ export class UserService {
 
   }
 
-  public list(conditions: {}): Observable<Page<User>> {
+  public list(conditions: {}): Observable<MPage<User>> {
     return this.http.get(this.baseUrl, {params: new HttpParams({fromObject:conditions})})
-      .map(response => response as Page<User>);
+      .map(response => response as MPage<User>);
   }
 
   public remove(ids: string[]): Promise<any> {

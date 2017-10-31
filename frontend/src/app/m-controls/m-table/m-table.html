@@ -1,23 +1,26 @@
-<div class="col-12">
-  <table class="table table-striped table-bordered table-hover">
-    <thead>
-    <tr>
-      <th><input type="checkbox" (click)="selectAll()" checked="{{allChecked}}"></th>
-      <th>{{'role.column.code' | translate}}</th>
-      <th>{{'role.column.name' | translate}}</th>
-      <th>{{'role.column.description' | translate}}</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let inst of page.content" (click)="selectRole(inst)">
-      <td><input checked="{{inst.state == 'selected' ? 'checked' : ''}}" type="checkbox" disabled="{{inst.id == '9999' ? 'disabled' : ''}}"></td>
-      <td>
-        <a href="javascript:void(0)" (click)="edit(inst.id)">{{inst.code}}</a>
-      </td>
-      <td>{{inst.name}}</td>
-      <td>{{inst.description}}</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+  <tr>
+    <th *ngIf="checkbox" style="text-align: center; width: 50px;">
+      <input type="checkbox" (click)="selectAll()" checked="{{allSelected ? 'checked' : ''}}">
+    </th>
+    <th *ngIf="serialNumber" style="text-align: center; width: 50px;">#</th>
+    <th *ngFor="let model of models">{{model.text | translate}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of getContent(); let i = index">
+    <td *ngIf="checkbox" style="text-align: center; width: 50px;">
+      <input type="checkbox" checked="{{item.selected ? 'checked' : ''}}" (click)="selectItem(item)">
+    </td>
+    <th *ngIf="serialNumber" style="text-align: center; width: 50px;">{{i + 1}}</th>
+    <th *ngFor="let model of models">
+      <a *ngIf="model.event != undefined" href="javascript:void(0);" (click)="model.event(item)">
+        {{item[model.name]}}
+      </a>
+      <span *ngIf="model.event == undefined">{{item[model.name]}}</span>
+    </th>
+  </tr>
+  </tbody>
+</table>
 <m-pagination (pageChange)="pageChange($event)" [page]="page"></m-pagination>
