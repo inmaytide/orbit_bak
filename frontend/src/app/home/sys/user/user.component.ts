@@ -19,7 +19,7 @@ export class UserComponent implements OnInit {
 
   public page: MPage<User> = new MPage<User>();
 
-  public models = [];
+  public models: MColumnModel[] = [];
 
   constructor(private service: UserService,
               private router: Router,
@@ -31,7 +31,7 @@ export class UserComponent implements OnInit {
     this.models = [{
       text: "user.column.username",
       name: "username",
-      event: this.lookup
+      event: this.lookup(this.service, this.modalService)
     }, {
       text: "user.column.name",
       name: "name"
@@ -45,9 +45,12 @@ export class UserComponent implements OnInit {
     this.loadData(1, 10);
   }
 
-  public lookup(user) {
-    console.log(this.service);
-    console.log(user);
+  public lookup(service, modalService) {
+    return function (user) {
+      console.log(service);
+      console.log(modalService);
+      console.log(user);
+    }
   }
 
   public pageChange(pageable) {
