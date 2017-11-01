@@ -38,7 +38,7 @@ public class I18nMessages {
         try {
             return messageSource.getMessage(key, args, locale);
         } catch (NoSuchMessageException e) {
-            log.debug("No such message for code => {}", key);
+            log.debug("No such message with code [{}]", key);
             return UN_KNOWN_MESSAGE;
         }
     }

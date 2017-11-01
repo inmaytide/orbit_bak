@@ -1,7 +1,7 @@
 archivesBaseName = "orbit-auz"
 
 dependencies {
-    compile project(":orbit-attachment")
+    compile project(":orbit-domain")
     compile project(":orbit-exception")
     compile ("org.apache.shiro:shiro-spring:$shiroVersion") {
         exclude module: 'shiro-web'

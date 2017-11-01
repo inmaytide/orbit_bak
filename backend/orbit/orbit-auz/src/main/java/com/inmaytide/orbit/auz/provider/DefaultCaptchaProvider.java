@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.auz.provider;
 
 import com.inmaytide.orbit.consts.Constants;
-import com.inmaytide.orbit.attachment.util.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.patchca.service.ConfigurableCaptchaService;
 import org.patchca.utils.encoder.EncoderHelper;
@@ -30,15 +30,14 @@ public class DefaultCaptchaProvider implements CaptchaProvider {
 
     @Override
     public Resource generateCaptcha(String format, String keySuffix) {
-        FileSystemResource resource = FileUtils.getTemporaryResource(keySuffix + ".png");
-        String captcha;
+        FileSystemResource resource = new FileSystemResource(FilenameUtils.concat(System.getProperty("java.io.tmpdir"), keySuffix + ".png"));
         try (OutputStream os = resource.getOutputStream()) {
-            captcha = EncoderHelper.getChallangeAndWriteImage(configurableCaptchaService, "png", os);
+            String captcha = EncoderHelper.getChallangeAndWriteImage(configurableCaptchaService, "png", os);
+            stringRedisTemplate.opsForValue().set(generateCacheCaptchaKey(keySuffix), captcha);
         } catch (IOException e) {
             log.error("Failed to generate captcha. => {}", e.getMessage());
             throw new RuntimeException(e);
         }
-        stringRedisTemplate.opsForValue().set(generateCacheCaptchaKey(keySuffix), captcha);
         return resource;
     }
 

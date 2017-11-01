@@ -20,7 +20,7 @@ public class AttachmentUtils {
 
     public static Attachment formal(Attachment attachment) {
         FileSystemResource temporary = getResource(attachment);
-
+        attachment.setStatus(AttachmentStatus.FORMAL.getValue());
         attachment.setStorageAddress(DirectoryUtils.getStorageAddress());
         FileSystemResource formal = getResource(attachment);
 
@@ -30,7 +30,6 @@ public class AttachmentUtils {
             throw new RuntimeException(e);
         }
 
-        attachment.setStatus(AttachmentStatus.FORMAL.getValue());
         return attachment;
 
     }

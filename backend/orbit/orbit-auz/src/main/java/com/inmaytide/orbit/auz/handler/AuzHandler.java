@@ -7,7 +7,6 @@ import com.inmaytide.orbit.auz.realm.JwtRealm;
 import com.inmaytide.orbit.auz.token.FormAuthenticationToken;
 import com.inmaytide.orbit.domain.sys.Permission;
 import com.inmaytide.orbit.domain.sys.User;
-import com.inmaytide.orbit.attachment.util.FileUtils;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.util.CommonUtils;
 import com.inmaytide.orbit.auz.util.TokenUtils;
@@ -28,6 +27,7 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Nonnull;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.web.reactive.function.BodyInserters.fromResource;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
@@ -80,7 +80,7 @@ public class AuzHandler {
     public Mono<ServerResponse> captcha(ServerRequest request) {
         final String keySuffix = request.queryParam("v").orElse("");
         final Resource resource = captchaProvider.generateCaptcha("png", keySuffix);
-        return FileUtils.download(resource, MediaType.IMAGE_PNG);
+        return ok().contentType(MediaType.IMAGE_PNG).body(fromResource(resource));
     }
 
     @Nonnull
