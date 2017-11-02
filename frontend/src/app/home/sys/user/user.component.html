@@ -3,8 +3,13 @@
   <div class="row">
     <div class="col-12">
       <div class="x_panel">
+        <div class="search-bar-display-btn">
+          <button class="btn btn-sm btn-link" (click)="displaySearchBar()" title="{{searchBarDisplay ? 'hide' : 'show'}}">
+            <i class="fa fa-{{searchBarDisplay ? 'eye-slash' : 'eye'}}"></i>
+          </button>
+        </div>
         <div class="form-group row">
-          <label class="control-label quick-search-label">
+          <label class="control-label col-sm-1">
             {{'user.quick.search' | translate}}
           </label>
           <div class="col-sm-5">
@@ -12,6 +17,32 @@
               <input (keyup)="search($event)" [(ngModel)]="keywords" name="keywords"
                      class="form-control form-control-sm" placeholder="{{'user.keywords.placeholder' | translate}}"/>
               <div (click)="search($event)" class="input-group-addon"><i class="fa fa-search"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="searchBarDisplay">
+          <label class="control-label col-sm-1">
+            {{'user.column.status' | translate}}
+          </label>
+          <div class="col-sm-3">
+            <div class="input-group">
+              <select class="form-control form-control-sm">
+                <option>正常</option>
+                <option>锁定</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="searchBarDisplay">
+          <label class="control-label col-sm-1">
+            {{'user.column.org' | translate}}
+          </label>
+          <div class="col-sm-3">
+            <div class="input-group">
+              <select class="form-control form-control-sm">
+                <option>正常</option>
+                <option>锁定</option>
+              </select>
             </div>
           </div>
         </div>

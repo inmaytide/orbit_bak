@@ -15,11 +15,13 @@ import {MColumnModel} from "../../../m-controls/models/m-column-model";
 })
 export class UserComponent implements OnInit {
 
-  public keywords: string = "";
+  private keywords: string = "";
+  private page: MPage<User> = new MPage<User>();
+  private models: MColumnModel[] = [];
+  private searchBarDisplay = false;
 
-  public page: MPage<User> = new MPage<User>();
 
-  public models: MColumnModel[] = [];
+
 
   constructor(private service: UserService,
               private router: Router,
@@ -75,6 +77,10 @@ export class UserComponent implements OnInit {
     this.service.remove(ids)
       .then(response => console.log(response))
       .catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
+  }
+
+  public displaySearchBar() {
+    this.searchBarDisplay = !this.searchBarDisplay;
   }
 
 

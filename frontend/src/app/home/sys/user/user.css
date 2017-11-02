@@ -1,5 +1,16 @@
-.quick-search-label {
-  margin-left: 30px;
+.search-bar-display-btn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.search-bar-display-btn>button {
+  cursor: pointer;
+}
+
+.search-bar-display-btn>button>i {
+  color: #26B99A;
+  font-size: 18px;
 }
 
 .btn-toolbar {
@@ -23,44 +34,6 @@ h2 {
   font-weight: bold;
 }
 
-.table-bordered td, .table-bordered th {
-  border: 1px solid #ddd;
-  padding: 6px 8px;
-}
-
-.table th:nth-child(1),
-.table td:nth-child(1) {
-  text-align: center;
-  width: 45px;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.table th:nth-child(2),
-.table td:nth-child(2) {
-  width: 23%;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.table th:nth-child(3),
-.table td:nth-child(3) {
-  width: 23%;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.table th:nth-child(4),
-.table td:nth-child(4) {
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-
 .form-control {
   border-radius: .2rem;
 }
@@ -72,9 +45,8 @@ h2 {
 .control-label {
   text-align: right;
   margin-bottom: 0;
-  margin-top: 4px;
+  margin-top: 6px;
   overflow-x: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 

@@ -3,3 +3,13 @@
   width: 40px;
   text-align: center;
 }
+
+.table-bordered td, .table-bordered th {
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+}
+
+
+.no-data-row {
+  text-align: center;
+}

@@ -1,6 +1,7 @@
 import {MPage} from "../models/m-page-model";
 import {MColumnModel} from "../models/m-column-model";
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {isUndefined} from "util";
 
 @Component({
   selector: "m-table",
@@ -29,9 +30,7 @@ export class MTableComponent implements OnInit {
   }
 
   public countColumns(): number {
-    let displayedColumns = this.models.filter(model => model.display);
-    this.models.forEach(model => console.log(model.display));
-    console.log(this.models.length);
+    let displayedColumns = this.models.filter(model => isUndefined(model.display) || model.display);
     return displayedColumns.length + (this.checkbox ? 1 : 0) + (this.serialNumber ? 1 : 0);
   }
 

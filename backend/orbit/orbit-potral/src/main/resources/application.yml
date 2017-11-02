@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/db_orbit?characterEncoding=UTF-8&useSSL=false
     username: root
-    password: 123
+    password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   redis:
     host: 127.0.0.1

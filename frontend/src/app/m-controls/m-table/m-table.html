@@ -24,8 +24,8 @@
   </tbody>
   <tbody *ngIf="page.content.length == 0">
   <tr>
-    <td [attr.colspan]="countColumns()">{{'table.no.data' | translate}}</td>
+    <td [attr.colspan]="countColumns()" class="no-data-row">{{'table.no.data' | translate}}</td>
   </tr>
   </tbody>
 </table>
-<m-pagination (pageChange)="pageChanged($event)" [page]="page"></m-pagination>
+<m-pagination *ngIf="page.content.length > 0" (pageChange)="pageChanged($event)" [page]="page"></m-pagination>
