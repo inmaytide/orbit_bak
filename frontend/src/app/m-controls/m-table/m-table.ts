@@ -1,10 +1,13 @@
 import {MPage} from "../models/m-page-model";
 import {MColumnModel} from "../models/m-column-model";
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 
 @Component({
   selector: "m-table",
-  templateUrl: "./m-table.html"
+  templateUrl: "./m-table.html",
+  styleUrls: [
+    "./m-table.css"
+  ]
 })
 export class MTableComponent implements OnInit {
 
@@ -13,6 +16,7 @@ export class MTableComponent implements OnInit {
   @Input() private models: MColumnModel[] = [];
   @Input() private checkbox: boolean = true;
   @Input() private serialNumber: boolean = false;
+  @Output() pageChange: EventEmitter<any> = new EventEmitter<any>();
 
   private allSelected: boolean = false;
 
@@ -20,6 +24,16 @@ export class MTableComponent implements OnInit {
 
   }
 
+  public pageChanged(emit) {
+    this.pageChange.emit(emit);
+  }
+
+  public countColumns(): number {
+    let displayedColumns = this.models.filter(model => model.display);
+    this.models.forEach(model => console.log(model.display));
+    console.log(this.models.length);
+    return displayedColumns.length + (this.checkbox ? 1 : 0) + (this.serialNumber ? 1 : 0);
+  }
 
   public selectAll() {
     this.allSelected = !this.allSelected;
@@ -32,7 +46,7 @@ export class MTableComponent implements OnInit {
     this.allSelected = item.selected && this.page.content.filter(item => item.selected).length == this.page.content.length;
   }
 
-  public getContent() : any[] {
+  public getContent(): any[] {
     this.page.content.forEach(item => item.selected = item.selected || false);
     return this.page.content;
   }

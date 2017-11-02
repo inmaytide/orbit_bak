@@ -10,7 +10,7 @@
         select * from sys_user u
         <where>
             <if test="conditions.keywords != null and conditions.keywords != ''">
-                (instr(username, #{conditions.keywords}) or instr(name, #{conditions.keywords})
+                (instr(username, #{conditions.keywords}) or instr(name, #{conditions.keywords}))
             </if>
             <if test="conditions.status != null">
                 and status = #{conditions.status}
@@ -29,7 +29,7 @@
         select count(1) from sys_user u
         <where>
             <if test="conditions.keywords != null and conditions.keywords != ''">
-                (instr(username, #{conditions.keywords}) or instr(name, #{conditions.keywords})
+                (instr(username, #{conditions.keywords}) or instr(name, #{conditions.keywords}))
             </if>
             <if test="conditions.status != null">
                 and status = #{conditions.status}

@@ -9,13 +9,28 @@ import java.util.Optional;
 
 public interface AttachmentService extends BasicService<AttachmentRepository, Attachment, Long> {
 
+    /**
+     * Use the primary key to get the attachment instance
+     *
+     * @param id primary key
+     * @return instance of attachment class
+     */
     Optional<Attachment> get(Long id);
 
+    /**
+     * Use the primary key and status to get the attachment instance
+     *
+     * @param id     primary key
+     * @param status the attachment status
+     * @return instance of attachment class
+     * @see AttachmentStatus
+     */
     Optional<Attachment> getByStatus(Long id, AttachmentStatus status);
 
     /**
-     * Add a temporary attachment instance to the cache, use {@link AttachmentService#formal(Long)}
-     * or {@link AttachmentService#formal(Attachment)} to change to a formal instance,
+     * Add a temporary attachment instance to the cache,
+     * use {@link AttachmentService#formal(Long)} or {@link AttachmentService#formal(Attachment)}
+     * to change to a formal instance,
      * and if it does not, it will be deleted after 24 hours.
      *
      * @param inst a temporary attachment instance needs to add
@@ -35,5 +50,5 @@ public interface AttachmentService extends BasicService<AttachmentRepository, At
 
     void remove(String ids);
 
-    void removeByBelong(String s);
+    void removeByBelong(String ids);
 }

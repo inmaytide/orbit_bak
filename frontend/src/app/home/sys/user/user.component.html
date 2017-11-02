@@ -5,12 +5,12 @@
       <div class="x_panel">
         <div class="form-group row">
           <label class="control-label quick-search-label">
-            {{'role.quick.search' | translate}}
+            {{'user.quick.search' | translate}}
           </label>
           <div class="col-sm-5">
             <div class="input-group">
               <input (keyup)="search($event)" [(ngModel)]="keywords" name="keywords"
-                     class="form-control form-control-sm" placeholder="{{'role.keywords.placeholder' | translate}}"/>
+                     class="form-control form-control-sm" placeholder="{{'user.keywords.placeholder' | translate}}"/>
               <div (click)="search($event)" class="input-group-addon"><i class="fa fa-search"></i></div>
             </div>
           </div>
@@ -18,7 +18,7 @@
       </div>
       <div class="x_panel">
         <div class="x_title">
-          <h2>{{'role.list.title' | translate}}</h2>
+          <h2>{{'user.list.title' | translate}}</h2>
           <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-sm">
               <button type="button" class="btn btn-sm btn-success" (click)="add()">
@@ -33,7 +33,7 @@
         </div>
         <div class="x_content">
           <div class="col-12">
-            <m-table [page]="page" [models]="models"></m-table>
+            <m-table [page]="page" [models]="models" (pageChange)="pageChange($event)"></m-table>
           </div>
         </div>
       </div>
