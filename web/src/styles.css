@@ -2,3 +2,7 @@ html, body {
   background-color: #F7F7F7;
   font-family: 微软雅黑, serif;
 }
+
+main {
+  height: 100%;
+}

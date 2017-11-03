@@ -1,8 +1,9 @@
 import {LoginComponent} from "./auz/login";
 import {IndexComponent} from "./content/index/index";
+import {MainComponent} from "./content/main";
 
 export const appRoutes = [
-  {path: '', component: LoginComponent},
+  {path: '', loadChildren: './content/main.module#MainModule'},
   {path: 'login', component: LoginComponent},
-  {path: 'index', component: IndexComponent}
+  {path: '**', component: LoginComponent}
 ];

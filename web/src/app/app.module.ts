@@ -1,4 +1,3 @@
-import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 import {RouterModule} from "@angular/router";
@@ -12,23 +11,24 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {LoginService} from "./auz/login.service";
 import {CommonRequestInterceptor} from "./interceptors/common-request-interceptor";
 import {GlobalVariables} from "./global-variables";
-import {IndexComponent} from "./content/index/index";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MainModule} from "./content/main.module";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    IndexComponent
+    LoginComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgZorroAntdModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
+    MainModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

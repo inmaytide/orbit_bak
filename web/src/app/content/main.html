@@ -1,0 +1,12 @@
+<nz-layout style="height: 100%;">
+  <nz-header style="background: #fff; padding:0;"></nz-header>
+  <nz-layout>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzCollapsedWidth]="0" [nzBreakpoint]="'lg'">
+      <side-bar></side-bar>
+    </nz-sider>
+    <nz-content style="margin:24px 16px 0;">
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer style="text-align: center;">Ant Design ©2017 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>
