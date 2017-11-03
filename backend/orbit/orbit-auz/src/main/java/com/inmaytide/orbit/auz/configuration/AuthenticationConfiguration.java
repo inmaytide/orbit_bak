@@ -24,7 +24,7 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
-import org.patchca.color.SingleColorFactory;
+import org.patchca.color.RandomColorFactory;
 import org.patchca.filter.predefined.CurvesRippleFilterFactory;
 import org.patchca.service.ConfigurableCaptchaService;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
@@ -55,7 +55,7 @@ public class AuthenticationConfiguration {
     @ConditionalOnMissingBean(CaptchaProvider.class)
     public ConfigurableCaptchaService configurableCaptchaService() {
         ConfigurableCaptchaService cs = new ConfigurableCaptchaService();
-        cs.setColorFactory(new SingleColorFactory(new Color(25, 60, 170)));
+        cs.setColorFactory(new RandomColorFactory());
         cs.setFilterFactory(new CurvesRippleFilterFactory(cs.getColorFactory()));
         cs.setHeight(50);
         return cs;

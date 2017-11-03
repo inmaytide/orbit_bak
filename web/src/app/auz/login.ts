@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   private token: Token;
   private validateForm: FormGroup;
   private failedCount: number = 0;
+  private captchaImagePath: string;
 
   constructor(private service: LoginService,
               private router: Router,
@@ -30,8 +31,8 @@ export class LoginComponent implements OnInit {
     this.validateForm = this.fb.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
-      captcha: [null, [Validators.required]]
-    })
+      captcha: [null]
+    });
   }
 
   public login() {
@@ -48,11 +49,17 @@ export class LoginComponent implements OnInit {
         .catch(reason => {
           this.message.create("error", reason.error.message);
           this.failedCount++;
+          if (this.failedCount >= 3) {
+            this.getCaptcha();
+            this.validateForm.controls['captcha'].markAsPristine();
+            this.validateForm.controls['captcha'].setValidators([Validators.required]);
+          }
         });
     }
   }
 
-  public getCaptcha(): string {
-    return GlobalVariables.API_BASE_URL + "captcha?v=12312938192jkaef";
+  public getCaptcha() {
+    this.token.captchaKey = Date.now().toString();
+    this.captchaImagePath = GlobalVariables.API_BASE_URL + "captcha?v=" + this.token.captchaKey;
   }
 }
