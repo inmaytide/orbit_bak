@@ -9,12 +9,14 @@ import {NgZorroAntdModule} from "ng-zorro-antd";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CommonModule} from "@angular/common";
+import {MainTopComponent} from "./top/main-top";
 
 @NgModule({
   declarations: [
     MainComponent,
     IndexComponent,
-    SidebarComponent
+    SidebarComponent,
+    MainTopComponent
   ],
   imports: [
     CommonModule,

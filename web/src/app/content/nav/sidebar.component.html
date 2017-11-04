@@ -1,4 +1,9 @@
-<ul nz-menu [nzMode]="isCollapsed ? 'vertical' : 'inline'" nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
+<div nz-row style="margin-top: 15px; margin-bottom: 15px;" [ngStyle]="{'display': collapsed ? 'none': 'block'}">
+  <div nz-col [nzSpan]="22" [nzOffset]="1">
+    <nz-input nzType="search" nzPlaceHolder="search the menus" style="width: 100%"></nz-input>
+  </div>
+</div>
+<ul nz-menu [nzMode]="collapsed ? 'vertical' : 'inline'" nzTheme="dark">
   <div *ngFor="let menu of menus">
     <li nz-menu-item *ngIf="!menu.children || menu.children.length == 0" (click)="changeContent(menu, $event)">
       <i *ngIf="menu.icon" class="anticon" [ngClass]="'anticon-'+menu.icon"></i>

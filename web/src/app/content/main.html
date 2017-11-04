@@ -1,12 +1,14 @@
 <nz-layout style="height: 100%;">
-  <nz-header style="background: #fff; padding:0;"></nz-header>
+  <nz-header style="background-color: rgb(51, 51, 51); border-bottom: 1px solid rgb(219, 81, 73);">
+    <main-top></main-top>
+  </nz-header>
+
   <nz-layout>
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzCollapsedWidth]="0" [nzBreakpoint]="'lg'">
-      <side-bar></side-bar>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzBreakpoint]="'lg'" nzWidth="240" (nzCollapsedChange)="collapseChange()">
+      <side-bar [collapsed]="this.isCollapsed"></side-bar>
     </nz-sider>
-    <nz-content style="margin:24px 16px 0;">
+    <nz-content>
       <router-outlet></router-outlet>
     </nz-content>
-    <nz-footer style="text-align: center;">Ant Design ©2017 Implement By Angular</nz-footer>
   </nz-layout>
 </nz-layout>

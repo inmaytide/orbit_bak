@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {GlobalVariables} from "../../global-variables";
 import {Router} from "@angular/router";
 import {PermissionService} from "../sys/permission/permission.service";
@@ -11,9 +11,10 @@ import {Permission} from "../../models/permission";
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent implements OnInit {
-  public images: string = GlobalVariables.IMAGES_BASE_PATH;
-  public menus: Permission[] = [];
-  public user: User;
+  private images: string = GlobalVariables.IMAGES_BASE_PATH;
+  private menus: Permission[] = [];
+  private user: User;
+  @Input() collapsed = false;
 
   public constructor(private router: Router,
                      private service: PermissionService) {
