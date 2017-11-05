@@ -7,17 +7,17 @@
   <div *ngFor="let menu of menus">
     <li nz-menu-item *ngIf="!menu.children || menu.children.length == 0" (click)="changeContent(menu, $event)">
       <i *ngIf="menu.icon" class="anticon" [ngClass]="'anticon-'+menu.icon"></i>
-      <span [ngClass]="menu.icon ?'nav-text':''">{{menu.name}}</span>
+      <span class="nav-text">{{menu.name}}</span>
     </li>
     <li nz-submenu *ngIf="menu.children && menu.children.length > 0">
       <span title>
           <i *ngIf="menu.icon" class="anticon" [ngClass]="'anticon-'+menu.icon"></i>
-          <span [ngClass]="menu.icon ?'nav-text':''">{{menu.name}}</span>
+          <span class="nav-text">{{menu.name}}</span>
       </span>
       <ul>
         <li nz-menu-item *ngFor="let child of menu.children" (click)="changeContent(child, $event)">
           <i *ngIf="child.icon" class="anticon" [ngClass]="'anticon-'+child.icon"></i> {{child.title}}
-          <span [ngClass]="child.icon ?'nav-text':''">{{child.name}}</span>
+          <span>{{child.name}}</span>
         </li>
       </ul>
     </li>

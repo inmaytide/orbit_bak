@@ -1,0 +1,61 @@
+<nz-layout style="height: 100%;">
+  <nz-content style="padding: 10px;">
+    <div class="bar-position">
+      <nz-breadcrumb nzSeparator=">">
+        <i class="fa fa-map-marker"></i>
+        <nz-breadcrumb-item>
+          系统管理
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          菜单管理
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+    </div>
+    <div class="table-container">
+      <nz-table #table [nzDataSource]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true"
+                nzShowTitle="true">
+        <span nz-table-title>菜单列表</span>
+        <thead nz-thead>
+        <tr>
+          <th nz-th>
+          </th>
+          <th nz-th [nzWidth]="'30%'">名称</th>
+          <th nz-th [nzWidth]="'20%'">编码</th>
+          <th nz-th [nzWidth]="'20%'">类型</th>
+          <th nz-th>操作</th>
+        </tr>
+        </thead>
+        <tbody nz-tbody style="background-color: white;">
+        <ng-template ngFor let-data [ngForOf]="table.data">
+          <ng-template ngFor let-item [ngForOf]="expandDataCache[data.id]">
+            <tr nz-tbody-tr *ngIf="(item.parent&&item.parent.expand)||!(item.parent)">
+              <td nz-td nzCheckbox="true" style="padding: 7px 3px; width: 45px; min-width: 45px;">
+                <label nz-checkbox></label>
+              </td>
+              <td nz-td>
+                <nz-row-indent [nzIndentSize]="item.level"></nz-row-indent>
+                <nz-row-expand-icon [(nzExpand)]="item.expand"
+                                    (nzExpandChange)="collapse(expandDataCache[data.id], item, $event)"
+                                    [nzShowExpand]="item.children.length > 0"></nz-row-expand-icon>
+                {{item.name}}
+              </td>
+              <td nz-td>{{item.code}}</td>
+              <td nz-td>{{item.category}}</td>
+              <td nz-td>
+                <span>
+                  <a href="#">Edit</a>
+                  <span nz-table-divider></span>
+                  <a href="#">Delete</a>
+                  <span nz-table-divider></span>
+                  <a href="#">Check</a>
+                </span>
+              </td>
+            </tr>
+          </ng-template>
+        </ng-template>
+        </tbody>
+      </nz-table>
+    </div>
+  </nz-content>
+  <main-footer></main-footer>
+</nz-layout>

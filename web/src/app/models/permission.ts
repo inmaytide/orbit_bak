@@ -7,9 +7,7 @@ export class Permission extends BasicModel {
   icon: string;
   category: number;
   description: string;
-  parent: string;
+  //parent: string;
   sort: number;
   children: Permission[] = [];
-  spread: boolean;
-  state: string;
 }

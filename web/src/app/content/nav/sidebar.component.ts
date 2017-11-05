@@ -2,9 +2,8 @@ import {Component, Input, OnInit} from "@angular/core";
 import {GlobalVariables} from "../../global-variables";
 import {Router} from "@angular/router";
 import {PermissionService} from "../sys/permission/permission.service";
-import {User} from "../../models/user";
-import {CommonUtils} from "../../common-utils";
 import {Permission} from "../../models/permission";
+import {CommonUtils} from "../../common-utils";
 
 @Component({
   selector: 'side-bar',
@@ -13,7 +12,6 @@ import {Permission} from "../../models/permission";
 export class SidebarComponent implements OnInit {
   private images: string = GlobalVariables.IMAGES_BASE_PATH;
   private menus: Permission[] = [];
-  private user: User;
   @Input() collapsed = false;
 
   public constructor(private router: Router,
@@ -21,10 +19,9 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = CommonUtils.getPrincipal();
     this.service.findUserMenus()
       .then(menus => this.menus = menus)
-      .catch(reason => console.log(reason));
+      .catch(reason => CommonUtils.handleErrors(reason));
   }
 
   changeContent(menu, $event) {

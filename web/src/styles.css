@@ -6,3 +6,28 @@ html, body {
 main {
   height: 100%;
 }
+
+.ant-layout-sider-collapsed .nav-text {
+  display:none;
+}
+
+.ant-layout-content {
+  background-color: white;
+}
+
+.bar-position {
+  padding: 7px 10px;
+  background-color: rgb(246, 246, 246);
+}
+
+.bar-position i {
+  font-size: 14px;
+  padding-left: 5px;
+  padding-right: 15px;
+}
+
+.table-container {
+  margin-top: 10px;
+  width: 100%;
+  background-color: rgb(246, 246, 246);
+}

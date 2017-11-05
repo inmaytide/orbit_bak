@@ -7,9 +7,16 @@ import {GlobalVariables} from "../../../global-variables";
 export class PermissionService {
 
   private getUserMenusApi = GlobalVariables.API_BASE_URL + "user/menus";
+  private permissionApi = GlobalVariables.API_BASE_URL + "sys/permissions";
 
   constructor(private http: HttpClient) {
 
+  }
+
+  public list(): Promise<Permission[]> {
+    return this.http.get(this.permissionApi)
+      .toPromise()
+      .then(data => data as Permission[]);
   }
 
 

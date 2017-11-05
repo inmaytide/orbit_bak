@@ -12,4 +12,8 @@ export class CommonUtils {
     localStorage.setItem(GlobalVariables.PRINCIPAL, JSON.stringify(user));
   }
 
+  public static handleErrors(reason) {
+    console.log(reason);
+  }
+
 }

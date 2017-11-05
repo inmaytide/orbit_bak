@@ -7,16 +7,19 @@ import {mainRouters} from "./main.routers";
 import {MainComponent} from "./main";
 import {NgZorroAntdModule} from "ng-zorro-antd";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CommonModule} from "@angular/common";
-import {MainTopComponent} from "./top/main-top";
+import {MainTopComponent} from "./frames/main-top";
+import {PermissionComponent} from "./sys/permission/permission";
+import {MainFooterComponent} from "./frames/main-footer";
 
 @NgModule({
   declarations: [
     MainComponent,
     IndexComponent,
     SidebarComponent,
-    MainTopComponent
+    MainTopComponent,
+    PermissionComponent,
+    MainFooterComponent
   ],
   imports: [
     CommonModule,
