@@ -1,0 +1,48 @@
+<form nz-form [formGroup]="form">
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4" style="line-height: 30px;">
+      <label for="parent">上级菜单</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="16" [nzValidateStatus]="getFormControl('parent')">
+      <nz-cascader
+        formControlName="parent"
+        nzChangeOnSelect="true"
+        nzValueProperty="id"
+        nzLabelProperty="name"
+        [nzOptions]="parentOptions"
+        [(ngModel)]="parent">
+      </nz-cascader>
+    </div>
+  </div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4">
+      <label for="parent" nz-form-item-required>菜单编码</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="16" [nzValidateStatus]="getFormControl('parent')">
+      <input nz-input formControlName="code" />
+    </div>
+  </div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4">
+      <label for="parent" nz-form-item-required>菜单名称</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="16" [nzValidateStatus]="getFormControl('parent')">
+      <input nz-input formControlName="code" />
+    </div>
+  </div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4">
+      <label for="parent" nz-form-item-required>类型</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('parent')">
+      <nz-select>
+        <nz-option>菜单</nz-option>
+        <nz-option>功能按钮</nz-option>
+      </nz-select>
+    </div>
+  </div>
+</form>
+<div class="customize-footer">
+  <button nz-button nzType="primary">保存</button>
+  <button nz-button (click)="cancel()">取消</button>
+</div>

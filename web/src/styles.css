@@ -15,6 +15,23 @@ main {
   background-color: white;
 }
 
+.ant-modal-header {
+  padding: 8px 14px!important;
+}
+
+.ant-modal-close-x {
+  height: 38px!important;
+  width: 38px!important;
+  line-height: 38px!important;
+}
+
+.ant-form-item-required:before {
+  content: ''!important;
+  background-image: url('/assets/images/must.png');
+  height: 8px;
+  width: 8px;
+}
+
 .bar-position {
   padding: 7px 10px;
   background-color: rgb(246, 246, 246);
@@ -31,3 +48,4 @@ main {
   width: 100%;
   background-color: rgb(246, 246, 246);
 }
+

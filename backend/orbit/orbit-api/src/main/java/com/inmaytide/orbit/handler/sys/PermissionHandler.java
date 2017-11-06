@@ -37,8 +37,8 @@ public class PermissionHandler extends AbstractHandler {
     }
 
     @Nonnull
-    public Mono<ServerResponse> list(@SuppressWarnings("unused") ServerRequest request) {
-        return ok().body(Flux.fromIterable(service.listNodes()), Permission.class);
+    public Mono<ServerResponse> list(ServerRequest request) {
+        return ok().body(Flux.fromIterable(service.listNodes(request.queryParam("category"))), Permission.class);
     }
 
     @Nonnull

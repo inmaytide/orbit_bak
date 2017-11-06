@@ -11,6 +11,7 @@ import {CommonModule} from "@angular/common";
 import {MainTopComponent} from "./frames/main-top";
 import {PermissionComponent} from "./sys/permission/permission";
 import {MainFooterComponent} from "./frames/main-footer";
+import {PermissionInfoComponent} from "./sys/permission/permission.info";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {MainFooterComponent} from "./frames/main-footer";
     SidebarComponent,
     MainTopComponent,
     PermissionComponent,
+    PermissionInfoComponent,
     MainFooterComponent
   ],
   imports: [
@@ -30,6 +32,9 @@ import {MainFooterComponent} from "./frames/main-footer";
   ],
   providers: [
     PermissionService
+  ],
+  entryComponents: [
+    PermissionInfoComponent
   ]
 })
 export class MainModule {

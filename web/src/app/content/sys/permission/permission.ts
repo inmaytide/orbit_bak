@@ -2,6 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {PermissionService} from "./permission.service";
 import {Permission} from "../../../models/permission";
 import {CommonUtils} from "../../../common-utils";
+import {NzModalService} from "ng-zorro-antd";
+import {PermissionInfoComponent} from "./permission.info";
 
 @Component({
   selector: 'permission',
@@ -11,7 +13,8 @@ export class PermissionComponent implements OnInit {
   private menus: Permission[] = [];
   private expandDataCache = {};
 
-  constructor(private service: PermissionService) {
+  constructor(private service: PermissionService,
+              private modalService: NzModalService) {
   }
 
   ngOnInit() {
@@ -64,6 +67,19 @@ export class PermissionComponent implements OnInit {
       hashMap[node.id] = true;
       array.push(node);
     }
+  }
+
+
+  add() {
+    const subscription = this.modalService.open({
+      title: "新建菜单",
+      content: PermissionInfoComponent,
+      footer: false,
+      maskClosable: false
+    });
+    subscription.subscribe(result => {
+      console.log(result);
+    })
   }
 
 }

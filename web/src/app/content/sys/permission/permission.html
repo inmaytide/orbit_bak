@@ -14,14 +14,21 @@
     <div class="table-container">
       <nz-table #table [nzDataSource]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true"
                 nzShowTitle="true">
-        <span nz-table-title>菜单列表</span>
+        <div nz-table-title>
+          <div style="width: 50%;display: inline-block;">菜单列表</div>
+          <div style="width: 49%; text-align: right;display: inline-block;">
+            <button nz-button nzType="primary" nzSize="small" (click)="add()">
+              <i class="anticon anticon-file-add"></i><span>Add</span>
+            </button>
+          </div>
+        </div>
         <thead nz-thead>
         <tr>
           <th nz-th>
           </th>
           <th nz-th [nzWidth]="'30%'">名称</th>
-          <th nz-th [nzWidth]="'20%'">编码</th>
-          <th nz-th [nzWidth]="'20%'">类型</th>
+          <th nz-th [nzWidth]="'15%'">编码</th>
+          <th nz-th [nzWidth]="'15%'">类型</th>
           <th nz-th>操作</th>
         </tr>
         </thead>
@@ -42,12 +49,16 @@
               <td nz-td>{{item.code}}</td>
               <td nz-td>{{item.category}}</td>
               <td nz-td>
-                <span>
-                  <a href="#">Edit</a>
+                <span class="functions">
+                  <a href="#" title="Edit">Edit</a>
                   <span nz-table-divider></span>
-                  <a href="#">Delete</a>
+                  <a href="#" title="Move up">Move Up</a>
                   <span nz-table-divider></span>
-                  <a href="#">Check</a>
+                  <a href="#" title="Move down">Move Down</a>
+                  <span nz-table-divider></span>
+                  <a href="#" title="Remove">Remove</a>
+                  <span nz-table-divider></span>
+                  <a href="#" title="Details">Details</a>
                 </span>
               </td>
             </tr>

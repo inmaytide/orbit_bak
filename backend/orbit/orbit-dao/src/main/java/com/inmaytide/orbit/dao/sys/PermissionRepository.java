@@ -25,4 +25,6 @@ public interface PermissionRepository extends MybatisRepository<Permission, Long
     Integer countByCodeAndIdNot(String code, Long id);
 
     List<Permission> findByParent(Long parent, Sort sort);
+
+    List<Permission> findByCategory(String category, Sort sort);
 }
