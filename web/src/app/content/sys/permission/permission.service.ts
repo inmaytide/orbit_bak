@@ -15,8 +15,14 @@ export class PermissionService {
 
   public list(): Promise<Permission[]> {
     return this.http.get(this.permissionApi)
-      .toPromise()
-      .then(data => data as Permission[]);
+      .map(response => response as Permission[])
+      .toPromise();
+  }
+
+  public listMenus(): Promise<Permission[]> {
+    return this.http.get(this.permissionApi + "?category=MENU")
+      .map(response => response as Permission[])
+      .toPromise();
   }
 
 
