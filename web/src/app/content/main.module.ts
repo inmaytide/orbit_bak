@@ -12,6 +12,7 @@ import {MainTopComponent} from "./frames/main-top";
 import {PermissionComponent} from "./sys/permission/permission";
 import {MainFooterComponent} from "./frames/main-footer";
 import {PermissionInfoComponent} from "./sys/permission/permission.info";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {PermissionInfoComponent} from "./sys/permission/permission.info";
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule.forChild(),
     ReactiveFormsModule,
     NgZorroAntdModule,
     RouterModule.forChild(mainRouters)

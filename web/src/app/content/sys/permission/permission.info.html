@@ -1,9 +1,9 @@
 <form nz-form [formGroup]="form">
   <div nz-form-item nz-row>
     <div nz-form-label nz-col [nzSpan]="4" style="line-height: 30px;">
-      <label for="parent">上级菜单</label>
+      <label for="parent">{{'permission.column.parent' | translate}}</label>
     </div>
-    <div nz-form-control nz-col [nzSpan]="16" [nzValidateStatus]="getFormControl('parent')">
+    <div nz-form-control nz-col [nzSpan]="10" [nzValidateStatus]="getFormControl('parent')">
       <nz-cascader
         formControlName="parent"
         nzChangeOnSelect="true"
@@ -16,7 +16,21 @@
   </div>
   <div nz-form-item nz-row>
     <div nz-form-label nz-col [nzSpan]="4">
-      <label for="parent" nz-form-item-required>菜单编码</label>
+      <label for="code" nz-form-item-required>{{'permission.column.code' | translate}}</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="10" [nzValidateStatus]="getFormControl('code')">
+      <input nz-input formControlName="code" maxlength="32" id="code"/>
+    </div>
+    <div nz-form-explain nz-col [nzSpan]="10" class="inline-error-text" *ngIf="getFormControl('code').dirty&&getFormControl('code').hasError('required')">
+      {{'permission.validator.code.not.empty' | translate}}
+    </div>
+    <div nz-form-explain nz-col [nzSpan]="10" class="inline-error-text" *ngIf="getFormControl('code').dirty&&getFormControl('code').hasError('repeat')">
+      {{'permission.validator.code.not.repeat' | translate}}
+    </div>
+  </div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4">
+      <label for="parent" nz-form-item-required>{{'permission.column.name' | translate}}</label>
     </div>
     <div nz-form-control nz-col [nzSpan]="16" [nzValidateStatus]="getFormControl('parent')">
       <input nz-input formControlName="code" />
@@ -24,15 +38,7 @@
   </div>
   <div nz-form-item nz-row>
     <div nz-form-label nz-col [nzSpan]="4">
-      <label for="parent" nz-form-item-required>菜单名称</label>
-    </div>
-    <div nz-form-control nz-col [nzSpan]="16" [nzValidateStatus]="getFormControl('parent')">
-      <input nz-input formControlName="code" />
-    </div>
-  </div>
-  <div nz-form-item nz-row>
-    <div nz-form-label nz-col [nzSpan]="4">
-      <label for="parent" nz-form-item-required>类型</label>
+      <label for="parent" nz-form-item-required>{{'permission.column.category' | translate}}</label>
     </div>
     <div nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('parent')">
       <nz-select>
@@ -41,8 +47,34 @@
       </nz-select>
     </div>
   </div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4">
+      <label for="parent">{{'permission.column.icon' | translate}}</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('parent')">
+      <nz-select  formControlName="code">
+
+      </nz-select>
+    </div>
+  </div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4">
+      <label for="parent">{{'permission.column.action' | translate}}</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('parent')">
+      <input nz-input formControlName="code"/>
+    </div>
+  </div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4">
+      <label for="parent">{{'permission.column.description' | translate}}</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="16" [nzValidateStatus]="getFormControl('parent')">
+      <nz-input nzType="textarea" nzRows="4" formControlName="code"></nz-input>
+    </div>
+  </div>
 </form>
 <div class="customize-footer">
-  <button nz-button nzType="primary">保存</button>
-  <button nz-button (click)="cancel()">取消</button>
+  <button nz-button nzType="primary" (click)="save()">{{'permission.modal.actions.save' | translate}}</button>
+  <button nz-button (click)="cancel()">{{'permission.modal.actions.cancel' | translate}}</button>
 </div>

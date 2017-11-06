@@ -25,6 +25,23 @@ export class PermissionService {
       .toPromise();
   }
 
+  public codeIsRepeat(code: string, id: string): string {
+    const remote = this.permissionApi + "/checkCode/" + id + "/" + code;
+    const xhr = new XMLHttpRequest();
+    let result = "true";
+    xhr.withCredentials = true;
+    xhr.open("get", remote, false);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        if (xhr.responseText) {
+          result = xhr.responseText;
+        }
+      }
+    };
+    xhr.send();
+    return result;
+  }
+
 
   public findUserMenus(): Promise<Permission[]> {
     return this.http.get(this.getUserMenusApi)

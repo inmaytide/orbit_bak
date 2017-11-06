@@ -24,6 +24,21 @@ import {CommonUtils} from "../../../common-utils";
         padding-right: 20px;
         margin-right: 15px;
       }
+    `,
+      `
+      .ant-form-item {
+        margin-bottom: 12px;
+      }
+    `,
+      `
+      :host ::ng-deep .inline-error-text {
+        color: red;
+        line-height: 30px;
+        padding-left: 7px;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        white-space: nowrap;
+      }
     `
   ]
 })
@@ -42,20 +57,34 @@ export class PermissionInfoComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       parent: new FormControl(),
-      code: new FormControl(null, Validators.required)
+      code: new FormControl(null, [Validators.required, this.codeRepeatValidator])
     });
     this.service.listMenus()
       .then(data => this.parentOptions = this.transformOptions(data))
       .catch(reason => CommonUtils.handleErrors(reason))
   }
 
+  codeRepeatValidator = (control: FormControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return {required: true};
+    }
+    if (this.service.codeIsRepeat(control.value, this.inst.id) == "false") {
+      return {repeat: true, error: true};
+    }
+  };
+
   getFormControl(name) {
     return this.form.controls[name];
   }
 
   cancel() {
-    console.log(this.inst.parent);
     this.subject.destroy("onCancel");
+  }
+
+  save() {
+    for (const i in this.form.controls) {
+      this.form.controls[i].markAsDirty();
+    }
   }
 
   transformOptions(menus: Permission[]) {

@@ -15,10 +15,10 @@
       <nz-table #table [nzDataSource]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true"
                 nzShowTitle="true">
         <div nz-table-title>
-          <div style="width: 50%;display: inline-block;">菜单列表</div>
+          <div style="width: 50%;display: inline-block;">{{'permission.list.title' | translate}}</div>
           <div style="width: 49%; text-align: right;display: inline-block;">
             <button nz-button nzType="primary" nzSize="small" (click)="add()">
-              <i class="anticon anticon-file-add"></i><span>Add</span>
+              <i class="anticon anticon-file-add"></i><span>{{'permission.func.add' | translate}}</span>
             </button>
           </div>
         </div>
@@ -26,10 +26,10 @@
         <tr>
           <th nz-th>
           </th>
-          <th nz-th [nzWidth]="'30%'">名称</th>
-          <th nz-th [nzWidth]="'15%'">编码</th>
-          <th nz-th [nzWidth]="'15%'">类型</th>
-          <th nz-th>操作</th>
+          <th nz-th [nzWidth]="'30%'">{{'permission.column.name' | translate}}</th>
+          <th nz-th [nzWidth]="'15%'">{{'permission.column.code' | translate}}</th>
+          <th nz-th [nzWidth]="'15%'">{{'permission.column.category' | translate}}</th>
+          <th nz-th>{{'permission.column.name' | translate}}</th>
         </tr>
         </thead>
         <tbody nz-tbody style="background-color: white;">
@@ -50,15 +50,15 @@
               <td nz-td>{{item.category}}</td>
               <td nz-td>
                 <span class="functions">
-                  <a href="#" title="Edit">Edit</a>
+                  <a href="#">{{'permission.func.edit' | translate}}</a>
                   <span nz-table-divider></span>
-                  <a href="#" title="Move up">Move Up</a>
+                  <a href="#">{{'permission.func.move.up' | translate}}</a>
                   <span nz-table-divider></span>
-                  <a href="#" title="Move down">Move Down</a>
+                  <a href="#">{{'permission.func.move.down' | translate}}</a>
                   <span nz-table-divider></span>
-                  <a href="#" title="Remove">Remove</a>
+                  <a href="#">{{'permission.func.remove' | translate}}</a>
                   <span nz-table-divider></span>
-                  <a href="#" title="Details">Details</a>
+                  <a href="#">{{'permission.func.details' | translate}}</a>
                 </span>
               </td>
             </tr>

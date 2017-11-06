@@ -4,6 +4,7 @@ import {Permission} from "../../../models/permission";
 import {CommonUtils} from "../../../common-utils";
 import {NzModalService} from "ng-zorro-antd";
 import {PermissionInfoComponent} from "./permission.info";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'permission',
@@ -14,7 +15,8 @@ export class PermissionComponent implements OnInit {
   private expandDataCache = {};
 
   constructor(private service: PermissionService,
-              private modalService: NzModalService) {
+              private modalService: NzModalService,
+              private translate: TranslateService) {
   }
 
   ngOnInit() {
@@ -72,10 +74,11 @@ export class PermissionComponent implements OnInit {
 
   add() {
     const subscription = this.modalService.open({
-      title: "新建菜单",
+      title: this.translate.getParsedResult({}, "permission.modal.title"),
       content: PermissionInfoComponent,
       footer: false,
-      maskClosable: false
+      maskClosable: false,
+      width: 650
     });
     subscription.subscribe(result => {
       console.log(result);
