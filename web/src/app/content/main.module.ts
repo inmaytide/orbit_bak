@@ -13,6 +13,7 @@ import {PermissionComponent} from "./sys/permission/permission";
 import {MainFooterComponent} from "./frames/main-footer";
 import {PermissionInfoComponent} from "./sys/permission/permission.info";
 import {TranslateModule} from "@ngx-translate/core";
+import {DataDictionaryService} from "./sys/data-dictionary/data-dictionary.service";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {TranslateModule} from "@ngx-translate/core";
     RouterModule.forChild(mainRouters)
   ],
   providers: [
+    DataDictionaryService,
     PermissionService
   ],
   entryComponents: [

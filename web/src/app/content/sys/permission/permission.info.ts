@@ -4,6 +4,8 @@ import {Permission} from "../../../models/permission";
 import {NzModalSubject} from "ng-zorro-antd";
 import {PermissionService} from "./permission.service";
 import {CommonUtils} from "../../../common-utils";
+import {DataDictionary} from "../../../models/data-dictionary";
+import {DataDictionaryService} from "../data-dictionary/data-dictionary.service";
 
 @Component({
   selector: "permission-info",
@@ -33,7 +35,7 @@ import {CommonUtils} from "../../../common-utils";
       `
       :host ::ng-deep .inline-error-text {
         color: red;
-        line-height: 30px;
+        line-height: 32px;
         padding-left: 7px;
         text-overflow: ellipsis;
         overflow-x: hidden;
@@ -48,16 +50,28 @@ export class PermissionInfoComponent implements OnInit {
   private inst: Permission = new Permission();
   private parent = [];
   private parentOptions = [];
+  private categorys: DataDictionary[] = [];
+  private dataDictionaryCategory = "permission.category";
 
   constructor(private formBuilder: FormBuilder,
               private subject: NzModalSubject,
-              private service: PermissionService) {
+              private service: PermissionService,
+              private dataDictionaryService: DataDictionaryService) {
   }
 
   ngOnInit(): void {
+    this.dataDictionaryService
+      .listByCategory(this.dataDictionaryCategory)
+      .then(data => this.categorys = data)
+      .catch(reason => CommonUtils.handleErrors(reason));
     this.form = this.formBuilder.group({
       parent: new FormControl(),
-      code: new FormControl(null, [Validators.required, this.codeRepeatValidator])
+      code: new FormControl(null, [Validators.required, this.codeRepeatValidator]),
+      name: new FormControl(null, [Validators.required]),
+      category: new FormControl(null, [Validators.required]),
+      icon: new FormControl(),
+      action: new FormControl(),
+      description: new FormControl()
     });
     this.service.listMenus()
       .then(data => this.parentOptions = this.transformOptions(data))
@@ -84,6 +98,13 @@ export class PermissionInfoComponent implements OnInit {
   save() {
     for (const i in this.form.controls) {
       this.form.controls[i].markAsDirty();
+    }
+
+    if (!this.form.invalid) {
+      this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
+      this.service.save(this.inst)
+        .then(permission => this.cancel)
+        .catch(reason => CommonUtils.handleErrors(reason));
     }
   }
 

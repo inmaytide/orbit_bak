@@ -20,7 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +31,8 @@ import java.util.stream.Collectors;
 public class PermissionServiceImpl implements PermissionService {
 
     private static final Logger log = LoggerFactory.getLogger(PermissionServiceImpl.class);
+
+    private static final Sort DEFAULT_SORT = Sort.by(Sort.Direction.ASC, "sort");
 
     @Resource
     private RolePermissionRepository rolePermissionRepository;
@@ -72,19 +77,19 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Cacheable(cacheNames = "user_menus", key = "#username + '_menus'")
     public List<Permission> listMenusByUsername(String username) {
-        List<Permission> list = repository.findByUsername(username, PermissionCategory.MENU.toString());
+        List<Permission> list = repository.findByUsername(username, PermissionCategory.MENU.getCode());
         return listToTreeNodes(list);
     }
 
 
     @Override
     public List<Permission> listNodes(String category) {
-        return listToTreeNodes(repository.findByCategory(category, new Sort(Sort.Direction.ASC, "sort")));
+        return listToTreeNodes(repository.findByCategory(category, DEFAULT_SORT));
     }
 
     @Override
     public List<Permission> listNodes() {
-        return listToTreeNodes(repository.findAll(new Sort(Sort.Direction.ASC, "sort")));
+        return listToTreeNodes(repository.findAll(DEFAULT_SORT));
     }
 
     @Override
@@ -132,7 +137,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     private List<Permission> findByParent(Long parent) {
-        return repository.findByParent(parent, new Sort(Sort.Direction.ASC, "sort"));
+        return repository.findByParent(parent, DEFAULT_SORT);
     }
 
     private void modifySort(Long id, Integer sort, int version) {

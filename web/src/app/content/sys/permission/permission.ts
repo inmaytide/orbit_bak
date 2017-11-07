@@ -26,7 +26,6 @@ export class PermissionComponent implements OnInit {
         this.menus.forEach(item => {
           this.expandDataCache[item.id] = this.convertTreeToList(item);
         });
-        console.log(this.expandDataCache);
       })
       .catch(reason => CommonUtils.handleErrors(reason))
   }

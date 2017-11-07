@@ -1,9 +1,6 @@
 package com.inmaytide.orbit.router;
 
-import com.inmaytide.orbit.handler.sys.LogHandler;
-import com.inmaytide.orbit.handler.sys.PermissionHandler;
-import com.inmaytide.orbit.handler.sys.RoleHandler;
-import com.inmaytide.orbit.handler.sys.UserHandler;
+import com.inmaytide.orbit.handler.sys.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -35,10 +32,18 @@ public class SysRouters {
     @Resource
     private PermissionHandler permissionHandler;
 
+    @Resource
+    private DataDictionaryHandler dataDictionaryHandler;
+
     private RouterFunction<?> logRouters() {
         RouterFunction<ServerResponse> routers = route(GET("/"), logHandler::list)
                 .and(route(GET("/as-excel"), logHandler::export));
         return nest(path("/logs"), routers);
+    }
+
+    private RouterFunction<?> dataDictionaryRouters() {
+        RouterFunction<ServerResponse> routers = route(GET("/"), dataDictionaryHandler::listByCategory);
+        return nest(path("/data-dictionaries"), routers);
     }
 
     private RouterFunction<?> permissionRouters() {
@@ -75,6 +80,7 @@ public class SysRouters {
         return nest(path("/sys"), logRouters()
                 .andOther(permissionRouters())
                 .andOther(roleRouters())
+                .andOther(dataDictionaryRouters())
                 .andOther(userRouters()));
     }
 
