@@ -1,11 +1,11 @@
 <form nz-form [formGroup]="form">
   <div nz-form-item nz-row>
     <div nz-form-label nz-col [nzSpan]="4" style="line-height: 30px;">
-      <label for="parent">{{'permission.column.parent' | translate}}</label>
+      <label>{{'permission.column.parent' | translate}}</label>
     </div>
     <div nz-form-control nz-col [nzSpan]="10" [nzValidateStatus]="getFormControl('parent')">
       <nz-cascader
-        formControlName="parent"
+        [formControlName]="parent"
         nzChangeOnSelect="true"
         nzValueProperty="id"
         nzLabelProperty="name"

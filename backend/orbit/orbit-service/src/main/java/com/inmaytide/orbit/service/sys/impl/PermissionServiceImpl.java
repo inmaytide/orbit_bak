@@ -78,11 +78,13 @@ public class PermissionServiceImpl implements PermissionService {
 
 
     @Override
-    public List<Permission> listNodes(Optional<String> category) {
-        return category.map(value -> repository.findByCategory(value, new Sort(Sort.Direction.ASC, "sort")))
-                .or(() -> Optional.of(repository.findAll(new Sort(Sort.Direction.ASC, "sort"))))
-                .map(this::listToTreeNodes)
-                .orElse(Collections.emptyList());
+    public List<Permission> listNodes(String category) {
+        return listToTreeNodes(repository.findByCategory(category, new Sort(Sort.Direction.ASC, "sort")));
+    }
+
+    @Override
+    public List<Permission> listNodes() {
+        return listToTreeNodes(repository.findAll(new Sort(Sort.Direction.ASC, "sort")));
     }
 
     @Override

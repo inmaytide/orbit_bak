@@ -17,10 +17,18 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
     List<Permission> listByRole(Long roleId);
 
     /**
-     * Get all permissions and transform to tree nodes.
+     * Get permissions by category and transform to tree nodes.
+     * @param category MENU or BUTTON
+     * @return Tree structure permissions
+     * @see PermissionCategory
+     */
+    List<Permission> listNodes(String category);
+
+    /**
+     * Get all permissions  and transform to tree nodes.
      * @return Tree structure permissions
      */
-    List<Permission> listNodes(Optional<String> category);
+    List<Permission> listNodes();
 
     Boolean checkCode(String code, Long id);
 

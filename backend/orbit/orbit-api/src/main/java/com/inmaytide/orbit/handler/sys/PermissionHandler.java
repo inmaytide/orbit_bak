@@ -38,7 +38,11 @@ public class PermissionHandler extends AbstractHandler {
 
     @Nonnull
     public Mono<ServerResponse> list(ServerRequest request) {
-        return ok().body(Flux.fromIterable(service.listNodes(request.queryParam("category"))), Permission.class);
+        return Flux.fromIterable(request.queryParam("category")
+                .map(service::listNodes)
+                .orElseGet(service::listNodes))
+                .transform(flux -> ok().body(flux, Permission.class))
+                .single();
     }
 
     @Nonnull
