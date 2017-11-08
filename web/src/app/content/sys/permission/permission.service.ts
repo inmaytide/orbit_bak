@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Permission} from "../../../models/permission";
 import {GlobalVariables} from "../../../global-variables";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class PermissionService {
@@ -48,6 +49,12 @@ export class PermissionService {
       .toPromise()
       .then(data => data as Permission[])
       .catch(reason => Promise.reject(reason));
+  }
+
+  public save(inst: Permission): Promise<Permission> {
+    return this.http.post(this.permissionApi, inst)
+      .map(response => response as Permission)
+      .toPromise();
   }
 
 }
