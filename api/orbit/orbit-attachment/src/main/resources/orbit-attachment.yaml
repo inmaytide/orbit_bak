@@ -1,0 +1,24 @@
+##server:
+  ##port: 7002
+
+spring:
+  application:
+    name: orbit-attachment
+  datasource:
+      url: jdbc:mysql://localhost:3306/db_orbit?characterEncoding=UTF-8&useSSL=false
+      username: root
+      password: 123
+      driver-class-name: com.mysql.jdbc.Driver
+  data:
+    redis:
+      repositories:
+        enabled: false
+    mybatis:
+      beforeMapperLocations: classpath*:mappers/**/*.xml
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url: http://127.0.0.1:7001/eureka/
+
+

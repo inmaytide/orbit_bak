@@ -16,12 +16,15 @@
 
     <modules>
         <module>orbit-discovery-eureka</module>
+        <module>orbit-attachment</module>
+        <module>orbit-commons</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.9</java.version>
+        <spring.data.mybatis>1.0.17.RELEASE</spring.data.mybatis>
     </properties>
 
     <dependencies>
@@ -29,11 +32,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>2.0.1</version>
         </dependency>
     </dependencies>
 
@@ -45,6 +52,16 @@
                 <version>Finchley.M2</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.inmaytide.orbit</groupId>
+                <artifactId>orbit-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-typehandlers-jsr310</artifactId>
+                <version>1.0.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
