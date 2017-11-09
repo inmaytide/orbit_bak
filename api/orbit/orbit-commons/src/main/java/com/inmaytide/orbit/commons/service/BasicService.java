@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.commons.service;
 
-import com.inmaytide.orbit.commons.domain.RequestConditions;
+import com.inmaytide.orbit.commons.query.RequestConditions;
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;

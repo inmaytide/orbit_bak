@@ -15,9 +15,13 @@
     </parent>
 
     <modules>
-        <module>orbit-discovery-eureka</module>
+        <module>orbit-discovery</module>
         <module>orbit-attachment</module>
         <module>orbit-commons</module>
+        <module>orbit-domain</module>
+        <module>orbit-exception</module>
+        <module>orbit-i18n</module>
+        <module>orbit-api-gateway</module>
     </modules>
 
     <properties>
@@ -59,9 +63,24 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.inmaytide.orbit</groupId>
+                <artifactId>orbit-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.inmaytide.orbit</groupId>
+                <artifactId>orbit-exception</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-typehandlers-jsr310</artifactId>
                 <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.9.0.BETA-6</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -46,8 +46,12 @@
 			<artifactId>orbit-commons</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-typehandlers-jsr310</artifactId>
+            <groupId>com.inmaytide.orbit</groupId>
+            <artifactId>orbit-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.inmaytide.orbit</groupId>
+            <artifactId>orbit-exception</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.attachment.util;
 
-import com.inmaytide.orbit.attachment.domain.Attachment;
 import com.inmaytide.orbit.attachment.enums.AttachmentStatus;
 import com.inmaytide.orbit.commons.id.UUIDGenerator;
+import com.inmaytide.orbit.domain.attachment.Attachment;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;

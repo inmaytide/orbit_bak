@@ -13,19 +13,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ifrabbit</groupId>
-            <artifactId>spring-data-mybatis</artifactId>
-            <version>${spring.data.mybatis}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.1</version>
@@ -33,6 +20,15 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ifrabbit</groupId>
+            <artifactId>spring-data-mybatis</artifactId>
+            <version>${spring.data.mybatis}</version>
         </dependency>
     </dependencies>
 </project>

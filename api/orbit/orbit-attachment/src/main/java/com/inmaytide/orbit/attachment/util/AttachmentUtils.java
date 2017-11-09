@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.attachment.util;
 
-import com.inmaytide.orbit.attachment.domain.Attachment;
 import com.inmaytide.orbit.attachment.enums.AttachmentStatus;
+import com.inmaytide.orbit.domain.attachment.Attachment;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.util.FileSystemUtils;
