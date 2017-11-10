@@ -22,6 +22,7 @@
         <module>orbit-exception</module>
         <module>orbit-i18n</module>
         <module>orbit-api-gateway</module>
+        <module>orbit-auth</module>
     </modules>
 
     <properties>
