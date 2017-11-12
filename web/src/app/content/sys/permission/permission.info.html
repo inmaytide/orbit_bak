@@ -21,8 +21,7 @@
     <div nz-form-control nz-col [nzSpan]="10" [nzValidateStatus]="getFormControl('code')">
       <input nz-input formControlName="code" maxlength="32" id="code" [(ngModel)]="inst.code"/>
     </div>
-    <div nz-form-explain nz-col [nzSpan]="10" class="inline-error-text"
-         *ngIf="getFormControl('code').dirty&&getFormControl('code').hasError('required')">
+    <div nz-form-explain nz-col [nzSpan]="10" class="inline-error-text" *ngIf="getFormControl('code').dirty&&getFormControl('code').hasError('required')">
       {{'permission.validator.code.not.empty' | translate}}
     </div>
     <div nz-form-explain nz-col [nzSpan]="10" class="inline-error-text"

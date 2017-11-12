@@ -2,6 +2,7 @@ package com.inmaytide.orbit.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -26,6 +27,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import javax.annotation.Resource;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class AuthApplication {
 
     public static void main(String... args) {

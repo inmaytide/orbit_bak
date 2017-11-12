@@ -49,5 +49,5 @@ export class AppModule {
 }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, GlobalVariables.API_BASE_URL + "lang/", "");
+  return new TranslateHttpLoader(http, GlobalVariables.API_BASE_URL + "i18n/lang/", "");
 }

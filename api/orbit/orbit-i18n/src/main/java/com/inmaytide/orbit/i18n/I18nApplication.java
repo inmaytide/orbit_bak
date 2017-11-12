@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.i18n;
 
 import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,8 +16,6 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 
-import javax.annotation.Resource;
-
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
@@ -29,7 +28,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @EnableDiscoveryClient
 public class I18nApplication {
 
-    @Resource
+    @Autowired
     private MessageSource messageSource;
 
     @Value("#{ @environment['orbit.i18n.resource-cache'] ?: true }")
