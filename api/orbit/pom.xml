@@ -23,6 +23,7 @@
         <module>orbit-i18n</module>
         <module>orbit-api-gateway</module>
         <module>orbit-auth</module>
+        <module>orbit-system-management</module>
     </modules>
 
     <properties>
@@ -79,9 +80,19 @@
                 <version>1.0.2</version>
             </dependency>
             <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.0.Final</version>
+            </dependency>
+            <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>1.9.0.BETA-6</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ifrabbit</groupId>
+                <artifactId>spring-boot-starter-data-mybatis</artifactId>
+                <version>${spring.data.mybatis}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -91,6 +102,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>--add-modules java.xml.bind,java.xml.ws,java.xml.ws.annotation</jvmArguments>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -102,9 +116,7 @@
                     <release>9</release>
                     <compilerArgs>
                         <arg>--add-modules</arg>
-                        <arg>java.xml.ws.annotation</arg>
-                        <arg>--add-modules</arg>
-                        <arg>java.xml.bind</arg>
+                        <arg>java.xml.bind,java.xml.ws,java.xml.ws.annotation</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>

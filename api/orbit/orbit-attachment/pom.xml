@@ -20,7 +20,6 @@
 		<dependency>
 			<groupId>com.ifrabbit</groupId>
 			<artifactId>spring-boot-starter-data-mybatis</artifactId>
-			<version>${spring.data.mybatis}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

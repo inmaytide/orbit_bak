@@ -20,7 +20,6 @@ import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
-import static org.springframework.web.reactive.function.server.RouterFunctions.nest;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @EnableWebFlux
@@ -51,9 +50,9 @@ public class AttachmentApplication {
         RouterFunction<?> routers = route(POST("/").and(accept(MULTIPART_FORM_DATA)), handler::upload)
                 .and(route(GET("/{id}"), handler::download))
                 .and(route(DELETE("/{ids}"), handler::remove))
-                .and(route(DELETE("/"), handler::removeByBelong));
-        return nest(path("/attachments"), routers)
+                .and(route(DELETE("/"), handler::removeByBelong))
                 .andOther(route(RequestPredicates.all(), exceptionHandler::notFound));
+        return routers;
     }
 
     @Bean
