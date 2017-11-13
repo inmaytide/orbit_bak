@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.auth.provider;
 
-import com.inmaytide.orbit.auth.token.AuthenticatedToken;
+import com.inmaytide.orbit.auth.token.FormAuthenticatedToken;
 import com.inmaytide.orbit.domain.sys.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
-public class CustomizeAuthenticationProvider implements AuthenticationProvider {
+public class FormAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -28,12 +28,12 @@ public class CustomizeAuthenticationProvider implements AuthenticationProvider {
 
         System.out.println(user);
 
-        return new AuthenticatedToken(user);
+        return null;
     }
 
     @Override
     public boolean supports(Class<?> cls) {
-        return true;
+        return Objects.equals(cls, FormAuthenticatedToken.class);
     }
 
     private User getUserByUsername(String username) {
