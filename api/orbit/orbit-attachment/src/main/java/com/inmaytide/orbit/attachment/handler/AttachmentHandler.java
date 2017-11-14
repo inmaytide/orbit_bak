@@ -13,8 +13,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Nonnull;
-
 import static org.springframework.web.reactive.function.server.ServerResponse.noContent;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
@@ -30,7 +28,6 @@ public class AttachmentHandler {
     @Autowired
     private AttachmentService service;
 
-    @Nonnull
     public Mono<ServerResponse> upload(ServerRequest request) {
         String formName = request.queryParam("formName").orElse(DEFAULT_FORM_ATTACHMENT_NAME);
         return FileUtils.upload(request, formName)
@@ -38,7 +35,6 @@ public class AttachmentHandler {
                 .transform(mono -> ok().body(mono, Attachment.class));
     }
 
-    @Nonnull
     public Mono<ServerResponse> download(ServerRequest request) {
         Long id = NumberUtils.toLong(request.pathVariable("id"));
         return request.queryParam("status")
@@ -51,13 +47,11 @@ public class AttachmentHandler {
                 .orElseThrow(() -> new PathNotFoundException(request.path()));
     }
 
-    @Nonnull
     public Mono<ServerResponse> remove(ServerRequest request) {
         service.remove(request.pathVariable("ids"));
         return noContent().build();
     }
 
-    @Nonnull
     public Mono<ServerResponse> removeByBelong(ServerRequest request) {
         request.queryParam("belong")
                 .ifPresent(service::removeByBelong);

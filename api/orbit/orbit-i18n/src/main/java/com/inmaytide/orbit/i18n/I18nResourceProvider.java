@@ -5,7 +5,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Nonnull;
 import java.util.Map;
 
 /**
@@ -19,7 +18,6 @@ public class I18nResourceProvider {
     @Autowired
     private I18nResourceHolder resourceHolder;
 
-    @Nonnull
     public Mono<ServerResponse> lang(ServerRequest request) {
         String lang = request.pathVariable("lang");
         return ServerResponse.ok().body(Mono.justOrEmpty(resourceHolder.getResources(lang)), Map.class);

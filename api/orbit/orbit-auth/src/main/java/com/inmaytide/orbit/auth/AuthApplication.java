@@ -1,31 +1,27 @@
 package com.inmaytide.orbit.auth;
 
-import com.inmaytide.orbit.auth.handler.LoginHandler;
+import com.inmaytide.orbit.auth.provider.CaptchaProvider;
+import com.inmaytide.orbit.auth.provider.DefaultCaptchaProvider;
 import com.inmaytide.orbit.auth.provider.FormAuthenticationProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.patchca.color.RandomColorFactory;
+import org.patchca.filter.predefined.CurvesRippleFilterFactory;
+import org.patchca.service.ConfigurableCaptchaService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.config.EnableWebFlux;
-import org.springframework.web.reactive.function.server.RouterFunction;
 
-import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
-import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableWebFlux
 public class AuthApplication {
 
     public static void main(String... args) {
         SpringApplication.run(AuthApplication.class, args);
     }
-
-    @Autowired
-    private LoginHandler loginHandler;
 
     @Bean
     @LoadBalanced
@@ -34,16 +30,24 @@ public class AuthApplication {
     }
 
     @Bean
-    public FormAuthenticationProvider customizeAuthenticationProvider() {
-        return new FormAuthenticationProvider();
+    public ConfigurableCaptchaService configurableCaptchaService() {
+        ConfigurableCaptchaService cs = new ConfigurableCaptchaService();
+        cs.setColorFactory(new RandomColorFactory());
+        cs.setFilterFactory(new CurvesRippleFilterFactory(cs.getColorFactory()));
+        cs.setHeight(50);
+        return cs;
+    }
+
+
+    @Bean
+    public CaptchaProvider captchaProvider(ConfigurableCaptchaService configurableCaptchaService, StringRedisTemplate stringRedisTemplate) {
+        return new DefaultCaptchaProvider(configurableCaptchaService, stringRedisTemplate);
     }
 
     @Bean
-    public RouterFunction<?> routers() {
-        RouterFunction<?> routers = route(POST("/login"), loginHandler::login);
-        return routers;
+    public FormAuthenticationProvider customizeAuthenticationProvider() {
+        return new FormAuthenticationProvider();
     }
-
 
 
 }
