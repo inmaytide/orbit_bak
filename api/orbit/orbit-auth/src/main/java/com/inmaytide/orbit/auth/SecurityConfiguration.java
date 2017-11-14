@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterAt(new FormAuthenticationFilter(captchaProvider, authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(new FormAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()

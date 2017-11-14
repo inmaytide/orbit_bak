@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.auth.controller;
 
-import com.inmaytide.orbit.auth.token.FormAuthenticatedToken;
+import com.inmaytide.orbit.auth.token.AuthenticatedToken;
+import com.inmaytide.orbit.auth.token.FormAuthenticationToken;
 import com.inmaytide.orbit.domain.sys.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,9 +19,9 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public User login(FormAuthenticatedToken token) {
-        token = (FormAuthenticatedToken) authenticationManager.authenticate(token);
-        return token.getUser();
+    public User login(FormAuthenticationToken token) {
+        AuthenticatedToken authenticated = (AuthenticatedToken) authenticationManager.authenticate(token);
+        return (User) authenticated.getPrincipal();
     }
 
 }
