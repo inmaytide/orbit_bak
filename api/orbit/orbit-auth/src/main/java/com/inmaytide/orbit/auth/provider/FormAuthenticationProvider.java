@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.auth.provider;
 
 import com.inmaytide.orbit.auth.exception.BlankAccountException;
-import com.inmaytide.orbit.auth.exception.IncorrectCaptchaException;
 import com.inmaytide.orbit.auth.exception.UnknownAccountException;
+import com.inmaytide.orbit.auth.service.CaptchaService;
 import com.inmaytide.orbit.auth.service.UserService;
 import com.inmaytide.orbit.auth.token.AuthenticatedToken;
 import com.inmaytide.orbit.auth.token.FormAuthenticationToken;
@@ -27,7 +27,7 @@ public class FormAuthenticationProvider implements AuthenticationProvider {
     private UserService userService;
 
     @Autowired
-    private CaptchaProvider captchaProvider;
+    private CaptchaService captchaService;
 
     private PasswordEncoder passwordEncoder;
 
@@ -44,7 +44,7 @@ public class FormAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         FormAuthenticationToken token = (FormAuthenticationToken) authentication;
-        captchaProvider.validation(token.getCaptcha(), token.getCaptchaCacheName(), () -> new IncorrectCaptchaException(""));
+        captchaService.validation(token.getCaptcha());
 
         String username = Objects.toString(token.getPrincipal(), null);
         String password = Objects.toString(authentication.getCredentials(), null);

@@ -14,10 +14,8 @@ import java.util.Objects;
 public class FormAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     public static final String SPRING_SECURITY_FORM_CAPTCHA_KEY = "captcha";
-    public static final String SPRING_SECURITY_FORM_CAPTCHA_CACHE_NAME = "v";
 
     private String captchaParameter = SPRING_SECURITY_FORM_CAPTCHA_KEY;
-    private String captchaCacheNameParameter = SPRING_SECURITY_FORM_CAPTCHA_CACHE_NAME;
 
     public FormAuthenticationFilter(AuthenticationManager authenticationManager) {
         super();
@@ -30,10 +28,9 @@ public class FormAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         String captcha = obtainCaptcha(request);
-        String captchaCacheName = obtainCaptchaCacheName(request);
         String username = obtainUsername(request);
         String password = obtainPassword(request);
-        FormAuthenticationToken token = new FormAuthenticationToken(username, password, captcha, captchaCacheName);
+        FormAuthenticationToken token = new FormAuthenticationToken(username, password, captcha);
         setDetails(request, token);
         return this.getAuthenticationManager().authenticate(token);
     }
@@ -52,10 +49,6 @@ public class FormAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         return obtainParameter(getCaptchaParameter(), request);
     }
 
-    protected String obtainCaptchaCacheName(HttpServletRequest request) {
-        return obtainParameter(getCaptchaCacheNameParameter(), request);
-    }
-
     protected String obtainParameter(String name, HttpServletRequest request) {
         return Objects.toString(request.getParameter(name), "");
     }
@@ -64,7 +57,4 @@ public class FormAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         return captchaParameter;
     }
 
-    public String getCaptchaCacheNameParameter() {
-        return captchaCacheNameParameter;
-    }
 }

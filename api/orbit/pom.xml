@@ -24,6 +24,7 @@
         <module>orbit-api-gateway</module>
         <module>orbit-auth</module>
         <module>orbit-system-management</module>
+        <module>orbit-captcha</module>
     </modules>
 
     <properties>

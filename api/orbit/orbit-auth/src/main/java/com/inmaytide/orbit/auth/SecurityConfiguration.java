@@ -1,7 +1,6 @@
 package com.inmaytide.orbit.auth;
 
 import com.inmaytide.orbit.auth.filter.FormAuthenticationFilter;
-import com.inmaytide.orbit.auth.provider.CaptchaProvider;
 import com.inmaytide.orbit.auth.provider.FormAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private FormAuthenticationProvider customizeAuthenticationProvider;
 
-    @Autowired
-    private CaptchaProvider captchaProvider;
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -36,11 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterAt(new FormAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-        http.authorizeRequests()
+        http.csrf().disable().authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll();

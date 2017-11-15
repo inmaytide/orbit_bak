@@ -8,19 +8,13 @@ public class FormAuthenticationToken extends UsernamePasswordAuthenticationToken
 
     private String captcha;
 
-    private String captchaCacheName;
-
-    public FormAuthenticationToken(Object principal, Object credentials, String captcha, String captchaCacheName) {
+    public FormAuthenticationToken(Object principal, Object credentials, String captcha) {
         super(principal, credentials);
         this.captcha = captcha;
-        this.captchaCacheName = captchaCacheName;
     }
 
     public String getCaptcha() {
         return captcha;
     }
 
-    public String getCaptchaCacheName() {
-        return captchaCacheName;
-    }
 }
