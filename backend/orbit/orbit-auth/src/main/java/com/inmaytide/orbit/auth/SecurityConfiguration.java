@@ -18,12 +18,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private FormAuthenticationProvider customizeAuthenticationProvider;
+    private FormAuthenticationProvider formAuthenticationProvider;
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(customizeAuthenticationProvider);
+        auth.authenticationProvider(formAuthenticationProvider);
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
@@ -35,9 +35,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterAt(new FormAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-        http.csrf().disable().authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll();
+        http.csrf().disable()
+                .formLogin()
+                .and().authorizeRequests()
+                .anyRequest().authenticated();
     }
 }

@@ -25,7 +25,7 @@ public class AuthApplication {
 
 
     @Bean
-    public FormAuthenticationProvider customizeAuthenticationProvider() {
+    public FormAuthenticationProvider formAuthenticationProvider() {
         return new FormAuthenticationProvider();
     }
 
