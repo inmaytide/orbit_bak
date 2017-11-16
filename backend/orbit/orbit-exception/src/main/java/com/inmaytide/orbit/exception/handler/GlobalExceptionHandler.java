@@ -9,21 +9,17 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Nonnull;
-
 public class GlobalExceptionHandler implements WebExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Override
-    @Nonnull
-    public Mono<Void> handle(@Nonnull ServerWebExchange exchange, @Nonnull Throwable e) {
+    public Mono<Void> handle(ServerWebExchange exchange, Throwable e) {
         return Mono.just(e)
                 .transform(ThrowableTranslator::translate)
                 .flatMap(translator -> translator.write(exchange.getResponse()));
     }
 
-    @Nonnull
     public Mono<ServerResponse> notFound(final ServerRequest request) {
         log.error("Path [{}] not found.", request.path());
         return Mono.just(new PathNotFoundException(request.path())).transform(this::getResponse);

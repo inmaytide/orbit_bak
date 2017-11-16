@@ -7,18 +7,20 @@ import java.util.Objects;
 
 public class ResponseError implements Serializable {
 
+    private static final long serialVersionUID = 4807240539075912410L;
+
     private Integer code;
 
     private String message;
 
-    public static ResponseError of(HttpStatus status, String message) {
-        Objects.requireNonNull(status);
-        return new ResponseError(status, message);
-    }
-
     private ResponseError(HttpStatus status, String message) {
         this.code = status.value();
         this.message = message;
+    }
+
+    public static ResponseError of(HttpStatus status, String message) {
+        Objects.requireNonNull(status);
+        return new ResponseError(status, message);
     }
 
     public Integer getCode() {

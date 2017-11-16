@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.attachment.service.impl;
 
+import com.inmaytide.orbit.attachment.dao.AttachmentGroupRepository;
 import com.inmaytide.orbit.attachment.service.AttachmentGroupService;
-import com.inmaytide.orbit.dao.sys.AttachmentGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

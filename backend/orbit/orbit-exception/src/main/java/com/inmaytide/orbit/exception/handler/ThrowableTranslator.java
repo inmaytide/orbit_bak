@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.exception.handler;
 
-import com.inmaytide.orbit.util.CommonUtils;
+import com.inmaytide.orbit.commons.util.JsonUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -21,17 +21,13 @@ public class ThrowableTranslator {
         error = ResponseErrorBuilderFactory.get(throwable).build(throwable);
     }
 
-    public HttpStatus getHttpStatus() {
-        return HttpStatus.valueOf(error.getCode());
-    }
-
-    public ResponseError getError() {
-        return error;
+    public static <T extends Throwable> Mono<ThrowableTranslator> translate(final Mono<T> throwable) {
+        return throwable.flatMap(error -> Mono.just(new ThrowableTranslator(error)));
     }
 
     public Mono<Void> write(ServerHttpResponse response) {
         response.setStatusCode(getHttpStatus());
-        DataBuffer buffer = response.bufferFactory().wrap(CommonUtils.getJsonBytes(getError()));
+        DataBuffer buffer = response.bufferFactory().wrap(JsonUtils.getJsonBytes(getError()));
         return response.writeAndFlushWith(Mono.just(Mono.just(buffer)));
     }
 
@@ -39,8 +35,12 @@ public class ThrowableTranslator {
         return status(getHttpStatus()).body(Mono.just(getError()), ResponseError.class);
     }
 
-    public static <T extends Throwable> Mono<ThrowableTranslator> translate(final Mono<T> throwable) {
-        return throwable.flatMap(error -> Mono.just(new ThrowableTranslator(error)));
+    public HttpStatus getHttpStatus() {
+        return HttpStatus.valueOf(error.getCode());
+    }
+
+    public ResponseError getError() {
+        return error;
     }
 
 }

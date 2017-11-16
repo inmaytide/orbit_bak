@@ -1,16 +1,14 @@
 package com.inmaytide.orbit.domain.sys;
 
-import com.inmaytide.orbit.consts.UserStatus;
-import com.inmaytide.orbit.domain.basic.BasicEntity;
+import com.inmaytide.orbit.domain.basis.AbstractEntity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Entity(table = "sys_user")
-public class User extends BasicEntity {
+public class User extends AbstractEntity {
 
     private static final long serialVersionUID = -924373759818451358L;
 
@@ -29,8 +27,8 @@ public class User extends BasicEntity {
     private String status;
     @Transient
     private String token;
-    @Transient
-    private List<Organization> organization;
+//    @Transient
+//    private List<Organization> organization;
 
     public User() {
     }
@@ -124,7 +122,7 @@ public class User extends BasicEntity {
     }
 
     public boolean isLocked() {
-        return Objects.equals(getStatus(), UserStatus.LOCKED.toString());
+        return Objects.equals(getStatus(), "Locked");
     }
 
     public String getToken() {

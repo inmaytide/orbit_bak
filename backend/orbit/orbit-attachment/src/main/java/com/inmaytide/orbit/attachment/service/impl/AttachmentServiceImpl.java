@@ -1,11 +1,11 @@
 package com.inmaytide.orbit.attachment.service.impl;
 
+import com.inmaytide.orbit.attachment.dao.AttachmentRepository;
+import com.inmaytide.orbit.attachment.enums.AttachmentStatus;
 import com.inmaytide.orbit.attachment.service.AttachmentService;
 import com.inmaytide.orbit.attachment.util.AttachmentUtils;
-import com.inmaytide.orbit.consts.AttachmentStatus;
-import com.inmaytide.orbit.dao.sys.AttachmentRepository;
-import com.inmaytide.orbit.domain.sys.Attachment;
-import com.inmaytide.orbit.pk.IdGenerator;
+import com.inmaytide.orbit.commons.id.SnowflakeIdGenerator;
+import com.inmaytide.orbit.domain.attachment.Attachment;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -63,7 +63,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public Attachment insert(Attachment inst) {
-        inst.setId(IdGenerator.nextId());
+        inst.setId(SnowflakeIdGenerator.generate());
         String key = getCacheKey(inst.getId());
         redisTemplate.opsForValue().set(key, inst, TEMPORARY_TIMEOUT_HOURS, TimeUnit.HOURS);
         return inst;

@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.attachment.util;
 
-import com.inmaytide.orbit.consts.AttachmentStatus;
-import com.inmaytide.orbit.domain.sys.Attachment;
-import com.inmaytide.orbit.util.CommonUtils;
+import com.inmaytide.orbit.attachment.enums.AttachmentStatus;
+import com.inmaytide.orbit.commons.id.UUIDGenerator;
+import com.inmaytide.orbit.domain.attachment.Attachment;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -61,7 +61,7 @@ public class FileUtils {
     private static Attachment buildAttachmentAndWriteFile(FilePart part, ServerRequest request) {
         Attachment attachment = new Attachment();
         attachment.setOriginalName(FilenameUtils.removeExtension(part.filename()));
-        attachment.setStorageName(CommonUtils.uuid());
+        attachment.setStorageName(UUIDGenerator.generate());
         attachment.setExtension(FilenameUtils.getExtension(part.filename()));
         attachment.setStorageAddress(DirectoryUtils.getTemporaryAddress());
         attachment.setStatus(AttachmentStatus.TEMPORARY.getValue());

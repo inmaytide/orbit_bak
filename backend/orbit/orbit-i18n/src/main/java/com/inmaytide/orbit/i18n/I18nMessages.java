@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.i18n;
 
-import com.inmaytide.orbit.holder.ApplicationContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -19,19 +18,10 @@ public class I18nMessages {
 
     private static final String UN_KNOWN_MESSAGE = "unknown";
 
-    private static I18nMessages instance;
-
     private MessageSource messageSource;
 
     public I18nMessages(MessageSource messageSource) {
         this.messageSource = messageSource;
-    }
-
-    public static I18nMessages getInstance() {
-        if (instance == null) {
-            instance = ApplicationContextHolder.getBean(I18nMessages.class);
-        }
-        return instance;
     }
 
     public String get(String key, Locale locale, Object... args) {

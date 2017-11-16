@@ -2,7 +2,7 @@ package com.inmaytide.orbit.domain.sys;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.inmaytide.orbit.domain.basic.BasicEntity;
+import com.inmaytide.orbit.domain.basis.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity(table = "sys_permission")
-public class Permission extends BasicEntity {
+public class Permission extends AbstractEntity {
 
     private static final long serialVersionUID = -5401749095217234229L;
 

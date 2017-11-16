@@ -1,37 +1,34 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {AppComponent} from './app.component';
-import {LoginComponent} from './auth/login/login.component';
-import {RouterModule} from '@angular/router';
-import {appRoutes} from './app.routes';
-import {LoginService} from "./auth/login/login.service";
-import {FormsModule} from "@angular/forms";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {HomeModule} from "./home/home.module";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {LayerModule} from "./layers/layer.module";
-import {Error403Compontent} from "./errors/403.component";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
+import {NgModule} from '@angular/core';
+import {RouterModule} from "@angular/router";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AppComponent} from './app.component';
+import {LoginComponent} from "./auz/login";
+import {NgZorroAntdModule, NZ_MESSAGE_CONFIG} from "ng-zorro-antd";
+import {appRoutes} from "./app.routes";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {LoginService} from "./auz/login.service";
 import {CommonRequestInterceptor} from "./interceptors/common-request-interceptor";
-import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import * as GlobalVariable from "./globals";
+import {GlobalVariables} from "./global-variables";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MainModule} from "./content/main.module";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    Error403Compontent
+    LoginComponent
   ],
   imports: [
-    NgbModule.forRoot(),
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
+    CommonModule,
     FormsModule,
-    HomeModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    NgZorroAntdModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    LayerModule,
+    HttpClientModule,
+    MainModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -43,14 +40,14 @@ import * as GlobalVariable from "./globals";
   providers: [
     LoginService,
     HttpClient,
-    {provide: HTTP_INTERCEPTORS, useClass: CommonRequestInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: CommonRequestInterceptor, multi: true},
+    {provide: NZ_MESSAGE_CONFIG, useValue: {nzDuration: 5000}}
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
 }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, GlobalVariable.BASE_API_URL + "lang/", "");
+  return new TranslateHttpLoader(http, GlobalVariables.API_BASE_URL + "i18n/lang/", "");
 }

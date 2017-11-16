@@ -1,26 +1,14 @@
 import {Component} from '@angular/core';
-import 'rxjs/add/operator/merge';
 import {TranslateService} from "@ngx-translate/core";
+import {GlobalVariables} from "./global-variables";
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private globalClickCallbackFn: Function;
-  private loginSuccessCallbackFn: Function;
-
   constructor(translate: TranslateService) {
-    translate.setDefaultLang("en");
-  }
-
-  ngOnInit() {
-
-  }
-
-  ngOnDestroy() {
-    if (this.globalClickCallbackFn) {
-      this.globalClickCallbackFn();
-    }
+    translate.setDefaultLang(GlobalVariables.DEFAULT_LANG);
   }
 }

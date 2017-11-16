@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.domain.sys;
 
-import com.inmaytide.orbit.domain.basic.BasicEntity;
+import com.inmaytide.orbit.domain.basis.AbstractEntity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity(table = "sys_role")
-public class Role extends BasicEntity {
+public class Role extends AbstractEntity {
 
     private static final long serialVersionUID = -8038307119098134671L;
 
@@ -19,9 +19,6 @@ public class Role extends BasicEntity {
     private String name;
 
     private String description;
-
-    @Transient
-    private List<Organization> organizations;
 
     @Transient
     private List<Permission> permissions;
@@ -54,14 +51,6 @@ public class Role extends BasicEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Organization> getOrganizations() {
-        return organizations;
-    }
-
-    public void setOrganizations(List<Organization> organizations) {
-        this.organizations = organizations;
     }
 
     public List<Permission> getPermissions() {
