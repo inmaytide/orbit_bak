@@ -24,7 +24,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public static final String APP_KEY = "59a84cbf83227a35";
 
     @Autowired
-    @Qualifier(BeanIds.AUTHENTICATION_MANAGER)
     private AuthenticationManager authenticationManager;
 
 
@@ -42,11 +41,17 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("token")
-                .autoApprove(true)
-                .authorities("permission-update")
-                .authorizedGrantTypes("refresh_token", "password");
+        clients.inMemory().withClient("login")
+                .authorizedGrantTypes("password", "refresh_token")
+                .scopes("select")
+                .secret(APP_KEY);
     }
+
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security.allowFormAuthenticationForClients();
+    }
+
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -54,4 +59,5 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .tokenEnhancer(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager);
     }
+
 }
