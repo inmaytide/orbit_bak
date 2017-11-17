@@ -12,7 +12,7 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableWebFlux
-@EnableMybatisRepositories
+@EnableMybatisRepositories(mapperLocations = "classpath*:mappers/**/*.xml")
 public class SystemManagementApplication {
 
     public static void main(String... args) {

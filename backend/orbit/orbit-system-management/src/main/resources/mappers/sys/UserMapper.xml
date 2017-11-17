@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inmaytide.orbit.domain.sys.User">
+    <select id="findByRole" resultType="com.inmaytide.orbit.domain.sys.User">
+        select * from sys_user u
+        where id in (select u_id from sys_user_role where r_id = #{roleId})
+    </select>
+
+    <select id="findList" resultType="com.inmaytide.orbit.domain.sys.User">
+        select * from sys_user u
+        <where>
+            <if test="conditions.keywords != null and conditions.keywords != ''">
+                (instr(username, #{conditions.keywords}) or instr(name, #{conditions.keywords}))
+            </if>
+            <if test="conditions.status != null">
+                and status = #{conditions.status}
+            </if>
+            <if test="conditions.orgs != null">
+                and id in (select u_id from sys_user_organization where o_id in (#{conditions.orgs})))
+            </if>
+        </where>
+        order by create_time desc
+        <if test="conditions.containsKey('size')">
+            limit #{conditions.size} offset #{conditions.offset}
+        </if>
+    </select>
+
+    <select id="findCount" resultType="java.lang.Integer">
+        select count(1) from sys_user u
+        <where>
+            <if test="conditions.keywords != null and conditions.keywords != ''">
+                (instr(username, #{conditions.keywords}) or instr(name, #{conditions.keywords}))
+            </if>
+            <if test="conditions.status != null">
+                and status = #{conditions.status}
+            </if>
+            <if test="conditions.orgs != null">
+                and id in (select u_id from sys_user_organization where o_id in (#{conditions.orgs})))
+            </if>
+        </where>
+    </select>
+</mapper>

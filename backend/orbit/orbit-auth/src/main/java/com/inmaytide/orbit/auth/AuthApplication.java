@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.auth;
 
-import com.inmaytide.orbit.auth.provider.FormAuthenticationProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -21,12 +20,6 @@ public class AuthApplication {
     @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    }
-
-
-    @Bean
-    public FormAuthenticationProvider formAuthenticationProvider() {
-        return new FormAuthenticationProvider();
     }
 
 
