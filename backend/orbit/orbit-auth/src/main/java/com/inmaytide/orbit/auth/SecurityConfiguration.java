@@ -18,11 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private FormAuthenticationProvider formAuthenticationProvider;
-//
-//
-
     @Autowired
     private DefaultUserDetailsService service;
 
@@ -48,12 +43,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .formLogin().successForwardUrl("/login/success")
-                .and()
                 .requestMatchers().anyRequest()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/oauth/*").permitAll();
+                .antMatchers("/oauth/**", "/auth/oauth/**").permitAll();
     }
 
     @Override

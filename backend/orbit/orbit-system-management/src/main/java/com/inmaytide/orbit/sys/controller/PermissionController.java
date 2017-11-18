@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.sys.controller;
 
+import com.inmaytide.orbit.domain.sys.Permission;
 import com.inmaytide.orbit.sys.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,11 @@ public class PermissionController {
     @GetMapping("codes/{username}")
     public Flux<String> listCodesByUsername(@PathVariable String username) {
         return Flux.fromIterable(service.listCodesByUsername(username));
+    }
+
+    @GetMapping("user")
+    public Flux<Permission> listByUsername() {
+        return Flux.fromIterable(service.listMenusByUsername("admin"));
     }
 
 }

@@ -7,7 +7,7 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class PermissionService {
 
-  private getUserMenusApi = GlobalVariables.API_BASE_URL + "user/menus";
+  private getUserMenusApi = GlobalVariables.API_BASE_URL + "sys/permissions/user";
   private permissionApi = GlobalVariables.API_BASE_URL + "sys/permissions";
 
   constructor(private http: HttpClient) {

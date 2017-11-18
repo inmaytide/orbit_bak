@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
   }
 
   public getCaptcha() {
-    this.token.captchaKey = Date.now().toString();
-    this.captchaImagePath = GlobalVariables.API_BASE_URL + "captcha?v=" + this.token.captchaKey;
+    this.captchaImagePath = GlobalVariables.API_BASE_URL + "captcha?v=" + Date.now();
   }
 }
