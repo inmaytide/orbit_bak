@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableAuthorizationServer
@@ -22,6 +23,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private RestTemplate template;
 
 
     @Bean
@@ -52,7 +56,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.addInterceptor(new CaptchaInterceptor())
+        endpoints.addInterceptor(new CaptchaInterceptor(template))
                 .tokenStore(tokenStore())
                 .tokenEnhancer(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager);
