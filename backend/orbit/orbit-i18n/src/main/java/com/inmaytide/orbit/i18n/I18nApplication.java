@@ -63,7 +63,7 @@ public class I18nApplication {
 
     @Bean
     public RouterFunction<?> routers(I18nResourceProvider provider, GlobalExceptionHandler exceptionHandler) {
-        return route(GET("/{lang}"), provider::lang)
+        return route(GET("/lang/{lang}"), provider::lang)
                 .andOther(route(RequestPredicates.all(), exceptionHandler::notFound));
     }
 
