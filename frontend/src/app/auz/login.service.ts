@@ -8,7 +8,7 @@ import {CommonUtils} from "../common-utils";
 @Injectable()
 export class LoginService {
 
-  private loginUrl = GlobalVariables.API_BASE_URL + "auth/oauth/token";
+  private loginUrl = GlobalVariables.API_BASE_URL + "oauth/token";
 
   constructor(private http: HttpClient) {
   }

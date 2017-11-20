@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("roles")
+@RequestMapping("sys/roles")
 public class RoleController {
 
     @Autowired

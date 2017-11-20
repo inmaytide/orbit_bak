@@ -4,16 +4,15 @@ import com.inmaytide.orbit.auth.exception.BadCaptchaException;
 import com.inmaytide.orbit.commons.consts.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.context.request.WebRequestInterceptor;
+import org.springframework.web.context.request.*;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,10 +24,10 @@ public class CaptchaInterceptor implements WebRequestInterceptor {
 
     private static final String SERVICE_URL_CHECK_CAPTCHA = "http://orbit-captcha/{captcha}";
 
-    private RestTemplate template;
+    private LoadBalancerExchangeFilterFunction exchangeFilterFunction;
 
-    public CaptchaInterceptor(RestTemplate template) {
-        this.template = template;
+    public CaptchaInterceptor(LoadBalancerExchangeFilterFunction exchangeFilterFunction) {
+        this.exchangeFilterFunction = exchangeFilterFunction;
     }
 
     private String checkCaptcha(String captcha) {
@@ -38,15 +37,21 @@ public class CaptchaInterceptor implements WebRequestInterceptor {
 
     @Override
     public void preHandle(WebRequest request) throws Exception {
-        String captcha = checkCaptcha(request.getParameter("captcha"));
-        String value = request.getHeader(Constants.HEADER_NAME_SESSION_ID);
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(Constants.HEADER_NAME_SESSION_ID, value);
-        HttpEntity<Boolean> httpEntity = new HttpEntity<>(headers);
-        Boolean isValid = template.exchange(SERVICE_URL_CHECK_CAPTCHA, HttpMethod.GET, httpEntity, Boolean.class, captcha).getBody();
-        if (isValid == null || !isValid) {
-            throw new BadCaptchaException();
-        }
+        ServletWebRequest webRequest = (ServletWebRequest) request;
+        String value = webRequest.getRequest().getCookies()[0].getValue();
+        WebClient.builder().baseUrl("http://orbit-captcha")
+                .filter(exchangeFilterFunction)
+                .build()
+                .get()
+                .uri("/captcha/{captcha}", checkCaptcha(request.getParameter("captcha")))
+                .header(Constants.HEADER_NAME_SESSION_ID, value)
+                .retrieve().bodyToMono(Boolean.class)
+                .subscribe(isValid -> {
+                    if (isValid == null || !isValid) {
+                        throw new BadCaptchaException();
+                    }
+                });
+
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("permissions")
+@RequestMapping("sys/permissions")
 public class PermissionController {
 
     @Autowired

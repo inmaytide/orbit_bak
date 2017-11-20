@@ -2,6 +2,7 @@ package com.inmaytide.orbit.auth;
 
 import com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +26,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private RestTemplate template;
+    private LoadBalancerExchangeFilterFunction loadBalancerExchangeFilterFunction;
 
 
     @Bean
@@ -45,7 +46,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory().withClient("login")
                 .authorizedGrantTypes("password", "refresh_token")
-                .secret(APP_KEY);
+                .secret("{noop}" + APP_KEY);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.addInterceptor(new CaptchaInterceptor(template))
+        endpoints.addInterceptor(new CaptchaInterceptor(loadBalancerExchangeFilterFunction))
                 .tokenStore(tokenStore())
                 .tokenEnhancer(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager);

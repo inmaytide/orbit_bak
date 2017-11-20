@@ -34,8 +34,8 @@ public class CaptchaApplication {
 
     @Bean
     public RouterFunction<?> routers(CaptchaHandler handler) {
-        return route(GET("/"), handler::getCaptcha)
-                .and(route(GET("/{captcha}"), handler::validation));
+        return route(GET("/captcha"), handler::getCaptcha)
+                .and(route(GET("/captcha/{captcha}"), handler::validation));
     }
 
 

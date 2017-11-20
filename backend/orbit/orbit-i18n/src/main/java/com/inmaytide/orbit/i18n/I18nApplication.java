@@ -70,7 +70,7 @@ public class I18nApplication {
     @Bean
     public HttpHandler httpHandler(RouterFunction<?> routers, GlobalExceptionHandler exceptionHandler) {
         return WebHttpHandlerBuilder
-                .webHandler(RouterFunctions.toWebHandler(routers, HandlerStrategies.builder().build()))
+                .webHandler(RouterFunctions.toWebHandler(routers))
                 .exceptionHandler(exceptionHandler)
                 .build();
     }

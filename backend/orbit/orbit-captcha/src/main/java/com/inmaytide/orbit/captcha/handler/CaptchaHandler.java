@@ -27,7 +27,7 @@ public class CaptchaHandler {
         if (!CollectionUtils.isEmpty(values)) {
             return values.get(0);
         } else {
-            return request.cookies().getFirst("SESSION").getValue();
+            return request.cookies().getFirst("JSESSIONID").getValue();
         }
     }
 

@@ -3,13 +3,25 @@ server:
 spring:
   application:
     name: orbit-api-gateway
-#  cloud:
-#    gateway:
-#      routes:
-#      - id: i18n-orbit
-#        uri: lb://orbit-i18n
-#        predicates:
-#        - Path=/lang/**
+  cloud:
+    gateway:
+      routes:
+      - id: orbit-i18n
+        uri: lb://orbit-i18n
+        predicates:
+        - Path=/lang/**
+      - id: orbit-auth
+        uri: lb://orbit-auth
+        predicates:
+        - Path=/oauth/**
+      - id: orbit-captcha
+        uri: lb://orbit-captcha
+        predicates:
+        - Path=/captcha/**
+      - id: orbit-system-management
+        uri: lb://orbit-system-management
+        predicates:
+        - Path=/sys/**
 
 
 eureka:
