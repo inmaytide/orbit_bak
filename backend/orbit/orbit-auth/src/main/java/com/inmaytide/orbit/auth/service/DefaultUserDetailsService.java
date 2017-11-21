@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @Component
 public class DefaultUserDetailsService implements UserDetailsService {
 
-    private static final String SERVICE_URL_BASE = "http://orbit-system-management/";
+    private static final String SERVICE_URL_BASE = "http://orbit-system-management/sys";
     private static final String SERVICE_URL_GET_USER = "/users/{username}";
     private static final String SERVICE_URL_GET_AUTHORITIES = "/permissions/codes/{username}";
     private static final String SERVICE_URL_GET_ROLES = "/roles/codes/{username}";
