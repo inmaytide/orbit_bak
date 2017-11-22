@@ -26,7 +26,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private LoadBalancerExchangeFilterFunction loadBalancerExchangeFilterFunction;
 
     @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
+    public RedisConnectionFactory connectionFactory;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -44,7 +44,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.addInterceptor(new CaptchaInterceptor(loadBalancerExchangeFilterFunction))
-                .tokenStore(new RedisTokenStore(redisConnectionFactory))
+                .tokenStore(new RedisTokenStore(connectionFactory))
                 .authenticationManager(authenticationManager);
     }
 

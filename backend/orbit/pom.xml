@@ -76,15 +76,10 @@
                 <version>1.0.2</version>
             </dependency>
             <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>2.0.0.Final</version>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>2.2.1.RELEASE</version>
             </dependency>
-            <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjweaver</artifactId>-->
-            <!--<version>1.9.0.BETA-6</version>-->
-            <!--</dependency>-->
             <dependency>
                 <groupId>com.ifrabbit</groupId>
                 <artifactId>spring-boot-starter-data-mybatis</artifactId>
