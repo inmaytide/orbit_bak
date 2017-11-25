@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.filter;
+package com.inmaytide.orbit.oauth2;
 
 import com.inmaytide.orbit.commons.consts.Constants;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +34,7 @@ public class OAuth2AuthenticationConverter implements Function<ServerWebExchange
         if (StringUtils.isBlank(value) || !value.startsWith("Bearer")) {
             value = request.getQueryParams().getFirst(Constants.QUERY_PARAM_NAME_AUTHORIZATION);
         } else {
-            value = value.substring(6);
+            value = value.substring(7);
         }
         return Optional.ofNullable(value);
     }

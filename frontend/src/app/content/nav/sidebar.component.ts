@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.findUserMenus()
+    this.service.findUserMenus(CommonUtils.getPrincipal().username)
       .then(menus => this.menus = menus)
       .catch(reason => CommonUtils.handleErrors(reason));
   }

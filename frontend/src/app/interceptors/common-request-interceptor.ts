@@ -8,10 +8,10 @@ export class CommonRequestInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let headers = new HttpHeaders();
-    let token = CommonUtils.getPrincipal();
-    if (token && token.access_token) {
+    let principal = CommonUtils.getPrincipal();
+    if (principal && principal.token) {
       headers = new HttpHeaders({
-        "Authorization": token.access_token
+        "Authorization": "Bearer " + principal.token
       })
     }
     req = req.clone({

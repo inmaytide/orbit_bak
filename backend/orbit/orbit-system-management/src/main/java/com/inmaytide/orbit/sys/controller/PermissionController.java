@@ -21,9 +21,9 @@ public class PermissionController {
         return Flux.fromIterable(service.listCodesByUsername(username));
     }
 
-    @GetMapping("user")
-    public Flux<Permission> listByUsername() {
-        return Flux.fromIterable(service.listMenusByUsername("admin"));
+    @GetMapping("/{username}")
+    public Flux<Permission> listByUsername(@PathVariable String username) {
+        return Flux.fromIterable(service.listMenusByUsername(username));
     }
 
 }

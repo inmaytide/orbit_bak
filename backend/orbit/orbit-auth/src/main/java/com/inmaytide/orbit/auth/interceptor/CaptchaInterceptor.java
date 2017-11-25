@@ -13,16 +13,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.*;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author Moss
  * @since November 18, 2017
  */
 public class CaptchaInterceptor implements WebRequestInterceptor {
-
-    private static final String SERVICE_URL_CHECK_CAPTCHA = "http://orbit-captcha/{captcha}";
 
     private LoadBalancerExchangeFilterFunction exchangeFilterFunction;
 
@@ -39,19 +39,21 @@ public class CaptchaInterceptor implements WebRequestInterceptor {
     public void preHandle(WebRequest request) throws Exception {
         ServletWebRequest webRequest = (ServletWebRequest) request;
         String value = webRequest.getRequest().getCookies()[0].getValue();
-        WebClient.builder().baseUrl("http://orbit-captcha")
+        Map response = WebClient.builder().baseUrl("http://orbit-captcha")
                 .filter(exchangeFilterFunction)
                 .build()
                 .get()
                 .uri("/captcha/{captcha}", checkCaptcha(request.getParameter("captcha")))
                 .header(Constants.HEADER_NAME_SESSION_ID, value)
-                .retrieve().bodyToMono(Boolean.class)
-                .subscribe(isValid -> {
-                    if (isValid == null || !isValid) {
-                        throw new BadCaptchaException();
-                    }
-                });
+                .retrieve()
+                .bodyToMono(Map.class)
+                .defaultIfEmpty(Map.of())
+                .block();
 
+        Boolean isValid = (Boolean) response.getOrDefault("isValid", false);
+        if (!isValid) {
+            throw new BadCaptchaException();
+        }
     }
 
     @Override

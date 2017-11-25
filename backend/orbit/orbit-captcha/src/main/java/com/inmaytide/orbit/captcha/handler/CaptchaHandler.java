@@ -12,7 +12,9 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
@@ -39,7 +41,7 @@ public class CaptchaHandler {
     public Mono<ServerResponse> validation(ServerRequest request) {
         String captcha = request.pathVariable("captcha");
         Boolean isValid = service.validation(captcha, getCacheName(request));
-        return ok().body(Mono.just(isValid), Boolean.class);
+        return ok().body(Mono.just(Map.of("isValid", isValid)), Map.class);
     }
 
 }

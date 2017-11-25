@@ -14,6 +14,7 @@ import {MainFooterComponent} from "./frames/main-footer";
 import {PermissionInfoComponent} from "./sys/permission/permission.info";
 import {TranslateModule} from "@ngx-translate/core";
 import {DataDictionaryService} from "./sys/data-dictionary/data-dictionary.service";
+import { UserService } from "./sys/user/user.service";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {DataDictionaryService} from "./sys/data-dictionary/data-dictionary.servi
   ],
   providers: [
     DataDictionaryService,
-    PermissionService
+    PermissionService,
+    UserService
   ],
   entryComponents: [
     PermissionInfoComponent

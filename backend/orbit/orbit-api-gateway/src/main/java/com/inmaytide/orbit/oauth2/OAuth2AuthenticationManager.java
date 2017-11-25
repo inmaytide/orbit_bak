@@ -1,12 +1,10 @@
-package com.inmaytide.orbit.filter;
+package com.inmaytide.orbit.oauth2;
 
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.http.AccessTokenRequiredException;
 import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 public class OAuth2AuthenticationManager implements ReactiveAuthenticationManager {
 

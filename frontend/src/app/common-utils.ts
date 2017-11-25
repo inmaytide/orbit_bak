@@ -8,8 +8,8 @@ export class CommonUtils {
     return principal ? JSON.parse(principal) : {};
   }
 
-  public static setPrincipal(token) {
-    localStorage.setItem(GlobalVariables.PRINCIPAL, JSON.stringify(token));
+  public static setPrincipal(principal) {
+    localStorage.setItem(GlobalVariables.PRINCIPAL, JSON.stringify(principal));
   }
 
   public static handleErrors(reason) {
