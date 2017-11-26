@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.oauth2;
+package com.inmaytide.orbit.security;
 
 import com.inmaytide.orbit.commons.consts.Constants;
 import org.apache.commons.lang3.StringUtils;

@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.oauth2;
+package com.inmaytide.orbit.security;
 
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.core.Authentication;
