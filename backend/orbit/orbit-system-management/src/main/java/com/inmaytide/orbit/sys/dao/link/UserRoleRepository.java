@@ -1,11 +1,11 @@
 package com.inmaytide.orbit.sys.dao.link;
 
-import com.inmaytide.orbit.domain.sys.link.UserRole;
-import org.springframework.data.mybatis.repository.support.MybatisRepository;
+import com.inmaytide.orbit.sys.domain.link.UserRole;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface UserRoleRepository extends MybatisRepository<UserRole, String> {
+public interface UserRoleRepository extends JpaRepository<UserRole, String> {
 
     void deleteByRIdIn(List<Long> roleIds);
 

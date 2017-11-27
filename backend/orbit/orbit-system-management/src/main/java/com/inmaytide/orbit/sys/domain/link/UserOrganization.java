@@ -1,21 +1,20 @@
-package com.inmaytide.orbit.domain.sys.link;
+package com.inmaytide.orbit.sys.domain.link;
 
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.Id;
-
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * @author Moss
  * @since October 25, 2017
  */
-@Entity(table = "sys_user_organization")
+@Entity
+@Table(name = "sys_user_organization")
 public class UserOrganization implements Serializable {
 
     private static final long serialVersionUID = 3650938473566584791L;
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column(name = "u_id")
@@ -28,8 +27,7 @@ public class UserOrganization implements Serializable {
 
     }
 
-    public UserOrganization(Long id, Long uId, Long oId) {
-        this.id = id;
+    public UserOrganization(Long uId, Long oId) {
         this.uId = uId;
         this.oId = oId;
     }

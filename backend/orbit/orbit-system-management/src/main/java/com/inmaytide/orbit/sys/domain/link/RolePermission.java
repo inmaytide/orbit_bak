@@ -1,17 +1,16 @@
-package com.inmaytide.orbit.domain.sys.link;
+package com.inmaytide.orbit.sys.domain.link;
 
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.Id;
-
+import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity(table = "sys_role_permission")
+@Entity
+@Table(name = "sys_role_permission")
 public class RolePermission implements Serializable {
 
     private static final long serialVersionUID = 8681542731864225259L;
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column(name = "r_id")
@@ -23,8 +22,7 @@ public class RolePermission implements Serializable {
     public RolePermission() {
     }
 
-    public RolePermission(Long id, Long rId, Long pId) {
-        this.id = id;
+    public RolePermission(Long rId, Long pId) {
         this.rId = rId;
         this.pId = pId;
     }

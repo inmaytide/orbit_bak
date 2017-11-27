@@ -1,15 +1,14 @@
 package com.inmaytide.orbit.sys.service.impl;
 
 
-import com.inmaytide.orbit.commons.id.SnowflakeIdGenerator;
 import com.inmaytide.orbit.commons.query.PagingInformation;
-import com.inmaytide.orbit.domain.sys.Role;
-import com.inmaytide.orbit.domain.sys.User;
-import com.inmaytide.orbit.domain.sys.link.RolePermission;
-import com.inmaytide.orbit.domain.sys.link.UserRole;
 import com.inmaytide.orbit.sys.dao.RoleRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.UserRoleRepository;
+import com.inmaytide.orbit.sys.domain.Role;
+import com.inmaytide.orbit.sys.domain.User;
+import com.inmaytide.orbit.sys.domain.link.RolePermission;
+import com.inmaytide.orbit.sys.domain.link.UserRole;
 import com.inmaytide.orbit.sys.service.PermissionService;
 import com.inmaytide.orbit.sys.service.RoleService;
 import com.inmaytide.orbit.sys.service.UserService;
@@ -76,8 +75,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Role insert(Role role) {
-        role.setId(SnowflakeIdGenerator.generate());
-        return repository.insert(role);
+        return repository.save(role);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class RoleServiceImpl implements RoleService {
     public Role update(Role role) {
         Role original = repository.findById(role.getId()).orElseThrow(IllegalArgumentException::new);
         BeanUtils.copyProperties(role, original, FINAL_FIELDS);
-        return repository.update(original);
+        return repository.save(original);
     }
 
     @Override
@@ -106,9 +104,9 @@ public class RoleServiceImpl implements RoleService {
         List<Long> pids = split(permissionIds, NumberUtils::toLong, Collectors.toList());
         Assert.isTrue(exist(instId) && permissionService.exist(pids), "The role and permissions all must exist");
         rolePermissionRepository.deleteByRIdIn(List.of(instId));
-        pids.stream()
-                .map(permissionId -> new RolePermission(SnowflakeIdGenerator.generate(), instId, permissionId))
-                .forEach(rolePermissionRepository::insert);
+        rolePermissionRepository.saveAll(pids.stream()
+                .map(permissionId -> new RolePermission(instId, permissionId))
+                .collect(Collectors.toList()));
     }
 
     @Override
@@ -119,9 +117,9 @@ public class RoleServiceImpl implements RoleService {
         final Long instId = NumberUtils.toLong(id);
         List<Long> uids = split(userIds, NumberUtils::toLong, Collectors.toList());
         Assert.isTrue(exist(instId) && userService.exist(uids), "The role and users all must exist");
-        uids.stream()
-                .map(uid -> new UserRole(SnowflakeIdGenerator.generate(), uid, instId))
-                .forEach(userRoleRepository::insert);
+        userRoleRepository.saveAll(uids.stream()
+                .map(uid -> new UserRole(uid, instId))
+                .collect(Collectors.toList()));
         return userService.listByIds(uids);
     }
 

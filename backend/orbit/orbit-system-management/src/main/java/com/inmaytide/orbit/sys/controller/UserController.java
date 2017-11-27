@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.sys.controller;
 
-import com.inmaytide.orbit.domain.sys.User;
+import com.inmaytide.orbit.sys.domain.User;
 import com.inmaytide.orbit.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;

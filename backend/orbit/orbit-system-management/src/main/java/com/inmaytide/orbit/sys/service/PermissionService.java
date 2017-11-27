@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.sys.service;
 
 import com.inmaytide.orbit.commons.service.BasicService;
-import com.inmaytide.orbit.domain.sys.Permission;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
+import com.inmaytide.orbit.sys.domain.Permission;
 
 import java.util.List;
 import java.util.Set;

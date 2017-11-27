@@ -1,11 +1,13 @@
 package com.inmaytide.orbit.sys.domain;
 
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
-import com.inmaytide.orbit.domain.basis.AbstractEntity;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
 
-@Entity(name = "sys_organization")
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "sys_organization")
 public class Organization extends AbstractEntity {
 
     private static final long serialVersionUID = 7250670050182339430L;

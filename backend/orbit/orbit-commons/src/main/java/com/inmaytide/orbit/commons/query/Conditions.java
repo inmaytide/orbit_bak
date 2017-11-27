@@ -3,6 +3,7 @@ package com.inmaytide.orbit.commons.query;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Conditions implements Serializable {
 
@@ -20,6 +21,10 @@ public class Conditions implements Serializable {
 
     public Object get(String key) {
         return conditions.getOrDefault(key, null);
+    }
+
+    public String getString(String key) {
+        return Objects.toString(get(key), null);
     }
 
     public Map<String, Object> getConditions() {

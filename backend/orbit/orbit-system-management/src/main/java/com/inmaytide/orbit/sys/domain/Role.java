@@ -1,14 +1,15 @@
 package com.inmaytide.orbit.sys.domain;
 
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
-import com.inmaytide.orbit.domain.basis.AbstractEntity;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-@Entity(table = "sys_role")
+@Entity
+@Table(name = "sys_role")
 public class Role extends AbstractEntity {
 
     private static final long serialVersionUID = -8038307119098134671L;

@@ -1,9 +1,6 @@
 package com.inmaytide.orbit.sys.service.impl;
 
-
-import com.inmaytide.orbit.commons.id.SnowflakeIdGenerator;
-import com.inmaytide.orbit.domain.sys.Permission;
-import com.inmaytide.orbit.exception.VersionMatchedException;
+import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
 import com.inmaytide.orbit.sys.service.PermissionService;
@@ -14,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mybatis.repository.support.MybatisNoHintException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,9 +47,8 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "user_menus", allEntries = true)
     public Permission insert(Permission inst) {
-        inst.setId(SnowflakeIdGenerator.generate());
         inst.setSort(repository.getSort());
-        return getRepository().insert(inst);
+        return getRepository().save(inst);
     }
 
     @Override
@@ -62,11 +57,7 @@ public class PermissionServiceImpl implements PermissionService {
     public Permission update(Permission inst) {
         Permission origin = getRepository().findById(inst.getId()).orElseThrow(IllegalArgumentException::new);
         BeanUtils.copyProperties(inst, origin, FINAL_FIELDS);
-        try {
-            return repository.update(origin);
-        } catch (MybatisNoHintException e) {
-            throw new VersionMatchedException(e.getMessage());
-        }
+        return repository.save(origin);
     }
 
     @Override
@@ -113,8 +104,11 @@ public class PermissionServiceImpl implements PermissionService {
         }
         int index = permissions.indexOf(inst);
         Permission other = getOther(index, permissions, category);
-        modifySort(inst.getId(), other.getSort(), inst.getVersion());
-        modifySort(other.getId(), inst.getSort(), other.getVersion());
+
+        int sort = inst.getSort();
+        inst.setSort(other.getSort());
+        other.setSort(sort);
+        getRepository().saveAll(List.of(inst, other));
     }
 
     private Permission getOther(int index, List<Permission> permissions, String category) {
@@ -133,13 +127,6 @@ public class PermissionServiceImpl implements PermissionService {
         return repository.findByParent(parent, DEFAULT_SORT);
     }
 
-    private void modifySort(Long id, Integer sort, int version) {
-        try {
-            getRepository().updateIgnoreNull(new Permission(id, sort, version));
-        } catch (MybatisNoHintException e) {
-            throw new VersionMatchedException(e.getMessage());
-        }
-    }
 
     private List<Permission> listToTreeNodes(List<Permission> list) {
         Permission root = Permission.of(MENU_ROOT_ID);

@@ -3,18 +3,19 @@ package com.inmaytide.orbit.sys.domain;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
-import com.inmaytide.orbit.domain.basis.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 
-@Entity(table = "sys_permission")
+@Entity
+@Table(name = "sys_permission")
 public class Permission extends AbstractEntity {
 
     private static final long serialVersionUID = -5401749095217234229L;
@@ -55,15 +56,16 @@ public class Permission extends AbstractEntity {
     public Permission() {
     }
 
-    public Permission(Long id, Integer sort, int version) {
-        this.setId(id);
-        this.sort = sort;
-        this.setVersion(version);
-    }
-
     public static Permission of(Long id) {
         Permission permission = new Permission();
         permission.setId(id);
+        return permission;
+    }
+
+    public static Permission of(Long id, Integer sort, Integer version) {
+        Permission permission = of(id);
+        permission.setSort(sort);
+        permission.setVersion(version);
         return permission;
     }
 

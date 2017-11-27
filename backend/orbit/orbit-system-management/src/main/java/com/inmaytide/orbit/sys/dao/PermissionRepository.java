@@ -1,25 +1,25 @@
 package com.inmaytide.orbit.sys.dao;
 
-import com.inmaytide.orbit.domain.sys.Permission;
+import com.inmaytide.orbit.sys.domain.Permission;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mybatis.repository.annotation.Query;
-import org.springframework.data.mybatis.repository.support.MybatisRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface PermissionRepository extends MybatisRepository<Permission, Long> {
+public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
-    @Query(value = "findCodesByUsername")
+    @Query("")
     List<String> findCodesByUsername(@Param("username") String username);
 
-    @Query(value = "findByUsername")
+    @Query("")
     List<Permission> findByUsername(@Param("username") String username, @Param("category") String category);
 
-    @Query(value = "getSort")
+    @Query("")
     Integer getSort();
 
-    @Query(value = "findByRole")
+    @Query("")
     List<Permission> findByRole(@Param("roleId") Long roleId);
 
     Integer countByCodeAndIdNot(String code, Long id);

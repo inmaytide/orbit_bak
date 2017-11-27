@@ -2,9 +2,9 @@ package com.inmaytide.orbit.sys.service;
 
 import com.inmaytide.orbit.commons.query.PagingInformation;
 import com.inmaytide.orbit.commons.service.BasicService;
-import com.inmaytide.orbit.domain.sys.Role;
-import com.inmaytide.orbit.domain.sys.User;
 import com.inmaytide.orbit.sys.dao.RoleRepository;
+import com.inmaytide.orbit.sys.domain.Role;
+import com.inmaytide.orbit.sys.domain.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

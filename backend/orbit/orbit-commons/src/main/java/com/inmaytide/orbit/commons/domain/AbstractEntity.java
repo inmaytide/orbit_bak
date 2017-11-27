@@ -9,16 +9,20 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.*;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@MappedSuperclass
 public class AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 5784033340704847103L;
 
     @Id
-    @GenericGenerator(name = "", strategy = "")
+    @GenericGenerator(name = "snowflake", strategy = "com.inmaytide.orbit.commons.id.SnowflakeIdGenerator")
+    @GeneratedValue(generator = "snowflake")
     private Long id;
 
     @Column(name = "create_time")
@@ -44,4 +48,51 @@ public class AbstractEntity implements Serializable {
     @Version
     private Integer version;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Long getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Long creator) {
+        this.creator = creator;
+    }
+
+    public Long getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(Long updater) {
+        this.updater = updater;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 }

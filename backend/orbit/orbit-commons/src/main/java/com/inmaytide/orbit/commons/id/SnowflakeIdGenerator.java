@@ -11,7 +11,7 @@ public class SnowflakeIdGenerator implements IdentifierGenerator {
 
     private final SnowflakeIdWorker idWorker;
 
-    private SnowflakeIdGenerator() {
+    public SnowflakeIdGenerator() {
         idWorker = new SnowflakeIdWorker(1, 1);
     }
 

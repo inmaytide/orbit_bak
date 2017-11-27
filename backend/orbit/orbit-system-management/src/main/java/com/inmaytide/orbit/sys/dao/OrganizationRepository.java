@@ -1,7 +1,10 @@
 package com.inmaytide.orbit.sys.dao;
 
-import com.inmaytide.orbit.domain.sys.Organization;
-import org.springframework.data.mybatis.repository.support.MybatisRepository;
+import com.inmaytide.orbit.sys.domain.Organization;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrganizationRepository extends MybatisRepository<Organization, Long> {
+import java.util.stream.Stream;
+
+public interface OrganizationRepository extends JpaRepository<Organization, Long> {
+
 }

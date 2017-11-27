@@ -1,15 +1,14 @@
 package com.inmaytide.orbit.sys.dao.link;
 
-import com.inmaytide.orbit.domain.sys.link.RolePermission;
-import org.springframework.data.mybatis.repository.support.MybatisRepository;
+import com.inmaytide.orbit.sys.domain.link.RolePermission;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RolePermissionRepository extends MybatisRepository<RolePermission, Long> {
+public interface RolePermissionRepository extends JpaRepository<RolePermission, Long> {
 
     void deleteByRIdIn(List<Long> roleIds);
 
     void deleteByPIdIn(List<Long> permssionIds);
 
-    //void insertInBatch(List<RolePermission> rolePermissions);
 }
