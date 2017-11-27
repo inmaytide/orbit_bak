@@ -65,7 +65,7 @@ public class PermissionServiceImpl implements PermissionService {
         try {
             return repository.update(origin);
         } catch (MybatisNoHintException e) {
-            throw new VersionMatchedException(e);
+            throw new VersionMatchedException(e.getMessage());
         }
     }
 
@@ -137,7 +137,7 @@ public class PermissionServiceImpl implements PermissionService {
         try {
             getRepository().updateIgnoreNull(new Permission(id, sort, version));
         } catch (MybatisNoHintException e) {
-            throw new VersionMatchedException(e);
+            throw new VersionMatchedException(e.getMessage());
         }
     }
 

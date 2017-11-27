@@ -13,20 +13,20 @@ public class GlobalExceptionHandler implements WebExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable e) {
+        String path = exchange.getRequest().getPath().pathWithinApplication().value();
         return Mono.just(e)
-                .transform(ThrowableTranslator::translate)
+                .transform(mono -> ThrowableTranslator.translate(mono, path))
                 .flatMap(translator -> translator.write(exchange.getResponse()));
     }
 
     public Mono<ServerResponse> notFound(final ServerRequest request) {
         log.error("Path [{}] not found.", request.path());
-        return Mono.just(new PathNotFoundException(request.path())).transform(this::getResponse);
-    }
-
-    private <T extends Throwable> Mono<ServerResponse> getResponse(final Mono<T> monoError) {
-        return monoError.transform(ThrowableTranslator::translate)
+        return Mono.just(new PathNotFoundException(request.path()))
+                .transform(ThrowableTranslator::translate)
                 .flatMap(ThrowableTranslator::getResponse);
     }
+
 }

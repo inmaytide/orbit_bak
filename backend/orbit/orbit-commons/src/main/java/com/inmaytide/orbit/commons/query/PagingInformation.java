@@ -17,10 +17,10 @@ import java.util.Optional;
  * @author Moss
  * @since September 10, 2017
  */
-public class DefaultPageable implements Serializable {
+public class PagingInformation implements Serializable {
 
     private static final long serialVersionUID = -744865805141356260L;
-    private static final Logger log = LoggerFactory.getLogger(DefaultPageable.class);
+    private static final Logger log = LoggerFactory.getLogger(PagingInformation.class);
     private static final Sort DEFAULT_SORT = new Sort(Sort.Direction.DESC, "createTime");
     private static final Integer DEFAULT_NUMBER = 1;
     private static final Integer DEFAULT_SIZE = 10;
@@ -35,8 +35,8 @@ public class DefaultPageable implements Serializable {
 
     private String keywords;
 
-    public static DefaultPageable of(String keywords, Integer number, Integer size) {
-        DefaultPageable pageable = new DefaultPageable();
+    public static PagingInformation of(String keywords, Integer number, Integer size) {
+        PagingInformation pageable = new PagingInformation();
         pageable.setKeywords(keywords);
         pageable.setNumber(number);
         pageable.setSize(size);

@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.auth;
 
+import com.inmaytide.orbit.auth.exception.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor;
 import com.inmaytide.orbit.commons.consts.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 @Configuration
 @EnableAuthorizationServer
@@ -36,7 +38,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.allowFormAuthenticationForClients()
-                .checkTokenAccess("permitAll()");
+                .checkTokenAccess("permitAll()")
+                .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
     }
 
 
@@ -45,7 +48,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         endpoints.addInterceptor(new CaptchaInterceptor(loadBalancerExchangeFilterFunction))
                 .tokenStore(tokenStore())
                 .tokenEnhancer(jwtAccessTokenConverter())
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager)
+                .exceptionTranslator(new DefaultWebResponseExceptionTranslator());
     }
 
     @Bean

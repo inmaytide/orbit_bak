@@ -1,7 +1,8 @@
-package com.inmaytide.orbit.domain.sys;
+package com.inmaytide.orbit.sys.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import com.inmaytide.orbit.domain.basis.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Transient;
@@ -9,6 +10,7 @@ import org.springframework.data.mybatis.annotations.Entity;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +26,10 @@ public class Permission extends AbstractEntity {
     @NotBlank
     @Length(max = 64)
     private String name;
+
+    @NotBlank
+    @Pattern(regexp = "ALL|POST|GET|PUT|PATCH|DELETE")
+    private String method;
 
     @Length(max = 256)
     private String action;
@@ -45,9 +51,6 @@ public class Permission extends AbstractEntity {
 
     @Transient
     private List<Permission> children;
-
-    @Transient
-    private Boolean spread;
 
     public Permission() {
     }
@@ -136,15 +139,12 @@ public class Permission extends AbstractEntity {
         this.children = children;
     }
 
-    public Boolean getSpread() {
-        if (spread == null) {
-            spread = false;
-        }
-        return spread;
+    public String getMethod() {
+        return method;
     }
 
-    public void setSpread(Boolean spread) {
-        this.spread = spread;
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     @Override

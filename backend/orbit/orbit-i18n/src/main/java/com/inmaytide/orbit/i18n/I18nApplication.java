@@ -62,16 +62,16 @@ public class I18nApplication {
     }
 
     @Bean
-    public RouterFunction<?> routers(I18nResourceProvider provider, GlobalExceptionHandler exceptionHandler) {
+    public RouterFunction<?> routers(I18nResourceProvider provider) {
         return route(GET("/lang/{lang}"), provider::lang)
-                .andOther(route(RequestPredicates.all(), exceptionHandler::notFound));
+                .andOther(route(RequestPredicates.all(), exceptionHandler()::notFound));
     }
 
     @Bean
-    public HttpHandler httpHandler(RouterFunction<?> routers, GlobalExceptionHandler exceptionHandler) {
+    public HttpHandler httpHandler(RouterFunction<?> routers) {
         return WebHttpHandlerBuilder
                 .webHandler(RouterFunctions.toWebHandler(routers))
-                .exceptionHandler(exceptionHandler)
+                .exceptionHandler(exceptionHandler())
                 .build();
     }
 

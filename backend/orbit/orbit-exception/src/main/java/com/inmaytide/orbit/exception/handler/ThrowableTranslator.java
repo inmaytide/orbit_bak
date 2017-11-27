@@ -17,8 +17,16 @@ public class ThrowableTranslator {
 
     private final ResponseError error;
 
-    private ThrowableTranslator(final Throwable throwable) {
-        error = ResponseErrorBuilderFactory.get(throwable).build(throwable);
+    private ThrowableTranslator(Throwable throwable, String path) {
+        error = ResponseError.withThrowable(throwable).path(path).build();
+    }
+
+    private ThrowableTranslator(Throwable throwable) {
+        error = ResponseError.withThrowable(throwable).build();
+    }
+
+    public static <T extends Throwable> Mono<ThrowableTranslator> translate(final Mono<T> throwable, String path) {
+        return throwable.flatMap(error -> Mono.just(new ThrowableTranslator(error, path)));
     }
 
     public static <T extends Throwable> Mono<ThrowableTranslator> translate(final Mono<T> throwable) {
@@ -36,7 +44,7 @@ public class ThrowableTranslator {
     }
 
     public HttpStatus getHttpStatus() {
-        return HttpStatus.valueOf(error.getCode());
+        return HttpStatus.valueOf(error.getStatus());
     }
 
     public ResponseError getError() {

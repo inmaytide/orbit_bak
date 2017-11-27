@@ -12,15 +12,7 @@
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>com.ifrabbit</groupId>
-            <artifactId>spring-data-mybatis</artifactId>
-            <version>${spring.data.mybatis}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>

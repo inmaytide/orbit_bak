@@ -47,12 +47,11 @@ public class AttachmentApplication {
 
     @Bean
     public RouterFunction<?> routers(AttachmentHandler handler, GlobalExceptionHandler exceptionHandler) {
-        RouterFunction<?> routers = route(POST("/").and(accept(MULTIPART_FORM_DATA)), handler::upload)
+        return route(POST("/").and(accept(MULTIPART_FORM_DATA)), handler::upload)
                 .and(route(GET("/{id}"), handler::download))
                 .and(route(DELETE("/{ids}"), handler::remove))
                 .and(route(DELETE("/"), handler::removeByBelong))
                 .andOther(route(RequestPredicates.all(), exceptionHandler::notFound));
-        return routers;
     }
 
     @Bean

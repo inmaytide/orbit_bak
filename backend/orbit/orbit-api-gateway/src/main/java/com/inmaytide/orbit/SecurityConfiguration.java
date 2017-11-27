@@ -21,7 +21,6 @@ import org.springframework.security.web.server.context.WebSessionServerSecurityC
 @EnableWebFluxSecurity
 public class SecurityConfiguration {
 
-
     @Bean
     public JwtAccessTokenConverter converter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();

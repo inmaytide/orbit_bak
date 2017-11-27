@@ -1,7 +1,13 @@
 package com.inmaytide.orbit.commons.id;
 
 
-public class SnowflakeIdGenerator {
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.IdentifierGenerator;
+
+import java.io.Serializable;
+
+public class SnowflakeIdGenerator implements IdentifierGenerator {
 
     private final SnowflakeIdWorker idWorker;
 
@@ -9,15 +15,8 @@ public class SnowflakeIdGenerator {
         idWorker = new SnowflakeIdWorker(1, 1);
     }
 
-    private static SnowflakeIdGenerator getInstance() {
-        return IdGeneratorHolder.INSTANCE;
-    }
-
-    public static long generate() {
-        return getInstance().idWorker.nextId();
-    }
-
-    private static final class IdGeneratorHolder {
-        private static final SnowflakeIdGenerator INSTANCE = new SnowflakeIdGenerator();
+    @Override
+    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
+        return idWorker.nextId();
     }
 }

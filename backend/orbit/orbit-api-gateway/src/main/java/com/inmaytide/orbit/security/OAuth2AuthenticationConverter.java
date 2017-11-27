@@ -4,6 +4,7 @@ import com.inmaytide.orbit.commons.consts.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.server.ServerWebExchange;
@@ -31,8 +32,8 @@ public class OAuth2AuthenticationConverter implements Function<ServerWebExchange
 
     private Optional<String> getAccessTokenValue(ServerHttpRequest request) {
         String value = request.getHeaders().getFirst(Constants.HEADER_NAME_AUTHORIZATION);
-        if (StringUtils.isBlank(value) || !value.startsWith("Bearer")) {
-            value = request.getQueryParams().getFirst(Constants.QUERY_PARAM_NAME_AUTHORIZATION);
+        if (StringUtils.isBlank(value) || !value.startsWith(OAuth2AccessToken.BEARER_TYPE)) {
+            value = request.getQueryParams().getFirst(OAuth2AccessToken.ACCESS_TOKEN);
         } else {
             value = value.substring(7);
         }

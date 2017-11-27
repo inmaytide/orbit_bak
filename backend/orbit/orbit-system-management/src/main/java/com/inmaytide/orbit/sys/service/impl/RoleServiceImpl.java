@@ -2,7 +2,7 @@ package com.inmaytide.orbit.sys.service.impl;
 
 
 import com.inmaytide.orbit.commons.id.SnowflakeIdGenerator;
-import com.inmaytide.orbit.commons.query.DefaultPageable;
+import com.inmaytide.orbit.commons.query.PagingInformation;
 import com.inmaytide.orbit.domain.sys.Role;
 import com.inmaytide.orbit.domain.sys.User;
 import com.inmaytide.orbit.domain.sys.link.RolePermission;
@@ -57,7 +57,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Page<Role> list(DefaultPageable pageModel) {
+    public Page<Role> list(PagingInformation pageModel) {
         final Pageable pageable = pageModel.transform();
         return pageModel.getKeywords()
                 .map(keywords -> repository.findByCodeLikeOrNameLike(keywords, keywords, pageable))

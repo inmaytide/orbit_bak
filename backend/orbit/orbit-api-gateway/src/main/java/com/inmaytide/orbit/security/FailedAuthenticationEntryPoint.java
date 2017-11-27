@@ -1,5 +1,7 @@
 package com.inmaytide.orbit.security;
 
+import com.inmaytide.orbit.exception.handler.ThrowableTranslator;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.web.server.ServerWebExchange;
@@ -13,7 +15,10 @@ public class FailedAuthenticationEntryPoint implements ServerAuthenticationEntry
 
     @Override
     public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException e) {
-        return null;
+        String path = exchange.getRequest().getPath().pathWithinApplication().value();
+        return Mono.just(e)
+                .transform(mono -> ThrowableTranslator.translate(mono, path))
+                .flatMap(translator -> translator.write(exchange.getResponse()));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.sys.service;
 
-import com.inmaytide.orbit.commons.query.DefaultPageable;
+import com.inmaytide.orbit.commons.query.PagingInformation;
 import com.inmaytide.orbit.commons.service.BasicService;
 import com.inmaytide.orbit.domain.sys.Role;
 import com.inmaytide.orbit.domain.sys.User;
@@ -14,7 +14,7 @@ public interface RoleService extends BasicService<RoleRepository, Role, Long> {
 
     String[] FINAL_FIELDS = new String[]{"id", "createTime", "creator"};
 
-    Page<Role> list(DefaultPageable pageable);
+    Page<Role> list(PagingInformation pageable);
 
     void remove(String ids);
 

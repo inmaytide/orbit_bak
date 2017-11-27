@@ -4,7 +4,7 @@ import com.inmaytide.orbit.commons.query.Conditions;
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mybatis.repository.support.MybatisRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  * @author Moss
  * @since September 15, 2017
  */
-public interface BasicService<R extends MybatisRepository<T, ID>, T, ID  extends Serializable> {
+public interface BasicService<R extends CrudRepository<T, ID>, T, ID  extends Serializable> {
 
     String DEFAULT_SEPARATOR_CHARS = ",";
 
@@ -51,12 +51,12 @@ public interface BasicService<R extends MybatisRepository<T, ID>, T, ID  extends
 
     default T insert(T inst) {
         Assert.notNull(inst, "The instance to insert must not be null");
-        return getRepository().insert(inst);
+        return getRepository().save(inst);
     }
 
     default T update(T inst) {
         Assert.notNull(inst, "The instance to update must not be null");
-        return getRepository().update(inst);
+        return getRepository().save(inst);
     }
 
     default boolean exist(ID id) {

@@ -1,5 +1,6 @@
-package com.inmaytide.orbit.domain.sys;
+package com.inmaytide.orbit.sys.domain;
 
+import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import com.inmaytide.orbit.domain.basis.AbstractEntity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;

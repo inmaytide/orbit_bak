@@ -18,8 +18,4 @@ public class VersionMatchedException extends RuntimeException {
         super(message);
     }
 
-    public VersionMatchedException(Throwable e) {
-        super(e);
-    }
-
 }

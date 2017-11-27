@@ -48,6 +48,10 @@
             <groupId>com.inmaytide.orbit</groupId>
             <artifactId>orbit-commons</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.inmaytide.orbit</groupId>
+            <artifactId>orbit-exception</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

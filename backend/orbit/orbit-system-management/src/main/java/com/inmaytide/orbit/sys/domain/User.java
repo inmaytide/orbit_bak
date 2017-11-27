@@ -1,13 +1,15 @@
-package com.inmaytide.orbit.domain.sys;
+package com.inmaytide.orbit.sys.domain;
 
-import com.inmaytide.orbit.domain.basis.AbstractEntity;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Entity;
+import com.inmaytide.orbit.commons.domain.AbstractEntity;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Entity(table = "sys_user")
+@Entity
+@Table(name = "sys_user")
 public class User extends AbstractEntity {
 
     private static final long serialVersionUID = -924373759818451358L;
@@ -148,4 +150,5 @@ public class User extends AbstractEntity {
     public void setEducation(String education) {
         this.education = education;
     }
+
 }

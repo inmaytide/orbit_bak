@@ -60,13 +60,14 @@ public class DefaultUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Assert.hasText(username, "username cannot be empty");
-        User user = getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .accountLocked(user.isLocked())
-                .authorities(getAuthorities(username))
-                .build();
+        return getByUsername(username)
+                .map(user -> org.springframework.security.core.userdetails.User
+                        .withUsername(user.getUsername())
+                        .password(user.getPassword())
+                        .accountLocked(user.isLocked())
+                        .authorities(getAuthorities(username))
+                        .build())
+                .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
 }

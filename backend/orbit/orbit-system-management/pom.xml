@@ -39,16 +39,12 @@
             <artifactId>orbit-exception</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-domain</artifactId>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ifrabbit</groupId>
-            <artifactId>spring-boot-starter-data-mybatis</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
     </dependencies>
 
