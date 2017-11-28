@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +18,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "sys_permission")
+@EntityListeners(AuditingEntityListener.class)
 public class Permission extends AbstractEntity {
 
     private static final long serialVersionUID = -5401749095217234229L;

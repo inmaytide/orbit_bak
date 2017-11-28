@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.attachment.dao;
 
-import com.inmaytide.orbit.domain.attachment.Attachment;
+import com.inmaytide.orbit.attachment.domain.Attachment;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.util.List;

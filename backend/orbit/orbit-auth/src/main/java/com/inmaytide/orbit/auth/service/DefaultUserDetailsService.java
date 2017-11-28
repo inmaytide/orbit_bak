@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.auth.service;
 
-import com.inmaytide.orbit.domain.sys.User;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,11 +38,11 @@ public class DefaultUserDetailsService implements UserDetailsService {
     }
 
 
-    private Optional<User> getByUsername(String username) {
+    private Optional<ObjectNode> getByUsername(String username) {
         return Optional.ofNullable(client().get()
                 .uri(SERVICE_URL_GET_USER, username)
                 .retrieve()
-                .bodyToMono(User.class)
+                .bodyToMono(ObjectNode.class)
                 .block());
     }
 
@@ -62,9 +64,9 @@ public class DefaultUserDetailsService implements UserDetailsService {
         Assert.hasText(username, "username cannot be empty");
         return getByUsername(username)
                 .map(user -> org.springframework.security.core.userdetails.User
-                        .withUsername(user.getUsername())
-                        .password(user.getPassword())
-                        .accountLocked(user.isLocked())
+                        .withUsername(user.get("username").asText())
+                        .password(user.get("password").asText())
+                        .accountLocked(user.get("locked").asBoolean())
                         .authorities(getAuthorities(username))
                         .build())
                 .orElseThrow(() -> new UsernameNotFoundException(username));

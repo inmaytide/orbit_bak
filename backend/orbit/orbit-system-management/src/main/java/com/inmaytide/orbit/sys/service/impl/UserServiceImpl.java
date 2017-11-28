@@ -3,6 +3,8 @@ package com.inmaytide.orbit.sys.service.impl;
 import com.inmaytide.orbit.commons.query.Conditions;
 import com.inmaytide.orbit.commons.query.PagingInformation;
 import com.inmaytide.orbit.sys.dao.UserRepository;
+import com.inmaytide.orbit.sys.dao.link.UserOrganizationRepository;
+import com.inmaytide.orbit.sys.dao.specification.UserSpecification;
 import com.inmaytide.orbit.sys.domain.User;
 import com.inmaytide.orbit.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private UserOrganizationRepository userOrganizationRepository;
+
     @Override
     public List<User> listByRole(Long roleId) {
         return null;
@@ -32,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> list(Conditions conditions, PagingInformation pageable) {
-        return null;
+        return repository.findAll(new UserSpecification(conditions, userOrganizationRepository), pageable.transform());
     }
 
     @Override

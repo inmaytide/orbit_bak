@@ -11,8 +11,11 @@ import java.util.List;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    @Query("")
-    List<String> findCodesByUsername(@Param("username") String username);
+    @Query(value = "select distinct(r.code) as code from sys_role r " +
+            "left join sys_user_role ur on ur.r_id = r.id " +
+            "left join sys_user u on u.id = ur.u_id " +
+            "where u.username = ?1", nativeQuery = true)
+    List<String> findCodesByUsername(String username);
 
     Page<Role> findByCodeLikeOrNameLike(String code, String name, Pageable pageable);
 

@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -40,15 +39,13 @@ public class PermissionController extends AbstractController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Permission> add(@Valid Permission permission, BindingResult bind) {
-        processBindingResult(bind);
+    public Mono<Permission> add(@Valid Permission permission) {
         Assert.isTrue(service.checkCode(permission.getCode(), permission.getId()), "The permission code cannot not be repeat");
         return Mono.just(service.insert(permission));
     }
 
     @PutMapping
-    public Mono<Permission> update(@Valid Permission permission, BindingResult bind) {
-        processBindingResult(bind);
+    public Mono<Permission> update(@Valid Permission permission) {
         Assert.notNull(permission.getId(), "The primary key of instance must not be null when it will be update");
         Assert.isTrue(service.checkCode(permission.getCode(), permission.getId()), "The permission code cannot not be repeat");
         return Mono.just(service.update(permission));

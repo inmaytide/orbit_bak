@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.domain.attachment;
+package com.inmaytide.orbit.attachment.domain;
 
 import com.inmaytide.orbit.domain.basis.AbstractEntity;
 import org.springframework.data.mybatis.annotations.Entity;

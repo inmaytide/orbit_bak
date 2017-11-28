@@ -3,7 +3,7 @@ package com.inmaytide.orbit.attachment.service;
 import com.inmaytide.orbit.attachment.dao.AttachmentRepository;
 import com.inmaytide.orbit.attachment.enums.AttachmentStatus;
 import com.inmaytide.orbit.commons.service.BasicService;
-import com.inmaytide.orbit.domain.attachment.Attachment;
+import com.inmaytide.orbit.attachment.domain.Attachment;
 
 import java.util.Optional;
 

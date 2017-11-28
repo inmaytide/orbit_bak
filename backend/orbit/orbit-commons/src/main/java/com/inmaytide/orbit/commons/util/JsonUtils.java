@@ -2,6 +2,9 @@ package com.inmaytide.orbit.commons.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.IOException;
 
 public class JsonUtils {
 
@@ -17,6 +20,14 @@ public class JsonUtils {
         try {
             return new ObjectMapper().writerFor(instance.getClass()).writeValueAsString(instance);
         } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ObjectNode readJsonString(String str) {
+        try {
+            return new ObjectMapper().readerFor(ObjectNode.class).readValue(str);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

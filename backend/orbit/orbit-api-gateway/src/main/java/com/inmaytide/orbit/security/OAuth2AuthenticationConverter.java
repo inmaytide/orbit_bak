@@ -32,8 +32,8 @@ public class OAuth2AuthenticationConverter implements Function<ServerWebExchange
 
     private Optional<String> getAccessTokenValue(ServerHttpRequest request) {
         String value = request.getHeaders().getFirst(Constants.HEADER_NAME_AUTHORIZATION);
-        if (StringUtils.isBlank(value) || !value.startsWith(OAuth2AccessToken.BEARER_TYPE)) {
-            value = request.getQueryParams().getFirst(OAuth2AccessToken.ACCESS_TOKEN);
+        if (StringUtils.isBlank(value) || !value.startsWith(Constants.BEARER_TYPE)) {
+            value = request.getQueryParams().getFirst(Constants.ACCESS_TOKEN);
         } else {
             value = value.substring(7);
         }

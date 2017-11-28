@@ -62,11 +62,6 @@
             </dependency>
             <dependency>
                 <groupId>com.inmaytide.orbit</groupId>
-                <artifactId>orbit-domain</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.inmaytide.orbit</groupId>
                 <artifactId>orbit-exception</artifactId>
                 <version>${project.version}</version>
             </dependency>

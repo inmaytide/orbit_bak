@@ -1,5 +1,7 @@
 package com.inmaytide.orbit.auth.interceptor;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.exception.BadCaptchaException;
 import com.inmaytide.orbit.commons.consts.Constants;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -39,19 +42,22 @@ public class CaptchaInterceptor implements WebRequestInterceptor {
     public void preHandle(WebRequest request) throws Exception {
         ServletWebRequest webRequest = (ServletWebRequest) request;
         String value = webRequest.getRequest().getCookies()[0].getValue();
-        Map response = WebClient.builder().baseUrl("http://orbit-captcha")
+        ObjectNode response = WebClient.builder().baseUrl("http://orbit-captcha")
                 .filter(exchangeFilterFunction)
                 .build()
                 .get()
                 .uri("/captcha/{captcha}", checkCaptcha(request.getParameter("captcha")))
                 .header(Constants.HEADER_NAME_SESSION_ID, value)
                 .retrieve()
-                .bodyToMono(Map.class)
-                .defaultIfEmpty(Map.of())
+                .bodyToMono(ObjectNode.class)
                 .block();
 
-        Boolean isValid = (Boolean) response.getOrDefault("isValid", false);
-        if (!isValid) {
+        if (response == null) {
+            throw new BadCaptchaException();
+        }
+
+        JsonNode isValid = response.get("isValid");
+        if (isValid.isNull() || isValid.asBoolean()) {
             throw new BadCaptchaException();
         }
     }

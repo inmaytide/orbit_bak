@@ -55,9 +55,12 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "user_menus", allEntries = true)
     public Permission update(Permission inst) {
-        Permission origin = getRepository().findById(inst.getId()).orElseThrow(IllegalArgumentException::new);
-        BeanUtils.copyProperties(inst, origin, FINAL_FIELDS);
-        return repository.save(origin);
+        Permission original = getRepository().findById(inst.getId()).orElseThrow(IllegalArgumentException::new);
+        inst.setParent(original.getParent());
+        inst.setCreateTime(original.getCreateTime());
+        inst.setCreator(original.getCreator());
+        inst.setSort(original.getSort());
+        return repository.save(inst);
     }
 
     @Override
@@ -89,6 +92,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Boolean checkCode(String code, Long id) {
+        id = id == null ? -1 : id;
         return repository.countByCodeAndIdNot(code, id) == 0;
     }
 
