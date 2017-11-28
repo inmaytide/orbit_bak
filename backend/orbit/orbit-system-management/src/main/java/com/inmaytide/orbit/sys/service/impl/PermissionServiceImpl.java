@@ -55,7 +55,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "user_menus", allEntries = true)
     public Permission update(Permission inst) {
-        Permission original = getRepository().findById(inst.getId()).orElseThrow(IllegalArgumentException::new);
+        Permission original = getRepository().findById(inst.getId()).orElseThrow(() -> new IllegalArgumentException("The instance to modify does not exist. id with [" + inst.getId() + "]"));
         inst.setParent(original.getParent());
         inst.setCreateTime(original.getCreateTime());
         inst.setCreator(original.getCreator());

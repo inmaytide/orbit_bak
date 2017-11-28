@@ -57,7 +57,7 @@ public class CaptchaInterceptor implements WebRequestInterceptor {
         }
 
         JsonNode isValid = response.get("isValid");
-        if (isValid.isNull() || isValid.asBoolean()) {
+        if (isValid.isNull() || !isValid.asBoolean()) {
             throw new BadCaptchaException();
         }
     }

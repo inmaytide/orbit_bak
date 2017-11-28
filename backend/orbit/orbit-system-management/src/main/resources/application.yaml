@@ -13,7 +13,7 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
       hibernate.show_sql: true
-      hibernate.use_sql_comments: true
+#      hibernate.use_sql_comments: true
 
 
 eureka:
@@ -22,11 +22,11 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:7000/eureka/
-logging:
-  level:
-    root: info
-    org.hibernate.SQL: debug
-    org.hibernate.engine.QueryParameters: debug
-    org.hibernate.engine.query.HQLQueryPlan: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+#logging:
+#  level:
+#    root: info
+#    org.hibernate.SQL: debug
+#    org.hibernate.engine.QueryParameters: debug
+#    org.hibernate.engine.query.HQLQueryPlan: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace
+#    org.hibernate.type.descriptor.sql.BasicExtractor: trace

@@ -8,6 +8,10 @@ public class PathNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = -8609901351595503054L;
 
+    public PathNotFoundException() {
+        super();
+    }
+
     public PathNotFoundException(String message) {
         super(message);
     }

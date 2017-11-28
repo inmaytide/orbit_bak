@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.sys;
 
 import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
+import com.inmaytide.orbit.sys.controller.ErrorHandler;
 import com.inmaytide.orbit.sys.domain.User;
 import com.inmaytide.orbit.sys.filter.VisitorResolver;
 import com.inmaytide.orbit.sys.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -36,7 +38,7 @@ import java.util.Optional;
 @EnableWebFlux
 @EnableJpaRepositories
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
-public class SystemManagementApplication implements WebFluxConfigurer {
+public class SystemManagementApplication extends WebFluxConfigurationSupport {
 
     @Bean
     public AuditorAware<Long> auditorAware() {
@@ -48,12 +50,11 @@ public class SystemManagementApplication implements WebFluxConfigurer {
         return new VisitorResolver(userService);
     }
 
-
     @Bean
-    public GlobalExceptionHandler exceptionHandler() {
-        return new GlobalExceptionHandler();
+    @Order(-1)
+    public ErrorHandler errorHandler() {
+        return new ErrorHandler();
     }
-
 
     public static void main(String... args) {
         SpringApplication.run(SystemManagementApplication.class, args);

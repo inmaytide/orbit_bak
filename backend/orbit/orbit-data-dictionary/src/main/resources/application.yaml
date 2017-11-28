@@ -1,0 +1,21 @@
+server:
+  port: 7007
+spring:
+  application:
+    name: orbit-data-dictionary
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123
+    url: jdbc:mysql://localhost:3306/db_orbit?characterEncoding=UTF-8&useSSL=false
+  jpa:
+   properties:
+     hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+     hibernate.show_sql: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7000/eureka/

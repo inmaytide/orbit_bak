@@ -25,6 +25,7 @@
         <module>orbit-auth</module>
         <module>orbit-system-management</module>
         <module>orbit-captcha</module>
+        <module>orbit-data-dictionary</module>
     </modules>
 
     <properties>
