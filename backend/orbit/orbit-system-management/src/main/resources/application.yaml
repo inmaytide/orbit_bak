@@ -9,6 +9,10 @@ spring:
     username: root
     password: 123
     driver-class-name: com.mysql.jdbc.Driver
+  data:
+    redis:
+      repositories:
+        enabled: false
   jpa:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL5Dialect

@@ -1,6 +1,8 @@
 package com.inmaytide.orbit.dictionary.dao;
 
 import com.inmaytide.orbit.dictionary.domain.DataDictionary;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
  */
 public interface DataDictionaryRepository extends JpaRepository<DataDictionary, Long> {
 
-    List<DataDictionary> findByCategory(String category);
+    @Cacheable(value = "dictionaries", key = "#p0")
+    List<DataDictionary> findByCategory(String category, Sort sort);
 
 }

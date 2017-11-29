@@ -1,10 +1,12 @@
 package com.inmaytide.orbit.dictionary.handler;
 
+import com.inmaytide.orbit.commons.query.PagingInformation;
 import com.inmaytide.orbit.commons.util.JsonUtils;
 import com.inmaytide.orbit.dictionary.dao.DataDictionaryRepository;
 import com.inmaytide.orbit.dictionary.domain.DataDictionary;
 import com.inmaytide.orbit.exception.PathNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -31,12 +33,14 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 public class DataDictionaryHandler {
 
+    private static final Sort DEFAULT_SORT = new Sort(Sort.Direction.ASC, "sort");
+
     @Autowired
     private DataDictionaryRepository repository;
 
     public Mono<ServerResponse> list(ServerRequest request) {
         return request.queryParam("category")
-                .map(repository::findByCategory)
+                .map(category -> repository.findByCategory(category, DEFAULT_SORT))
                 .map(Flux::fromIterable)
                 .map(flux -> ok().body(flux, DataDictionary.class))
                 .orElseThrow(() -> new PathNotFoundException(request.path()));

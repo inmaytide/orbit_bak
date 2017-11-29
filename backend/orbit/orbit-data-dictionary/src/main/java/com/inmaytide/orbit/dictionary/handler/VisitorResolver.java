@@ -24,7 +24,7 @@ public class VisitorResolver implements WebFilter {
 
     private static final Logger log = LoggerFactory.getLogger(VisitorResolver.class);
 
-    private static ThreadLocal<ObjectNode> visitor = new ThreadLocal<>();
+    private static ThreadLocal<String> visitor = new ThreadLocal<>();
 
     private static final String SERVICE_URL_GET_USER = "/sys/users/{username}";
 
@@ -35,20 +35,21 @@ public class VisitorResolver implements WebFilter {
     private VisitorResolver instance;
 
     public static Optional<ObjectNode> currentVisitor() {
-        return Optional.ofNullable(visitor.get());
+        return Optional.ofNullable(visitor.get()).map(JsonUtils::readJsonString);
     }
 
     @Cacheable("visitor-json")
-    public void getUserByUsername(String username) {
+    public String getUserByUsername(String username) {
         log.debug("Get user with username [{}]", username);
-        visitor.set(WebClient.builder().baseUrl("http://orbit-system-management")
+        return WebClient.builder().baseUrl("http://orbit-system-management")
                 .filter(loadBalancerExchangeFilterFunction)
                 .build()
                 .get()
                 .uri(SERVICE_URL_GET_USER, username)
                 .retrieve()
                 .bodyToMono(ObjectNode.class)
-                .block());
+                .map(JsonUtils::getJsonString)
+                .block();
     }
 
     private Optional<String> getAccessTokenValue(ServerHttpRequest request) {
@@ -67,7 +68,7 @@ public class VisitorResolver implements WebFilter {
                 .ifPresentOrElse(value -> {
                     Jwt jwt = JwtHelper.decode(value);
                     ObjectNode node = JsonUtils.readJsonString(jwt.getClaims());
-                    instance.getUserByUsername(node.get("user_name").asText());
+                    visitor.set(instance.getUserByUsername(node.get("user_name").asText()));
                 }, () -> {
                     visitor.remove();
                 });

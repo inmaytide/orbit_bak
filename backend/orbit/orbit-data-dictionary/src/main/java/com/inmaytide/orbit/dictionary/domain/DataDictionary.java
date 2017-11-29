@@ -4,6 +4,7 @@ import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Table;
@@ -33,6 +34,9 @@ public class DataDictionary extends AbstractEntity {
     private String category;
 
     private Integer sort;
+
+    @Column(name = "is_created_by_system")
+    private Integer isCreatedBySystem;
 
     public String getText() {
         return text;
@@ -64,5 +68,13 @@ public class DataDictionary extends AbstractEntity {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Integer getIsCreatedBySystem() {
+        return isCreatedBySystem;
+    }
+
+    public void setIsCreatedBySystem(Integer isCreatedBySystem) {
+        this.isCreatedBySystem = isCreatedBySystem;
     }
 }

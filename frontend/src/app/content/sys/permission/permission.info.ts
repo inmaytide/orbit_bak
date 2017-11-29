@@ -1,17 +1,17 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Permission} from "../../../models/permission";
-import {NzModalSubject} from "ng-zorro-antd";
-import {PermissionService} from "./permission.service";
-import {CommonUtils} from "../../../common-utils";
-import {DataDictionary} from "../../../models/data-dictionary";
-import {DataDictionaryService} from "../data-dictionary/data-dictionary.service";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { Permission } from "../../../models/permission";
+import { NzModalSubject } from "ng-zorro-antd";
+import { PermissionService } from "./permission.service";
+import { CommonUtils } from "../../../common-utils";
+import { DataDictionary } from "../../../models/data-dictionary";
+import { DataDictionaryService } from "../data-dictionary/data-dictionary.service";
 
 @Component({
-  selector: "permission-info",
-  templateUrl: './permission.info.html',
-  styles: [
-      `
+    selector: "permission-info",
+    templateUrl: './permission.info.html',
+    styles: [
+        `
       :host ::ng-deep .customize-footer {
         border-top: 1px solid #e9e9e9;
         padding: 10px 18px 0 10px;
@@ -20,19 +20,19 @@ import {DataDictionaryService} from "../data-dictionary/data-dictionary.service"
         margin: 15px -16px -5px -16px;
       }
     `,
-      `
+        `
       :host ::ng-deep .customize-footer button {
         padding-left: 20px;
         padding-right: 20px;
         margin-right: 15px;
-      }
+      }ÒÒÒ
     `,
-      `
+        `
       .ant-form-item {
         margin-bottom: 12px;
       }
     `,
-      `
+        `
       :host ::ng-deep .inline-error-text {
         color: red;
         line-height: 32px;
@@ -42,80 +42,83 @@ import {DataDictionaryService} from "../data-dictionary/data-dictionary.service"
         white-space: nowrap;
       }
     `
-  ]
+    ]
 })
 export class PermissionInfoComponent implements OnInit {
 
-  private form: FormGroup;
-  private inst: Permission = new Permission();
-  private parent = [];
-  private parentOptions = [];
-  private categorys: DataDictionary[] = [];
-  private dataDictionaryCategory = "permission.category";
+    private form: FormGroup;
+    private inst: Permission = new Permission();
+    private parent = [];
+    private parentOptions = [];
+    private categories: DataDictionary[] = [];
+    private methods: DataDictionary[] = [];
 
-  constructor(private formBuilder: FormBuilder,
-              private subject: NzModalSubject,
-              private service: PermissionService,
-              private dataDictionaryService: DataDictionaryService) {
-  }
-
-  ngOnInit(): void {
-    this.dataDictionaryService
-      .listByCategory(this.dataDictionaryCategory)
-      .then(data => this.categorys = data)
-      .catch(reason => CommonUtils.handleErrors(reason));
-    this.form = this.formBuilder.group({
-      parent: new FormControl(),
-      code: new FormControl(null, [Validators.required, this.codeRepeatValidator]),
-      name: new FormControl(null, [Validators.required]),
-      category: new FormControl(null, [Validators.required]),
-      icon: new FormControl(),
-      action: new FormControl(),
-      description: new FormControl()
-    });
-    this.service.listMenus()
-      .then(data => this.parentOptions = this.transformOptions(data))
-      .catch(reason => CommonUtils.handleErrors(reason))
-  }
-
-  codeRepeatValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return {required: true};
-    }
-    if (this.service.codeIsRepeat(control.value, this.inst.id) == "false") {
-      return {repeat: true, error: true};
-    }
-  };
-
-  getFormControl(name) {
-    return this.form.controls[name];
-  }
-
-  cancel() {
-    this.subject.destroy("onCancel");
-  }
-
-  save() {
-    for (const i in this.form.controls) {
-      this.form.controls[i].markAsDirty();
+    constructor(private formBuilder: FormBuilder,
+        private subject: NzModalSubject,
+        private service: PermissionService,
+        private dataDictionaryService: DataDictionaryService) {
     }
 
-    if (!this.form.invalid) {
-      this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
-      this.service.save(this.inst)
-        .then(permission => this.cancel)
-        .catch(reason => CommonUtils.handleErrors(reason));
+    ngOnInit(): void {
+        this.dataDictionaryService
+            .listByCategory("permission.category")
+            .then(data => this.categories = data);
+        this.dataDictionaryService
+            .listByCategory("permission.method")
+            .then(data => this.methods = data);
+        this.form = this.formBuilder.group({
+            parent: new FormControl(),
+            code: new FormControl(null, [Validators.required, this.codeRepeatValidator]),
+            name: new FormControl(null, [Validators.required]),
+            category: new FormControl(null, [Validators.required]),
+            icon: new FormControl(),
+            action: new FormControl(),
+            description: new FormControl(),
+            method: new FormControl(null, [Validators.required])
+        });
+        this.service.listMenus()
+            .then(data => this.parentOptions = this.transformOptions(data))
+            .catch(reason => CommonUtils.handleErrors(reason))
     }
-  }
 
-  transformOptions(menus: Permission[]) {
-    const options = [];
-    menus.forEach(menu => options.push({
-      ...menu,
-      isLeaf: !menu.children || menu.children.length == 0,
-      children: this.transformOptions(menu.children)
-    }));
-    return options;
-  }
+    codeRepeatValidator = (control: FormControl): { [s: string]: boolean } => {
+        if (!control.value) {
+            return { required: true };
+        }
+        if (this.service.codeIsRepeat(control.value, this.inst.id) == "false") {
+            return { repeat: true, error: true };
+        }
+    };
+
+    getFormControl(name) {
+        return this.form.controls[name];
+    }
+
+    cancel() {
+        this.subject.destroy("onCancel");
+    }
+
+    save() {
+        for (const i in this.form.controls) {
+            this.form.controls[i].markAsDirty();
+        }
+
+        if (!this.form.invalid) {
+            this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
+            this.service.save(this.inst)
+                .then(permission => this.cancel)
+                .catch(reason => CommonUtils.handleErrors(reason));
+        }
+    }
+
+    transformOptions(menus: Permission[]) {
+        const options = [];
+        menus.forEach(menu => options.push({
+            ...menu,
+            isLeaf: !menu.children || menu.children.length == 0,
+            children: this.transformOptions(menu.children)
+        }));
+        return options;
+    }
 
 }

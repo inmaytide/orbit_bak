@@ -8,6 +8,7 @@ import com.inmaytide.orbit.sys.dao.specification.UserSpecification;
 import com.inmaytide.orbit.sys.domain.User;
 import com.inmaytide.orbit.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "user", key = "#username")
     public Optional<User> getByUsername(String username) {
         return Optional.ofNullable(getRepository().findByUsername(username));
     }

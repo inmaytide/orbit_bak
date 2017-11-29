@@ -22,6 +22,10 @@ spring:
         uri: lb://orbit-system-management
         predicates:
         - Path=/sys/**
+      - id: orbit-data-dictionary
+        uri: lb://orbit-data-dictionary
+        predicates:
+        - Path=/dictionaries/**
 
 
 

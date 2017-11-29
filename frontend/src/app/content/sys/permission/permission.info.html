@@ -48,9 +48,27 @@
     <div nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('category')">
       <nz-select formControlName="category" [(ngModel)]="inst.category">
         <nz-option
-          *ngFor="let option of categorys"
-          [nzLabel]="option.name"
-          [nzValue]="option.code">
+          *ngFor="let option of categories"
+          [nzLabel]="option.text"
+          [nzValue]="option.id">
+        </nz-option>
+      </nz-select>
+    </div>
+    <div nz-form-explain nz-col [nzSpan]="12" class="inline-error-text"
+         *ngIf="getFormControl('category').dirty&&getFormControl('category').hasError('required')">
+      {{'permission.validator.category.not.empty' | translate}}
+    </div>
+  </div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="4">
+      <label nz-form-item-required>{{'permission.column.method' | translate}}</label>
+    </div>
+    <div nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('category')">
+      <nz-select formControlName="method" [(ngModel)]="inst.method">
+        <nz-option
+          *ngFor="let option of methods"
+          [nzLabel]="option.text"
+          [nzValue]="option.id">
         </nz-option>
       </nz-select>
     </div>

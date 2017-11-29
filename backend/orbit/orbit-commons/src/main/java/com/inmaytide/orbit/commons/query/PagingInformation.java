@@ -21,7 +21,7 @@ public class PagingInformation implements Serializable {
 
     private static final long serialVersionUID = -744865805141356260L;
     private static final Logger log = LoggerFactory.getLogger(PagingInformation.class);
-    private static final Sort DEFAULT_SORT = new Sort(Sort.Direction.DESC, "createTime");
+    public static final Sort DEFAULT_SORT = new Sort(Sort.Direction.DESC, "createTime");
     private static final Integer DEFAULT_NUMBER = 1;
     private static final Integer DEFAULT_SIZE = 10;
 
