@@ -13,10 +13,14 @@ spring:
      hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
      hibernate.show_sql: true
   #   hibernate.hbm2ddl.auto: update
+  redis:
+    host: 127.0.0.1
+    port: 6379
   data:
     redis:
       repositories:
         enabled: false
+
 
 
 eureka:
@@ -25,3 +29,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:7000/eureka/
+
+logging:
+  level:
+    root: info
+    com.inmaytide.orbit.dictionary: debug

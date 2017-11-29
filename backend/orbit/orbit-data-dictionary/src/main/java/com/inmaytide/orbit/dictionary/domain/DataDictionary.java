@@ -2,8 +2,10 @@ package com.inmaytide.orbit.dictionary.domain;
 
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -13,6 +15,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Entity
 @Table(name = "sys_data_dictionary")
+@EntityListeners(value = AuditingEntityListener.class)
 public class DataDictionary extends AbstractEntity {
 
     private static final long serialVersionUID = -8124865319194501084L;
