@@ -1,15 +1,16 @@
 package com.inmaytide.orbit.dictionary.dao;
 
 import com.inmaytide.orbit.dictionary.domain.DataDictionary;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
-import reactor.core.publisher.Flux;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * @author Moss
  * @since November 28, 2017
  */
-public interface DataDictionaryRepository extends ReactiveCrudRepository<DataDictionary, Long> {
+public interface DataDictionaryRepository extends JpaRepository<DataDictionary, Long> {
 
-    Flux<DataDictionary> findByCategory(String category);
+    List<DataDictionary> findByCategory(String category);
 
 }
