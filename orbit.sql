@@ -80,34 +80,36 @@ LOCK TABLES `sys_attachment_group` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `sys_log`
+-- Table structure for table `sys_data_dictionary`
 --
 
-DROP TABLE IF EXISTS `sys_log`;
+DROP TABLE IF EXISTS `sys_data_dictionary`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_log` (
+CREATE TABLE `sys_data_dictionary` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL COMMENT '日志名称',
-  `operator` bigint(20) DEFAULT NULL COMMENT '操作人',
-  `class_name` varchar(128) DEFAULT NULL COMMENT '类名',
-  `method_name` varchar(128) DEFAULT NULL COMMENT '方法名',
-  `time` datetime DEFAULT NULL COMMENT '日志时间',
-  `is_succeed` varchar(128) DEFAULT NULL COMMENT '是否成功',
-  `message` varchar(1024) DEFAULT NULL,
-  `ip_address` varchar(16) DEFAULT NULL,
+  `text` varchar(64) NOT NULL,
+  `code` varchar(64) NOT NULL,
+  `category` varchar(128) NOT NULL,
+  `sort` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `creator` bigint(20) DEFAULT NULL,
+  `updater` bigint(20) DEFAULT NULL,
+  `version` int(11) NOT NULL DEFAULT '0',
+  `is_created_by_system` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sys_log`
+-- Dumping data for table `sys_data_dictionary`
 --
 
-LOCK TABLES `sys_log` WRITE;
-/*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
-INSERT INTO `sys_log` VALUES (373210842751176704,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 20:46:39','登录成功',NULL,'127.0.0.1'),(373212344538501120,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 20:52:37','登录成功',NULL,'127.0.0.1'),(373213005523062784,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 20:55:14','登录成功',NULL,'127.0.0.1'),(373217507210825728,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:13:08','登录成功',NULL,'127.0.0.1'),(373218778575671296,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:18:11','登录成功',NULL,'127.0.0.1'),(373219253572210688,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:20:04','登录成功',NULL,'127.0.0.1'),(373219704870932480,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:21:52','登录成功',NULL,'127.0.0.1'),(373220065874677760,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:23:18','登录成功',NULL,'127.0.0.1'),(373220381844180992,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:24:33','登录成功',NULL,'127.0.0.1'),(373223156007178240,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:35:35','登录成功',NULL,'127.0.0.1'),(373223814470963200,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:38:12','登录成功',NULL,'127.0.0.1'),(373224682553479168,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:41:39','登录成功',NULL,'127.0.0.1'),(373225450299854848,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:44:42','登录成功',NULL,'127.0.0.1'),(373226304927043584,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:48:05','登录成功',NULL,'127.0.0.1'),(373226819224211456,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:50:08','登录成功',NULL,'127.0.0.1'),(373227234649051136,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 21:51:47','登录成功',NULL,'127.0.0.1'),(373230108007337984,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:03:12','登录成功',NULL,'127.0.0.1'),(373230434026393600,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:04:30','登录成功',NULL,'127.0.0.1'),(373233097136803840,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:15:05','登录成功',NULL,'127.0.0.1'),(373233743785234432,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:17:39','登录成功',NULL,'127.0.0.1'),(373234779195314176,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-26 22:21:46','登录成功',NULL,'127.0.0.1'),(373576393474314240,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 20:59:13','登录失败','java.lang.NoClassDefFoundError => javax/xml/bind/DatatypeConverter','127.0.0.1'),(373576831460315136,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:00:57','登录成功',NULL,'127.0.0.1'),(373577283912470528,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:02:45','登录成功',NULL,'127.0.0.1'),(373579250357374976,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:10:34','登录成功',NULL,'127.0.0.1'),(373581542515150848,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:19:41','登录成功',NULL,'127.0.0.1'),(373585424523857920,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:35:06','登录成功',NULL,'127.0.0.1'),(373586825996013568,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:40:40','登录成功',NULL,'127.0.0.1'),(373587448359424000,'系统登录',9999,'com.inmaytide.orbit.auz.handler.AuzHandler','login','2017-10-27 21:43:09','登录成功',NULL,'127.0.0.1');
-/*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
+LOCK TABLES `sys_data_dictionary` WRITE;
+/*!40000 ALTER TABLE `sys_data_dictionary` DISABLE KEYS */;
+INSERT INTO `sys_data_dictionary` VALUES (377564822935437312,'Menu','MENU','permission.category',0,'2017-11-07 21:10:42',NULL,9999,NULL,0,0),(377564822943825920,'Button','BUTTON','permission.category',1,'2017-11-07 21:10:42',NULL,9999,NULL,0,0),(385552000668012544,'GET','get','permission.method',2,'2017-11-29 22:06:00','2017-11-29 22:06:00',9999,NULL,0,0),(385552317887418368,'POST','post','permission.method',3,'2017-11-29 22:07:16','2017-11-29 22:07:16',9999,NULL,0,0),(385552744175505408,'PUT','put','permission.method',4,'2017-11-29 22:08:57','2017-11-29 22:08:57',9999,NULL,0,0),(385553252411904000,'PATCH','patch','permission.method',5,'2017-11-29 22:10:59','2017-11-29 22:10:59',9999,9999,0,0),(385555071636738048,'DELETE','delete','permission.method',6,'2017-11-29 22:18:12','2017-11-29 22:18:12',9999,9999,0,0);
+/*!40000 ALTER TABLE `sys_data_dictionary` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -167,9 +169,10 @@ CREATE TABLE `sys_permission` (
   `updater` bigint(20) DEFAULT NULL,
   `version` int(11) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL,
+  `method` varchar(8) NOT NULL DEFAULT 'ALL',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=372853463685664769 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=385187976067551233 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +181,7 @@ CREATE TABLE `sys_permission` (
 
 LOCK TABLES `sys_permission` WRITE;
 /*!40000 ALTER TABLE `sys_permission` DISABLE KEYS */;
-INSERT INTO `sys_permission` VALUES (10000,-1,'homepage','首页',NULL,'home','MENU',NULL,'2017-09-03 14:03:03','2017-09-10 20:27:14',9999,9999,0,1),(10001,-1,'sys:managment','系统管理',NULL,'cog','MENU',NULL,'2017-09-03 14:05:02','2017-09-10 20:27:14',9999,9999,0,2),(10002,10001,'permission:list','菜单管理','home/permission',NULL,'MENU',NULL,'2017-09-03 14:05:25','2017-10-25 21:06:57',9999,9999,20,4),(10019,10001,'log:list','日志管理','home/log',NULL,'MENU',NULL,'2017-09-03 21:06:27','2017-10-25 21:06:57',9999,9999,31,14),(10030,10001,'role:list','角色管理','home/role',NULL,'MENU',NULL,'2017-09-10 20:29:41','2017-10-25 21:06:57',9999,9999,25,5),(359810505696743424,10019,'log:export','导出',NULL,NULL,'BUTTON',NULL,'2017-09-19 21:18:30',NULL,9999,NULL,0,6),(359812029197979648,10002,'permission:add','添加',NULL,NULL,'BUTTON',NULL,'2017-09-19 21:24:33','2017-10-20 22:06:21',9999,9999,3,7),(359820012694933504,10002,'permission:remove','删除',NULL,NULL,'BUTTON',NULL,'2017-09-19 21:56:16','2017-10-20 22:06:21',9999,9999,5,8),(371056416762499072,10002,'permission:update','编辑','',NULL,'BUTTON',NULL,'2017-10-20 22:05:44','2017-10-20 22:06:29',9999,9999,3,9),(371056712335101952,10030,'role:add','添加',NULL,NULL,'BUTTON',NULL,'2017-10-20 22:06:54',NULL,9999,NULL,0,11),(371056782681968640,10030,'role:update','编辑',NULL,NULL,'BUTTON',NULL,'2017-10-20 22:07:11','2017-10-21 20:27:07',9999,9999,1,12),(371056874285568000,10030,'role:delete','删除',NULL,NULL,'BUTTON',NULL,'2017-10-20 22:07:33',NULL,9999,NULL,0,13),(372853463685664768,10001,'user:list','用户管理','home/user',NULL,'MENU',NULL,'2017-10-25 21:06:33','2017-10-25 21:06:57',9999,9999,4,3);
+INSERT INTO `sys_permission` VALUES (10000,-1,'homepage','首页',NULL,'home','MENU',NULL,'2017-09-03 14:03:03','2017-09-10 20:27:14',9999,9999,0,1,'ALL'),(10001,-1,'sys:managment','系统管理',NULL,'setting','MENU',NULL,'2017-09-03 14:05:02','2017-09-10 20:27:14',9999,9999,0,2,'ALL'),(10002,10001,'permission:list','菜单管理','permission',NULL,'MENU',NULL,'2017-09-03 14:05:25','2017-10-25 21:06:57',9999,9999,20,4,'ALL'),(10019,10001,'log:list','日志管理','home/log',NULL,'MENU',NULL,'2017-09-03 21:06:27','2017-10-25 21:06:57',9999,9999,31,14,'ALL'),(10030,10001,'role:list','角色管理','home/role',NULL,'MENU',NULL,'2017-09-10 20:29:41','2017-10-25 21:06:57',9999,9999,25,5,'ALL'),(359810505696743424,10019,'log:export','导出',NULL,NULL,'BUTTON',NULL,'2017-09-19 21:18:30',NULL,9999,NULL,0,6,'ALL'),(359812029197979648,10002,'permission:add','添加',NULL,NULL,'BUTTON',NULL,'2017-09-19 21:24:33','2017-10-20 22:06:21',9999,9999,3,7,'ALL'),(359820012694933504,10002,'permission:remove','删除',NULL,NULL,'BUTTON',NULL,'2017-09-19 21:56:16','2017-10-20 22:06:21',9999,9999,5,8,'ALL'),(371056416762499072,10002,'permission:update','编辑','',NULL,'BUTTON',NULL,'2017-10-20 22:05:44','2017-10-20 22:06:29',9999,9999,3,9,'ALL'),(371056712335101952,10030,'role:add','添加',NULL,NULL,'BUTTON',NULL,'2017-10-20 22:06:54',NULL,9999,NULL,0,11,'ALL'),(371056782681968640,10030,'role:update','编辑',NULL,NULL,'BUTTON',NULL,'2017-10-20 22:07:11','2017-10-21 20:27:07',9999,9999,1,12,'ALL'),(371056874285568000,10030,'role:delete','删除',NULL,NULL,'BUTTON',NULL,'2017-10-20 22:07:33',NULL,9999,NULL,0,13,'ALL'),(372853463685664768,10001,'user:list','用户管理','home/user',NULL,'MENU',NULL,'2017-10-25 21:06:33','2017-10-25 21:06:57',9999,9999,4,3,'ALL'),(377588206327173120,10001,'workflow','流程管理','12321312323',NULL,'MENU','娃娃辅导费','2017-11-07 22:40:44',NULL,9999,NULL,0,15,'ALL'),(385187976067551232,-1,'permission_edit','编辑111',NULL,NULL,'BUTTON',NULL,'2017-11-28 21:59:30','2017-11-28 21:59:30',9999,9999,0,16,'PUT');
 /*!40000 ALTER TABLE `sys_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +204,7 @@ CREATE TABLE `sys_role` (
   `version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=372148463271546881 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,7 +253,7 @@ CREATE TABLE `sys_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(64) DEFAULT NULL,
   `status` varchar(16) DEFAULT NULL,
   `email` varchar(256) DEFAULT NULL,
   `qq` varchar(16) DEFAULT NULL,
@@ -277,7 +280,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (9999,'admin','Administrator','431759ab506d1e4af78e7fe08b818edb','NORMAL',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0,NULL,NULL);
+INSERT INTO `sys_user` VALUES (9999,'admin','Administrator','$2a$10$8CDOiERjl1Y08dA.IbkaZuBYmrlkCEi.9sbrVaGYyeYKoQe87aYNi','NORMAL',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0,NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -339,4 +342,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-27 22:22:13
+-- Dump completed on 2017-12-04 22:27:22

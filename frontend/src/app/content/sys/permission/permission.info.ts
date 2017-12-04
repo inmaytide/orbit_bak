@@ -78,7 +78,7 @@ export class PermissionInfoComponent implements OnInit {
         });
         this.service.listMenus()
             .then(data => this.parentOptions = this.transformOptions(data))
-            .catch(reason => CommonUtils.handleErrors(reason))
+            .catch(reason => CommonUtils.handleErrors(reason));
     }
 
     codeRepeatValidator = (control: FormControl): { [s: string]: boolean } => {
