@@ -1,8 +1,9 @@
 package eureka
 
+// HttpAction ...
 type HttpAction struct {
 	Method      string `yaml:"method"`
-	Url         string `yaml:"url"`
+	URL         string `yaml:"url"`
 	Body        string `yaml:"body"`
 	Template    string `yaml:"template"`
 	Accept      string `yaml:"accept"`

@@ -1,13 +1,13 @@
 package eureka
 
 import (
+	"crypto/tls"
+	"log"
 	"net/http"
 	"strings"
-	"log"
-	"crypto/tls"
 )
 
-func doHttpRequest(action HttpAction) bool {
+func DoHttpRequest(action HttpAction) bool {
 	request := buildHttpRequest(action)
 
 	var defaultTransport http.RoundTripper = &http.Transport{
@@ -29,18 +29,24 @@ func doHttpRequest(action HttpAction) bool {
 func buildHttpRequest(action HttpAction) *http.Request {
 	var request *http.Request
 	var err error
-	var reader *strings.Reader = nil
 
 	if action.Body != "" {
-		reader = strings.NewReader(action.Body)
+		reader := strings.NewReader(action.Body)
+		request, err = http.NewRequest(action.Method, action.URL, reader)
 	} else if action.Template != "" {
-		reader = strings.NewReader(action.Template)
+		reader := strings.NewReader(action.Template)
+		request, err = http.NewRequest(action.Method, action.URL, reader)
+	} else {
+		request, err = http.NewRequest(action.Method, action.URL, nil)
 	}
-
-	request, err = http.NewRequest(action.Method, action.Url, reader)
 
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	request.Header.Add("Accept", action.Accept)
+	if action.ContentType != "" {
+		request.Header.Add("Content-Type", action.ContentType)
 	}
 
 	return request
@@ -55,5 +61,5 @@ func trimChar(str string, char byte) string {
 	if length > 0 && str[0] == char {
 		str = str[1:length]
 	}
-	return str;
+	return str
 }
