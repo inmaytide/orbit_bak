@@ -1,0 +1,20 @@
+{
+  "instance": {
+    "hostName": "${ip.address}",
+    "app": "${application.name}",
+    "ipAddr": "${ip.address}",
+    "vipAddress": "${application.name}",
+    "status": "UP",
+    "port": {
+      "$": "${port}",
+      "@enabled": true
+    },
+    "dataCenterInfo": {
+      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+      "name": "MyOwn"
+    },
+    "metadata": {
+      "instanceId": "${application.name}:${instanceID}"
+    }
+  }
+}

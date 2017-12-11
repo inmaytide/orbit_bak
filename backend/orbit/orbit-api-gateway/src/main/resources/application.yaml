@@ -26,9 +26,10 @@ spring:
         uri: lb://orbit-data-dictionary
         predicates:
         - Path=/dictionaries/**
-
-
-
+      - id: orbit-attachment
+        uri: lb://orbit-attachment
+        predicates:
+        - Path=/attachments/**
 
 
 eureka:

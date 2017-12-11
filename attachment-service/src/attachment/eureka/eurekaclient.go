@@ -1,28 +1,36 @@
 package eureka
 
-import "util"
+import "attachment/util"
 import "os"
 import "io/ioutil"
 import "strings"
 import "time"
-import "fmt"
+import (
+	"attachment/config"
+	"fmt"
+)
 
 var instanceID string
+var basicUrl string
+var statusUrl string
 
 // Register ...
 func Register() {
 	instanceID = util.GetUUID()
+	basicUrl = strings.Join([]string{config.Apps.Eureka, "apps/", config.Apps.Name}, "")
+	statusUrl = strings.Join([]string{fmt.Sprintf("%s/%s", basicUrl, util.GetLocalIP()), config.Apps.Name, instanceID}, ":")
 
 	dir, _ := os.Getwd()
-	data, _ := ioutil.ReadFile(dir + "resources/application.json")
+	data, _ := ioutil.ReadFile(dir + "/resources/regtpl.json")
 
 	tpl := string(data)
-	tpl = strings.Replace(tpl, "${ipAddress}", util.GetLocalIP(), -1)
-	tpl = strings.Replace(tpl, "${port}", "7002", -1)
+	tpl = strings.Replace(tpl, "${ip.address}", util.GetLocalIP(), -1)
+	tpl = strings.Replace(tpl, "${port}", config.Apps.Port, -1)
 	tpl = strings.Replace(tpl, "${instanceID}", instanceID, -1)
+	tpl = strings.Replace(tpl, "${application.name}", config.Apps.Name, -1)
 
 	registerAction := HttpAction{
-		URL:         "http://127.0.0.1:7000/eureka/apps/vendor",
+		URL:         basicUrl,
 		Method:      "POST",
 		ContentType: "application/json",
 		Body:        tpl,
@@ -50,7 +58,7 @@ func StartHeartbeat() {
 
 func heartbeat() {
 	heartbeatAction := HttpAction{
-		URL:    "http://127.0.0.1:7000/eureka/apps/vendor/" + util.GetLocalIP() + ":vendor:" + instanceID,
+		URL:    statusUrl,
 		Method: "PUT",
 	}
 	DoHttpRequest(heartbeatAction)
@@ -61,7 +69,7 @@ func Deregister() {
 	fmt.Println("Trying to deregister application...")
 
 	deregisterAction := HttpAction{
-		URL:    "http://127.0.0.1:7000/eureka/apps/vendor/" + util.GetLocalIP() + ":vendor:" + instanceID,
+		URL:    statusUrl,
 		Method: "DELETE",
 	}
 
