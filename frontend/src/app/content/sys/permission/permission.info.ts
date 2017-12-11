@@ -6,6 +6,7 @@ import { PermissionService } from "./permission.service";
 import { CommonUtils } from "../../../common-utils";
 import { DataDictionary } from "../../../models/data-dictionary";
 import { DataDictionaryService } from "../data-dictionary/data-dictionary.service";
+import { isUndefined } from "util";
 
 @Component({
     selector: "permission-info",
@@ -85,7 +86,8 @@ export class PermissionInfoComponent implements OnInit {
         if (!control.value) {
             return { required: true };
         }
-        if (this.service.codeIsRepeat(control.value, this.inst.id) == "false") {
+        let id = isUndefined(this.inst.id) ? "-1" : this.inst.id;
+        if (!this.service.codeIsRepeat(control.value, id).isRepeat) {
             return { repeat: true, error: true };
         }
     };
@@ -105,6 +107,7 @@ export class PermissionInfoComponent implements OnInit {
 
         if (!this.form.invalid) {
             this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
+            console.log(this.inst)
             this.service.save(this.inst)
                 .then(permission => this.cancel)
                 .catch(reason => CommonUtils.handleErrors(reason));

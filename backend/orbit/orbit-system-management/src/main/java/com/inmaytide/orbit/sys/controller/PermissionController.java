@@ -39,7 +39,7 @@ public class PermissionController extends AbstractController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Permission> add(@Valid Permission permission) {
+    public Mono<Permission> add(@RequestBody @Valid Permission permission) {
         Assert.isTrue(service.checkCode(permission.getCode(), permission.getId()), "The permission code cannot not be repeat");
         return Mono.just(service.insert(permission));
     }
