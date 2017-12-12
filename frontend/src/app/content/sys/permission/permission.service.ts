@@ -25,10 +25,10 @@ export class PermissionService {
       .toPromise();
   }
 
-  public codeIsRepeat(code: string, id: string): string {
+  public codeIsRepeat(code: string, id: string): {isRepeat: boolean} {
     const remote = PermissionApiUrls.permissions + "/checkCode/" + id + "/" + code;
     const xhr = new XMLHttpRequest();
-    let result = "true";
+    let result = "{'isRepeat': true}";
     xhr.withCredentials = true;
     xhr.open("get", remote, false);
     xhr.onreadystatechange = () => {
@@ -39,7 +39,7 @@ export class PermissionService {
       }
     };
     xhr.send();
-    return result;
+    return JSON.parse(result);
   }
 
 

@@ -31,9 +31,8 @@ public class Permission extends AbstractEntity {
     @Length(max = 64)
     private String name;
 
-    @NotBlank
-    @Pattern(regexp = "ALL|POST|GET|PUT|PATCH|DELETE")
-    private String method;
+    @NotNull
+    private Long method;
 
     @Length(max = 256)
     private String action;
@@ -42,7 +41,7 @@ public class Permission extends AbstractEntity {
     private String icon;
 
     @NotNull
-    private String category;
+    private Long category;
 
     @Length(max = 256)
     private String description;
@@ -104,11 +103,11 @@ public class Permission extends AbstractEntity {
         this.icon = icon;
     }
 
-    public String getCategory() {
+    public Long getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Long category) {
         this.category = category;
     }
 
@@ -144,11 +143,11 @@ public class Permission extends AbstractEntity {
         this.children = children;
     }
 
-    public String getMethod() {
+    public Long getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
+    public void setMethod(Long method) {
         this.method = method;
     }
 
