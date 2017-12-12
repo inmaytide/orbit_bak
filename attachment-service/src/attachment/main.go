@@ -55,5 +55,5 @@ func main() {
 }
 
 func testdb()  {
-	fmt.Println(dao.GetAttachment(123123123123))
+	fmt.Println(dao.GetAttachment(10000000001))
 }

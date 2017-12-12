@@ -15,6 +15,5 @@ func CheckError(err error) {
 func GetConn() *sql.DB {
 	db, err := sql.Open("mysql", config.Apps.Datasource)
 	CheckError(err)
-
 	return db
 }

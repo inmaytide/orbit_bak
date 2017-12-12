@@ -1,20 +1,23 @@
 package model
 
-import "time"
+import (
+	"time"
+	"database/sql"
+)
 
 type Attachment struct {
 	ID             uint64
+	OriginalName   sql.NullString
+	StorageName    sql.NullString
+	Extension      sql.NullString
+	StorageAddress sql.NullString
+	Group          sql.NullInt64
+	Belong         sql.NullInt64
+	Size           sql.NullInt64
+	Status         sql.NullInt64
+	Creator        sql.NullInt64
 	CreateTime     time.Time
+	Updater        sql.NullInt64
 	UpdateTime     time.Time
-	Creator        uint64
-	Updater        uint64
 	Version        uint
-	OriginalName   string
-	StorageName    string
-	Extension      string
-	StorageAddress string
-	Group          uint64
-	Belong         uint64
-	Size           uint64
-	Status         uint64
 }
