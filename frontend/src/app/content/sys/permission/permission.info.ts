@@ -61,12 +61,8 @@ export class PermissionInfoComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.dataDictionaryService
-            .listByCategory("permission.category")
-            .then(data => this.categories = data);
-        this.dataDictionaryService
-            .listByCategory("permission.method")
-            .then(data => this.methods = data);
+        this.categories = this.dataDictionaryService.listByCategory("permission.category");
+        this.methods = this.dataDictionaryService.listByCategory("permission.method");
         this.form = this.formBuilder.group({
             parent: new FormControl(),
             code: new FormControl(null, [Validators.required, this.codeRepeatValidator]),

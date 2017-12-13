@@ -20,7 +20,7 @@ export class PermissionService {
   }
 
   public listMenus(): Promise<Permission[]> {
-    return this.http.get(PermissionApiUrls.permissions + "?category=MENU")
+    return this.http.get(PermissionApiUrls.permissions + "?category=377564822935437312")
       .map(response => response as Permission[])
       .toPromise();
   }

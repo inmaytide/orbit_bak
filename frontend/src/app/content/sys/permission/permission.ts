@@ -5,6 +5,7 @@ import {CommonUtils} from "../../../common-utils";
 import {NzModalService} from "ng-zorro-antd";
 import {PermissionInfoComponent} from "./permission.info";
 import {TranslateService} from "@ngx-translate/core";
+import { DataDictionaryService } from "../data-dictionary/data-dictionary.service";
 
 @Component({
   selector: 'permission',
@@ -16,7 +17,8 @@ export class PermissionComponent implements OnInit {
 
   constructor(private service: PermissionService,
               private modalService: NzModalService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private dictService: DataDictionaryService) {
   }
 
   ngOnInit() {
@@ -24,6 +26,7 @@ export class PermissionComponent implements OnInit {
       .then(data => {
         this.menus = data;
         this.menus.forEach(item => {
+            item['categoryText'] = this
           this.expandDataCache[item.id] = this.convertTreeToList(item);
         });
       })

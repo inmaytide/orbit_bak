@@ -1,29 +1,44 @@
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {GlobalVariables} from "../../../global-variables";
-import {DataDictionary} from "../../../models/data-dictionary";
-import {Injectable} from "@angular/core";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { GlobalVariables } from "../../../global-variables";
+import { DataDictionary } from "../../../models/data-dictionary";
+import { Injectable } from "@angular/core";
 import { DataDictionaryApiConfig } from "./data-dictionary.api.config";
 import { CommonUtils } from "../../../common-utils";
 
 @Injectable()
 export class DataDictionaryService {
 
-  public _cache = {};
+    private _cache = {};
 
-  constructor(private http: HttpClient) {
+    constructor(private http: HttpClient) {
 
-  }
+    }
 
-  public listByCategory(category: string) {
-    return this._cache[category] ? Promise.resolve(this._cache[category]) : this._listByCategory(category);
-  }
+    public getText(category: string, id: number) {
+        const dict = this.listByCategory(category);
+    }
 
-  private _listByCategory(category: string) {
-    const params = new HttpParams({fromObject: {"category": category}});
-    return this.http.get(DataDictionaryApiConfig.basic, {params: params})
-      .map(response => response as DataDictionary[])
-      .toPromise()
-      .then(data => this._cache[category] = data)
-      .catch(reason => CommonUtils.handleErrors(reason));
-  }
+    public listByCategory(category: string): DataDictionary[] {
+        if (!this._cache[category] || this._cache[category].length == 0) {
+            this._cache[category] = this._listByCategory(category);
+        }
+        return this._cache[category];
+    }
+
+    private _listByCategory(category: string): DataDictionary[] {
+        const remote = DataDictionaryApiConfig.basic + "?category=" + category;
+        const xhr = new XMLHttpRequest();
+        let result = new Array();
+        xhr.setRequestHeader("Authorization", CommonUtils.getToken())
+        xhr.open("get", remote, false);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.responseText) {
+                    result = JSON.parse(xhr.responseText)
+                }
+            }
+        };
+        xhr.send();
+        return result;
+    }
 }

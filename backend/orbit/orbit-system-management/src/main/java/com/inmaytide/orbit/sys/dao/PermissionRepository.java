@@ -24,7 +24,7 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
             "left join sys_user u on u.id = ur.u_id " +
             "where u.username = ?1 and p.category = ?2 " +
             "order by sort", nativeQuery = true)
-    List<Permission> findByUsername(String username, String category);
+    List<Permission> findByUsername(String username, Long category);
 
     @Query(value = "select nullif(max(sort), 0) + 1 as sort from sys_permission", nativeQuery = true)
     Integer getSort();
@@ -36,5 +36,5 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
     List<Permission> findByParent(Long parent, Sort sort);
 
-    List<Permission> findByCategory(String category, Sort sort);
+    List<Permission> findByCategory(Long category, Sort sort);
 }

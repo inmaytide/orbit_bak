@@ -12,6 +12,11 @@ export class CommonUtils {
     localStorage.setItem(GlobalVariables.PRINCIPAL, JSON.stringify(principal));
   }
 
+  public static getToken(): string {
+    const principal = CommonUtils.getPrincipal();
+    return principal && principal.token ? "Bearer " + principal.token : "-1"
+  }
+
   public static handleErrors(reason) {
     console.log(reason);
   }
