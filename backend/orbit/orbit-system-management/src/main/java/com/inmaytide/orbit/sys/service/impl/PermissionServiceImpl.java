@@ -66,13 +66,13 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Cacheable(cacheNames = "user_menus", key = "#username + '_menus'")
     public List<Permission> listMenusByUsername(String username) {
-        List<Permission> list = repository.findByUsername(username, "MENU");
+        List<Permission> list = repository.findByUsername(username, 377564822935437312L);
         return listToTreeNodes(list);
     }
 
 
     @Override
-    public List<Permission> listNodes(String category) {
+    public List<Permission> listNodes(Long category) {
         return listToTreeNodes(repository.findByCategory(category, DEFAULT_SORT));
     }
 

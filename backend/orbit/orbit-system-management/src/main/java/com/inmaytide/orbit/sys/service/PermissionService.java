@@ -18,9 +18,8 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
      *
      * @param category MENU or BUTTON
      * @return Tree structure permissions
-     * @see PermissionCategory
      */
-    List<Permission> listNodes(String category);
+    List<Permission> listNodes(Long category);
 
     /**
      * Get all permissions  and transform to tree nodes.

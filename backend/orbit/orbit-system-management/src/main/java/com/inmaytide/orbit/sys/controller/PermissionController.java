@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("sys/permissions")
@@ -32,8 +33,8 @@ public class PermissionController extends AbstractController {
     }
 
     @GetMapping
-    public Flux<Permission> list(String category) {
-        List<Permission> list = StringUtils.isNotBlank(category) ? service.listNodes(category) : service.listNodes();
+    public Flux<Permission> list(Long category) {
+        List<Permission> list = Objects.isNull(category) ? service.listNodes() : service.listNodes(category);
         return Flux.fromIterable(list);
     }
 
