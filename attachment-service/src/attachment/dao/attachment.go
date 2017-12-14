@@ -32,6 +32,10 @@ func GetAttachment(id uint64) model.Attachment {
 	return buildAttachment(rows)
 }
 
+func SaveAttachment(inst model.Attachment) {
+
+}
+
 func DeleteAttachment(id uint64) int64 {
 	db := GetConn();
 	defer db.Close()

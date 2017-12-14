@@ -12,6 +12,11 @@ type Application struct {
 	Name   string `yaml:"application-name"`
 	Eureka string `yaml:"eureka"`
 	Datasource string `yaml:"datasource"`
+	Redis struct{
+		Addr string `yaml:"addr"`
+		Password string `yaml:"password"`
+		DB int `yaml:"db"`
+	}
 }
 
 var Apps = Application{}

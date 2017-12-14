@@ -3,6 +3,7 @@ package model
 import (
 	"time"
 	"database/sql"
+	"encoding/json"
 )
 
 type Attachment struct {
@@ -20,4 +21,10 @@ type Attachment struct {
 	Updater        sql.NullInt64
 	UpdateTime     time.Time
 	Version        uint
+}
+
+func (attachment Attachment) MarshalBinary() (byte[], err){
+
+	return []byte(json.Encoder{}.Encode())
+
 }
