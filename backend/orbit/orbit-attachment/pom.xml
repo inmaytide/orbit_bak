@@ -22,10 +22,6 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 		<dependency>
-			<groupId>com.ifrabbit</groupId>
-			<artifactId>spring-boot-starter-data-mybatis</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <exclusions>
@@ -52,10 +48,6 @@
 			<groupId>com.inmaytide.orbit</groupId>
 			<artifactId>orbit-commons</artifactId>
 		</dependency>
-		<dependency>
-            <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-domain</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
             <artifactId>orbit-exception</artifactId>

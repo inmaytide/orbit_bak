@@ -23,6 +23,7 @@ public class AbstractEntity implements Serializable {
     @Id
     @GenericGenerator(name = "snowflake", strategy = "com.inmaytide.orbit.commons.id.SnowflakeIdGenerator")
     @GeneratedValue(generator = "snowflake")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Column(name = "create_time")

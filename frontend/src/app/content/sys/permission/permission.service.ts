@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Permission } from "../../../models/permission";
 import { GlobalVariables } from "../../../global-variables";
 import { Observable } from "rxjs/Observable";
-import { PermissionApiUrls } from "./permission.api.urls";
+import { PERMISSION_API_URL } from "./permission.config";
 
 @Injectable()
 export class PermissionService {
@@ -14,19 +14,19 @@ export class PermissionService {
   }
 
   public list(): Promise<Permission[]> {
-    return this.http.get(PermissionApiUrls.permissions)
+    return this.http.get(PERMISSION_API_URL.BASIC)
       .map(response => response as Permission[])
       .toPromise();
   }
 
   public listMenus(): Promise<Permission[]> {
-    return this.http.get(PermissionApiUrls.permissions + "?category=377564822935437312")
+    return this.http.get(PERMISSION_API_URL.BASIC + "?category=377564822935437312")
       .map(response => response as Permission[])
       .toPromise();
   }
 
   public codeIsRepeat(code: string, id: string): {isRepeat: boolean} {
-    const remote = PermissionApiUrls.permissions + "/checkCode/" + id + "/" + code;
+    const remote = PERMISSION_API_URL.BASIC + "/checkCode/" + id + "/" + code;
     const xhr = new XMLHttpRequest();
     let result = "{'isRepeat': true}";
     xhr.withCredentials = true;
@@ -44,14 +44,14 @@ export class PermissionService {
 
 
   public findUserMenus(username: string): Promise<Permission[]> {
-    return this.http.get(PermissionApiUrls.listUserMenus + username)
+    return this.http.get(PERMISSION_API_URL.LIST_USERS_MENUS + username)
       .toPromise()
       .then(data => data as Permission[], )
       .catch(reason => Promise.reject(reason));
   }
 
   public save(inst: Permission): Promise<Permission> {
-    return this.http.post(PermissionApiUrls.permissions, inst)
+    return this.http.post(PERMISSION_API_URL.BASIC, inst)
       .map(response => response as Permission)
       .toPromise();
   }

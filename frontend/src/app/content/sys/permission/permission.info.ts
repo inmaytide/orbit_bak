@@ -101,7 +101,9 @@ export class PermissionInfoComponent implements OnInit {
             this.form.controls[i].markAsDirty();
         }
 
+
         if (!this.form.invalid) {
+            console.log(this.parent);
             this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
             console.log(this.inst)
             this.service.save(this.inst)
@@ -117,6 +119,7 @@ export class PermissionInfoComponent implements OnInit {
             isLeaf: !menu.children || menu.children.length == 0,
             children: this.transformOptions(menu.children)
         }));
+        console.log(options);
         return options;
     }
 

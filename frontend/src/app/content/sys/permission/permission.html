@@ -26,10 +26,11 @@
         <tr>
           <th nz-th>
           </th>
-          <th nz-th [nzWidth]="'30%'">{{'permission.column.name' | translate}}</th>
+          <th nz-th [nzWidth]="'20%'">{{'permission.column.name' | translate}}</th>
           <th nz-th [nzWidth]="'15%'">{{'permission.column.code' | translate}}</th>
-          <th nz-th [nzWidth]="'15%'">{{'permission.column.category' | translate}}</th>
-          <th nz-th>{{'permission.column.name' | translate}}</th>
+          <th nz-th [nzWidth]="'10%'">{{'permission.column.category' | translate}}</th>
+          <th nz-th [nzWidth]="'10%'">{{'permission.column.method' | translate}}</th>
+          <th nz-th>{{'permission.func.operations' | translate}}</th>
         </tr>
         </thead>
         <tbody nz-tbody style="background-color: white;">
@@ -47,7 +48,8 @@
                 {{item.name}}
               </td>
               <td nz-td>{{item.code}}</td>
-              <td nz-td>{{item.category}}</td>
+              <td nz-td>{{item.categoryText}}</td>
+              <td nz-td>{{item.methodText}}</td>
               <td nz-td>
                 <span class="functions">
                   <a href="#">{{'permission.func.edit' | translate}}</a>

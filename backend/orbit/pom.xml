@@ -11,14 +11,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.0.M6</version>
+        <version>2.0.0.M7</version>
     </parent>
 
     <modules>
         <module>orbit-discovery</module>
         <module>orbit-attachment</module>
         <module>orbit-commons</module>
-        <module>orbit-domain</module>
         <module>orbit-exception</module>
         <module>orbit-i18n</module>
         <module>orbit-api-gateway</module>
@@ -52,7 +51,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.M4</version>
+                <version>Finchley.M5</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -65,11 +64,6 @@
                 <groupId>com.inmaytide.orbit</groupId>
                 <artifactId>orbit-exception</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security.oauth</groupId>
-                <artifactId>spring-security-oauth2</artifactId>
-                <version>2.2.1.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
