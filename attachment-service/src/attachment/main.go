@@ -11,7 +11,9 @@ import (
 	"sync"
 	"syscall"
 	"fmt"
-	"attachment/dao"
+	"attachment/model"
+	"attachment/util"
+	"database/sql"
 )
 
 func startWebServer() {
@@ -39,7 +41,7 @@ func main() {
 
 	config.LoadConfiguration()
 
-	testdb()
+	test()
 
 	handleSigterm()
 
@@ -54,6 +56,10 @@ func main() {
 	wg.Wait()
 }
 
-func testdb()  {
-	fmt.Println(dao.GetAttachment(10000000001))
+func test() {
+	service.SaveAttachment(&model.Attachment{
+		OriginalName: sql.NullString{String: "orsdoifsd可我额我反动势力", Valid: true},
+		StorageName:  sql.NullString{String: util.GetUUID(), Valid: true},
+		StorageAddress: sql.NullString{String: "d:/attachment/20171214", Valid:true},
+	})
 }

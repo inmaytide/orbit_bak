@@ -1,0 +1,6 @@
+package dao
+
+func SaveAttachmentGroup() {
+
+}
+
