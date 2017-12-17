@@ -82,9 +82,13 @@
       <label>{{'permission.column.icon' | translate}}</label>
     </div>
     <div nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('icon')">
-      <nz-select formControlName="icon" [(ngModel)]="inst.icon">
-
-      </nz-select>
+        <nz-select formControlName="icon" [(ngModel)]="inst.icon">
+            <nz-option
+              *ngFor="let option of icons"
+              [nzLabel]="option.text"
+              [nzValue]="option.id">
+            </nz-option>
+          </nz-select>
     </div>
   </div>
   <div nz-form-item nz-row>

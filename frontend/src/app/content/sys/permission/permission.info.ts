@@ -53,6 +53,7 @@ export class PermissionInfoComponent implements OnInit {
     private parentOptions = [];
     private categories: DataDictionary[] = [];
     private methods: DataDictionary[] = [];
+    private icons: DataDictionary[] = [];
 
     constructor(private formBuilder: FormBuilder,
         private subject: NzModalSubject,
@@ -63,6 +64,7 @@ export class PermissionInfoComponent implements OnInit {
     ngOnInit(): void {
         this.categories = this.dataDictionaryService.listByCategory("permission.category");
         this.methods = this.dataDictionaryService.listByCategory("permission.method");
+        this.icons = this.dataDictionaryService.listByCategory("common.icon");
         this.form = this.formBuilder.group({
             parent: new FormControl(),
             code: new FormControl(null, [Validators.required, this.codeRepeatValidator]),
@@ -103,11 +105,11 @@ export class PermissionInfoComponent implements OnInit {
 
 
         if (!this.form.invalid) {
-            console.log(this.parent);
             this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
-            console.log(this.inst)
             this.service.save(this.inst)
-                .then(permission => this.cancel)
+                .then(permission => {
+                    this.subject.destroy("onOk");
+                })
                 .catch(reason => CommonUtils.handleErrors(reason));
         }
     }
@@ -119,7 +121,6 @@ export class PermissionInfoComponent implements OnInit {
             isLeaf: !menu.children || menu.children.length == 0,
             children: this.transformOptions(menu.children)
         }));
-        console.log(options);
         return options;
     }
 

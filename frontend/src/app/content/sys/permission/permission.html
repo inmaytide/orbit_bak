@@ -48,8 +48,8 @@
                 {{item.name}}
               </td>
               <td nz-td>{{item.code}}</td>
-              <td nz-td>{{item.categoryText}}</td>
-              <td nz-td>{{item.methodText}}</td>
+              <td nz-td>{{item.category | dictionary: "permission.category"}}</td>
+              <td nz-td>{{item.method | dictionary: "permission.method"}}</td>
               <td nz-td>
                 <span class="functions">
                   <a href="#">{{'permission.func.edit' | translate}}</a>
@@ -58,7 +58,7 @@
                   <span nz-table-divider></span>
                   <a href="#">{{'permission.func.move.down' | translate}}</a>
                   <span nz-table-divider></span>
-                  <a href="#">{{'permission.func.remove' | translate}}</a>
+                  <a href="javascript:void(0)" (click)="remove(item)">{{'permission.func.remove' | translate}}</a>
                   <span nz-table-divider></span>
                   <a href="#">{{'permission.func.details' | translate}}</a>
                 </span>

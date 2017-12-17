@@ -8,6 +8,15 @@ import {CommonUtils} from "../../common-utils";
 @Component({
   selector: 'side-bar',
   templateUrl: './sidebar.component.html',
+  styles: [
+      `
+        .fa {
+            font-size: 18px;
+            margin-left: -8px;
+            padding-right: 5px;
+        }
+      `
+  ]
 })
 export class SidebarComponent implements OnInit {
   private images: string = GlobalVariables.IMAGES_BASE_PATH;

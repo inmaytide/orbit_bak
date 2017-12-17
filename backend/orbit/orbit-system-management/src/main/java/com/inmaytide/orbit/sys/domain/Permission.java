@@ -32,15 +32,17 @@ public class Permission extends AbstractEntity {
     private String name;
 
     @NotNull
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long method;
 
     @Length(max = 256)
     private String action;
 
-    @Length(max = 256)
-    private String icon;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long icon;
 
     @NotNull
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long category;
 
     @Length(max = 256)
@@ -95,11 +97,11 @@ public class Permission extends AbstractEntity {
         this.action = action;
     }
 
-    public String getIcon() {
+    public Long getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setIcon(Long icon) {
         this.icon = icon;
     }
 

@@ -15,6 +15,7 @@ import {PermissionInfoComponent} from "./sys/permission/permission.info";
 import {TranslateModule} from "@ngx-translate/core";
 import {DataDictionaryService} from "./sys/data-dictionary/data-dictionary.service";
 import { UserService } from "./sys/user/user.service";
+import { DictionaryPipe } from "../pipe/dictionary.pipe";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UserService } from "./sys/user/user.service";
     MainTopComponent,
     PermissionComponent,
     PermissionInfoComponent,
-    MainFooterComponent
+    MainFooterComponent,
+    DictionaryPipe
   ],
   imports: [
     CommonModule,

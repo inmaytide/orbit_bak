@@ -5,7 +5,6 @@ import { CommonUtils } from "../../../common-utils";
 import { NzModalService } from "ng-zorro-antd";
 import { PermissionInfoComponent } from "./permission.info";
 import { TranslateService } from "@ngx-translate/core";
-import { DataDictionaryService } from "../data-dictionary/data-dictionary.service";
 
 @Component({
     selector: 'permission',
@@ -17,8 +16,7 @@ export class PermissionComponent implements OnInit {
 
     constructor(private service: PermissionService,
         private modalService: NzModalService,
-        private translate: TranslateService,
-        private dictService: DataDictionaryService) {
+        private translate: TranslateService) {
     }
 
     ngOnInit() {
@@ -26,8 +24,6 @@ export class PermissionComponent implements OnInit {
             .then(data => {
                 this.menus = data;
                 this.menus.forEach(item => {
-                    item['categoryText'] = this.dictService.getText("permission.category", item.category);
-                    item['methodText'] = this.dictService.getText("permission.method", item.method);
                     this.expandDataCache[item.id] = this.convertTreeToList(item);
                 });
             })
@@ -81,10 +77,26 @@ export class PermissionComponent implements OnInit {
             content: PermissionInfoComponent,
             footer: false,
             maskClosable: false,
-            width: 650
+            width: 650,
+            onOk() {
+
+            }
         });
-        subscription.subscribe(result => {
-            console.log(result);
+    }
+
+    remove(inst: Permission) {
+        this.modalService.confirm({
+            title: "Prompt",
+            content: "Confirm to remove the permission your selected?",
+            onOk: (function (service) {
+                return function () {
+                    service.remove(inst.id)
+                        .then(response => {
+                            console.log(response);
+                        })
+                        .catch(reason => CommonUtils.handleErrors(reason))
+                }
+            })(this.service)
         })
     }
 
