@@ -12,7 +12,7 @@
       </nz-breadcrumb>
     </div>
     <div class="table-container">
-      <nz-table #table [nzDataSource]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true"
+      <nz-table #table [nzAjaxData]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true"
                 nzShowTitle="true">
         <div nz-table-title>
           <div style="width: 50%;display: inline-block;">{{'permission.list.title' | translate}}</div>

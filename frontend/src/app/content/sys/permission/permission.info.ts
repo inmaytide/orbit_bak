@@ -54,6 +54,7 @@ export class PermissionInfoComponent implements OnInit {
     private categories: DataDictionary[] = [];
     private methods: DataDictionary[] = [];
     private icons: DataDictionary[] = [];
+    private isSaving: boolean = false;
 
     constructor(private formBuilder: FormBuilder,
         private subject: NzModalSubject,
@@ -99,6 +100,8 @@ export class PermissionInfoComponent implements OnInit {
     }
 
     save() {
+        this.isSaving = true;
+
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
         }
@@ -108,9 +111,12 @@ export class PermissionInfoComponent implements OnInit {
             this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
             this.service.save(this.inst)
                 .then(permission => {
+                    this.subject.next(this.parent);
                     this.subject.destroy("onOk");
                 })
                 .catch(reason => CommonUtils.handleErrors(reason));
+        } else {
+            this.isSaving = false;
         }
     }
 

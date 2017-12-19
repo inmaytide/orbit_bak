@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { PermissionService } from "./permission.service";
 import { Permission } from "../../../models/permission";
 import { CommonUtils } from "../../../common-utils";
@@ -11,6 +11,7 @@ import { TranslateService } from "@ngx-translate/core";
     templateUrl: './permission.html'
 })
 export class PermissionComponent implements OnInit {
+
     private menus: Permission[] = [];
     private expandDataCache = {};
 
@@ -20,12 +21,25 @@ export class PermissionComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.getData(new Array());
+    }
+
+    getData(expandPaths: string[]) {
         this.service.list()
             .then(data => {
                 this.menus = data;
                 this.menus.forEach(item => {
                     this.expandDataCache[item.id] = this.convertTreeToList(item);
                 });
+
+                if (expandPaths && expandPaths.length > 0) {
+                    this.menus.forEach(item => {
+                        if (expandPaths[0] == item.id) {
+                            item['expand'] = true;
+                        }
+                    })
+
+                }
             })
             .catch(reason => CommonUtils.handleErrors(reason))
     }
@@ -77,11 +91,18 @@ export class PermissionComponent implements OnInit {
             content: PermissionInfoComponent,
             footer: false,
             maskClosable: false,
+            showConfirmLoading: true,
             width: 650,
             onOk() {
-
+                
             }
         });
+
+        subscription.subscribe(result => {
+            if (typeof(result) == "object") {
+                this.getData(result as string[]);
+            }
+        })
     }
 
     remove(inst: Permission) {

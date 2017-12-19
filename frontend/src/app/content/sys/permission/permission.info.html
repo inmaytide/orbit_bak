@@ -109,6 +109,6 @@
   </div>
 </form>
 <div class="customize-footer">
-  <button nz-button nzType="primary" (click)="save()">{{'permission.modal.actions.save' | translate}}</button>
+  <button nz-button nzType="primary" (click)="save()" [nzLoading]="isSaving" >{{'permission.modal.actions.save' | translate}}</button>
   <button nz-button (click)="cancel()">{{'permission.modal.actions.cancel' | translate}}</button>
 </div>
