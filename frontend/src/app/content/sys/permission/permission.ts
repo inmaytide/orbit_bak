@@ -5,10 +5,18 @@ import { CommonUtils } from "../../../common-utils";
 import { NzModalService } from "ng-zorro-antd";
 import { PermissionInfoComponent } from "./permission.info";
 import { TranslateService } from "@ngx-translate/core";
+import { isUndefined } from "util";
 
 @Component({
     selector: 'permission',
-    templateUrl: './permission.html'
+    templateUrl: './permission.html',
+    styles: [
+        `
+        .func {
+            display: inline-block;
+        }
+        `
+    ]
 })
 export class PermissionComponent implements OnInit {
 
@@ -24,22 +32,28 @@ export class PermissionComponent implements OnInit {
         this.getData(new Array());
     }
 
+    private autoExpand(expandPaths: string[], data: Permission[], index: number) {
+        if (expandPaths && expandPaths.length > 0 && expandPaths[0] !== "-1") {
+            data.forEach(item => {
+                if (expandPaths[index] == item.id) {
+                    item['expand'] = true;
+                    const children = item.children
+                    if (children && children.length > 0) {
+                        this.autoExpand(expandPaths, children, ++index);
+                    }
+                }
+            })
+        }
+    }
+
     getData(expandPaths: string[]) {
         this.service.list()
             .then(data => {
-                this.menus = data;
-                this.menus.forEach(item => {
+                this.autoExpand(expandPaths, data, 0);
+                data.forEach(item => { 
                     this.expandDataCache[item.id] = this.convertTreeToList(item);
                 });
-
-                if (expandPaths && expandPaths.length > 0) {
-                    this.menus.forEach(item => {
-                        if (expandPaths[0] == item.id) {
-                            item['expand'] = true;
-                        }
-                    })
-
-                }
+                this.menus = data;
             })
             .catch(reason => CommonUtils.handleErrors(reason))
     }
@@ -60,7 +74,7 @@ export class PermissionComponent implements OnInit {
 
     convertTreeToList(root) {
         const stack = [], array = [], hashMap = {};
-        stack.push({ ...root, level: 0, expand: false });
+        stack.push({ ...root, level: 0, expand: root.expand });
 
         while (stack.length !== 0) {
             const node = stack.pop();
@@ -70,7 +84,7 @@ export class PermissionComponent implements OnInit {
             }
             if (node.children) {
                 for (let i = node.children.length - 1; i >= 0; i--) {
-                    stack.push(Object.assign(node.children[i], { level: node.level + 1, expand: false, parent: node }));
+                    stack.push(Object.assign(node.children[i], { level: node.level + 1, parent: node, expand: node.children[i].expand}));
                 }
             }
         }
@@ -105,19 +119,29 @@ export class PermissionComponent implements OnInit {
         })
     }
 
+    private getExpandPaths(inst: any, expandPaths: string[]): string[] {
+        if (isUndefined(inst)) {
+            return expandPaths.reverse().slice(0, expandPaths.length - 1);
+        }
+        expandPaths.push(inst.id);
+        return this.getExpandPaths(inst.parent, expandPaths);
+    }
     remove(inst: Permission) {
+
+        const expandPaths = this.getExpandPaths(inst, []);
+
         this.modalService.confirm({
-            title: "Prompt",
-            content: "Confirm to remove the permission your selected?",
-            onOk: (function (service) {
+            title: this.translate.getParsedResult({}, "layer.title.prompt"),
+            content: this.translate.getParsedResult({}, "permission.remove.confirm.message"),
+            onOk: (function (that) {
                 return function () {
-                    service.remove(inst.id)
+                    that.service.remove(inst.id)
                         .then(response => {
-                            console.log(response);
+                            that.getData(expandPaths);
                         })
                         .catch(reason => CommonUtils.handleErrors(reason))
                 }
-            })(this.service)
+            })(this)
         })
     }
 

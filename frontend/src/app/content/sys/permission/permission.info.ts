@@ -108,7 +108,8 @@ export class PermissionInfoComponent implements OnInit {
 
 
         if (!this.form.invalid) {
-            this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
+            const len = this.parent.length;
+            this.inst.parent = len == 0 ? -1 : this.parent[len - 1];
             this.service.save(this.inst)
                 .then(permission => {
                     this.subject.next(this.parent);
