@@ -56,6 +56,12 @@ export class PermissionService {
             .toPromise();
     }
 
+    public update(inst: Permission): Promise<Permission> {
+        return this.http.put(PERMISSION_API_URL.BASIC, inst)
+            .map(response => response as Permission)
+            .toPromise();
+    }
+
     public remove(id: string): Promise<any> {
         return this.http.delete(PERMISSION_API_URL.BASIC + "/" + id)
             .toPromise();

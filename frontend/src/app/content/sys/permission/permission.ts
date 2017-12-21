@@ -50,7 +50,7 @@ export class PermissionComponent implements OnInit {
         this.service.list()
             .then(data => {
                 this.autoExpand(expandPaths, data, 0);
-                data.forEach(item => { 
+                data.forEach(item => {
                     this.expandDataCache[item.id] = this.convertTreeToList(item);
                 });
                 this.menus = data;
@@ -84,7 +84,7 @@ export class PermissionComponent implements OnInit {
             }
             if (node.children) {
                 for (let i = node.children.length - 1; i >= 0; i--) {
-                    stack.push(Object.assign(node.children[i], { level: node.level + 1, parent: node, expand: node.children[i].expand}));
+                    stack.push(Object.assign(node.children[i], { level: node.level + 1, parent: node, expand: node.children[i].expand }));
                 }
             }
         }
@@ -103,17 +103,18 @@ export class PermissionComponent implements OnInit {
         const subscription = this.modalService.open({
             title: this.translate.getParsedResult({}, "permission.modal.title"),
             content: PermissionInfoComponent,
+            componentParams: { state: 'add' },
             footer: false,
             maskClosable: false,
             showConfirmLoading: true,
             width: 650,
             onOk() {
-                
+
             }
         });
 
         subscription.subscribe(result => {
-            if (typeof(result) == "object") {
+            if (typeof (result) == "object") {
                 this.getData(result as string[]);
             }
         })
@@ -126,6 +127,19 @@ export class PermissionComponent implements OnInit {
         expandPaths.push(inst.id);
         return this.getExpandPaths(inst.parent, expandPaths);
     }
+
+    details(inst: Permission) {
+        const subscription = this.modalService.open({
+            title: this.translate.getParsedResult({}, "permission.modal.title"),
+            content: PermissionInfoComponent,
+            componentParams: { inst: inst, state: 'details' },
+            footer: false,
+            maskClosable: false,
+            showConfirmLoading: true,
+            width: 650
+        });
+    }
+
     remove(inst: Permission) {
 
         const expandPaths = this.getExpandPaths(inst, []);
@@ -143,6 +157,22 @@ export class PermissionComponent implements OnInit {
                 }
             })(this)
         })
+    }
+
+    edit(inst: Permission) {
+        const expandPaths = this.getExpandPaths(inst, []);
+        const subscription = this.modalService.open({
+            title: this.translate.getParsedResult({}, "permission.modal.title"),
+            content: PermissionInfoComponent,
+            componentParams: { inst: inst, state: 'edit'},
+            footer: false,
+            maskClosable: false,
+            showConfirmLoading: true,
+            width: 650,
+            onOk() {
+                
+            }
+        });
     }
 
 }

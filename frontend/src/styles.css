@@ -49,3 +49,11 @@ main {
   background-color: rgb(246, 246, 246);
 }
 
+.text-control {
+    text-align: left;
+    vertical-align: middle;
+    line-height: 32px;
+    display: inline-block;
+    color: black;
+}
+

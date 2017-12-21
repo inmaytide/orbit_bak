@@ -46,7 +46,7 @@ public class PermissionController extends AbstractController {
     }
 
     @PutMapping
-    public Mono<Permission> update(@Valid Permission permission) {
+    public Mono<Permission> update(@RequestBody @Valid Permission permission) {
         Assert.notNull(permission.getId(), "The primary key of instance must not be null when it will be update");
         Assert.isTrue(service.checkCode(permission.getCode(), permission.getId()), "The permission code cannot not be repeat");
         return Mono.just(service.update(permission));

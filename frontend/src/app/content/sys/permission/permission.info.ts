@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Permission } from "../../../models/permission";
 import { NzModalSubject } from "ng-zorro-antd";
@@ -47,6 +47,7 @@ import { isUndefined } from "util";
 })
 export class PermissionInfoComponent implements OnInit {
 
+    private state: string;
     private form: FormGroup;
     private inst: Permission = new Permission();
     private parent = [];
@@ -55,6 +56,18 @@ export class PermissionInfoComponent implements OnInit {
     private methods: DataDictionary[] = [];
     private icons: DataDictionary[] = [];
     private isSaving: boolean = false;
+
+    @Input()
+    set instance(inst: Permission) {
+        if (!isUndefined(inst)) {
+            this.inst = inst;
+        }
+    }
+
+    @Input()
+    set _state(state: string) {
+        this.state = state;
+    }
 
     constructor(private formBuilder: FormBuilder,
         private subject: NzModalSubject,
@@ -66,6 +79,9 @@ export class PermissionInfoComponent implements OnInit {
         this.categories = this.dataDictionaryService.listByCategory("permission.category");
         this.methods = this.dataDictionaryService.listByCategory("permission.method");
         this.icons = this.dataDictionaryService.listByCategory("common.icon");
+        this.service.listMenus()
+            .then(data => this.parentOptions = this.transformOptions(data))
+            .catch(reason => CommonUtils.handleErrors(reason));
         this.form = this.formBuilder.group({
             parent: new FormControl(),
             code: new FormControl(null, [Validators.required, this.codeRepeatValidator]),
@@ -76,9 +92,6 @@ export class PermissionInfoComponent implements OnInit {
             description: new FormControl(),
             method: new FormControl(null, [Validators.required])
         });
-        this.service.listMenus()
-            .then(data => this.parentOptions = this.transformOptions(data))
-            .catch(reason => CommonUtils.handleErrors(reason));
     }
 
     codeRepeatValidator = (control: FormControl): { [s: string]: boolean } => {
@@ -110,12 +123,19 @@ export class PermissionInfoComponent implements OnInit {
         if (!this.form.invalid) {
             const len = this.parent.length;
             this.inst.parent = len == 0 ? -1 : this.parent[len - 1];
-            this.service.save(this.inst)
+            if (this.state == "add") {
+                this.service.save(this.inst)
+                    .then(permission => {
+                        this.subject.next(this.parent);
+                        this.subject.destroy("onOk");
+                    })
+                    .catch(reason => CommonUtils.handleErrors(reason));
+            } else if (this.state == "edit"){
+                this.service.update(this.inst)
                 .then(permission => {
-                    this.subject.next(this.parent);
-                    this.subject.destroy("onOk");
+
                 })
-                .catch(reason => CommonUtils.handleErrors(reason));
+            }
         } else {
             this.isSaving = false;
         }
