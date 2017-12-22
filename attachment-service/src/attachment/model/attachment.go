@@ -1,30 +1,43 @@
 package model
 
 import (
-	"time"
-	"database/sql"
 	"encoding/json"
+	"fmt"
+	"gopkg.in/guregu/null.v3"
+)
+
+const (
+	ATTACHMENT_STATUS_FORMAL    = 944103312234389504
+	ATTACHMENT_STATUS_TEMPORARY = 944103645861912576
 )
 
 type Attachment struct {
-	ID             uint64
-	OriginalName   sql.NullString
-	StorageName    sql.NullString
-	Extension      sql.NullString
-	StorageAddress sql.NullString
-	Group          sql.NullInt64
-	Belong         sql.NullInt64
-	Size           sql.NullInt64
-	Status         sql.NullInt64
-	Creator        sql.NullInt64
-	CreateTime     time.Time
-	Updater        sql.NullInt64
-	UpdateTime     time.Time
-	Version        uint
+	ID             int64
+	OriginalName   null.String
+	StorageName    null.String
+	Extension      null.String
+	StorageAddress null.String
+	Group          null.Int
+	Belong         null.Int
+	Size           null.Int
+	Status         null.Int
+	Creator        null.Int
+	CreateTime     Datetime
+	Updater        null.Int
+	UpdateTime     Datetime
+	Version        int
 }
 
-func (attachment Attachment) MarshalBinary() (byte[], err){
+type Datetime null.Time
 
-	return []byte(json.Encoder{}.Encode())
+func (obj Datetime) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`"%s"`, obj.Time.Format("2006-01-02 15:04:05"))), nil
+}
 
+func (attachment Attachment) MarshalBinary() (data []byte, err error) {
+	return json.Marshal(attachment)
+}
+
+func (attachment Attachment) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, attachment);
 }
