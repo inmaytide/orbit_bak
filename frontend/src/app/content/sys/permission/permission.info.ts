@@ -53,6 +53,8 @@ export class PermissionInfoComponent implements OnInit {
     private parentOptions = [];
     private categories: DataDictionary[] = [];
     private methods: DataDictionary[] = [];
+    private icons: DataDictionary[] = [];
+    private isSaving: boolean = false;
 
     constructor(private formBuilder: FormBuilder,
         private subject: NzModalSubject,
@@ -63,6 +65,7 @@ export class PermissionInfoComponent implements OnInit {
     ngOnInit(): void {
         this.categories = this.dataDictionaryService.listByCategory("permission.category");
         this.methods = this.dataDictionaryService.listByCategory("permission.method");
+        this.icons = this.dataDictionaryService.listByCategory("common.icon");
         this.form = this.formBuilder.group({
             parent: new FormControl(),
             code: new FormControl(null, [Validators.required, this.codeRepeatValidator]),
@@ -97,16 +100,24 @@ export class PermissionInfoComponent implements OnInit {
     }
 
     save() {
+        this.isSaving = true;
+
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
         }
 
+
         if (!this.form.invalid) {
-            this.inst.parent = this.parent.length == 0 ? -1 : this.parent.pop();
-            console.log(this.inst)
+            const len = this.parent.length;
+            this.inst.parent = len == 0 ? -1 : this.parent[len - 1];
             this.service.save(this.inst)
-                .then(permission => this.cancel)
+                .then(permission => {
+                    this.subject.next(this.parent);
+                    this.subject.destroy("onOk");
+                })
                 .catch(reason => CommonUtils.handleErrors(reason));
+        } else {
+            this.isSaving = false;
         }
     }
 

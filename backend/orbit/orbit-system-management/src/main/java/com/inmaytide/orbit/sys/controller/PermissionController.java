@@ -64,7 +64,7 @@ public class PermissionController extends AbstractController {
     }
 
     @PatchMapping("/move/{id}/{category}")
-    public void move(Long id, String category) {
+    public void move(@PathVariable Long id, @PathVariable String category) {
         this.service.move(id, category);
     }
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.inmaytide.orbit.commons.serializer.LocalDateTimeSerializer;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,6 +23,7 @@ public class AbstractEntity implements Serializable {
     @Id
     @GenericGenerator(name = "snowflake", strategy = "com.inmaytide.orbit.commons.id.SnowflakeIdGenerator")
     @GeneratedValue(generator = "snowflake")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Column(name = "create_time")

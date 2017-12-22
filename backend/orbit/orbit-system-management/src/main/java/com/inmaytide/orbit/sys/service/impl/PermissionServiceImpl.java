@@ -14,10 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,6 +83,15 @@ public class PermissionServiceImpl implements PermissionService {
     @CacheEvict(value = "user_menus", allEntries = true)
     public void remove(String ids) {
         List<Long> permissionIds = split(ids, Long::valueOf, Collectors.toList());
+        permissionIds
+                .stream()
+                .map(this::findByParent)
+                .forEach(permissions -> {
+                    if (permissions.size() > 0) {
+                        throw new IllegalArgumentException("Cannot remove permissions with ID [" + ids + "], maybe because its has sub permissions");
+                    }
+                });
+
         remove(permissionIds);
         rolePermissionRepository.deleteByPIdIn(permissionIds);
     }

@@ -54,4 +54,12 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>gfs-maven-snapshot-repository</id>
+            <name>gfs-maven-snapshot-repository</name>
+            <url>https://raw.githubusercontent.com/gefangshuai/maven/master/</url>
+        </repository>
+    </repositories>
+
 </project>

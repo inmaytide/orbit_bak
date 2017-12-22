@@ -26,7 +26,7 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
             "order by sort", nativeQuery = true)
     List<Permission> findByUsername(String username, Long category);
 
-    @Query(value = "select nullif(max(sort), 0) + 1 as sort from sys_permission", nativeQuery = true)
+    @Query(value = "select ifnull(max(sort), -1) + 1 as sort from sys_permission", nativeQuery = true)
     Integer getSort();
 
     @Query(value = "select p from sys_permission p where id in (select p_id from sys_role_permission where r_id = ?1)", nativeQuery = true)

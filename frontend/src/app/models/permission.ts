@@ -5,7 +5,7 @@ export class Permission extends BasicModel {
     name: string;
     action: string;
     icon: string;
-    category: number;
+    category: string;
     description: string;
     method: string;
     parent: string;
