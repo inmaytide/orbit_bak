@@ -8,7 +8,7 @@ public class DefaultWebResponseExceptionTranslator extends org.springframework.s
 
     @Override
     public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
-
+        e.printStackTrace();
         if (e instanceof BadCaptchaException) {
             OAuth2Exception exception = new OAuth2Exception("Bad captcha", e);
             return new ResponseEntity<>(exception, HttpStatus.FORBIDDEN);

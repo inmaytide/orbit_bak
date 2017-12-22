@@ -16,7 +16,6 @@
 
     <modules>
         <module>orbit-discovery</module>
-        <module>orbit-attachment</module>
         <module>orbit-commons</module>
         <module>orbit-exception</module>
         <module>orbit-i18n</module>
@@ -31,7 +30,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.9</java.version>
-        <spring.data.mybatis>1.0.17.RELEASE</spring.data.mybatis>
     </properties>
 
     <dependencies>

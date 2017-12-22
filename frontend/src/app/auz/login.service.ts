@@ -12,7 +12,13 @@ export class LoginService {
   private loginUrl = GlobalVariables.API_BASE_URL + "oauth/token";
 
   constructor(private http: HttpClient,
-    private userService: UserService) {
+    private service: UserService) {
+  }
+
+  private loadUserDetails(user: { username, token }) {
+    this.service.getUserByUsername(user.username)
+      .then(response => CommonUtils.setPrincipal(Object.assign(response, user)))
+      .catch(reason => Promise.reject(reason));
   }
 
   public login(token: Token): Promise<void> {
@@ -20,11 +26,9 @@ export class LoginService {
     return this.http.post(this.loginUrl, {}, { params: params })
       .toPromise()
       .then(response => {
-        this.userService.getUserByUsername(token.username)
-          .then(user => {
-            user.token = response['access_token'];
-            CommonUtils.setPrincipal(user);
-          }).catch(reason => Promise.reject(reason));
+        const user = { username: token.username, token: response["access_token"] };
+        CommonUtils.setPrincipal(user);
+        this.loadUserDetails(user);
       })
       .catch(reason => Promise.reject(reason));
   }

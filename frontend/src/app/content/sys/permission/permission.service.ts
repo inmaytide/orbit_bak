@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Permission } from "../../../models/permission";
 import { GlobalVariables } from "../../../global-variables";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs/Rx";
 import { PERMISSION_API_URL } from "./permission.config";
 
 @Injectable()

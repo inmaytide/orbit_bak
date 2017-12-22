@@ -16,6 +16,14 @@ public class GlobalExceptionHandler implements WebExceptionHandler {
 
     private boolean showStackTrace = false;
 
+    public GlobalExceptionHandler() {
+
+    }
+
+    public GlobalExceptionHandler(boolean showStackTrace) {
+        this.showStackTrace = showStackTrace;
+    }
+
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable e) {
         String path = exchange.getRequest().getPath().pathWithinApplication().value();

@@ -46,7 +46,7 @@ public class CaptchaApplication {
 
     @Bean
     public GlobalExceptionHandler exceptionHandler() {
-        return new GlobalExceptionHandler();
+        return new GlobalExceptionHandler(true);
     }
 
     @Bean
