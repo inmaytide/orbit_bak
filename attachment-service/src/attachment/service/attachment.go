@@ -1,18 +1,21 @@
 package service
 
 import (
+	"attachment/config"
 	"attachment/model"
 	"attachment/redis"
-	"database/sql"
+	"attachment/util"
+	"gopkg.in/guregu/null.v3"
+	"strconv"
 	"time"
 )
 
-func SaveAttachment(attachment *model.Attachment) {
-	attachment.ID = 359812029197979648
-	attachment.Status = sql.NullInt64{Int64: 123213123123123, Valid:true}
-	next := time.Now().AddDate(0, 0, 1)
-	err := redis.GetClient().Set(string(attachment.ID), attachment, time.Duration(next.Unix())).Err()
-	if err != nil {
-		panic(err)
-	}
+func SaveAttachment(attachment model.Attachment) model.Attachment {
+	attachment.ID = util.GetSnowflakeID()
+	attachment.Status = null.IntFrom(model.ATTACHMENT_STATUS_TEMPORARY)
+	attachment.Version = 0
+	attachment.Creator = null.IntFrom(9999)
+	attachment.CreateTime = model.Datetime(null.TimeFrom(time.Now()))
+	redis.ESet("attachment:"+strconv.FormatInt(attachment.ID, 10), attachment, config.Apps.Attachment.TemporaryExpireTime)
+	return attachment
 }

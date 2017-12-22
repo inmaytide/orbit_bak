@@ -3,19 +3,23 @@ package config
 import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
-	"os"
 	"log"
+	"os"
 )
 
 type Application struct {
-	Port   string `yaml:"port"`
-	Name   string `yaml:"application-name"`
-	Eureka string `yaml:"eureka"`
+	Port       string `yaml:"port"`
+	Name       string `yaml:"application-name"`
+	Eureka     string `yaml:"eureka"`
 	Datasource string `yaml:"datasource"`
-	Redis struct{
-		Addr string `yaml:"addr"`
+	Redis      struct {
+		Addr     string `yaml:"addr"`
 		Password string `yaml:"password"`
-		DB int `yaml:"db"`
+		DB       int    `yaml:"db"`
+	}
+	Attachment struct {
+		FormalStorageAddress string `yaml:"formal-storage-address"`
+		TemporaryExpireTime  uint64    `yaml:"temporary-expire-time"`
 	}
 }
 

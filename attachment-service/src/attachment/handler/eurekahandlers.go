@@ -1,4 +1,4 @@
-package service
+package handler
 
 import (
 	"attachment/model"
@@ -57,19 +57,8 @@ func VendorShow(w http.ResponseWriter, r *http.Request) {
 	// If we didn't find it, 404
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusNotFound)
-	if err := json.NewEncoder(w).Encode(model.JsonErr{Code: http.StatusNotFound, Text: "Not Found"}); err != nil {
+	response := model.BuildResponseError(http.StatusNotFound, r.RequestURI, "Not Found")
+	if err := json.NewEncoder(w).Encode(response); err != nil {
 		panic(err)
 	}
-}
-
-func sayhelloName(w http.ResponseWriter, request *http.Request) {
-	request.ParseForm()
-	fmt.Println(request.Form)
-	fmt.Println("path", request.URL.Path)
-	fmt.Println("scheme", request.URL.Scheme)
-	for k, v := range request.Form {
-		fmt.Println("key", k)
-		fmt.Println("value", v)
-	}
-	fmt.Fprintf(w, "Hello astaxie!!!!")
 }
