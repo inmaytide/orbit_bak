@@ -5,21 +5,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.exception.BadCaptchaException;
 import com.inmaytide.orbit.commons.consts.Constants;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.Assert;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.*;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * @author Moss
@@ -40,14 +30,16 @@ public class CaptchaInterceptor implements WebRequestInterceptor {
 
     @Override
     public void preHandle(WebRequest request) throws Exception {
-        ServletWebRequest webRequest = (ServletWebRequest) request;
-        String value = webRequest.getRequest().getCookies()[0].getValue();
+        String value = request.getHeader(Constants.HEADER_NAME_CAPTCHA_NAME);
+        if (StringUtils.isBlank(value)) {
+            throw new BadCaptchaException();
+        }
         ObjectNode response = WebClient.builder().baseUrl("http://orbit-captcha")
                 .filter(exchangeFilterFunction)
                 .build()
                 .get()
                 .uri("/captcha/{captcha}", checkCaptcha(request.getParameter("captcha")))
-                .header(Constants.HEADER_NAME_SESSION_ID, value)
+                .header(Constants.HEADER_NAME_CAPTCHA_NAME, value)
                 .retrieve()
                 .bodyToMono(ObjectNode.class)
                 .block();

@@ -17,7 +17,6 @@ export class LoginComponent implements OnInit {
 
   private token: Token;
   private validateForm: FormGroup;
-  private failedCount: number = 0;
   private captchaImagePath: string;
 
   constructor(private service: LoginService,
@@ -28,10 +27,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.token = new Token();
+    this.getCaptcha();
     this.validateForm = this.fb.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
-      captcha: [null]
+      captcha: [null, [Validators.required]]
     });
   }
 
@@ -41,24 +41,14 @@ export class LoginComponent implements OnInit {
     }
     if (!this.validateForm.invalid) {
       this.service.login(this.token)
-        .then(() => {
-          this.router
-            .navigateByUrl("/index")
-            .then(result => this.failedCount = 0);
-        })
-        .catch(reason => {
-          this.message.create("error", reason.error.message);
-          this.failedCount++;
-          if (this.failedCount >= 3) {
-            this.getCaptcha();
-            this.validateForm.controls['captcha'].markAsPristine();
-            this.validateForm.controls['captcha'].setValidators([Validators.required]);
-          }
-        });
+        .then(() => this.router.navigateByUrl("/index"))
+        .catch(reason => this.message.create("error", reason.error.message));
     }
   }
 
   public getCaptcha() {
-    this.captchaImagePath = GlobalVariables.API_BASE_URL + "captcha?v=" + Date.now();
+    this.service.getCaptcha()
+    .then(image => this.captchaImagePath = "data:image/jpeg;base64," + image)
+    .catch(reason => this.message.create("error", reason.error.message));
   }
 }

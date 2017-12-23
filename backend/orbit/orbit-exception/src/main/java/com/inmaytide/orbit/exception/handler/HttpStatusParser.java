@@ -17,6 +17,7 @@ public class HttpStatusParser {
         CLASS_MAPPERS = new ConcurrentHashMap<>();
         CLASS_MAPPERS.put(PathNotFoundException.class, HttpStatus.NOT_FOUND);
         CLASS_MAPPERS.put(IllegalArgumentException.class, HttpStatus.BAD_REQUEST);
+        CLASS_MAPPERS.put(IllegalAccessException.class, HttpStatus.FORBIDDEN);
         CLASS_MAPPERS.put(VersionMatchedException.class, HttpStatus.CONFLICT);
 
         CLASS_NAME_MAPPERS = new ConcurrentHashMap<>();
@@ -24,6 +25,7 @@ public class HttpStatusParser {
         CLASS_NAME_MAPPERS.put("org.springframework.security.authentication.AuthenticationCredentialsNotFoundException", HttpStatus.FORBIDDEN);
         CLASS_NAME_MAPPERS.put("org.springframework.orm.ObjectOptimisticLockingFailureException", HttpStatus.CONFLICT);
         CLASS_NAME_MAPPERS.put("org.springframework.web.bind.support.WebExchangeBindException", HttpStatus.BAD_REQUEST);
+        CLASS_NAME_MAPPERS.put("com.inmaytide.orbit.auth.exception.BadCaptchaException", HttpStatus.FORBIDDEN);
     }
 
     public static HttpStatus parser(Throwable e) {

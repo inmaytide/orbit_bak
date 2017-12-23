@@ -63,7 +63,7 @@ public class DefaultCaptchaService implements CaptchaService {
     @Override
     public boolean validation(String captcha, String cacheName) {
         String key = generateCacheName(cacheName);
-        boolean isValid = !hasCaptcha(key) || StringUtils.equalsIgnoreCase(captcha, getServerCaptcha(key));
+        boolean isValid = hasCaptcha(key) && StringUtils.equalsIgnoreCase(captcha, getServerCaptcha(key));
         log.debug("Validation captcha: {key: '{}', input: '{}', isValid: '{}'}", key, captcha, isValid);
         return isValid;
     }

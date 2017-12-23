@@ -7,16 +7,12 @@ import { CommonUtils } from "../common-utils";
 export class CommonRequestInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let headers = new HttpHeaders();
         let principal = CommonUtils.getPrincipal();
         if (principal && principal.token) {
-            headers = new HttpHeaders({
-                "Authorization": "Bearer " + principal.token
-            })
+            req.headers.set("Authorization", "Bearer " + principal.token);
         }
         req = req.clone({
-            withCredentials: true,
-            headers: headers
+            withCredentials: true
         });
         return next.handle(req);
     }
