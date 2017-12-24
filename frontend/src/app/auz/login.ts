@@ -42,7 +42,14 @@ export class LoginComponent implements OnInit {
     if (!this.validateForm.invalid) {
       this.service.login(this.token)
         .then(() => this.router.navigateByUrl("/index"))
-        .catch(reason => this.message.create("error", reason.error.message));
+        .catch(reason => {
+          this.getCaptcha();
+          let message = reason.error.message;
+          if (!message) {
+            message = reason.error.error_description;
+          }
+          this.message.create("error", message);
+        });
     }
   }
 

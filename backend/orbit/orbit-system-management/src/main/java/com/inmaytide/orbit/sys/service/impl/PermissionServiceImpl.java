@@ -4,16 +4,18 @@ import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
 import com.inmaytide.orbit.sys.service.PermissionService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -107,30 +109,30 @@ public class PermissionServiceImpl implements PermissionService {
     @CacheEvict(value = "user_menus", allEntries = true)
     public void move(Long id, String category) {
         Permission inst = get(id).orElseThrow(() -> new IllegalArgumentException("The permission needs to move is not exist. ID for [{}]" + id));
-        List<Permission> permissions = findByParent(inst.getParent());
-        if (permissions.size() <= 1) {
-            log.error("The permission cannot to move,  because there is no same level permissions to exchange");
-            return;
+        Permission exchanger = getExchanger(inst, category);
+        if (exchanger != null) {
+            int sort = inst.getSort();
+            inst.setSort(exchanger.getSort());
+            exchanger.setSort(sort);
+            getRepository().saveAll(List.of(inst, exchanger));
         }
-        int index = permissions.indexOf(inst);
-        Permission other = getOther(index, permissions, category);
-
-        int sort = inst.getSort();
-        inst.setSort(other.getSort());
-        other.setSort(sort);
-        getRepository().saveAll(List.of(inst, other));
     }
 
-    private Permission getOther(int index, List<Permission> permissions, String category) {
-        int otherIndex, len = permissions.size();
-        if ("up".equals(category)) {
-            otherIndex = index == 0 ? len - 1 : index - 1;
-        } else if ("down".equals(category)) {
-            otherIndex = index == len - 1 ? 0 : index + 1;
-        } else {
-            throw new IllegalArgumentException("The move category must be up or down");
+    private String toLowerCase(String str) {
+        return StringUtils.isBlank(str) ? "" : str.toLowerCase();
+    }
+
+    private Permission getExchanger(Permission current, String category) {
+        ExchangerIndexProvider provider = EXCHANGER_INDEX_PROVIDERS.get(toLowerCase(category));
+        Assert.isNull(provider, "The move category must be up or down");
+
+        List<Permission> permissions = findByParent(current.getParent());
+        if (permissions.size() <= 1) {
+            log.error("The permission cannot to move,  because there is no same level permissions to exchange");
+            return null;
         }
-        return permissions.get(otherIndex);
+
+        return permissions.get(provider.get(permissions.indexOf(current), permissions.size()));
     }
 
     private List<Permission> findByParent(Long parent) {

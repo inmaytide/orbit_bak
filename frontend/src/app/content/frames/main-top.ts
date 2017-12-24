@@ -3,6 +3,7 @@ import {User} from "../../models/user";
 import {CommonUtils} from "../../common-utils";
 import {GlobalVariables} from "../../global-variables";
 import {Router} from "@angular/router";
+import { isUndefined } from "util";
 
 @Component({
   selector: 'main-top',
@@ -13,14 +14,21 @@ import {Router} from "@angular/router";
 })
 export class MainTopComponent implements OnInit{
 
-  private user: User;
+  private user: User = new User();
 
   constructor(private router: Router) {
 
   }
 
   ngOnInit(): void {
-    this.user = CommonUtils.getPrincipal();
+    this.setUser(this.user);
+  }
+
+  setUser(user) {
+    user = Object.assign(user, CommonUtils.getPrincipal());
+    if (!user.id) {
+      setTimeout(() => this.setUser(user), 2000);
+    }
   }
 
   logout() {

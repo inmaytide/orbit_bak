@@ -26,13 +26,9 @@ public class DefaultCaptchaService implements CaptchaService {
 
     private static final String DEFAULT_IMAGE_FORMAT = "png";
 
-    private static final String DEFUALT_CACHE_NAME_PARAMETER = "v";
-
     private ConfigurableCaptchaService configurableCaptchaService;
 
     private StringRedisTemplate stringRedisTemplate;
-
-    private String cacheNameParameter = DEFUALT_CACHE_NAME_PARAMETER;
 
     @Autowired
     public DefaultCaptchaService(ConfigurableCaptchaService configurableCaptchaService, StringRedisTemplate stringRedisTemplate) {
@@ -51,7 +47,7 @@ public class DefaultCaptchaService implements CaptchaService {
         try (OutputStream os = resource.getOutputStream()) {
             cacheName = generateCacheName(cacheName);
             String captcha = EncoderHelper.getChallangeAndWriteImage(configurableCaptchaService, "png", os);
-            stringRedisTemplate.opsForValue().set(cacheName, captcha, 12, TimeUnit.HOURS);
+            stringRedisTemplate.opsForValue().set(cacheName, captcha, 15, TimeUnit.MINUTES);
             log.debug("Captcha generated: {key: '{}', value: '{}'}", cacheName, captcha);
         } catch (IOException e) {
             log.error("Failed to generate captcha. => {}", e.getMessage());
@@ -66,14 +62,6 @@ public class DefaultCaptchaService implements CaptchaService {
         boolean isValid = hasCaptcha(key) && StringUtils.equalsIgnoreCase(captcha, getServerCaptcha(key));
         log.debug("Validation captcha: {key: '{}', input: '{}', isValid: '{}'}", key, captcha, isValid);
         return isValid;
-    }
-
-    public String getCacheNameParameter() {
-        return cacheNameParameter;
-    }
-
-    public void setCacheNameParameter(String cacheNameParameter) {
-        this.cacheNameParameter = cacheNameParameter;
     }
 
     private boolean hasCaptcha(String key) {

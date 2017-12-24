@@ -5,6 +5,7 @@ import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.domain.Permission;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface PermissionService extends BasicService<PermissionRepository, Permission, Long> {
@@ -37,4 +38,13 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
     Set<String> listCodesByUsername(String username);
 
     List<Permission> listMenusByUsername(String username);
+
+    @FunctionalInterface
+    interface ExchangerIndexProvider {
+        int get(int index, int len);
+    }
+
+    Map<String, ExchangerIndexProvider> EXCHANGER_INDEX_PROVIDERS = Map.of("up", (index, len) -> index == 0 ? len - 1 : index - 1,
+            "down", (index, len) -> index == len - 1 ? 0 : index + 1);
+
 }

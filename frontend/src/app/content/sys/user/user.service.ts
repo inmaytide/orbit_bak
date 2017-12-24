@@ -14,8 +14,8 @@ export class UserService {
 
     public getUserByUsername(username: string): Promise<User> {
         return this.http.get(UserApiUrls.getUserByUsername + username)
-            .map(response => response as User)
-            .toPromise();
+            .toPromise()
+            .then(response => response as User);
     }
 
 }

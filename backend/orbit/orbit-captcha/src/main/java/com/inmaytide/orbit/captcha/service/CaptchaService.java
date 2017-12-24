@@ -14,8 +14,4 @@ public interface CaptchaService {
 
     boolean validation(String captcha, String cacheName);
 
-    String getCacheNameParameter();
-
-    void setCacheNameParameter(String cacheNameParameter);
-
 }

@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Permission } from "../../../models/permission";
 import { GlobalVariables } from "../../../global-variables";
-import { Observable } from "rxjs/Rx";
 import { PERMISSION_API_URL } from "./permission.config";
 
 @Injectable()
@@ -15,14 +14,14 @@ export class PermissionService {
 
     public list(): Promise<Permission[]> {
         return this.http.get(PERMISSION_API_URL.BASIC)
-            .map(response => response as Permission[])
-            .toPromise();
+            .toPromise()
+            .then(response => response as Permission[]);
     }
 
     public listMenus(): Promise<Permission[]> {
         return this.http.get(PERMISSION_API_URL.BASIC + "?category=377564822935437312")
-            .map(response => response as Permission[])
-            .toPromise();
+            .toPromise()
+            .then(response => response as Permission[])
     }
 
     public codeIsRepeat(code: string, id: string): { isRepeat: boolean } {
