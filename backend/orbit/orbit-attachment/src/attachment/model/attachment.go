@@ -3,7 +3,6 @@ package model
 import (
 	"fmt"
 	"gopkg.in/guregu/null.v3"
-	"time"
 )
 
 const (
