@@ -23,8 +23,7 @@ func UploadAttachment(writer http.ResponseWriter, request *http.Request) {
 
 	if file == nil || err != nil {
 		response := model.BuildResponseError(http.StatusBadRequest, request.RequestURI, "Failed to get attachment from request body")
-		err := json.NewEncoder(writer).Encode(response)
-		util.CheckError(err)
+		json.NewEncoder(writer).Encode(response)
 		return
 	}
 	defer file.Close()
@@ -45,19 +44,24 @@ func UploadAttachment(writer http.ResponseWriter, request *http.Request) {
 	if ioerr != nil {
 		log.Fatalln(ioerr.Error())
 		response := model.BuildResponseError(http.StatusInternalServerError, request.RequestURI, "Failed to write file to server")
-		err = json.NewEncoder(writer).Encode(response)
-		util.CheckError(err)
+		json.NewEncoder(writer).Encode(response)
 		return
 	}
 
-	err = json.NewEncoder(writer).Encode(service.SaveAttachment(inst))
-	util.CheckError(err)
+	json.NewEncoder(writer).Encode(service.SaveAttachment(inst))
 }
 
 func DownloadAttachment(writer http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
 	id := vars["id"]
-	attachment := model.Attachment{}
-	attachment.UnmarshalBinary(redis.Get("attachment:" + id));
-	json.NewEncoder(writer).Encode()
+	value := redis.Get("attachment:" + id)
+	var attachment = model.Attachment{}
+
+	err := json.Unmarshal(value, &attachment);
+
+	if err != nil {
+		log.Fatalf("Can't to deserialization the data. data => [%s], err => [%s]\r\n", value, err.Error())
+	}
+
+	json.NewEncoder(writer).Encode(attachment)
 }
