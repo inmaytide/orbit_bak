@@ -10,8 +10,6 @@ import java.util.Set;
 
 public interface PermissionService extends BasicService<PermissionRepository, Permission, Long> {
 
-    //String[] unmodifiable_fields = new String[] {"id", "parent", "createTime", "updateTime", "creator", "updater", "sort"};
-
     List<Permission> listByRole(Long roleId);
 
     /**

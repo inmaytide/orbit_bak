@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.commons.serializer;
+package com.inmaytide.orbit.commons.ser;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 public class LocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
 
-    private static final String DEFAULT_DATETIME_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_DATETIME_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Override
     public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {

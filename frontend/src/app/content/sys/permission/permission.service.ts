@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Permission } from "../../../models/permission";
 import { GlobalVariables } from "../../../global-variables";
 import { PERMISSION_API_URL } from "./permission.config";
+import { CommonUtils } from "../../../common-utils";
 
 @Injectable()
 export class PermissionService {
@@ -28,8 +29,8 @@ export class PermissionService {
         const remote = PERMISSION_API_URL.BASIC + "/checkCode/" + id + "/" + code;
         const xhr = new XMLHttpRequest();
         let result = "{'isRepeat': true}";
-        xhr.withCredentials = true;
         xhr.open("get", remote, false);
+        xhr.setRequestHeader("Authorization", CommonUtils.getToken())
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 if (xhr.responseText) {
@@ -51,18 +52,24 @@ export class PermissionService {
 
     public save(inst: Permission): Promise<Permission> {
         return this.http.post(PERMISSION_API_URL.BASIC, inst)
-            .map(response => response as Permission)
-            .toPromise();
+            .toPromise()
+            .then(response => response as Permission);
     }
 
     public update(inst: Permission): Promise<Permission> {
         return this.http.put(PERMISSION_API_URL.BASIC, inst)
-            .map(response => response as Permission)
-            .toPromise();
+            .toPromise()
+            .then(response => response as Permission);
     }
 
     public remove(id: string): Promise<any> {
         return this.http.delete(PERMISSION_API_URL.BASIC + "/" + id)
+            .toPromise();
+    }
+
+    public move(id: string, category: string): Promise<any> {
+        const url = [PERMISSION_API_URL.MOVE, id, category];
+        return this.http.patch(url.join("/"), {})
             .toPromise();
     }
 

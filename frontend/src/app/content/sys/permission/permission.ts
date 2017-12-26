@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { PermissionService } from "./permission.service";
 import { Permission } from "../../../models/permission";
 import { CommonUtils } from "../../../common-utils";
-import { NzModalService } from "ng-zorro-antd";
+import { NzModalService, NzMessageService } from "ng-zorro-antd";
 import { PermissionInfoComponent } from "./permission.info";
 import { TranslateService } from "@ngx-translate/core";
 import { isUndefined } from "util";
@@ -22,6 +22,7 @@ export class PermissionComponent implements OnInit {
 
     private menus: Permission[] = [];
     private expandDataCache = {};
+    private loading = true;
 
     constructor(private service: PermissionService,
         private modalService: NzModalService,
@@ -47,6 +48,7 @@ export class PermissionComponent implements OnInit {
     }
 
     getData(expandPaths: string[]) {
+        this.loading = true;
         this.service.list()
             .then(data => {
                 this.autoExpand(expandPaths, data, 0);
@@ -54,8 +56,12 @@ export class PermissionComponent implements OnInit {
                     this.expandDataCache[item.id] = this.convertTreeToList(item);
                 });
                 this.menus = data;
+                this.loading = false;
             })
-            .catch(reason => CommonUtils.handleErrors(reason))
+            .catch(reason => {
+                this.loading = false;
+                CommonUtils.handleErrors(reason);
+            })
     }
 
     collapse(array, data, $event) {
@@ -173,6 +179,20 @@ export class PermissionComponent implements OnInit {
                 
             }
         });
+
+        subscription.subscribe(result => {
+            if (result == "onCancel" || result == "onOk") {
+                this.getData(expandPaths)
+            }
+        })
+    }
+
+    move(inst:Permission, category: string) {
+        const expandPaths = this.getExpandPaths(inst, []);
+        this.loading = true;
+        this.service.move(inst.id, category)
+        .then(_ => this.getData(expandPaths))
+        .catch(CommonUtils.handleErrors)
     }
 
 }

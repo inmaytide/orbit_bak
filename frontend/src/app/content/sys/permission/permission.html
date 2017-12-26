@@ -12,7 +12,7 @@
       </nz-breadcrumb>
     </div>
     <div class="table-container">
-      <nz-table #table [nzDataSource]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true" nzShowTitle="true">
+      <nz-table #table [nzLoading]="loading" [nzDataSource]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true" nzShowTitle="true">
         <div nz-table-title>
           <div style="width: 50%;display: inline-block;">{{'permission.list.title' | translate}}</div>
           <div style="width: 49%; text-align: right;display: inline-block;">
@@ -54,9 +54,9 @@
                     <span nz-table-divider></span>
                     <a href="javascript:void(0)" (click)="edit(item)">{{'permission.func.edit' | translate}}</a>
                     <span nz-table-divider></span>
-                    <a href="#">{{'permission.func.move.up' | translate}}</a>
+                    <a href="javascript:void(0)" (click)="move(item, 'up')">{{'permission.func.move.up' | translate}}</a>
                     <span nz-table-divider></span>
-                    <a href="#">{{'permission.func.move.down' | translate}}</a>
+                    <a href="javascript:void(0)" (click)="move(item, 'down')">{{'permission.func.move.down' | translate}}</a>
                     <span nz-table-divider></span>
                     <div *ngIf="item.children.length == 0" class="func">
                       <a href="javascript:void(0)" (click)="remove(item)">{{'permission.func.remove' | translate}}</a>
