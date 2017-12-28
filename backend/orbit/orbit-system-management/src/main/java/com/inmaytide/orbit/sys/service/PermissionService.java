@@ -21,7 +21,7 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
     List<Permission> listNodes(Long category);
 
     /**
-     * Get all permissions  and transform to tree nodes.
+     * Get all permissions and transform to tree nodes.
      *
      * @return Tree structure permissions
      */

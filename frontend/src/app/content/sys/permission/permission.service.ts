@@ -57,7 +57,7 @@ export class PermissionService {
     }
 
     public update(inst: Permission): Promise<Permission> {
-        return this.http.put(PERMISSION_API_URL.BASIC, inst)
+        return this.http.put(PERMISSION_API_URL.BASIC, Object.assign(inst, {parent: -1, children:[]}))
             .toPromise()
             .then(response => response as Permission);
     }
