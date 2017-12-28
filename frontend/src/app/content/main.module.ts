@@ -18,9 +18,12 @@ import { UserService } from "./sys/user/user.service";
 import { DictionaryPipe } from "../pipe/dictionary.pipe";
 import { OrganizationComponent } from "./sys/organization/organization";
 import { OrganizationService } from "./sys/organization/organization.service";
+import { OrganizationInfoComponent } from "./sys/organization/organization.info";
+import { BreadcrumbComponent } from "./breadcrumb";
 
 @NgModule({
   declarations: [
+    BreadcrumbComponent,
     MainComponent,
     IndexComponent,
     SidebarComponent,
@@ -29,7 +32,8 @@ import { OrganizationService } from "./sys/organization/organization.service";
     PermissionInfoComponent,
     MainFooterComponent,
     DictionaryPipe,
-    OrganizationComponent
+    OrganizationComponent,
+    OrganizationInfoComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +50,8 @@ import { OrganizationService } from "./sys/organization/organization.service";
     OrganizationService
   ],
   entryComponents: [
-    PermissionInfoComponent
+    PermissionInfoComponent,
+    OrganizationInfoComponent
   ]
 })
 export class MainModule {

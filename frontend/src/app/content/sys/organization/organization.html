@@ -1,18 +1,8 @@
 <nz-layout style="height: 100%;">
   <nz-content style="padding: 10px;">
-    <div class="bar-position">
-      <nz-breadcrumb nzSeparator=">">
-        <i class="fa fa-map-marker"></i>
-        <nz-breadcrumb-item>
-          System Management
-        </nz-breadcrumb-item>
-        <nz-breadcrumb-item>
-          Organization Management
-        </nz-breadcrumb-item>
-      </nz-breadcrumb>
-    </div>
+    <breadcrumb [paths]="['System Management', 'Organization Management']"></breadcrumb>
     <div class="table-container">
-      <nz-table #table [nzLoading]="loading" [nzDataSource]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true" nzShowTitle="true">
+      <nz-table #table [nzLoading]="loading" [nzDataSource]="data" nzSize="small" [nzIsPagination]="false" nzBordered="true" nzShowTitle="true">
         <div nz-table-title>
           <div style="width: 50%;display: inline-block;">{{'organization.list.title' | translate}}</div>
           <div style="width: 49%; text-align: right;display: inline-block;">

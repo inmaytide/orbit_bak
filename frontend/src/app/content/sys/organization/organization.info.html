@@ -1,0 +1,88 @@
+<form nz-form [formGroup]="form">
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="3" style="line-height: 30px;">
+      <label>{{'organization.column.parent' | translate}}</label>
+    </div>
+    <div  *ngIf="state == 'add'" nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('parent')">
+      <nz-cascader
+        nzPlaceHolder="{{'common.select.placeholder' | translate}}"
+        formControlName="parent"
+        nzChangeOnSelect="true"
+        nzValueProperty="id"
+        nzLabelProperty="name"
+        [nzOptions]="parentOptions"
+        [(ngModel)]="parent">
+      </nz-cascader>
+    </div>
+    <div *ngIf="state != 'add'" nz-col [nzSpan]="8" class="text-control">
+        <label>{{(inst.parent && inst.parent.name) || 'Root Menu'}}</label>
+    </div>
+    <div nz-form-label nz-col [nzSpan]="1" style="line-height: 30px;"></div>
+    <div nz-form-label nz-col [nzSpan]="3" style="line-height: 30px;">
+      <label nz-form-item-required>{{'organization.column.category' | translate}}</label>
+    </div>
+    <div  *ngIf="state == 'add'" nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('category')">
+      <nz-select formControlName="category" [(ngModel)]="inst.category" nzPlaceHolder="{{'common.select.placeholder' | translate}}">
+        <nz-option
+          *ngFor="let option of categories"
+          [nzLabel]="option.text"
+          [nzValue]="option.id">
+        </nz-option>
+      </nz-select>
+    </div>
+    <div *ngIf="state != 'add'" nz-col [nzSpan]="8" class="text-control">
+        <label>{{inst.category | dictionary: 'organization.category'}}</label>
+    </div>
+  </div>
+
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="3" style="line-height: 30px;">
+      <label nz-form-item-required>{{'organization.column.code' | translate}}</label>
+    </div>
+    <div  *ngIf="state == 'add'" nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('code')">
+      <input nz-input formControlName="code" id="code" [(ngModel)]="inst.code" maxlength="32"/>
+    </div>
+    <div *ngIf="state != 'add'" nz-col [nzSpan]="8" class="text-control">
+        <label>{{inst.code}}</label>
+    </div>
+    <div nz-form-label nz-col [nzSpan]="1" style="line-height: 30px;"></div>
+    <div nz-form-label nz-col [nzSpan]="3" style="line-height: 30px;">
+      <label nz-form-item-required>{{'organization.column.name' | translate}}</label>
+    </div>
+    <div  *ngIf="state == 'add'" nz-form-control nz-col [nzSpan]="8" [nzValidateStatus]="getFormControl('name')">
+      <input nz-input formControlName="name" id="name" [(ngModel)]="inst.name" maxlength="64"/>
+    </div>
+    <div *ngIf="state != 'add'" nz-col [nzSpan]="8" class="text-control">
+        <label>{{inst.name}}</label>
+    </div>
+  </div>
+
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="3" style="line-height: 30px;">
+      <label>{{'organization.column.address' | translate}}</label>
+    </div>
+    <div *ngIf="state == 'add'" nz-form-control nz-col [nzSpan]="20" [nzValidateStatus]="getFormControl('address')">
+      <input nz-input formControlName="address" id="address" [(ngModel)]="inst.address" maxlength="255"/>
+    </div>
+    <div *ngIf="state != 'add'" nz-col [nzSpan]="20" class="text-control">
+        <label>{{inst.address}}</label>
+    </div>
+  </div>
+
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSpan]="3" style="line-height: 30px;">
+      <label>{{'organization.column.description' | translate}}</label>
+    </div>
+    <div *ngIf="state == 'add'" nz-form-control nz-col [nzSpan]="20" [nzValidateStatus]="getFormControl('description')">
+      <input nz-input formControlName="description" id="description" [(ngModel)]="inst.description" maxlength="255"/>
+    </div>
+    <div *ngIf="state != 'add'" nz-col [nzSpan]="20" class="text-control">
+        <label>{{inst.description}}</label>
+    </div>
+  </div>
+
+</form>
+<div class="customize-footer">
+  <button *ngIf="state != 'details'" nz-button nzType="primary" (click)="save()" [nzLoading]="isSaving" >{{'permission.modal.actions.save' | translate}}</button>
+  <button nz-button (click)="cancel()">{{'permission.modal.actions.cancel' | translate}}</button>
+</div>
