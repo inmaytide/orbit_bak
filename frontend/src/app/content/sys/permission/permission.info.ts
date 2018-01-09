@@ -26,7 +26,7 @@ import { isUndefined } from "util";
         padding-left: 20px;
         padding-right: 20px;
         margin-right: 15px;
-      }ÒÒÒ
+      }
     `,
         `
       .ant-form-item {
@@ -130,11 +130,12 @@ export class PermissionInfoComponent implements OnInit {
                         this.subject.destroy("onOk");
                     })
                     .catch(reason => CommonUtils.handleErrors(reason));
-            } else if (this.state == "edit"){
+            } else if (this.state == "edit") {
                 this.service.update(this.inst)
-                .then(permission => {
-
-                })
+                    .then(permission => {
+                        this.subject.destroy("onOk");
+                    })
+                    .catch(reason => CommonUtils.handleErrors(reason));
             }
         } else {
             this.isSaving = false;

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,9 +22,10 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class PermissionServiceImpl implements PermissionService {
 
-    public static final Long MENU_ROOT_ID = -1L;
     private static final Logger log = LoggerFactory.getLogger(PermissionServiceImpl.class);
     private static final Sort DEFAULT_SORT = Sort.by(Sort.Direction.ASC, "sort");
+    public static final Long MENU_ROOT_ID = -1L;
+
     @Autowired
     private RolePermissionRepository rolePermissionRepository;
 
@@ -124,7 +124,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     private Permission getExchanger(Permission current, String category) {
         ExchangerIndexProvider provider = EXCHANGER_INDEX_PROVIDERS.get(toLowerCase(category));
-        Assert.isNull(provider, "The move category must be up or down");
+        Assert.notNull(provider, "The move category must be up or down");
 
         List<Permission> permissions = findByParent(current.getParent());
         if (permissions.size() <= 1) {

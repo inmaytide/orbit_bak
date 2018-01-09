@@ -1,26 +1,24 @@
 <nz-layout style="height: 100%;">
   <nz-content style="padding: 10px;">
-    <breadcrumb [paths]="['System Management', 'Permission Management']"></breadcrumb>
+    <breadcrumb [paths]="['System Management', 'Organization Management']"></breadcrumb>
     <div class="table-container">
-      <nz-table #table [nzLoading]="loading" [nzDataSource]="menus" nzSize="small" [nzIsPagination]="false" nzBordered="true" nzShowTitle="true">
+      <nz-table #table [nzLoading]="loading" [nzDataSource]="data" nzSize="small" [nzIsPagination]="false" nzBordered="true" nzShowTitle="true">
         <div nz-table-title>
-          <div style="width: 50%;display: inline-block;">{{'permission.list.title' | translate}}</div>
+          <div style="width: 50%;display: inline-block;">{{'organization.list.title' | translate}}</div>
           <div style="width: 49%; text-align: right;display: inline-block;">
             <button nz-button nzType="primary" nzSize="small" (click)="add()">
               <i class="anticon anticon-file-add"></i>
-              <span>{{'permission.func.add' | translate}}</span>
+              <span>{{'common.func.add' | translate}}</span>
             </button>
           </div>
         </div>
         <thead nz-thead>
           <tr>
-            <th nz-th>
-            </th>
-            <th nz-th [nzWidth]="'20%'">{{'permission.column.name' | translate}}</th>
-            <th nz-th [nzWidth]="'15%'">{{'permission.column.code' | translate}}</th>
-            <th nz-th [nzWidth]="'10%'">{{'permission.column.category' | translate}}</th>
-            <th nz-th [nzWidth]="'10%'">{{'permission.column.method' | translate}}</th>
-            <th nz-th>{{'permission.func.operations' | translate}}</th>
+            <th nz-th></th>
+            <th nz-th [nzWidth]="'25%'">{{'organization.column.code' | translate}}</th>
+            <th nz-th [nzWidth]="'15%'">{{'organization.column.name' | translate}}</th>
+            <th nz-th [nzWidth]="'15%'">{{'organization.column.category' | translate}}</th>
+            <th nz-th>{{'common.func.operations' | translate}}</th>
           </tr>
         </thead>
         <tbody nz-tbody style="background-color: white;">

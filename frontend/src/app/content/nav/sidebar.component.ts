@@ -11,7 +11,7 @@ import {CommonUtils} from "../../common-utils";
   styles: [
       `
         .fa {
-            font-size: 18px;
+            font-size: 16px;
             margin-left: -8px;
             padding-right: 5px;
         }

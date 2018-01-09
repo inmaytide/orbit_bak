@@ -27,6 +27,8 @@ public class Organization extends AbstractEntity {
     @Column(name = "is_removed")
     private int isRemoved;
 
+    private Integer sort;
+
     public String getCode() {
         return code;
     }
@@ -81,5 +83,13 @@ public class Organization extends AbstractEntity {
 
     public void setIsRemoved(int isRemoved) {
         this.isRemoved = isRemoved;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

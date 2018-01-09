@@ -16,7 +16,7 @@
       </span>
       <ul>
         <li nz-menu-item *ngFor="let child of menu.children" (click)="changeContent(child, $event)">
-          <i *ngIf="child.icon" class="fa fa-{{menu.icon | dictionary: 'common.icon'}}"></i> {{child.title}}
+          <i *ngIf="child.icon" class="fa fa-{{child.icon | dictionary: 'common.icon'}}"></i> {{child.title}}
           <span>{{child.name}}</span>
         </li>
       </ul>

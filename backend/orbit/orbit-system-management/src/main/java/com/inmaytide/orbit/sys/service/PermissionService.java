@@ -10,8 +10,6 @@ import java.util.Set;
 
 public interface PermissionService extends BasicService<PermissionRepository, Permission, Long> {
 
-    //String[] unmodifiable_fields = new String[] {"id", "parent", "createTime", "updateTime", "creator", "updater", "sort"};
-
     List<Permission> listByRole(Long roleId);
 
     /**
@@ -23,7 +21,7 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
     List<Permission> listNodes(Long category);
 
     /**
-     * Get all permissions  and transform to tree nodes.
+     * Get all permissions and transform to tree nodes.
      *
      * @return Tree structure permissions
      */
