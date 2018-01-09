@@ -21,7 +21,7 @@ func buildAttachment(rows *sql.Rows) model.Attachment {
 	return attachment
 }
 
-func GetAttachment(id uint64) model.Attachment {
+func GetAttachment(id int64) model.Attachment {
 	db := GetConn()
 	defer db.Close()
 

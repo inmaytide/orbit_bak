@@ -32,4 +32,5 @@ func LoadConfiguration() {
 	if err != nil {
 		log.Fatal("failed to load configuration", err)
 	}
+	log.Println("The configuration file is loaded successfully.")
 }

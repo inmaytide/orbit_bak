@@ -3,10 +3,11 @@ package util
 import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/satori/go.uuid"
+	"strings"
 )
 
 func GetUUID() string {
-	return uuid.NewV4().String()
+	return strings.Replace(uuid.NewV4().String(), "-", "", -1)
 }
 
 var node *snowflake.Node

@@ -55,10 +55,7 @@ func VendorShow(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// If we didn't find it, 404
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusNotFound)
-	response := model.BuildResponseError(http.StatusNotFound, r.RequestURI, "Not Found")
-	if err := json.NewEncoder(w).Encode(response); err != nil {
+	if err := model.WriterResponseError(w, http.StatusNotFound, r.RequestURI, "Not Found"); err != nil {
 		panic(err)
 	}
 }

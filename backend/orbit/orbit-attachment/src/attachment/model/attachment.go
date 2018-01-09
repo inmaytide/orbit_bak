@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"gopkg.in/guregu/null.v3"
+	"time"
 )
 
 const (
@@ -33,6 +34,11 @@ func (obj Datetime) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(`"%s"`, obj.Time.Format("2006-01-02 15:04:05"))), nil
 }
 
-func (obj Datetime) UnmarshalJSON(bytes []byte) error {
+func (obj *Datetime) UnmarshalJSON(bytes []byte) error {
+	value, err := time.Parse("2006-01-02 15:04:05", string(bytes[1:len(bytes) - 1]))
+	if err != nil {
+		return err
+	}
+	obj.Time = value
 	return nil
 }

@@ -43,6 +43,12 @@ func Get(key string) []byte {
 	conn := getConn()
 	defer conn.Close()
 	data, err := redis.Bytes(conn.Do("get", key))
-	util.CheckError(err)
-	return data;
+	if data == nil || len(data) == 0 {
+		return data
+	}
+	if err != nil {
+		log.Fatalf("Failed to get data from redis with key [%s], error => [%s]", key, err.Error())
+		panic(err)
+	}
+	return data
 }
