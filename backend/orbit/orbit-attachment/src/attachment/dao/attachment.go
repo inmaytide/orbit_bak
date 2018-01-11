@@ -2,49 +2,67 @@ package dao
 
 import (
 	"attachment/model"
-	"attachment/util"
 	"database/sql"
 	"fmt"
 )
 
-const attachmentFullColumns = "id, original_name, storage_name, extension, storage_address, group_id, belong, size, status, create_time, update_time, creator, updater, version"
-const attachmentTableName = "sys_attachment"
+const ATTACHMENT_FULL_COLUMNS = "id, original_name, storage_name, extension, storage_address, group_id, belong, size, status, create_time, update_time, creator, updater, version"
+const ATTACHMENT_TABLE_NAME = "sys_attachment"
 
-func buildAttachment(rows *sql.Rows) model.Attachment {
-	attachment := model.Attachment{}
-
-	if rows.Next() {
-		rows.Scan(&attachment.ID, &attachment.OriginalName, &attachment.StorageName, &attachment.Extension,
-			&attachment.StorageAddress, &attachment.Group, &attachment.Belong, &attachment.Size, &attachment.Status,
-			&attachment.CreateTime, &attachment.UpdateTime, &attachment.Creator, &attachment.Updater, &attachment.Version)
-	}
-	return attachment
+type AttachmentDao interface {
+	putSql(key string, sql string)
+	getSql(string) string
+	Get(id int64) (model.Attachment, error)
+	Insert(inst model.Attachment) (model.Attachment, error)
+	Delete(id int64) error
 }
 
-func GetAttachment(id int64) model.Attachment {
-	db := GetConn()
-	defer db.Close()
+type AttachmentDaoImpl struct {
+	sqls map[string]string
+}
 
-	rows, err := db.Query(fmt.Sprintf("select %s from %s where id = ?", attachmentFullColumns, attachmentTableName), id)
+func NewAttachmentDao() *AttachmentDao {
+	var dao AttachmentDao = new(AttachmentDaoImpl)
+	dao.putSql("get", fmt.Sprintf(SQL_PATTERN_GET, ATTACHMENT_FULL_COLUMNS, ATTACHMENT_TABLE_NAME))
+	dao.putSql("deleteById", fmt.Sprintf(SQL_PATTERN_DELETE_BY_ID, ATTACHMENT_TABLE_NAME))
+	return &dao
+}
+
+func (dao AttachmentDaoImpl) putSql(key string, sql string) {
+	dao.sqls[key] = sql;
+}
+
+func (dao AttachmentDaoImpl) getSql(key string) string {
+	return dao.sqls[key]
+}
+
+func (dao AttachmentDaoImpl) Get(id int64) (model.Attachment, error) {
+	db := getBaseDaoInstance().getConn()
+	rows, err := db.Query(dao.getSql("get"), id);
+	if err != nil {
+		return model.Attachment{}, nil
+	}
 	defer rows.Close()
-	util.CheckError(err)
-
 	return buildAttachment(rows)
 }
 
-func SaveAttachment(inst model.Attachment) {
-
+func (dao AttachmentDaoImpl) Insert(inst model.Attachment) (model.Attachment, error) {
+	return model.Attachment{}, nil
 }
 
-func DeleteAttachment(id uint64) int64 {
-	db := GetConn()
-	defer db.Close()
+func (dao AttachmentDaoImpl) Delete(id int64) (error) {
+	return nil
+}
 
-	result, err := db.Exec(fmt.Sprintf("delete from %s where id = ?", attachmentTableName), id)
-	util.CheckError(err)
 
-	affected, err := result.RowsAffected()
-	util.CheckError(err)
 
-	return affected
+func buildAttachment(rows *sql.Rows) (model.Attachment, error) {
+	attachment := model.Attachment{}
+	var err error
+	if rows.Next() {
+		err = rows.Scan(&attachment.ID, &attachment.OriginalName, &attachment.StorageName, &attachment.Extension,
+			&attachment.StorageAddress, &attachment.Group, &attachment.Belong, &attachment.Size, &attachment.Status,
+			&attachment.CreateTime, &attachment.UpdateTime, &attachment.Creator, &attachment.Updater, &attachment.Version)
+	}
+	return attachment, err
 }

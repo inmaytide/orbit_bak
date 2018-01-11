@@ -55,7 +55,5 @@ func VendorShow(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// If we didn't find it, 404
-	if err := model.WriterResponseError(w, http.StatusNotFound, r.RequestURI, "Not Found"); err != nil {
-		panic(err)
-	}
+	model.WriteNotFound(w, r.RequestURI, "Not Found")
 }

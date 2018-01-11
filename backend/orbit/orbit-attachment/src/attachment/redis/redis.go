@@ -2,53 +2,81 @@ package redis
 
 import (
 	"attachment/config"
-	"attachment/util"
 	"github.com/garyburd/redigo/redis"
 	"log"
 	"encoding/json"
 )
 
 func getConn() redis.Conn {
-	conn, err := redis.Dial("tcp", config.Apps.Redis.Addr)
+	conn, err := redis.Dial("tcp", config.GetApplication().Redis.Addr)
 	if err != nil {
 		log.Fatal("Failed to connect the redis, err =>", err.Error())
-		panic(err)
 	}
 	return conn
 }
 
-func Set(key string, value interface{}) {
+func Set(key string, value interface{}) error {
 	data, err := json.Marshal(value)
-	util.CheckError(err)
+	if err != nil {
+		log.Printf("Value serialization failed. value => [%s]", value)
+		return err
+	}
+
 	conn := getConn()
 	defer conn.Close()
+
 	_, err = conn.Do("set", key, data)
-	util.CheckError(err)
+	if err != nil {
+		log.Printf("Value save failed. key => [%s], value => [%s]", key, value)
+		return err
+	}
+	return nil
 }
 
-func ESet(key string, value interface{}, expire uint64) {
+func ESet(key string, value interface{}, expire uint64) error {
 	data, err := json.Marshal(value)
-	util.CheckError(err)
+	if err != nil {
+		log.Printf("Value serialization failed. value => [%s]", value)
+		return err
+	}
 
 	conn := getConn()
 	defer conn.Close()
 
 	_, err = conn.Do("set", key, data)
-	util.CheckError(err)
+	if err != nil {
+		log.Printf("Value save failed. key => [%s], value => [%s]", key, value)
+		return err
+	}
+
 	_, err = conn.Do("expire", key, expire)
-	util.CheckError(err)
+	if err != nil {
+		log.Printf("Failed to set expire time [%s]", key)
+		return err
+	}
+
+	return nil
 }
 
-func Get(key string) []byte {
+func Get(key string) ([]byte, error) {
 	conn := getConn()
 	defer conn.Close()
 	data, err := redis.Bytes(conn.Do("get", key))
-	if data == nil || len(data) == 0 {
-		return data
-	}
 	if err != nil {
-		log.Fatalf("Failed to get data from redis with key [%s], error => [%s]", key, err.Error())
-		panic(err)
+		log.Printf("Failed to get value from redis. error => [%s]", err.Error())
+		return nil, err
 	}
-	return data
+	return data, nil
+}
+
+func Delete(key string) error {
+	conn := getConn()
+	defer conn.Close()
+
+	_, err := conn.Do("del", key)
+	if err != nil {
+		log.Printf("Failed to delete value from redis. key => [%s], error => [%s]", key, err.Error())
+		return err
+	}
+	return nil
 }

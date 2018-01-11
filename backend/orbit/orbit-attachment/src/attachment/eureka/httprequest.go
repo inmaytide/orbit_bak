@@ -51,15 +51,3 @@ func buildHttpRequest(action HttpAction) *http.Request {
 
 	return request
 }
-
-func trimChar(str string, char byte) string {
-	length := len(str)
-	if length > 0 && str[length-1] == char {
-		str = str[:length-1]
-	}
-	length = len(str)
-	if length > 0 && str[0] == char {
-		str = str[1:length]
-	}
-	return str
-}

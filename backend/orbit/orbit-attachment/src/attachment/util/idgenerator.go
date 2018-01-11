@@ -4,6 +4,7 @@ import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/satori/go.uuid"
 	"strings"
+	"log"
 )
 
 func GetUUID() string {
@@ -16,7 +17,9 @@ func getSnowflakeNode() *snowflake.Node {
 	if node == nil {
 		var err error
 		node, err = snowflake.NewNode(2)
-		CheckError(err)
+		if err != nil {
+			log.Fatalf("Can't to generate a snowflake id, err => [%s]", err.Error());
+		}
 	}
 	return node
 }

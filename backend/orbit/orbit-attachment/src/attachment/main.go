@@ -15,10 +15,10 @@ import (
 
 func startWebServer() {
 	router := handler.NewRouter()
-	log.Println("Starting HTTP service at", config.Apps.Port)
-	err := http.ListenAndServe(fmt.Sprintf(":%s", config.Apps.Port), router)
+	log.Println("Starting HTTP service at", config.GetPort())
+	err := http.ListenAndServe(fmt.Sprintf(":%s", config.GetPort()), router)
 	if err != nil {
-		log.Println("An error occured starting HTTP listener at port ", config.Apps.Port)
+		log.Println("An errorhandler occured starting HTTP listener at port ", config.GetPort())
 		log.Println("Error: ", err.Error())
 	}
 }
@@ -35,9 +35,6 @@ func handleSigterm() {
 }
 
 func main() {
-
-	config.LoadConfiguration()
-
 	handleSigterm()
 
 	go startWebServer()
