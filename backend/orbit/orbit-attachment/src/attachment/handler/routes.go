@@ -24,40 +24,40 @@ func NewRouter() *mux.Router {
 }
 
 var routes = []Route{
-	Route{
+	{
 		"Index",
 		"GET",
 		"/",
 		Index,
 	},
-	Route{
+	{
 		"Info",
 		"GET",
 		"/info",
 		Info,
 	},
-	Route{
+	{
 		"Health",
 		"POST",
 		"/health",
 		Health,
 	},
-	Route{
+	{
 		"VendorShow",
 		"GET",
 		"/vendors/{productId}",
 		VendorShow,
 	},
-	Route{
+	{
 		"UploadAttachment",
 		"POST",
 		"/{belong}/attachments",
-		UploadAttachment,
+		getAttachmentHandlerInstance().UploadAttachment,
 	},
-	Route{
+	{
 		"DownloadAttachment",
 		"GET",
 		"/attachments/{id}",
-		DownloadAttachment,
+		getAttachmentHandlerInstance().DownloadAttachment,
 	},
 }

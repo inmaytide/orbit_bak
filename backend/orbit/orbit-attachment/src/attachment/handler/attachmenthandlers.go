@@ -11,51 +11,74 @@ import (
 	"strconv"
 	"fmt"
 	"log"
+	"sync"
 )
 
-func UploadAttachment(writer http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	file, header, err := request.FormFile("attachment")
+type AttachmentHandler struct {
+	attachmentService service.AttachmentService
+}
+
+var attachmentHandlerInstance *AttachmentHandler
+var once sync.Once
+
+func getAttachmentHandlerInstance() *AttachmentHandler {
+	once.Do(func() {
+		attachmentHandlerInstance = &AttachmentHandler{}
+		attachmentHandlerInstance.attachmentService = service.NewAttachmentService()
+	})
+	return attachmentHandlerInstance
+}
+
+func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	file, header, err := r.FormFile("attachment")
 
 	if file == nil || err != nil {
-		model.WriteBadRequest(writer, request.RequestURI, "Failed to get attachment from request body")
+		model.WriteBadRequest(w, r.RequestURI, "Failed to get attachment from request body")
 		return
 	}
 	defer file.Close()
 
-	inst, err := model.MakeFromRequest(header, vars);
+	inst, err := model.MakeFromRequest(header, vars)
 	if err != nil {
-		model.WriteBadRequest(writer, request.RequestURI, "Can't use request paramters to generate an attachment instance")
+		model.WriteBadRequest(w, r.RequestURI, "Can't use request paramters to generate an attachment instance")
 		return
 	}
 
 	f, err := os.OpenFile(inst.StoragePath(), os.O_WRONLY|os.O_CREATE, 0666)
 	defer f.Close()
-	_, ioerr := io.Copy(f, file)
+	_, err = io.Copy(f, file)
 
-	if ioerr != nil {
-		model.WriteInternalServerError(writer, request.RequestURI, "Failed to write file to server")
-		log.Println(ioerr.Error())
+	if err != nil {
+		model.WriteInternalServerError(w, r.RequestURI, "Failed to write file to server")
+		log.Println(err.Error())
 		return
 	}
 
-	json.NewEncoder(writer).Encode(service.SaveAttachment(inst))
+	inst, err = handler.attachmentService.Save(inst)
+
+	if err != nil {
+		model.WriteInternalServerError(w, r.RequestURI, "Failed to save temporary attachment instance to cache")
+		log.Panicln(err.Error())
+		return
+	}
+	json.NewEncoder(w).Encode(inst)
 }
 
-func DownloadAttachment(writer http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
+func (handler AttachmentHandler) DownloadAttachment(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 	id, err := strconv.ParseInt(vars["id"], 10, 64)
 	if err != nil {
 		message := fmt.Sprintf("Can't to format the parameter id. errorhandler => [%s] \r\n", err.Error())
-		model.WriteBadRequest(writer, request.RequestURI, message)
+		model.WriteBadRequest(w, r.RequestURI, message)
 		return
 	}
-	attachment, err := service.GetAttachment(id);
+	attachment, err := handler.attachmentService.Get(id)
 	if err == nil {
-		download(writer, request, attachment);
+		download(w, r, attachment)
 	} else {
 		var message = fmt.Sprintf("Can't find attachment with id [%d]", id)
-		model.WriteNotFound(writer, request.RequestURI, message)
+		model.WriteNotFound(w, r.RequestURI, message)
 	}
 }
 

@@ -14,11 +14,11 @@ type AttachmentDao interface {
 	getSql(string) string
 	Get(id int64) (model.Attachment, error)
 	Insert(inst model.Attachment) (model.Attachment, error)
-	Delete(id int64) error
+	Delete(id int64) (int64, error)
 }
 
 type AttachmentDaoImpl struct {
-	sqls map[string]string
+	sqlmap map[string]string
 }
 
 func NewAttachmentDao() *AttachmentDao {
@@ -29,16 +29,15 @@ func NewAttachmentDao() *AttachmentDao {
 }
 
 func (dao AttachmentDaoImpl) putSql(key string, sql string) {
-	dao.sqls[key] = sql;
+	dao.sqlmap[key] = sql;
 }
 
 func (dao AttachmentDaoImpl) getSql(key string) string {
-	return dao.sqls[key]
+	return dao.sqlmap[key]
 }
 
 func (dao AttachmentDaoImpl) Get(id int64) (model.Attachment, error) {
-	db := getBaseDaoInstance().getConn()
-	rows, err := db.Query(dao.getSql("get"), id);
+	rows, err := getInstance().getConnection().Query(dao.getSql("get"), id);
 	if err != nil {
 		return model.Attachment{}, nil
 	}
@@ -50,11 +49,13 @@ func (dao AttachmentDaoImpl) Insert(inst model.Attachment) (model.Attachment, er
 	return model.Attachment{}, nil
 }
 
-func (dao AttachmentDaoImpl) Delete(id int64) (error) {
-	return nil
+func (dao AttachmentDaoImpl) Delete(id int64) (affected int64, err error) {
+	result, err := getInstance().getConnection().Exec(dao.getSql("deleteById"), id)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected()
 }
-
-
 
 func buildAttachment(rows *sql.Rows) (model.Attachment, error) {
 	attachment := model.Attachment{}
