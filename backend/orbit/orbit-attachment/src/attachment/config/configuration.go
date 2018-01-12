@@ -7,6 +7,7 @@ import (
 	"os"
 	"attachment/util"
 	"attachment/errorhandler"
+	"sync"
 )
 
 type Application struct {
@@ -26,6 +27,7 @@ type Application struct {
 }
 
 var application Application
+var once sync.Once
 
 func loadApplication() {
 	dir, err := os.Getwd()
@@ -43,9 +45,7 @@ func loadApplication() {
 }
 
 func GetApplication() Application {
-	if application.ID == 0 {
-		loadApplication();
-	}
+	once.Do(loadApplication)
 	return application;
 }
 

@@ -38,19 +38,17 @@ func (service *AttachmentServiceImpl) getDao() dao.AttachmentDao {
 	return service.dao
 }
 
-func NewAttachmentService() *AttachmentService {
+func NewAttachmentService() AttachmentService {
 	var service AttachmentService = new(AttachmentServiceImpl)
 	service.setDao(dao.NewAttachmentDao())
-	return &service
+	return service
 }
 
 func (service AttachmentServiceImpl) Save(attachment model.Attachment) (model.Attachment, error) {
 	attachment.ID = util.GetSnowflakeID()
 	attachment.Status = null.IntFrom(model.ATTACHMENT_STATUS_TEMPORARY)
-	attachment.Version = 0
 	attachment.Creator = null.IntFrom(9999)
-	attachment.CreateTime = model.Datetime(null.TimeFrom(time.Now()))
-	return attachment, redis.ESet(attachment.CacheName(), attachment, config.GetTemporaryExpireTime())
+	return attachment, redis.GetClient().ESet(attachment.CacheName(), attachment, config.GetTemporaryExpireTime())
 }
 
 func (service AttachmentServiceImpl) Get(id int64) (model.Attachment, error) {
@@ -71,7 +69,7 @@ func (service AttachmentServiceImpl) GetFormal(id int64) (model.Attachment, erro
 
 func (service AttachmentServiceImpl) GetTemporary(id int64) (model.Attachment, error){
 	var attachment = model.Attachment{}
-	value, err := redis.Get(model.AttachmentCacheName(id))
+	value, err := redis.GetClient().Get(model.AttachmentCacheName(id))
 	if err != nil {
 		return attachment, err
 	}
@@ -97,7 +95,7 @@ func (service AttachmentServiceImpl) Formal(id int64) (model.Attachment, error) 
 	path := attachment.StoragePath()
 	src, err := os.Open(path)
 	if err != nil {
-		return attachment, errors.New(fmt.Sprintf("Failed to read file. path => [%s], error => [%s]", path, err.Error()))
+		return attachment, err
 	}
 	defer src.Close()
 
@@ -105,7 +103,7 @@ func (service AttachmentServiceImpl) Formal(id int64) (model.Attachment, error) 
 	formalPath := attachment.StoragePath()
 	dst, err := os.OpenFile(formalPath, os.O_WRONLY | os.O_CREATE, 0666)
 	if err != nil {
-		return attachment, errors.New(fmt.Sprintf("path => [%s], error => [%s]", formalPath, err.Error()))
+		return attachment, err
 	}
 	defer dst.Close()
 
@@ -114,11 +112,18 @@ func (service AttachmentServiceImpl) Formal(id int64) (model.Attachment, error) 
 	if err != nil {
 		return model.Attachment{}, err
 	}
-	redis.Delete(attachment.CacheName())
-	return service.Save(attachment)
+
+	attachment, err = service.dao.Insert(attachment)
+	if err != nil {
+		return attachment, err
+	}
+
+	return attachment, redis.GetClient().Delete(attachment.CacheName())
 }
 
 func getFormalStorageAddress() string {
 	folder := time.Now().Format("20060102")
-	return fmt.Sprintf("%s/%s", config.GetFormalStorageAddress(), folder)
+	address := fmt.Sprintf("%s/%s", config.GetFormalStorageAddress(), folder)
+	os.MkdirAll(address, os.ModePerm)
+	return address
 }

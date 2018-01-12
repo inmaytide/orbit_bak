@@ -12,6 +12,8 @@ import (
 	"fmt"
 	"log"
 	"sync"
+	"github.com/dgrijalva/jwt-go"
+	"gopkg.in/guregu/null.v3"
 )
 
 type AttachmentHandler struct {
@@ -45,6 +47,12 @@ func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http
 		return
 	}
 
+	token := r.Context().Value("token").(jwt.Token)
+	println(token)
+	if token.Raw != "123213" {
+		inst.Creator = null.IntFrom(9999)
+	}
+
 	f, err := os.OpenFile(inst.StoragePath(), os.O_WRONLY|os.O_CREATE, 0666)
 	defer f.Close()
 	_, err = io.Copy(f, file)
@@ -65,21 +73,37 @@ func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http
 	json.NewEncoder(w).Encode(inst)
 }
 
-func (handler AttachmentHandler) DownloadAttachment(w http.ResponseWriter, r *http.Request) {
+func (handler AttachmentHandler) FormalAttachment(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := strconv.ParseInt(vars["id"], 10, 64)
+	id, err := getIdFormVars(vars)
 	if err != nil {
-		message := fmt.Sprintf("Can't to format the parameter id. errorhandler => [%s] \r\n", err.Error())
-		model.WriteBadRequest(w, r.RequestURI, message)
+		model.WriteBadRequest(w, r.RequestURI, err.Error())
 		return
 	}
-	attachment, err := handler.attachmentService.Get(id)
-	if err == nil {
-		download(w, r, attachment)
-	} else {
-		var message = fmt.Sprintf("Can't find attachment with id [%d]", id)
-		model.WriteNotFound(w, r.RequestURI, message)
+
+	attachment, err := handler.attachmentService.Formal(id)
+	if err != nil {
+		model.WriteInternalServerError(w, r.RequestURI, err.Error())
+		return;
 	}
+	json.NewEncoder(w).Encode(attachment)
+}
+
+func (handler AttachmentHandler) DownloadAttachment(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, err := getIdFormVars(vars)
+	if err != nil {
+		model.WriteBadRequest(w, r.RequestURI, err.Error())
+		return
+	}
+
+	attachment, err := handler.attachmentService.Get(id)
+	if err != nil {
+		model.WriteNotFound(w, r.RequestURI, fmt.Sprintf("Can't find attachment with id [%d]", id))
+		return
+	}
+
+	download(w, r, attachment)
 }
 
 func download(w http.ResponseWriter, r *http.Request, attachment model.Attachment) {
@@ -87,4 +111,12 @@ func download(w http.ResponseWriter, r *http.Request, attachment model.Attachmen
 	w.Header().Set("Content-Type", "application/octet-stream")
 	w.Header().Set("Content-Disposition", "attachment;filename=" + attachment.DownloadDisplayName())
 	http.ServeFile(w, r, filepath)
+}
+
+func getIdFormVars(vars map[string]string) (int64, error) {
+	id, err := strconv.ParseInt(vars["id"], 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("Can't to format the parameter id. cause by: [%s]", err.Error())
+	}
+	return id, nil
 }

@@ -13,26 +13,23 @@ const (
 	SQL_PATTERN_DELETE_BY_ID = "delete from %s where id = ?"
 )
 
-type basicDao struct {
+type dao struct {
 	db *sql.DB
 }
 
-var instance *basicDao
+var instance *dao
 var once sync.Once
 
-func getInstance() *basicDao {
+func getInstance() *dao {
 	once.Do(func() {
-		instance = &basicDao{}
+		instance = &dao{}
+		var err error
+		instance.db, err = sql.Open("mysql", config.GetApplication().Datasource)
+		errorhandler.Termination(err, "Database connection failed.")
 	})
 	return instance
 }
 
-func (dao *basicDao) getConnection() *sql.DB {
-	if dao.db != nil {
-		return dao.db;
-	}
-	var err error
-	dao.db, err = sql.Open("mysql", config.GetApplication().Datasource)
-	errorhandler.Termination(err, "Database connection failed.")
+func (dao *dao) getConnection() *sql.DB {
 	return dao.db
 }

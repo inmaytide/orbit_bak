@@ -47,5 +47,9 @@ func WriteNotFound(w http.ResponseWriter, path string, message string) {
 }
 
 func WriteInternalServerError(w http.ResponseWriter, path string, message string) {
-	WriteResponseError(w, http.StatusInternalServerError, path , message);
+	WriteResponseError(w, http.StatusInternalServerError, path, message);
+}
+
+func WriterForbidden(w http.ResponseWriter, path string, message string) {
+	WriteResponseError(w, http.StatusForbidden, path, message)
 }

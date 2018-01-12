@@ -3,7 +3,7 @@ application-name: orbit-attachment
 datasource: root:123@tcp(127.0.0.1:3306)/db_orbit?charset=utf8&parseTime=true
 eureka: http://127.0.0.1:7000/eureka/
 attachment:
-  formal-storage-address: d:/attachment/
+  formal-storage-address: d:/attachment
   temporary-expire-time: 86400
 redis:
   addr: 127.0.0.1:6379

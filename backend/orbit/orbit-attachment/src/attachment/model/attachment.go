@@ -3,7 +3,6 @@ package model
 import (
 	"fmt"
 	"gopkg.in/guregu/null.v3"
-	"time"
 	"strconv"
 	"path"
 	"strings"
@@ -37,25 +36,7 @@ type Attachment struct {
 	Size           null.Int    `json:"size"`
 	Status         null.Int    `json:"status"`
 	Creator        null.Int    `json:"creator"`
-	CreateTime     Datetime    `json:"createTime"`
-	Updater        null.Int    `json:"updater"`
-	UpdateTime     Datetime    `json:"updateTime"`
-	Version        int         `json:"version"`
-}
-
-type Datetime null.Time
-
-func (obj Datetime) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%s"`, obj.Time.Format("2006-01-02 15:04:05"))), nil
-}
-
-func (obj *Datetime) UnmarshalJSON(bytes []byte) error {
-	value, err := time.Parse("2006-01-02 15:04:05", string(bytes[1:len(bytes) - 1]))
-	if err != nil {
-		return err
-	}
-	obj.Time = value
-	return nil
+	CreateTime     null.Time    `json:"createTime"`
 }
 
 func (inst Attachment) StoragePath() string {
@@ -86,7 +67,7 @@ func MakeFromRequest(header *multipart.FileHeader, vars map[string]string) (Atta
 	var inst = Attachment{}
 	if err != nil {
 		log.Println(err.Error())
-		return inst, errors.New("Bad parameter belong")
+		return inst, errors.New("bad parameter belong")
 	}
 	inst.Extension = null.StringFrom(path.Ext(header.Filename)[1:])
 	inst.OriginalName = null.StringFrom(strings.TrimSuffix(header.Filename, path.Ext(header.Filename)))
