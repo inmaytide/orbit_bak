@@ -4,16 +4,15 @@ import (
 	"attachment/model"
 	"attachment/service"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
+	"gopkg.in/guregu/null.v3"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
-	"fmt"
-	"log"
 	"sync"
-	"github.com/dgrijalva/jwt-go"
-	"gopkg.in/guregu/null.v3"
 )
 
 type AttachmentHandler struct {
@@ -43,15 +42,10 @@ func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http
 
 	inst, err := model.MakeFromRequest(header, vars)
 	if err != nil {
-		model.WriteBadRequest(w, r.RequestURI, "Can't use request paramters to generate an attachment instance")
+		model.WriteBadRequest(w, r.RequestURI, "Can't use request parameters to generate an attachment instance")
 		return
 	}
-
-	token := r.Context().Value("token").(jwt.Token)
-	println(token)
-	if token.Raw != "123213" {
-		inst.Creator = null.IntFrom(9999)
-	}
+	inst.Creator = null.IntFrom(r.Context().Value("user").(model.User).ID)
 
 	f, err := os.OpenFile(inst.StoragePath(), os.O_WRONLY|os.O_CREATE, 0666)
 	defer f.Close()
@@ -84,7 +78,7 @@ func (handler AttachmentHandler) FormalAttachment(w http.ResponseWriter, r *http
 	attachment, err := handler.attachmentService.Formal(id)
 	if err != nil {
 		model.WriteInternalServerError(w, r.RequestURI, err.Error())
-		return;
+		return
 	}
 	json.NewEncoder(w).Encode(attachment)
 }
@@ -109,14 +103,14 @@ func (handler AttachmentHandler) DownloadAttachment(w http.ResponseWriter, r *ht
 func download(w http.ResponseWriter, r *http.Request, attachment model.Attachment) {
 	filepath := attachment.StoragePath()
 	w.Header().Set("Content-Type", "application/octet-stream")
-	w.Header().Set("Content-Disposition", "attachment;filename=" + attachment.DownloadDisplayName())
+	w.Header().Set("Content-Disposition", "attachment;filename="+attachment.DownloadDisplayName())
 	http.ServeFile(w, r, filepath)
 }
 
 func getIdFormVars(vars map[string]string) (int64, error) {
 	id, err := strconv.ParseInt(vars["id"], 10, 64)
 	if err != nil {
-		return 0, fmt.Errorf("Can't to format the parameter id. cause by: [%s]", err.Error())
+		return 0, fmt.Errorf("can't to format the parameter id. cause by: [%s]", err.Error())
 	}
 	return id, nil
 }

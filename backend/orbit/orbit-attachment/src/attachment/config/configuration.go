@@ -1,14 +1,19 @@
 package config
 
 import (
+	"attachment/errorhandler"
+	"attachment/util"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
-	"attachment/util"
-	"attachment/errorhandler"
 	"sync"
 )
+
+type Api struct {
+	Base              string `yaml:"base"`
+	GetUserByUsername string `yaml:"get-user-by-username"`
+}
 
 type Application struct {
 	ID         int64
@@ -16,7 +21,7 @@ type Application struct {
 	Name       string `yaml:"application-name"`
 	Eureka     string `yaml:"eureka"`
 	Datasource string `yaml:"datasource"`
-	Redis struct {
+	Redis      struct {
 		Addr     string `yaml:"addr"`
 		Password string `yaml:"password"`
 	}
@@ -24,6 +29,7 @@ type Application struct {
 		FormalStorageAddress string `yaml:"formal-storage-address"`
 		TemporaryExpireTime  uint64 `yaml:"temporary-expire-time"`
 	}
+	Api Api
 }
 
 var application Application
@@ -46,7 +52,7 @@ func loadApplication() {
 
 func GetApplication() Application {
 	once.Do(loadApplication)
-	return application;
+	return application
 }
 
 func GetPort() string {
@@ -67,4 +73,8 @@ func GetTemporaryExpireTime() uint64 {
 
 func GetFormalStorageAddress() string {
 	return GetApplication().Attachment.FormalStorageAddress
+}
+
+func GetApi() Api {
+	return GetApplication().Api
 }

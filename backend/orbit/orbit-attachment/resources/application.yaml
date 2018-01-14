@@ -7,3 +7,6 @@ attachment:
   temporary-expire-time: 86400
 redis:
   addr: 127.0.0.1:6379
+api:
+  base: http://127.0.0.1:7001
+  get-user-by-username: /sys/users/{username}

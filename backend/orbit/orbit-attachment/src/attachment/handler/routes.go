@@ -1,11 +1,10 @@
 package handler
 
 import (
+	"attachment/model"
+	"context"
 	"github.com/gorilla/mux"
 	"net/http"
-	"attachment/model"
-	"github.com/dgrijalva/jwt-go"
-	"context"
 )
 
 type Route struct {
@@ -17,20 +16,17 @@ type Route struct {
 
 func wrappedHandler(inner http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		authorization := r.Header.Get("Authorization")
-		if authorization == "" || len(authorization) < 7 || authorization[0:6] != "Bearer" {
-			model.WriterForbidden(w, r.RequestURI, "No Authorization")
-			return;
-		}
-		authorization = authorization[7:]
-		token, err := jwt.Parse(authorization, func(token *jwt.Token) (interface{}, error) {
-			return []byte("59a84cbf83227a35"), nil
-		})
+		user, err := model.VisitorResolver(r)
 		if err != nil {
 			model.WriterForbidden(w, r.RequestURI, err.Error())
 			return
 		}
-		inner.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "token", token)))
+		if user.ID == 0 {
+			model.WriterForbidden(w, r.RequestURI, "Invalid authorization")
+			return
+		}
+
+		inner.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "user", user)))
 	})
 }
 
