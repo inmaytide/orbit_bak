@@ -1,13 +1,13 @@
 package eureka
 
-import "attachment/util"
-import "os"
-import "io/ioutil"
-import "strings"
-import "time"
 import (
 	"attachment/config"
 	"fmt"
+	"attachment/util"
+	"strings"
+	"os"
+	"io/ioutil"
+	"time"
 )
 
 var instanceID string

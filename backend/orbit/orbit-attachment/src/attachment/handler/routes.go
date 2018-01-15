@@ -16,17 +16,17 @@ type Route struct {
 
 func wrappedHandler(inner http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user, err := model.VisitorResolver(r)
+		visitor, err := model.VisitorResolver(r)
 		if err != nil {
 			model.WriterForbidden(w, r.RequestURI, err.Error())
 			return
 		}
-		if user.ID == 0 {
+		if visitor.ID == 0 {
 			model.WriterForbidden(w, r.RequestURI, "Invalid authorization")
 			return
 		}
 
-		inner.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "user", user)))
+		inner.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "visitor", visitor)))
 	})
 }
 

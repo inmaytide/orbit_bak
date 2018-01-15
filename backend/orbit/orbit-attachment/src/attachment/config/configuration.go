@@ -8,20 +8,20 @@ import (
 	"log"
 	"os"
 	"sync"
+	"strings"
 )
 
 type Api struct {
 	Base              string `yaml:"base"`
-	GetUserByUsername string `yaml:"get-user-by-username"`
+	GetUserByUsername_ string `yaml:"get-user-by-username"`
 }
 
 type Application struct {
-	ID         int64
 	Port       string `yaml:"port"`
 	Name       string `yaml:"application-name"`
 	Eureka     string `yaml:"eureka"`
 	Datasource string `yaml:"datasource"`
-	Redis      struct {
+	Redis struct {
 		Addr     string `yaml:"addr"`
 		Password string `yaml:"password"`
 	}
@@ -42,11 +42,9 @@ func loadApplication() {
 	content, err := ioutil.ReadFile(dir + "/resources/application.yaml")
 	errorhandler.Termination(err, "Failed to read \"application.yaml\" file")
 
-	application = Application{}
 	err = yaml.Unmarshal(content, &application)
 	errorhandler.Termination(err, "Failed to get program root directory")
 
-	application.ID = util.GetSnowflakeID()
 	log.Println("The configuration file is loaded successfully.")
 }
 
@@ -77,4 +75,10 @@ func GetFormalStorageAddress() string {
 
 func GetApi() Api {
 	return GetApplication().Api
+}
+
+func (api *Api) GetUserByUsername(username string) string {
+	var url = api.Base + api.GetUserByUsername_
+	url = strings.Replace(url, "{username}", username, -1)
+	return url
 }

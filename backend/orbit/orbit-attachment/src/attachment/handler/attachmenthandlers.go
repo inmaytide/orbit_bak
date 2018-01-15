@@ -45,7 +45,7 @@ func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http
 		model.WriteBadRequest(w, r.RequestURI, "Can't use request parameters to generate an attachment instance")
 		return
 	}
-	inst.Creator = null.IntFrom(r.Context().Value("user").(model.User).ID)
+	inst.Creator = null.IntFrom(r.Context().Value("visitor").(model.User).ID)
 
 	f, err := os.OpenFile(inst.StoragePath(), os.O_WRONLY|os.O_CREATE, 0666)
 	defer f.Close()

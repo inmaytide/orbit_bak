@@ -7,10 +7,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
+	"attachment/util"
 )
 
 const (
@@ -74,40 +73,21 @@ func getUser(authorization string) (User, error) {
 		return user, err
 	}
 
-	user, err = getCacheUser(username)
-	if err != nil {
-		return user, nil
-	}
+	user, _ = getCacheUser(username)
 
 	if user.ID == 0 {
-		println(config.GetApi().GetUserByUsername)
-		var url = config.GetApi().Base + config.GetApi().GetUserByUsername
-		url = strings.Replace(url, "{username}", username, -1)
-		request, err := http.NewRequest("GET", url, nil)
+		request, err := http.NewRequest(http.MethodGet, config.GetApi().GetUserByUsername(username), nil)
 		if err != nil {
 			return User{}, err
 		}
 		request.Header.Add("Authorization", authorization)
-		response, err := http.DefaultClient.Do(request)
-		if err != nil {
-			return user, err
-		}
-		if response.StatusCode != http.StatusOK {
-			return user, errors.New("user service is not available")
-		}
-		defer response.Body.Close()
-		body, err := ioutil.ReadAll(response.Body)
-		if err != nil {
-			return user, err
-		}
-
+		body, err := util.DoRequest(request)
 		err = json.Unmarshal(body, &user)
 		if err != nil {
 			return user, err
 		}
 		redis.GetClient().ESet(getCacheName(username), user, 86400)
 		return user, nil
-
 	}
 	return user, nil
 }
@@ -118,12 +98,19 @@ func getCacheUser(username string) (User, error) {
 	if err != nil {
 		return user, err
 	}
-	if len(data) < 8 {
+	if len(data) == 0 {
 		log.Println("There is no cache for visitor")
 		return user, nil
 	}
 
-	err = json.Unmarshal(data[7:], &user)
+	if data[0] != byte('{') {
+		if len(data) < 8 {
+			log.Println("Incorrect format of cache for visitor")
+			return user, nil
+		}
+		data = data[7:]
+	}
+	err = json.Unmarshal(data, &user)
 	if err != nil {
 		return user, err
 	}

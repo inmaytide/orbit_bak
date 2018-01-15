@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	ATTACHMENT_CACHE_NAME = "attachment:%d"
+	ATTACHMENT_CACHE_NAME       = "attachment:%d"
 	ATTACHMENT_STATUS_FORMAL    = 944103312234389504
 	ATTACHMENT_STATUS_TEMPORARY = 944103645861912576
 )
@@ -36,7 +36,7 @@ type Attachment struct {
 	Size           null.Int    `json:"size"`
 	Status         null.Int    `json:"status"`
 	Creator        null.Int    `json:"creator"`
-	CreateTime     null.Time    `json:"createTime"`
+	CreateTime     null.Time   `json:"createTime"`
 }
 
 func (inst Attachment) StoragePath() string {
