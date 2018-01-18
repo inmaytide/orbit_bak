@@ -5,6 +5,8 @@ import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "sys_organization")
@@ -12,10 +14,13 @@ public class Organization extends AbstractEntity {
 
     private static final long serialVersionUID = 7250670050182339430L;
 
+    @NotBlank
     private String code;
 
+    @NotBlank
     private String name;
 
+    @NotNull
     private Long category;
 
     private Long parent;

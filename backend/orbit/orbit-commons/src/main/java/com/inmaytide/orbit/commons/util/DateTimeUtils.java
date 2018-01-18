@@ -10,7 +10,7 @@ public class DateTimeUtils {
         return DateTimeFormatter.ofPattern(pattern).format(time);
     }
 
-    public static String formatNow(String pattern) {
+    public static String format(String pattern) {
         return format(LocalDateTime.now(), pattern);
     }
 }

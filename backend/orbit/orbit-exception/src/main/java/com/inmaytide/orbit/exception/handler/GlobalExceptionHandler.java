@@ -3,7 +3,6 @@ package com.inmaytide.orbit.exception.handler;
 import com.inmaytide.orbit.exception.PathNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ServerWebExchange;
@@ -28,7 +27,7 @@ public class GlobalExceptionHandler implements WebExceptionHandler {
     public Mono<Void> handle(ServerWebExchange exchange, Throwable e) {
         String path = exchange.getRequest().getPath().pathWithinApplication().value();
         log.error("Exception handling [{}] => [{}]", e.getClass().getSimpleName(), e.getMessage());
-        if (showStackTrace) {
+        if (isShowStackTrace()) {
             e.printStackTrace();
         }
         return Mono.just(e)

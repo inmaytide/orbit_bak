@@ -74,6 +74,10 @@ public class ResponseError implements Serializable {
         private Throwable throwable;
         private HttpStatus status;
 
+        private ResponseErrorBuilder() {
+
+        }
+
         public ResponseErrorBuilder path(String path) {
             this.path = path;
             return this;

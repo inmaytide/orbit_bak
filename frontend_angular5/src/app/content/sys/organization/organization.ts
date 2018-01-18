@@ -22,8 +22,8 @@ export class OrganizationComponent implements OnInit {
 
     }
 
-    public getData(path: string[]) {
-
+    public getData(path: string[], parent: string) {
+        this.service.list(string)
     }
 
     public add() {
