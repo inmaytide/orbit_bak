@@ -1,0 +1,34 @@
+.login-body {
+    height: 100%;
+    width: 100%;
+    background: url('../image/login_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-wapper {
+    background-color: rgba(255, 255, 255, .3);
+    width: 400px;
+    height: 380px;
+    border-radius: 5px;
+}
+
+.login-title {
+    font-family: Papyrus, Verdana, "Lucida Grande", Arial, sans-serif;
+    font-size: 30px;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+    margin: 35px auto 25px auto;
+}
+
+.login-form {
+    padding: 0 35px;
+}
+
+.ivu-input-group-large>.ivu-input-group-prepend {
+    width: 36px!important;
+}
