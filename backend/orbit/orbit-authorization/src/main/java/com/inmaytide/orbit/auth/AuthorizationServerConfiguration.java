@@ -1,10 +1,10 @@
 package com.inmaytide.orbit.auth;
 
+import com.inmaytide.orbit.auth.client.CaptchaClient;
 import com.inmaytide.orbit.auth.exception.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor;
 import com.inmaytide.orbit.commons.consts.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +26,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private LoadBalancerExchangeFilterFunction loadBalancerExchangeFilterFunction;
+    private CaptchaClient captchaClient;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -45,7 +45,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.addInterceptor(new CaptchaInterceptor(loadBalancerExchangeFilterFunction))
+        endpoints.addInterceptor(new CaptchaInterceptor(captchaClient))
                 .tokenStore(tokenStore())
                 .tokenEnhancer(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager)

@@ -13,7 +13,6 @@ public class DefaultWebResponseExceptionTranslator extends org.springframework.s
             OAuth2Exception exception = new OAuth2Exception("Bad captcha", e);
             return new ResponseEntity<>(exception, HttpStatus.FORBIDDEN);
         }
-
         return super.translate(e);
     }
 }

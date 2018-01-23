@@ -12,17 +12,10 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableOAuth2Client
-public class AuthApplication {
+public class AuthorizationApplication {
 
     public static void main(String... args) {
-        SpringApplication.run(AuthApplication.class, args);
+        SpringApplication.run(AuthorizationApplication.class, args);
     }
-
-    @Bean
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
 
 }

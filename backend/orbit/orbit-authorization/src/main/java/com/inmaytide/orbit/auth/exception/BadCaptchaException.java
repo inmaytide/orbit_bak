@@ -8,11 +8,4 @@ public class BadCaptchaException extends RuntimeException {
         super();
     }
 
-    public BadCaptchaException(String message) {
-        super(message);
-    }
-
-    public BadCaptchaException(Throwable cause) {
-        super(cause);
-    }
 }

@@ -2,14 +2,13 @@ package com.inmaytide.orbit.auth.interceptor;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.inmaytide.orbit.auth.client.CaptchaClient;
 import com.inmaytide.orbit.auth.exception.BadCaptchaException;
 import com.inmaytide.orbit.commons.consts.Constants;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.*;
-import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author Moss
@@ -17,10 +16,10 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 public class CaptchaInterceptor implements WebRequestInterceptor {
 
-    private LoadBalancerExchangeFilterFunction exchangeFilterFunction;
+    private CaptchaClient client;
 
-    public CaptchaInterceptor(LoadBalancerExchangeFilterFunction exchangeFilterFunction) {
-        this.exchangeFilterFunction = exchangeFilterFunction;
+    public CaptchaInterceptor(CaptchaClient client) {
+        this.client = client;
     }
 
     private String checkCaptcha(String captcha) {
@@ -34,16 +33,8 @@ public class CaptchaInterceptor implements WebRequestInterceptor {
         if (StringUtils.isBlank(value)) {
             throw new BadCaptchaException();
         }
-        ObjectNode response = WebClient.builder().baseUrl("http://orbit-captcha")
-                .filter(exchangeFilterFunction)
-                .build()
-                .get()
-                .uri("/captcha/{captcha}", checkCaptcha(request.getParameter("captcha")))
-                .header(Constants.HEADER_NAME_CAPTCHA_NAME, value)
-                .retrieve()
-                .bodyToMono(ObjectNode.class)
-                .block();
 
+        ObjectNode response = client.validate(value, checkCaptcha(request.getParameter("captcha")));
         if (response == null) {
             throw new BadCaptchaException();
         }

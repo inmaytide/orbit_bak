@@ -3,6 +3,7 @@ package com.inmaytide.orbit.dictionary.handler;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.commons.consts.Constants;
 import com.inmaytide.orbit.commons.util.JsonUtils;
+import com.inmaytide.orbit.dictionary.client.UserClient;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +27,8 @@ public class VisitorResolver implements WebFilter {
 
     private static ThreadLocal<String> visitor = new ThreadLocal<>();
 
-    private static final String SERVICE_URL_GET_USER = "/sys/users/{username}";
-
     @Autowired
-    private LoadBalancerExchangeFilterFunction loadBalancerExchangeFilterFunction;
+    private UserClient client;
 
     @Autowired
     private VisitorResolver instance;
@@ -40,19 +39,16 @@ public class VisitorResolver implements WebFilter {
 
     @Cacheable("visitor-json")
     public String getUserByUsername(String username) {
+        if (StringUtils.isBlank(username)) {
+            return null;
+        }
         log.debug("Get user with username [{}]", username);
-        return WebClient.builder().baseUrl("http://orbit-system-management")
-                .filter(loadBalancerExchangeFilterFunction)
-                .build()
-                .get()
-                .uri(SERVICE_URL_GET_USER, username)
-                .retrieve()
-                .bodyToMono(ObjectNode.class)
-                .map(JsonUtils::getJsonString)
-                .block();
+        return client.getUserByUsername(username)
+                .map(ObjectNode::toString)
+                .orElse(null);
     }
 
-    private Optional<String> getAccessTokenValue(ServerHttpRequest request) {
+    private Optional<String> getAccessToken(ServerHttpRequest request) {
         String value = request.getHeaders().getFirst(Constants.HEADER_NAME_AUTHORIZATION);
         if (StringUtils.isBlank(value) || !value.startsWith(Constants.BEARER_TYPE)) {
             value = request.getQueryParams().getFirst(Constants.ACCESS_TOKEN);
@@ -62,17 +58,20 @@ public class VisitorResolver implements WebFilter {
         return Optional.ofNullable(value);
     }
 
+    private void setVisitor(String token) {
+        Jwt jwt = JwtHelper.decode(token);
+        ObjectNode node = JsonUtils.readJsonString(jwt.getClaims());
+        visitor.set(instance.getUserByUsername(node.get("user_name").asText()));
+    }
+
+    private void clearVisitor() {
+        visitor.remove();
+    }
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        getAccessTokenValue(exchange.getRequest())
-                .ifPresentOrElse(value -> {
-                    Jwt jwt = JwtHelper.decode(value);
-                    ObjectNode node = JsonUtils.readJsonString(jwt.getClaims());
-                    visitor.set(instance.getUserByUsername(node.get("user_name").asText()));
-                }, () -> {
-                    visitor.remove();
-                });
-
+        getAccessToken(exchange.getRequest())
+                .ifPresentOrElse(this::setVisitor, this::clearVisitor);
         return chain.filter(exchange);
     }
 
