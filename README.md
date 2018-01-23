@@ -1,2 +1,2 @@
 ## Orbit
-&emsp;&emsp;Orbit is a backstage admin system. To practice the spring webflux framework & angular 5.
+&emsp;&emsp;Orbit is a backstage admin system. To practice the spring webflux framework & vue.
