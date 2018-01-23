@@ -1,9 +1,0 @@
-archivesBaseName = 'orbit-potral'
-
-jar {
-    manifest.attributes("Main-Class": "com.inmaytide.orbit.OrbitApplication")
-}
-
-dependencies {
-    compile project(":orbit-api")
-}

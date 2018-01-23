@@ -1,6 +1,0 @@
-archivesBaseName = 'orbit-exception'
-
-dependencies {
-    compile "org.apache.shiro:shiro-core:$shiroVersion"
-    compile project(':orbit-i18n')
-}
