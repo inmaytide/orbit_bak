@@ -2,10 +2,6 @@
 .DS_Store
 Thumbs.db
 
-# Gradle
-.gradle/
-build/
-
 # Maven 
 target/
 !.mvn/wrapper/maven-wrapper.jar

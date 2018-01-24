@@ -1,6 +1,6 @@
 # orbit
 
-> A Vue.js project
+> A backstage admin system. to practice the vuejs
 
 ## Build Setup
 
