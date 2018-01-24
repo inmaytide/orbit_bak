@@ -1,0 +1,14 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.login-form .ivu-input-icon-normal+.ivu-input  {
+    padding-left: 32px;
+}
+
+.login-form .ivu-input-icon {
+    left: 0;
+}
