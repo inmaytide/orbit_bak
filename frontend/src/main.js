@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import VueResource from 'vue-resource'
 import iView from 'iview'
 import App from './app'
 import routers from './router'
@@ -12,7 +11,6 @@ Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 Vue.use(iView)
-Vue.use(VueResource)
 
 const router = new VueRouter({
   mode: 'history',

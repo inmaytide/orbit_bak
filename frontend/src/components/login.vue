@@ -33,6 +33,11 @@
   @import '../../static/css/login.css';
 </style>
 <script>
+// import LoginService from './login.service'
+import axios from 'axios'
+
+// const loginService = new LoginService()
+
 export default {
   name: 'Login',
   created () {
@@ -66,15 +71,13 @@ export default {
       this.loading = true
     },
     getCaptche () {
-      this.$http.get('http://127.0.0.1:7001/captcha').then(
-        response => {
-          this.captchaImagePage = 'data:image/jpeg;base64,' + response.body.image
-          console.log(response.body)
-        },
-        response => {
-          console.log(response)
-        }
-      )
+      console.log(process.env.API_ROOT)
+      axios.get('http://127.0.0.1:7001/captcha?_=' + Date.now())
+        .then(res => {
+          // currentCaptchaName = res.captchaName
+          console.log(res)
+          this.captchaImagePage = 'data:image/jpeg;base64,' + res.data.image
+        })
     }
   }
 }
