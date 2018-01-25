@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.security;
 
-import com.inmaytide.orbit.commons.consts.Constants;
+import com.inmaytide.orbit.constant.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;

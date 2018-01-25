@@ -28,7 +28,7 @@ public class HttpStatusParser {
         CLASS_NAME_MAPPERS.put("com.inmaytide.orbit.auth.exception.BadCaptchaException", HttpStatus.FORBIDDEN);
     }
 
-    public static HttpStatus parser(Throwable e) {
+    public static HttpStatus parser(final Throwable e) {
         return CLASS_MAPPERS.keySet().stream()
                 .filter(cls -> cls.isInstance(e))
                 .findFirst().map(CLASS_MAPPERS::get)

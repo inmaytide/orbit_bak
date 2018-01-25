@@ -1,8 +1,11 @@
 package com.inmaytide.orbit.dictionary;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.inmaytide.orbit.dictionary.client.UserClient;
 import com.inmaytide.orbit.dictionary.handler.DataDictionaryHandler;
-import com.inmaytide.orbit.dictionary.handler.VisitorResolver;
 import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
+import com.inmaytide.orbit.filter.visitor.DefaultVisitorResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -40,9 +43,12 @@ public class DataDictionaryApplication {
         SpringApplication.run(DataDictionaryApplication.class, args);
     }
 
+    @Autowired
+    private UserClient userClient;
+
     @Bean
     public AuditorAware<Long> auditorAware() {
-        return () -> VisitorResolver.currentVisitor()
+        return () -> DefaultVisitorResolver.currentVisitor()
                 .map(node -> node.get("id").asLong())
                 .or(Optional::empty);
     }
@@ -53,8 +59,8 @@ public class DataDictionaryApplication {
     }
 
     @Bean
-    public VisitorResolver visitorResolver() {
-        return new VisitorResolver();
+    public DefaultVisitorResolver visitorResolver() {
+        return new DefaultVisitorResolver(username -> userClient.getUserByUsername(username).map(ObjectNode::toString).orElse(null));
     }
 
     @Bean
@@ -73,7 +79,7 @@ public class DataDictionaryApplication {
     }
 
     @Bean
-    public HttpHandler httpHandler(RouterFunction<?> routers, VisitorResolver visitorResolver) {
+    public HttpHandler httpHandler(RouterFunction<?> routers, DefaultVisitorResolver visitorResolver) {
         return WebHttpHandlerBuilder.webHandler(RouterFunctions.toWebHandler(routers))
                 .exceptionHandler(exceptionHandler())
                 .filter(visitorResolver)

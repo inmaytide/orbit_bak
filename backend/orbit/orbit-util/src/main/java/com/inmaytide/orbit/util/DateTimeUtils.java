@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.commons.util;
+package com.inmaytide.orbit.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

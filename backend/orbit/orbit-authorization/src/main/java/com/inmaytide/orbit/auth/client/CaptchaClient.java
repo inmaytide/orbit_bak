@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.auth.client;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.inmaytide.orbit.commons.consts.Constants;
+import com.inmaytide.orbit.constant.Constants;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

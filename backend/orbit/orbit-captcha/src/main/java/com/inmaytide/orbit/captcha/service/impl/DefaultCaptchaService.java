@@ -64,8 +64,8 @@ public class DefaultCaptchaService implements CaptchaService {
         return isValid;
     }
 
-    private boolean hasCaptcha(String key) {
-        boolean hasCaptcha = stringRedisTemplate.hasKey(key);
+    private Boolean hasCaptcha(String key) {
+        Boolean hasCaptcha = stringRedisTemplate.hasKey(key);
         log.debug("Check redis have captcha: {key: '{}', hasCaptcha: '{}'}", key, hasCaptcha);
         return hasCaptcha;
     }

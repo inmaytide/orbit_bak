@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.commons.id;
 
-
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;

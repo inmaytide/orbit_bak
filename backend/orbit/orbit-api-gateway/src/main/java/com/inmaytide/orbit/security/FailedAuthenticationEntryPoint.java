@@ -1,7 +1,6 @@
 package com.inmaytide.orbit.security;
 
 import com.inmaytide.orbit.exception.handler.ThrowableTranslator;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.web.server.ServerWebExchange;

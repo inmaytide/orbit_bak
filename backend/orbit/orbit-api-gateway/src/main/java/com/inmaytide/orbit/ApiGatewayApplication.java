@@ -13,9 +13,12 @@ import org.springframework.web.util.pattern.PathPatternParser;
 @SpringCloudApplication
 public class ApiGatewayApplication {
 
-    @Autowired
-    private CorsProperties corsProperties;
+    private final CorsProperties corsProperties;
 
+    @Autowired
+    public ApiGatewayApplication(CorsProperties corsProperties) {
+        this.corsProperties = corsProperties;
+    }
 
     @Bean
     public CorsWebFilter corsFilter() {
@@ -28,7 +31,6 @@ public class ApiGatewayApplication {
     public DiscoveryClientRouteDefinitionLocator discoveryClientRouteDefinitionLocator(DiscoveryClient discoveryClient) {
         return new DiscoveryClientRouteDefinitionLocator(discoveryClient);
     }
-
 
     public static void main(String... args) {
         SpringApplication.run(ApiGatewayApplication.class, args);

@@ -48,8 +48,11 @@ public class SystemManagementApplication extends WebFluxConfigurationSupport {
     }
 
     @Bean
-    public VisitorResolver visitorResolver(UserService userService) {
-        return new VisitorResolver(userService);
+    public VisitorResolver visitorResolver(final UserService userService) {
+        return new VisitorResolver(username ->
+            userService.getByUsername(username)
+                    .orElseThrow(() -> new IllegalStateException("Unauthorized access, please access the system through normal channels."))
+        );
     }
 
     @Bean

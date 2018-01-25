@@ -3,7 +3,7 @@ package com.inmaytide.orbit.commons.ser;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.inmaytide.orbit.commons.util.DateTimeUtils;
+import com.inmaytide.orbit.util.DateTimeUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

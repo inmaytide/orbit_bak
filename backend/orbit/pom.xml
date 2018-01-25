@@ -24,6 +24,10 @@
         <module>orbit-system-management</module>
         <module>orbit-captcha</module>
         <module>orbit-data-dictionary</module>
+        <module>orbit-filter</module>
+        <module>orbit-constant</module>
+        <module>orbit-util</module>
+        <module>orbit-configurations</module>
     </modules>
 
     <properties>
@@ -61,6 +65,21 @@
             <dependency>
                 <groupId>com.inmaytide.orbit</groupId>
                 <artifactId>orbit-exception</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.inmaytide.orbit</groupId>
+                <artifactId>orbit-filter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.inmaytide.orbit</groupId>
+                <artifactId>orbit-constant</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.inmaytide.orbit</groupId>
+                <artifactId>orbit-util</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -6,11 +6,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -19,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static com.inmaytide.orbit.commons.consts.Constants.HEADER_NAME_CAPTCHA_NAME;
+import static com.inmaytide.orbit.constant.Constants.HEADER_NAME_CAPTCHA_NAME;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Component

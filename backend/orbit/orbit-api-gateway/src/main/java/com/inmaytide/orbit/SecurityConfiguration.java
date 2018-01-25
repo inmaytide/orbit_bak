@@ -1,6 +1,6 @@
 package com.inmaytide.orbit;
 
-import com.inmaytide.orbit.commons.consts.Constants;
+import com.inmaytide.orbit.constant.Constants;
 import com.inmaytide.orbit.security.FailedAuthenticationEntryPoint;
 import com.inmaytide.orbit.security.OAuth2AuthenticationConverter;
 import com.inmaytide.orbit.security.OAuth2AuthenticationManager;

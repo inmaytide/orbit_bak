@@ -1,7 +1,6 @@
 package com.inmaytide.orbit.dictionary.handler;
 
-import com.inmaytide.orbit.commons.query.PagingInformation;
-import com.inmaytide.orbit.commons.util.JsonUtils;
+import com.inmaytide.orbit.util.JsonUtils;
 import com.inmaytide.orbit.dictionary.dao.DataDictionaryRepository;
 import com.inmaytide.orbit.dictionary.domain.DataDictionary;
 import com.inmaytide.orbit.exception.PathNotFoundException;
@@ -56,18 +55,18 @@ public class DataDictionaryHandler {
     }
 
 
-    public Validator getValidator() {
+    private Validator getValidator() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         return factory.getValidator();
     }
 
-    public <T> Map<String, String> transformErrorMessage(Set<ConstraintViolation<T>> violations) {
+    private <T> Map<String, String> transformErrorMessage(Set<ConstraintViolation<T>> violations) {
         Map<String, String> message = new HashMap<>();
         violations.forEach(violation -> message.put(violation.getPropertyPath().toString(), violation.getMessage()));
         return message;
     }
 
-    public <T> T validate(T instance) {
+    private <T> T validate(T instance) {
         Set<ConstraintViolation<T>> violations = getValidator().validate(instance);
         Assert.isTrue(CollectionUtils.isEmpty(violations), JsonUtils.getJsonString(transformErrorMessage(violations)));
         return instance;
