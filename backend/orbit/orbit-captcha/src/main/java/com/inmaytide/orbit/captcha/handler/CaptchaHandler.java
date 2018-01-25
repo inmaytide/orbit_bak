@@ -6,6 +6,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -37,18 +38,19 @@ public class CaptchaHandler {
         return captchaNames.get(0);
     }
 
+    @NonNull
     public Mono<ServerResponse> getCaptcha(ServerRequest request) {
         String cacheName = getCacheName();
         Resource resource = service.generateCaptcha(cacheName);
-        String image = "";
         try {
-            image = Base64.encodeBase64String(FileUtils.readFileToByteArray(resource.getFile()));
+            String image = Base64.encodeBase64String(FileUtils.readFileToByteArray(resource.getFile()));
+            return ok().body(Mono.just(Map.of("image", image, "captchaName", cacheName)), Map.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return ok().body(Mono.just(Map.of("image", image, "captchaName", cacheName)), Map.class);
     }
 
+    @NonNull
     public Mono<ServerResponse> validation(ServerRequest request) {
         String captcha = request.pathVariable("captcha");
         Boolean isValid = service.validation(captcha, getCacheName(request));
