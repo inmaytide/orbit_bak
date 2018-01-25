@@ -1,0 +1,47 @@
+server:
+  port: 7001
+spring:
+  application:
+    name: orbit-api-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: orbit-i18n
+        uri: lb://orbit-i18n
+        predicates:
+        - Path=/lang/**
+      - id: orbit-auth
+        uri: lb://orbit-auth
+        predicates:
+        - Path=/oauth/**
+      - id: orbit-captcha
+        uri: lb://orbit-captcha
+        predicates:
+        - Path=/captcha/**
+      - id: orbit-system-management
+        uri: lb://orbit-system-management
+        predicates:
+        - Path=/sys/**
+      - id: orbit-data-dictionary
+        uri: lb://orbit-data-dictionary
+        predicates:
+        - Path=/dictionaries/**
+      - id: orbit-attachment
+        uri: lb://orbit-attachment
+        predicates:
+        - Path=/attachments/**
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:7000/eureka/
+
+
+orbit:
+  cors:
+    mapping: /**
+    allow-credentials: true
+    allowed-headers: Authorization, content-type, Captcha-Name
+    allowed-methods: GET,POST,PUT,DELETE,PATCH
+    max-age: 3600
