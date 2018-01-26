@@ -11,12 +11,12 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 @SpringCloudApplication
-public class ApiGatewayApplication {
+public class ApiGatewayServerLauncher {
 
     private final CorsProperties corsProperties;
 
     @Autowired
-    public ApiGatewayApplication(CorsProperties corsProperties) {
+    public ApiGatewayServerLauncher(CorsProperties corsProperties) {
         this.corsProperties = corsProperties;
     }
 
@@ -33,7 +33,7 @@ public class ApiGatewayApplication {
     }
 
     public static void main(String... args) {
-        SpringApplication.run(ApiGatewayApplication.class, args);
+        SpringApplication.run(ApiGatewayServerLauncher.class, args);
     }
 
 }
