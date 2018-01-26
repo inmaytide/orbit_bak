@@ -20,4 +20,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     Page<Role> findByCodeLikeOrNameLike(String code, String name, Pageable pageable);
 
     Integer countByCodeAndIdNot(String code, Long id);
+
+    Integer deleteByIdIn(List<Long> ids);
 }

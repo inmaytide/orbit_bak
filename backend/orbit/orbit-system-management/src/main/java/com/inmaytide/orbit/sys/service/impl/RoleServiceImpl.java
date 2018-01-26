@@ -81,10 +81,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void remove(String ids) {
-        List<Long> roleIds = split(ids, NumberUtils::toLong, Collectors.toList());
+        List<Long> roleIds = split(ids);
         userRoleRepository.deleteByRIdIn(roleIds);
         rolePermissionRepository.deleteByRIdIn(roleIds);
-        remove(roleIds);
+        getRepository().deleteByIdIn(roleIds);
     }
 
     @Override
@@ -101,8 +101,8 @@ public class RoleServiceImpl implements RoleService {
         Assert.hasText(id, "The id parameter must not be null, empty, or blank");
         Assert.hasText(permissionIds, "The permissionIds parameter must not be null, empty, or blank");
         final Long instId = NumberUtils.toLong(id);
-        List<Long> pids = split(permissionIds, NumberUtils::toLong, Collectors.toList());
-        Assert.isTrue(exist(instId) && permissionService.exist(pids), "The role and permissions all must exist");
+        List<Long> pids = split(permissionIds);
+        Assert.isTrue(exists(instId) && permissionService.exists(pids), "The role and permissions all must exist");
         rolePermissionRepository.deleteByRIdIn(List.of(instId));
         rolePermissionRepository.saveAll(pids.stream()
                 .map(permissionId -> new RolePermission(instId, permissionId))
@@ -115,8 +115,8 @@ public class RoleServiceImpl implements RoleService {
         Assert.hasText(id, "The id parameter must not be null, empty, or blank");
         Assert.hasText(userIds, "The permissionIds parameter must not be null, empty, or blank");
         final Long instId = NumberUtils.toLong(id);
-        List<Long> uids = split(userIds, NumberUtils::toLong, Collectors.toList());
-        Assert.isTrue(exist(instId) && userService.exist(uids), "The role and users all must exist");
+        List<Long> uids = split(userIds);
+        Assert.isTrue(exists(instId) && userService.exists(uids), "The role and users all must exist");
         userRoleRepository.saveAll(uids.stream()
                 .map(uid -> new UserRole(uid, instId))
                 .collect(Collectors.toList()));
@@ -127,12 +127,12 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(rollbackFor = Exception.class)
     public void removeAssociatedUsers(String id, String userIds) {
         final Long roleId = NumberUtils.toLong(id);
-        List<Long> ids = split(userIds, NumberUtils::toLong, Collectors.toList());
+        List<Long> ids = split(userIds);
         userRoleRepository.deleteByRIdAndUIdIn(roleId, ids);
     }
 
     @Override
-    public boolean exist(Long id) {
+    public boolean exists(Long id) {
         return id != 0 && repository.existsById(id);
     }
 

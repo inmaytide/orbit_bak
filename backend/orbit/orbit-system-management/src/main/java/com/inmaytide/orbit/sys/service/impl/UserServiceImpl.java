@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> list(Conditions conditions, PagingInformation pageable) {
-        return repository.findAll(new UserSpecification(conditions, userOrganizationRepository), pageable.transform());
+        return getRepository().findAll(new UserSpecification(conditions, userOrganizationRepository), pageable.transform());
     }
 
     @Override
@@ -54,6 +55,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserRepository getRepository() {
-        return repository;
+        return this.repository;
+    }
+
+    @Override
+    public boolean exists(List<Long> uids) {
+        return !CollectionUtils.isEmpty(uids)
+                && getRepository().findAllById(uids).size() == uids.size();
     }
 }

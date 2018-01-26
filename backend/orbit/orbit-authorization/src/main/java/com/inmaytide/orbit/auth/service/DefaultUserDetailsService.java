@@ -21,7 +21,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
     private AuthorizationClient client;
 
     private Set<GrantedAuthority> getAuthorities(String username) {
-        return Stream.concat(client.getPermissionCodes(username), client.getRoleCodes(username).map(authority -> "ROLE_" + authority))
+        return Stream.concat(client.getPermissionCodes(username).toStream(), client.getRoleCodes(username).toStream().map(authority -> "ROLE_" + authority))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }

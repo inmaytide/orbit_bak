@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -84,17 +85,11 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "user_menus", allEntries = true)
     public void remove(String ids) {
-        List<Long> permissionIds = split(ids, Long::valueOf, Collectors.toList());
-        permissionIds
-                .stream()
-                .map(this::findByParent)
-                .forEach(permissions -> {
-                    if (permissions.size() > 0) {
-                        throw new IllegalArgumentException("Cannot remove permissions with ID [" + ids + "], maybe because its has sub permissions");
-                    }
-                });
-
-        remove(permissionIds);
+        List<Long> permissionIds = split(ids);
+        if (permissionIds.stream().map(this::findByParent).map(List::size).anyMatch(len -> len > 0)) {
+            throw new IllegalArgumentException("Cannot remove permissions with ID [" + ids + "], maybe because its has sub permissions");
+        }
+        getRepository().deleteByIdIn(permissionIds);
         rolePermissionRepository.deleteByPIdIn(permissionIds);
     }
 
@@ -116,6 +111,12 @@ public class PermissionServiceImpl implements PermissionService {
             exchanger.setSort(sort);
             getRepository().saveAll(List.of(inst, exchanger));
         }
+    }
+
+    @Override
+    public boolean exists(List<Long> pids) {
+        return !CollectionUtils.isEmpty(pids)
+                && getRepository().findAllById(pids).size() == pids.size();
     }
 
     private String toLowerCase(String str) {
