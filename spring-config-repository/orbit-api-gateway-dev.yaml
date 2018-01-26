@@ -11,8 +11,8 @@ spring:
         uri: lb://orbit-i18n
         predicates:
         - Path=/lang/**
-      - id: orbit-auth
-        uri: lb://orbit-auth
+      - id: orbit-authorization
+        uri: lb://orbit-authorization
         predicates:
         - Path=/oauth/**
       - id: orbit-captcha
