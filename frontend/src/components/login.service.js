@@ -1,22 +1,31 @@
 import axios from 'axios'
 
 const LOGIN_API = {
-  getCaptcha: process.env.ROOT_API + 'captcha?_='
+  getCaptcha: process.env.API_ROOT + 'captcha?_=',
+  login: process.env.API_ROOT + 'oauth/token'
 }
 
-let currentCaptchaName
-
-export default class LoginService {
+export default class {
+  constructor () {
+    this.currentCaptchaName = ''
+  }
   getCaptcha () {
     return axios.get(LOGIN_API.getCaptcha + Date.now())
       .then(res => {
-        currentCaptchaName = res.captchaName
-        return res.image
+        this.currentCaptchaName = res.data.captchaName
+        return res.data.image
       })
   }
   login (token) {
-    axios.get('', {
-      headers: {'Captcha-Name': currentCaptchaName}
+    return axios.post(LOGIN_API.login, {}, {
+      headers: {'Captcha-Name': this.currentCaptchaName},
+      params: {
+        ...token,
+        grant_type: 'password',
+        client_id: 'apps',
+        scope: 'all',
+        client_secret: '59a84cbf83227a35'
+      }
     })
   }
 }
