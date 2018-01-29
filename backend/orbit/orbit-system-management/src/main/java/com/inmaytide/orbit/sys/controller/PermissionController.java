@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @RestController
 @RequestMapping("sys/permissions")
@@ -23,8 +24,8 @@ public class PermissionController extends AbstractController {
     private PermissionService service;
 
     @GetMapping("codes/{username}")
-    public Flux<String> listCodesByUsername(@PathVariable String username) {
-        return Flux.fromIterable(service.listCodesByUsername(username));
+    public Mono<Set<String>> listCodesByUsername(@PathVariable String username) {
+        return Mono.just(service.listCodesByUsername(username));
     }
 
     @GetMapping("/{username}")

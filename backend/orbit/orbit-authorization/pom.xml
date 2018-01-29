@@ -50,5 +50,9 @@
             <groupId>com.inmaytide.orbit</groupId>
             <artifactId>orbit-constant</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.inmaytide.orbit</groupId>
+            <artifactId>orbit-util</artifactId>
+        </dependency>
     </dependencies>
 </project>

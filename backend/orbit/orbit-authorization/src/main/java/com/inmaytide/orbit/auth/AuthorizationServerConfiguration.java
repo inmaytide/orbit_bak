@@ -1,10 +1,12 @@
 package com.inmaytide.orbit.auth;
 
+import com.inmaytide.orbit.auth.client.AuthorizationClient;
 import com.inmaytide.orbit.auth.client.CaptchaClient;
 import com.inmaytide.orbit.auth.exception.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor;
 import com.inmaytide.orbit.constant.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +30,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private CaptchaClient captchaClient;
 
+    @Autowired
+    private AuthorizationClient authorizationClient;
+
+    @Value("${validate.captcha:true}")
+    private boolean validateCaptcha;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory().withClient("apps")
@@ -45,8 +53,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.addInterceptor(new CaptchaInterceptor(captchaClient))
-                .tokenStore(tokenStore())
+        if (validateCaptcha) {
+            endpoints.addInterceptor(new CaptchaInterceptor(captchaClient));
+        }
+        endpoints.tokenStore(tokenStore())
                 .tokenEnhancer(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager)
                 .exceptionTranslator(new DefaultWebResponseExceptionTranslator());
@@ -60,6 +70,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setAccessTokenConverter(new AdditionalAccessTokenConverter(authorizationClient));
         converter.setSigningKey(Constants.SIGNING_KEY);
         return converter;
     }

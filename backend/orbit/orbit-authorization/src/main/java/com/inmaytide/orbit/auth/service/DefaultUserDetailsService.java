@@ -4,6 +4,7 @@ import com.inmaytide.orbit.auth.client.AuthorizationClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +22,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
     private AuthorizationClient client;
 
     private Set<GrantedAuthority> getAuthorities(String username) {
-        return Stream.concat(client.getPermissionCodes(username).toStream(), client.getRoleCodes(username).toStream().map(authority -> "ROLE_" + authority))
+        return Stream.concat(client.getPermissionCodes(username).stream(), client.getRoleCodes(username).stream().map(authority -> "ROLE_" + authority))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }
@@ -30,8 +31,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Assert.hasText(username, "username cannot be empty");
         return client.getUser(username)
-                .map(user -> org.springframework.security.core.userdetails.User
-                        .withUsername(user.get("username").asText())
+                .map(user -> User.withUsername(user.get("username").asText())
                         .password(user.get("password").asText())
                         .accountLocked(user.get("locked").asBoolean())
                         .authorities(getAuthorities(username))
