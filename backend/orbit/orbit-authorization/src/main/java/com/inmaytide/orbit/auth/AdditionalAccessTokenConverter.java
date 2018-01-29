@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.auth;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.client.AuthorizationClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -22,10 +23,11 @@ public class AdditionalAccessTokenConverter extends DefaultAccessTokenConverter 
     @Override
     public Map<String, ?> convertAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
         Map<String, Object> response = (Map<String, Object>) super.convertAccessToken(token, authentication);
-        client.getUser(authentication.getName()).ifPresent(user -> {
+        ObjectNode user = client.getUser(authentication.getName());
+        if (user != null) {
             response.put("name", user.get("name").asText());
             response.put("avatar", user.get("avatar").asText());
-        });
+        }
         return response;
     }
 }

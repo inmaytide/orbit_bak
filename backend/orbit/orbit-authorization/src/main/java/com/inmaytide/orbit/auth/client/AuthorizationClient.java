@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface AuthorizationClient {
 
     @GetMapping("/sys/users/{username}")
-    Optional<ObjectNode> getUser(@PathVariable("username") String username);
+    ObjectNode getUser(@PathVariable("username") String username);
 
     @GetMapping(value = "/sys/permissions/codes/{username}")
     List<String> getPermissionCodes(@PathVariable("username") String username);

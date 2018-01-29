@@ -1,6 +1,8 @@
 package com.inmaytide.orbit.auth.service;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.client.AuthorizationClient;
+import com.inmaytide.orbit.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,13 +31,13 @@ public class DefaultUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Assert.hasText(username, "username cannot be empty");
-        return client.getUser(username)
-                .map(user -> User.withUsername(user.get("username").asText())
-                        .password(user.get("password").asText())
-                        .accountLocked(user.get("locked").asBoolean())
-                        .authorities(getAuthorities(username))
-                        .build())
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+        ObjectNode user = client.getUser(username);
+        Assert.nonNull(user, () -> new UsernameNotFoundException("Unknown account"));
+        return User.withUsername(username)
+                .password(user.get("password").asText())
+                .accountLocked(user.get("locked").asBoolean())
+                .authorities(getAuthorities(username))
+                .build();
     }
 
 }
