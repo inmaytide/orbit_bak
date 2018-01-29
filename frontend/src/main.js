@@ -6,7 +6,7 @@ import iView from 'iview'
 import App from './app'
 import routers from './router'
 import 'iview/dist/styles/iview.css'
-import {i18n} from './i18n-setup'
+import {i18n, loadLanguage} from './i18n-setup'
 
 Vue.config.productionTip = false
 
@@ -16,6 +16,10 @@ Vue.use(iView)
 const router = new VueRouter({
   mode: 'history',
   routes: routers
+})
+
+router.beforeEach((to, from, next) => {
+  loadLanguage().then(() => next())
 })
 
 /* eslint-disable no-new */

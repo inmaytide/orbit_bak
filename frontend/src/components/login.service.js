@@ -17,14 +17,18 @@ export default class {
       })
   }
   login (token) {
-    return axios.post(LOGIN_API.login, {}, {
-      headers: {'Captcha-Name': this.currentCaptchaName},
-      params: {
-        ...token,
-        grant_type: 'password',
-        client_id: 'apps',
-        scope: 'all',
-        client_secret: '59a84cbf83227a35'
+    var body = {
+      ...token,
+      grant_type: 'password',
+      client_id: 'apps',
+      scope: 'all',
+      client_secret: '59a84cbf83227a35'
+    }
+    var data = new FormData()
+    Object.keys(body).forEach(k => data.append(k, body[k]))
+    return axios.post(LOGIN_API.login, data, {
+      headers: {
+        'Captcha-Name': this.currentCaptchaName
       }
     })
   }

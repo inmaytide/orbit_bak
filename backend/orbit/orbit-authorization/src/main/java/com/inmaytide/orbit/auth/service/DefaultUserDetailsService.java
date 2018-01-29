@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.client.AuthorizationClient;
 import com.inmaytide.orbit.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -33,9 +34,10 @@ public class DefaultUserDetailsService implements UserDetailsService {
         Assert.hasText(username, "username cannot be empty");
         ObjectNode user = client.getUser(username);
         Assert.nonNull(user, () -> new UsernameNotFoundException("Unknown account"));
+        Assert.isTrue(!user.get("locked").asBoolean(), () -> new LockedException("Locked account"));
         return User.withUsername(username)
                 .password(user.get("password").asText())
-                .accountLocked(user.get("locked").asBoolean())
+                .accountLocked(false)
                 .authorities(getAuthorities(username))
                 .build();
     }

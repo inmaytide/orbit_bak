@@ -55,7 +55,7 @@ export default {
           { required: true, message: this.$i18n.t('login.error.username.empty'), trigger: 'blur' }
         ],
         password: [
-          { required: true, message: this.$i18n.t('Please input your password'), trigger: 'blur' },
+          { required: true, message: this.$i18n.t('login.error.password.empty'), trigger: 'blur' },
           { type: 'string', min: 6, message: this.$i18n.t('login.error.password.len'), trigger: 'blur' }
         ],
         captcha: [
@@ -72,14 +72,15 @@ export default {
             this.loading = true
             this.loginService.login(this.token)
               .then(res => {
-                console.log(res)
+                const tokenStr = decodeURIComponent(escape(atob(res.data.access_token.split('.')[1])))
+                const token = JSON.parse(tokenStr)
+                console.log(token)
+                this.$router.push('index')
               })
               .catch(error => {
-                this.loading = false
+                this.$Message.error(this.getLoginFailedMessage(error))
                 this.getCaptcha()
-                if (error.response && error.response.data.error_description === 'Bad captcha') {
-                  this.$Message.error('Bad captcha')
-                }
+                this.loading = false
               })
           }
         })
@@ -93,6 +94,17 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    getLoginFailedMessage (error) {
+      let key = 'login.error'
+      if (error.response && error.response.data.error_description === 'Bad captcha') {
+        key = 'login.error.captcha.wrong'
+      } else if (error.response && error.response.data.error_description === 'Bad credentials') {
+        key = 'login.error.username.password.unmatching'
+      } else if (error.response && error.response.data.error_description === 'Locked account') {
+        key = 'login.error.user.locked'
+      }
+      return this.$i18n.t(key)
     }
   }
 }
