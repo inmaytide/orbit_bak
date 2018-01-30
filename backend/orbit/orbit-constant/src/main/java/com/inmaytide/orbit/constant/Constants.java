@@ -8,4 +8,8 @@ public interface Constants {
     String ACCESS_TOKEN = "access_token";
     String BEARER_TYPE = "Bearer";
 
+    String PATTERN_DEFAULT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+    String PATTERN_DEFAULT_DATE = "yyyy-MM-dd";
+    String PATTERN_DEFAULT_TIME = "HH:mm:ss";
+
 }

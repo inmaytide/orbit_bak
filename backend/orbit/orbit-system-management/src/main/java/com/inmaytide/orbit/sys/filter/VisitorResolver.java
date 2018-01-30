@@ -13,7 +13,6 @@ public class VisitorResolver extends AbstractVisitorResolver<User> {
         super(provider);
     }
 
-
     public static Optional<User> currentVisitor() {
         Serializable value = visitor.get();
         if (value == null) {

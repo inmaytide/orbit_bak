@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.inmaytide.orbit.commons.ser.LocalDateTimeSerializer;
+import com.inmaytide.orbit.constant.Constants;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -21,6 +22,6 @@ public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
         if (value == null || "".equals(value.trim())) {
             return null;
         }
-        return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(LocalDateTimeSerializer.DEFAULT_DATETIME_FORMAT_PATTERN));
+        return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(Constants.PATTERN_DEFAULT_DATETIME));
     }
 }

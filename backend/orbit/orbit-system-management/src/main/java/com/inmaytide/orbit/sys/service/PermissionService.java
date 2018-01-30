@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.sys.service;
 
+import com.inmaytide.orbit.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.domain.Permission;
 
@@ -17,20 +18,25 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
 
     /**
      * Get permissions by category and transform to tree nodes.
-     *
-     * @param category MENU or BUTTON
-     * @return Tree structure permissions
+     * @param category {@link PermissionCategory#getCode()}
+     * @return tree structure permissions
+     * @see com.inmaytide.orbit.enums.PermissionCategory
      */
     List<Permission> listNodes(Long category);
 
     /**
      * Get all permissions and transform to tree nodes.
-     *
-     * @return Tree structure permissions
+     * @return tree structure permissions
      */
     List<Permission> listNodes();
 
-    Boolean checkCode(String code, Long id);
+    /**
+     * Check if a permission code already exists
+     * @param code The permission code to check
+     * @param exculde exclude permission
+     * @return if exists return false else return true
+     */
+    Boolean checkCode(String code, Long excluded);
 
     void move(Long id, String category);
 

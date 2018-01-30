@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.sys.service.impl;
 
+import com.inmaytide.orbit.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
@@ -25,7 +26,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     private static final Logger log = LoggerFactory.getLogger(PermissionServiceImpl.class);
     private static final Sort DEFAULT_SORT = Sort.by(Sort.Direction.ASC, "sort");
-    public static final Long MENU_ROOT_ID = -1L;
+    private static final Long MENU_ROOT_ID = -1L;
 
     @Autowired
     private RolePermissionRepository rolePermissionRepository;
@@ -66,7 +67,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Cacheable(cacheNames = "user_menus", key = "#username + '_menus'")
     public List<Permission> listMenusByUsername(String username) {
-        List<Permission> list = repository.findByUsername(username, 377564822935437312L);
+        List<Permission> list = repository.findByUsername(username, PermissionCategory.MENU.getCode());
         return listToTreeNodes(list);
     }
 
@@ -95,8 +96,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Boolean checkCode(String code, Long id) {
-        id = id == null ? -1 : id;
-        return repository.countByCodeAndIdNot(code, id) == 0;
+        return StringUtils.isBlank(code) || repository.countByCodeAndIdNot(code, id == null ? MENU_ROOT_ID : id) == 0;
     }
 
     @Override
