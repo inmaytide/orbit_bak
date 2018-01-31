@@ -34,6 +34,7 @@
 </style>
 <script>
 import LoginService from './login.service'
+import commons from '../commons'
 
 export default {
   name: 'Login',
@@ -72,9 +73,7 @@ export default {
             this.loading = true
             this.loginService.login(this.token)
               .then(res => {
-                const tokenStr = decodeURIComponent(escape(atob(res.data.access_token.split('.')[1])))
-                const token = JSON.parse(tokenStr)
-                console.log(token)
+                commons.storeUser(res.data)
                 this.$router.push('index')
               })
               .catch(error => {
