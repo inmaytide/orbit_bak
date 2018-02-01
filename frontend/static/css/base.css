@@ -12,3 +12,7 @@ html, body {
 .login-form .ivu-input-icon {
     left: 0;
 }
+
+.ivu-layout-header {
+    padding: 0 10px 0 40px!important;
+}

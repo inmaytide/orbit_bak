@@ -7,9 +7,14 @@
         </div>
         <div class="header-title">Orbit Admin</div>
         <div class="header-profile">
-          <Badge count="3">
-            <Avatar class="profile-avatar" icon="person" size="large"/>
-          </Badge>
+          <Dropdown placement="bottom-end">
+            <Badge count="3">
+              <Avatar class="profile-avatar" icon="person" size="large"/>
+            </Badge>
+            <DropdownMenu slot="list">
+              <DropdownItem>您有一个新的任务，请注意处理</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           <Dropdown>
             <div class="profile-name">
               {{name}}
@@ -25,7 +30,21 @@
       </div>
     </Header>
     <Layout class="content">
-      <Sider hide-trigger class="nav-warpper">Sider</Sider>
+      <Sider class="nav-warpper" width="240">
+        <Menu theme="light" active-name="1">
+          <Menu-item name="1">
+            <Icon type="ios-speedometer"  size="16"/>
+            Dashboard
+          </Menu-item>
+          <Submenu name="2">
+            <template slot="title">
+              <Icon type="ios-gear" size="16"></Icon>
+              System Management
+            </template>
+            <Menu-item name="2-1">Permission Management</Menu-item>
+          </Submenu>
+        </Menu>
+      </Sider>
       <Content>Content</Content>
     </Layout>
   </Layout>

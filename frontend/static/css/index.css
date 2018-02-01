@@ -42,6 +42,7 @@
 
 .profile-avatar {
   background-color: #87d068;
+  cursor: pointer;
 }
 .profile-name {
   color: whitesmoke;
