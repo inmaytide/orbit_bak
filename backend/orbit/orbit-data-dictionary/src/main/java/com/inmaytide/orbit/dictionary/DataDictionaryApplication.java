@@ -41,12 +41,16 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @SpringBootApplication
 public class DataDictionaryApplication {
 
+    private final UserClient userClient;
+
+    @Autowired
+    public DataDictionaryApplication(UserClient userClient) {
+        this.userClient = userClient;
+    }
+
     public static void main(String... args) {
         SpringApplication.run(DataDictionaryApplication.class, args);
     }
-
-    @Autowired
-    private UserClient userClient;
 
     @Bean
     public AuditorAware<Long> auditorAware() {
@@ -75,9 +79,7 @@ public class DataDictionaryApplication {
 
     @Bean
     public GlobalExceptionHandler exceptionHandler() {
-        GlobalExceptionHandler exceptionHandler = new GlobalExceptionHandler();
-        exceptionHandler.setShowStackTrace(true);
-        return exceptionHandler;
+        return new GlobalExceptionHandler(true);
     }
 
     @Bean

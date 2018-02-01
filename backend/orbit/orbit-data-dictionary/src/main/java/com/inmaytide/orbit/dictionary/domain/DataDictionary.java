@@ -35,9 +35,6 @@ public class DataDictionary extends AbstractEntity {
 
     private Integer sort;
 
-    @Column(name = "is_created_by_system")
-    private Integer isCreatedBySystem;
-
     public String getText() {
         return text;
     }
@@ -68,13 +65,5 @@ public class DataDictionary extends AbstractEntity {
 
     public void setSort(Integer sort) {
         this.sort = sort;
-    }
-
-    public Integer getIsCreatedBySystem() {
-        return isCreatedBySystem;
-    }
-
-    public void setIsCreatedBySystem(Integer isCreatedBySystem) {
-        this.isCreatedBySystem = isCreatedBySystem;
     }
 }

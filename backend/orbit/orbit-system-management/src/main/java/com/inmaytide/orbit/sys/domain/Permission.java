@@ -3,16 +3,15 @@ package com.inmaytide.orbit.sys.domain;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
+import com.inmaytide.orbit.converter.PermissionCategoryConverter;
+import com.inmaytide.orbit.enums.PermissionCategory;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.http.HttpMethod;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,8 +31,8 @@ public class Permission extends AbstractEntity {
     private String name;
 
     @NotNull
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long method;
+    @Enumerated(EnumType.STRING)
+    private HttpMethod method;
 
     @Length(max = 256)
     private String action;
@@ -42,8 +41,8 @@ public class Permission extends AbstractEntity {
     private Long icon;
 
     @NotNull
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long category;
+    @Convert(converter = PermissionCategoryConverter.class)
+    private PermissionCategory category;
 
     @Length(max = 256)
     private String description;
@@ -105,11 +104,11 @@ public class Permission extends AbstractEntity {
         this.icon = icon;
     }
 
-    public Long getCategory() {
+    public PermissionCategory getCategory() {
         return category;
     }
 
-    public void setCategory(Long category) {
+    public void setCategory(PermissionCategory category) {
         this.category = category;
     }
 
@@ -145,12 +144,16 @@ public class Permission extends AbstractEntity {
         this.children = children;
     }
 
-    public Long getMethod() {
+    public HttpMethod getMethod() {
         return method;
     }
 
-    public void setMethod(Long method) {
+    public void setMethod(HttpMethod method) {
         this.method = method;
+    }
+
+    public void setMethod(String method) {
+        this.method = HttpMethod.valueOf(method);
     }
 
     @Override

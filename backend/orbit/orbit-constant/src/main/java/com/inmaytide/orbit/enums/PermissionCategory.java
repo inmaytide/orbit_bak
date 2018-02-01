@@ -1,9 +1,12 @@
 package com.inmaytide.orbit.enums;
 
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public enum PermissionCategory {
 
-    MENU(377564822935437312L, "Menu"),
-    BUTTON(377564822943825920L, "Button");
+    MENU(10001L, "Menu"),
+    BUTTON(10002L, "Button");
 
     private Long code;
     private String text;
@@ -19,5 +22,10 @@ public enum PermissionCategory {
 
     public String getText() {
         return text;
+    }
+
+    public static PermissionCategory valueOf(Long code) {
+        return Stream.of(values()).filter(category -> Objects.equals(code, category.getCode()))
+                .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 }

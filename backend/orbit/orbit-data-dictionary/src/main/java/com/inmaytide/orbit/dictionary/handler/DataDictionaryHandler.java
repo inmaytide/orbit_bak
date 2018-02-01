@@ -6,6 +6,7 @@ import com.inmaytide.orbit.dictionary.domain.DataDictionary;
 import com.inmaytide.orbit.exception.PathNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -37,6 +38,7 @@ public class DataDictionaryHandler {
     @Autowired
     private DataDictionaryRepository repository;
 
+    @NonNull
     public Mono<ServerResponse> list(ServerRequest request) {
         return request.queryParam("category")
                 .map(category -> repository.findByCategory(category, DEFAULT_SORT))
@@ -45,6 +47,7 @@ public class DataDictionaryHandler {
                 .orElseThrow(() -> new PathNotFoundException(request.path()));
     }
 
+    @NonNull
     public Mono<ServerResponse> add(ServerRequest request) {
         return request
                 .bodyToMono(DataDictionary.class)
