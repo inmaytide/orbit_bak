@@ -101,11 +101,6 @@
                     <skip>true</skip>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <release>9</release>
-                    <compilerArgs>
-                        <arg>--add-modules</arg>
-                        <arg>java.xml.bind,java.xml.ws,java.xml.ws.annotation</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
