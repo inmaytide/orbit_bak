@@ -1,0 +1,1 @@
+docker run -itd -p 7000:7000 --name orbit-discovery --link orbit-configurations orbit/discovery

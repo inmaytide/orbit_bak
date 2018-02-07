@@ -14,4 +14,4 @@ ENTRYPOINT  java \
 			--add-modules java.xml.bind \
 			-Djava.security.egd=file:/dev/./urandom -jar app.jar
 			
-EXPOSE 7000
+EXPOSE 7004
