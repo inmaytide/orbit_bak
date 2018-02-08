@@ -3,6 +3,6 @@ spring:
     name: orbit-i18n
   cloud:
     config:
-      uri: http://127.0.0.1:6999/
+      uri: http://orbit-configurations:6999/
       profile: dev
       label: master
