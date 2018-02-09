@@ -17,4 +17,4 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://127.0.0.1:7000/eureka/
+      defaultZone: http://orbit-discovery:7000/eureka/
