@@ -1,0 +1,72 @@
+version: "3.5"
+
+services:
+#  # configurations start
+#  configurations:
+#    build:
+#      context: ./orbit-configurations
+#      args:
+#        JAR_FILE: target/configurations.jar
+#    container_name: orbit-configurations
+#
+#  # discovery start
+#  discovery:
+#    build:
+#      context: ./orbit-discovery
+#      args:
+#        JAR_FILE: target/discovery.jar
+#    ports:
+#      - '0.0.0.0:7000:7000'
+#    links:
+#      - configurations
+#    container_name: orbit-discovery
+
+  # api gateway start
+  api-gateway:
+    build:
+      context: ./orbit-api-gateway
+      args:
+        JAR_FILE: target/api-gateway.jar
+    ports:
+      - '0.0.0.0:7001:7001'
+    networks:
+      - default
+      - app_net
+    container_name: orbit-api-gateway
+
+  # i18n start
+  i18n:
+    build:
+      context: ./orbit-i18n
+      args:
+        JAR_FILE: target/i18n.jar
+    container_name: orbit-i18n
+    networks:
+      - default
+      - app_net
+
+  # authorization start
+  authorization:
+    build:
+      context: ./orbit-authorization
+      args:
+        JAR_FILE: target/authorization.jar
+    container_name: orbit-authorization
+    networks:
+      - default
+      - app_net
+
+  # captcha
+  captcha:
+    container_name: orbit-captcha
+    networks:
+      - default
+      - app_net
+    build:
+      context: ./orbit-captcha
+      args:
+        JAR_FILE: target/captcha.jar
+
+networks:
+  app_net:
+    external: true

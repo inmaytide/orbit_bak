@@ -1,1 +1,0 @@
-docker run -itd -p 6999:6999 --name orbit-configurations orbit/configurations

@@ -1,1 +1,0 @@
-docker run -itd -p 7004:7004 --name orbit-authorization --link orbit-configurations --link orbit-discovery orbit/authorization

@@ -54,9 +54,23 @@
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
+            <artifactId>orbit-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.inmaytide.orbit</groupId>
             <artifactId>orbit-exception</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>captcha</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
     <repositories>
         <repository>

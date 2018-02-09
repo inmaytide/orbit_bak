@@ -1,1 +1,0 @@
-docker run -itd -p 7003:7003 --name orbit-i18n --link orbit-configurations --link orbit-discovery orbit/i18n
