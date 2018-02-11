@@ -1,3 +1,4 @@
+@echo off
 cd orbit-configurations
 docker stop orbit-configurations
 docker rm orbit-configurations
@@ -18,3 +19,5 @@ docker network connect app_net orbit-discovery
 cd ..
 
 pause
+
+@echo on

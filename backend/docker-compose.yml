@@ -1,26 +1,10 @@
 version: "3.5"
 
-services:
-#  # configurations start
-#  configurations:
-#    build:
-#      context: ./orbit-configurations
-#      args:
-#        JAR_FILE: target/configurations.jar
-#    container_name: orbit-configurations
-#
-#  # discovery start
-#  discovery:
-#    build:
-#      context: ./orbit-discovery
-#      args:
-#        JAR_FILE: target/discovery.jar
-#    ports:
-#      - '0.0.0.0:7000:7000'
-#    links:
-#      - configurations
-#    container_name: orbit-discovery
+networks:
+  app_net:
+    external: true
 
+services:
   # api gateway start
   api-gateway:
     build:
@@ -28,7 +12,7 @@ services:
       args:
         JAR_FILE: target/api-gateway.jar
     ports:
-      - '0.0.0.0:7001:7001'
+      - '0.0.0.0:${API_PORT}:7001'
     networks:
       - default
       - app_net
@@ -63,7 +47,7 @@ services:
       - default
       - app_net
     extra_hosts:
-      - "redis-server:192.168.2.192"
+      - "redis-server:${REDIS_SERVER}"
     build:
       context: ./orbit-captcha
       args:
@@ -75,8 +59,8 @@ services:
       - default
       - app_net
     extra_hosts:
-      - "redis-server:192.168.2.192"
-      - "mysql-server:192.168.2.192"
+      - "redis-server:${REDIS_SERVER}"
+      - "mysql-server:${MYSQL_SERVER}"
     build:
       context: ./orbit-data-dictionary
       args:
@@ -88,13 +72,9 @@ services:
       - default
       - app_net
     extra_hosts:
-      - "redis-server:192.168.2.192"
-      - "mysql-server:192.168.2.192"
+      - "redis-server:${REDIS_SERVER}"
+      - "mysql-server:${MYSQL_SERVER}"
     build:
-          context: ./orbit-system-management
-          args:
-            JAR_FILE: target/system-management.jar
-
-networks:
-  app_net:
-    external: true
+      context: ./orbit-system-management
+      args:
+        JAR_FILE: target/system-management.jar
