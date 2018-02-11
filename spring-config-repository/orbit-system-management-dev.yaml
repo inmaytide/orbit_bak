@@ -6,7 +6,7 @@ spring:
   application:
     name: orbit-system-management
   datasource:
-    url: jdbc:mysql://localhost:3306/db_orbit?characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://mysql-server:3306/db_orbit?characterEncoding=UTF-8&useSSL=false
     username: root
     password: 123
     driver-class-name: com.mysql.jdbc.Driver
@@ -19,6 +19,9 @@ spring:
       hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
       hibernate.show_sql: true
 #      hibernate.use_sql_comments: true
+  redis:
+    host: redis-server
+    port: 6379
 
 
 eureka:
@@ -26,7 +29,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://127.0.0.1:7000/eureka/
+      defaultZone: http://orbit-discovery:7000/eureka/
 #logging:
 #  level:
 #    root: info

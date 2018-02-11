@@ -8,14 +8,14 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 123
-    url: jdbc:mysql://localhost:3306/db_orbit?characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://mysql-server:3306/db_orbit?characterEncoding=UTF-8&useSSL=false
   jpa:
    properties:
      hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
      hibernate.show_sql: true
   #   hibernate.hbm2ddl.auto: update
   redis:
-    host: 127.0.0.1
+    host: redis-server
     port: 6379
   data:
     redis:
@@ -29,7 +29,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://127.0.0.1:7000/eureka/
+      defaultZone: http://orbit-discovery:7000/eureka/
 
 logging:
   level:

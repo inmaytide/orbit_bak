@@ -18,5 +18,3 @@ docker network connect app_net orbit-discovery
 cd ..
 
 pause
-
-exit

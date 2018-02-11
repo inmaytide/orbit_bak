@@ -62,10 +62,38 @@ services:
     networks:
       - default
       - app_net
+    extra_hosts:
+      - "redis-server:192.168.2.192"
     build:
       context: ./orbit-captcha
       args:
         JAR_FILE: target/captcha.jar
+
+  data-dictionary:
+    container_name: orbit-data-dictionary
+    networks:
+      - default
+      - app_net
+    extra_hosts:
+      - "redis-server:192.168.2.192"
+      - "mysql-server:192.168.2.192"
+    build:
+      context: ./orbit-data-dictionary
+      args:
+        JAR_FILE: target/data-dictionary.jar
+
+  system-management:
+    container_name: orbit-system-management
+    networks:
+      - default
+      - app_net
+    extra_hosts:
+      - "redis-server:192.168.2.192"
+      - "mysql-server:192.168.2.192"
+    build:
+          context: ./orbit-system-management
+          args:
+            JAR_FILE: target/system-management.jar
 
 networks:
   app_net:
