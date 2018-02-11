@@ -4,7 +4,6 @@ VOLUME /tmp
 
 RUN ln -s lib /usr/lib/jvm/java-9-openjdk-amd64/conf
 RUN git clone https://github.com/vishnubob/wait-for-it.git
-RUN apt-get install -y libfontconfig
 
 ARG JAR_FILE
 ADD ${JAR_FILE} app.jar
