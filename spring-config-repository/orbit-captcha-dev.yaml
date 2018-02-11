@@ -5,7 +5,7 @@ spring:
   application:
     name: orbit-captcha
   redis:
-    host: 172.17.0.1
+    host: redis-server
   data:
     redis:
       repositories:
