@@ -4,7 +4,7 @@ docker stop orbit-configurations
 docker rm orbit-configurations
 docker rmi orbit/configurations
 call mvn clean install
-docker run -d --name orbit-configurations orbit/configurations
+docker run -d --name orbit-configurations -p 0.0.0.0:6999:6999 orbit/configurations
 docker network connect app_net orbit-configurations
 cd ..
 

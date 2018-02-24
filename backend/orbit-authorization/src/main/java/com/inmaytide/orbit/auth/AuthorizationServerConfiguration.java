@@ -44,7 +44,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer security) {
         security.allowFormAuthenticationForClients()
                 .checkTokenAccess("permitAll()")
                 .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
@@ -52,7 +52,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         if (validateCaptcha) {
             endpoints.addInterceptor(new CaptchaInterceptor(captchaClient));
         }

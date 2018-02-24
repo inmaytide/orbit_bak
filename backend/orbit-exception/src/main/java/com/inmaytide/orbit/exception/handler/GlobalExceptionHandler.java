@@ -3,7 +3,7 @@ package com.inmaytide.orbit.exception.handler;
 import com.inmaytide.orbit.exception.PathNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebExceptionHandler;
+import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.web.reactive.function.server.ServerRequest;
