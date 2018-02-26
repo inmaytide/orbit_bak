@@ -14,5 +14,6 @@ html, body {
 }
 
 .ivu-layout-header {
-    padding: 0 10px 0 40px!important;
+    padding: 0 10px 0 0px!important;
+    background-color: #34302d!important;
 }

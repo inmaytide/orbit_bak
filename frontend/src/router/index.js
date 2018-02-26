@@ -1,20 +1,25 @@
 import Login from '@/components/login'
-import Index from '@/components/index'
+import Index from '@/components/index/main'
+import MenuIndex from '@/components/system/menu/index'
 
 const routers = [
   {
+    path: '/',
+    component: Login
+  },
+  {
     path: '/login',
-    name: 'login',
     component: Login
   },
   {
     path: '/index',
-    name: 'index',
-    component: Index
-  },
-  {
-    path: '/',
-    component: Login
+    component: Index,
+    children: [
+      {
+        path: 'system/menu',
+        component: MenuIndex
+      }
+    ]
   }
 ]
 

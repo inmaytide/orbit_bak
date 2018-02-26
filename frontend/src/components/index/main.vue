@@ -1,0 +1,29 @@
+<template>
+  <Layout class="layout">
+    <Header>
+      <index-top />
+    </Header>
+    <Layout class="content">
+      <Sider class="nav-warpper" width="240">
+        <index-nav />
+      </Sider>
+      <Content>
+        <router-view></router-view>
+      </Content>
+    </Layout>
+  </Layout>
+</template>
+<style>
+@import url("../../../static/css/index.css");
+</style>
+<script>
+import IndexTop from './top'
+import IndexNav from './nav'
+export default {
+  name: 'Index',
+  components: {
+    'index-top': IndexTop,
+    'index-nav': IndexNav
+  }
+}
+</script>

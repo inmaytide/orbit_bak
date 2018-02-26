@@ -14,23 +14,24 @@
   align-items: center;
 }
 .header-logo {
-  width: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -10px;
   user-select: none;
+  border: 2px solid #ffffff;
+  padding: 10px;
+  border-radius: 50%;
+  margin: -3px 10px 0 15px;
 }
 .header-title {
   font-family: Papyrus, Verdana, "Lucida Grande", Arial, sans-serif;
   font-size: 30px;
   color: whitesmoke;
   font-weight: bold;
-  letter-spacing: 1px;
   width: 200px;
   display: block;
-  padding-top: 10px;
   user-select: none;
+  padding-top: 5px;
 }
 .header-profile {
   width: calc(100% - 190px);
@@ -41,7 +42,7 @@
 }
 
 .profile-avatar {
-  background-color: #87d068;
+  background-color: #2d8cf0;
   cursor: pointer;
 }
 .profile-name {
