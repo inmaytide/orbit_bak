@@ -1,13 +1,13 @@
 <template>
   <div class="header">
     <div class="header-logo">
-        <Icon type="social-freebsd-devil" color="white" size="30"></Icon>
+        <Icon type="social-freebsd-devil" color="white" size="20"></Icon>
     </div>
     <div class="header-title">Orbit Admin</div>
     <div class="header-profile">
         <Dropdown placement="bottom-end">
         <Badge count="3">
-            <Avatar class="profile-avatar" icon="person" size="large"/>
+            <Avatar class="profile-avatar" icon="person"/>
         </Badge>
         <DropdownMenu slot="list">
             <DropdownItem>您有一个新的任务，请注意处理</DropdownItem>

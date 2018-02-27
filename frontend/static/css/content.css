@@ -1,0 +1,24 @@
+body {
+    background-color: #F0F0F0
+}
+.wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.breadcrumb {
+    padding: 0 15px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #ffffff;
+}
+
+.searchbar {
+    padding: 5px 15px;
+}
+
+.list {
+    padding: 5px 15px;
+    background-color: #ffffff;
+    min-height: 300px;
+}

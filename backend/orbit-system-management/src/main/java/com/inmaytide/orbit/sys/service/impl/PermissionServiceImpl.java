@@ -67,7 +67,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Cacheable(cacheNames = "user_menus", key = "#username + '_menus'")
     public List<Permission> listMenusByUsername(String username) {
-        List<Permission> list = repository.findByUsername(username, PermissionCategory.MENU.getCode());
+        List<Permission> list = repository.findByUsername(username, PermissionCategory.MENU);
         return listToTreeNodes(list);
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <Menu theme="light" active-name="1">
+  <Menu theme="dark" active-name="1">
         <Menu-item name="1">
         <Icon type="ios-speedometer"  size="16"/>
         Dashboard
@@ -7,9 +7,9 @@
         <Submenu name="2">
         <template slot="title">
             <Icon type="ios-gear" size="16"></Icon>
-            System Management
+            System
         </template>
-        <Menu-item name="2-1" v-on:click.native="changeContent('213123123123123')">Permission Management</Menu-item>
+        <Menu-item name="2-1" v-on:click.native="changeContent('213123123123123')">Permission</Menu-item>
         </Submenu>
     </Menu>
 </template>

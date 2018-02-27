@@ -1,6 +1,6 @@
 import Login from '@/components/login'
 import Index from '@/components/index/main'
-import MenuIndex from '@/components/system/menu/index'
+import PermissionIndex from '@/components/system/permission/index'
 
 const routers = [
   {
@@ -17,7 +17,7 @@ const routers = [
     children: [
       {
         path: 'system/menu',
-        component: MenuIndex
+        component: PermissionIndex
       }
     ]
   }

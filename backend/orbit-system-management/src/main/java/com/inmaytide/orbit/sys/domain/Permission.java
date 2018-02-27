@@ -3,7 +3,6 @@ package com.inmaytide.orbit.sys.domain;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
-import com.inmaytide.orbit.converter.PermissionCategoryConverter;
 import com.inmaytide.orbit.enums.PermissionCategory;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,7 +40,7 @@ public class Permission extends AbstractEntity {
     private Long icon;
 
     @NotNull
-    @Convert(converter = PermissionCategoryConverter.class)
+    @Enumerated(EnumType.STRING)
     private PermissionCategory category;
 
     @Length(max = 256)
