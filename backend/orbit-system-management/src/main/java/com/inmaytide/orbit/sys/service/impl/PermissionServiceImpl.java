@@ -5,6 +5,7 @@ import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
 import com.inmaytide.orbit.sys.service.PermissionService;
+import com.inmaytide.orbit.util.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,12 +57,12 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "user_menus", allEntries = true)
     public Permission update(Permission inst) {
-        Permission original = getRepository().findById(inst.getId()).orElseThrow(() -> new IllegalArgumentException("The instance to modify does not exist. id with [" + inst.getId() + "]"));
-        inst.setParent(original.getParent());
-        inst.setCreateTime(original.getCreateTime());
-        inst.setCreator(original.getCreator());
-        inst.setSort(original.getSort());
-        return repository.save(inst);
+        return getRepository().findById(inst.getId())
+                .map(original -> {
+                    BeanUtils.copyProperties(original, inst, "parent", "createTime", "creator", "sort");
+                    return repository.save(inst);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("The instance to modify does not exist. id with [" + inst.getId() + "]"));
     }
 
     @Override

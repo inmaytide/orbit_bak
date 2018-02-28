@@ -50,8 +50,7 @@ public class DefaultCaptchaService implements CaptchaService {
             stringRedisTemplate.opsForValue().set(cacheName, captcha, 15, TimeUnit.MINUTES);
             log.debug("Captcha generated: {key: '{}', value: '{}'}", cacheName, captcha);
         } catch (IOException e) {
-            log.error("Failed to generate captcha. => {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to generate captcha. ", e);
         }
         return resource;
     }
