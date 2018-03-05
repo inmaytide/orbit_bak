@@ -22,3 +22,15 @@ body {
     background-color: #ffffff;
     min-height: 300px;
 }
+
+.toolbar {
+    padding: 0px 15px;
+    display:flex;
+    justify-content: flex-end;
+}
+
+.operations {
+    width: 52px;
+    padding: 2px 3px;
+    border: none;
+}

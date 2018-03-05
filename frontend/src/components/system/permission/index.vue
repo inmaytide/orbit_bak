@@ -1,10 +1,13 @@
 <template>
   <div class="wrapper">
     <Breadcrumb class="breadcrumb">
-        <BreadcrumbItem>Home</BreadcrumbItem>
-        <BreadcrumbItem>System</BreadcrumbItem>
-        <BreadcrumbItem>Permission</BreadcrumbItem>
+        <BreadcrumbItem>{{$t('menu.home')}}</BreadcrumbItem>
+        <BreadcrumbItem>{{$t('menu.system')}}</BreadcrumbItem>
+        <BreadcrumbItem>{{$t('menu.system.permission')}}</BreadcrumbItem>
     </Breadcrumb>
+    <div class="toolbar">
+      <Button type="primary" icon="plus" size="small">{{$t('common.func.add')}}</Button>
+    </div>
     <div class="list">
       <zk-table
         :columns="columns"
@@ -13,7 +16,14 @@
         :tree-type="true"
         :expand-type="false"
         :border="true"
-        row-class-name="line"></zk-table>
+        row-class-name="line">
+      <template slot="ops" slot-scope="scope">
+        <Button class="operations" type="primary" size="small" @click="edit(scope.row)">{{$t('common.func.edit')}}</Button>
+        <Button class="operations" type="success" size="small">{{$t('permission.func.move.up')}}</Button>
+        <Button class="operations" type="success" size="small">{{$t('permission.func.move.down')}}</Button>
+        <Button class="operations" type="error" size="small">{{$t('common.func.remove')}}</Button>
+      </template>
+      </zk-table>
     </div>
   </div>
 </template>
@@ -35,7 +45,9 @@
   content: '\E633'!important;
 }
 .zk-icon-minus-square-o:before {
-  content: '\E635'!important;
+  content: '\E633'!important;
+  display:inline-block;
+  transform: rotate(90deg);
 }
 </style>
 
@@ -56,12 +68,17 @@ export default {
   data () {
     return {
       columns: [
-        {label: 'Name', prop: 'name', width: '25%'},
-        {label: 'Code', prop: 'code', width: '20%'},
-        {label: 'Category', prop: 'category', width: '10%'},
-        {label: 'Operation', type: 'template', width: '45%'}
+        {label: this.$i18n.t('permission.column.name'), prop: 'name', width: '25%'},
+        {label: this.$i18n.t('permission.column.code'), prop: 'code', width: '20%'},
+        {label: this.$i18n.t('permission.column.category'), prop: 'category', width: '10%'},
+        {label: this.$i18n.t('common.func.operations'), type: 'template', width: '45%', template: 'ops'}
       ],
-      data: [{name: '123123', code: '213213123', category: 'BUTTON', children: [{name: '123123', code: '213213123', category: 'BUTTON'}]}, {name: '123123', code: '213213123', category: 'BUTTON'}]
+      data: []
+    }
+  },
+  methods: {
+    edit: function (inst) {
+      console.log(inst)
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <Menu theme="dark" active-name="1">
+  <Menu theme="light" active-name="1">
         <Menu-item name="1">
         <Icon type="ios-speedometer"  size="16"/>
         Dashboard

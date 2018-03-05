@@ -3,6 +3,7 @@ html, body {
     width: 100%;
     padding: 0;
     margin: 0;
+    font-family: '微软雅黑', Arial, Helvetica, sans-serif;
 }
 
 .login-form .ivu-input-icon-normal+.ivu-input  {
@@ -16,4 +17,8 @@ html, body {
 .ivu-layout-header {
     padding: 0 10px 0 0px!important;
     background-color: #34302d!important;
+}
+
+.ivu-layout-sider {
+    background-color: white;
 }

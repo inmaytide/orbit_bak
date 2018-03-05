@@ -7,13 +7,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: '微软雅黑', Arial, Helvetica, sans-serif;
 }
 
 .login-wapper {
     background-color: rgba(51, 51, 51, .3);
     width: 380px;
     height: 350px;
-    margin-top: -80px;
+    margin-top: -20px;
     border-radius: 10px;
 }
 

@@ -5,15 +5,15 @@
       <div class="login-form">
         <Form ref="token" :model="token" :rules="rules">
           <FormItem prop="username">
-            <i-input v-model="token.username" size="large" :maxlength="16" icon="person" />
+            <i-input v-model="token.username" size="large" :maxlength="16" icon="person" :title="$t('login.placeholder.username')"/>
           </FormItem>
           <FormItem prop="password">
-            <i-input type="password" v-model="token.password" size="large" :maxlength="16" icon="ios-locked-outline" />
+            <i-input type="password" v-model="token.password" size="large" :maxlength="16" icon="ios-locked-outline" :title="$t('login.placeholder.password')"/>
           </FormItem>
           <FormItem prop="captcha">
             <Row>
               <i-col span="15">
-                <i-input v-model="token.captcha" size="large" :maxlength="6" icon="image" />
+                <i-input v-model="token.captcha" size="large" :maxlength="6" icon="image" :title="$t('login.placeholder.captcha')"/>
               </i-col>
               <i-col span="9">
                 <img :src="captchaImagePage" class="login-captcha-image" v-on:click="getCaptcha()"/>
@@ -21,8 +21,8 @@
             </Row>
           </FormItem>
           <Button type="primary" :loading="loading" @click="login" long>
-            <span v-if="!loading">Login</span>
-            <span v-else>Loading...</span>
+            <span v-if="!loading">{{ $t('login.btn.text') }}</span>
+            <span v-else>{{ $t('common.loading') }}</span>
           </Button>
         </Form>
       </div>
