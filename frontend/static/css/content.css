@@ -34,3 +34,8 @@ body {
     padding: 2px 3px;
     border: none;
 }
+
+.ivu-modal-footer button {
+    width: 60px;
+    padding: 5px 5px;
+}

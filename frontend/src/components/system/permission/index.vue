@@ -11,20 +11,41 @@
     <div class="list">
       <zk-table
         :columns="columns"
-        :data="data"
+        :data="list"
         :selection-type="false"
         :tree-type="true"
         :expand-type="false"
         :border="true"
         row-class-name="line">
-      <template slot="ops" slot-scope="scope">
-        <Button class="operations" type="primary" size="small" @click="edit(scope.row)">{{$t('common.func.edit')}}</Button>
-        <Button class="operations" type="success" size="small">{{$t('permission.func.move.up')}}</Button>
-        <Button class="operations" type="success" size="small">{{$t('permission.func.move.down')}}</Button>
-        <Button class="operations" type="error" size="small">{{$t('common.func.remove')}}</Button>
-      </template>
+        <template slot="ops" slot-scope="scope">
+          <Button class="operations" type="primary" size="small" @click="edit(scope.row)">{{$t('common.func.edit')}}</Button>
+          <Button class="operations" type="success" size="small">{{$t('permission.func.move.up')}}</Button>
+          <Button class="operations" type="success" size="small">{{$t('permission.func.move.down')}}</Button>
+          <Button class="operations" type="error" size="small">{{$t('common.func.remove')}}</Button>
+        </template>
       </zk-table>
     </div>
+    <Modal
+        v-model="showDetails"
+        :title="$t('permission.modal.title')"
+        :ok-text="$t('permission.modal.actions.save')"
+        :cancel-text="$t('permission.modal.actions.cancel')">
+      <Form ref="instance" :model="instance" :rules="rules" :label-width="60">
+        <FormItem :label="$t('permission.column.parent')" prop="parent">
+          <Cascader :data="data" v-model="instance.parent"></Cascader>
+        </FormItem>
+        <FormItem :label="$t('permission.column.code')" prop="code">
+          <i-input v-model="instance.code"></i-input>
+        </FormItem>
+        <FormItem :label="$t('permission.column.name')" prop="name">
+          <i-input v-model="instance.name"></i-input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button>Cancel</Button>
+        <Button type="primary">Save</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <style>
@@ -59,7 +80,7 @@ export default {
     this.service = new PermissionService()
     this.service.getData()
       .then(res => {
-        this.data = res
+        this.list = res
       })
       .catch(err => {
         console.log(err)
@@ -73,12 +94,25 @@ export default {
         {label: this.$i18n.t('permission.column.category'), prop: 'category', width: '10%'},
         {label: this.$i18n.t('common.func.operations'), type: 'template', width: '45%', template: 'ops'}
       ],
-      data: []
+      list: [],
+      showDetails: false,
+      instance: {},
+      rules: {
+        parent: [
+          {required: true, message: '', trigger: 'blur'}
+        ],
+        code: [
+          {required: true, message: this.$i18n.t('permission.validator.code.not.empty'), trigger: 'blur'}
+        ],
+        name: [
+          {required: true, message: this.$i18n.t('permission.validator.name.not.empty'), trigger: 'blur'}
+        ]
+      }
     }
   },
   methods: {
     edit: function (inst) {
-      console.log(inst)
+      this.showDetails = true
     }
   }
 }

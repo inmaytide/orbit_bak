@@ -20,7 +20,7 @@
               </i-col>
             </Row>
           </FormItem>
-          <Button type="primary" :loading="loading" @click="login" long>
+          <Button type="primary" :loading="loading" @click="login" long size="large">
             <span v-if="!loading">{{ $t('login.btn.text') }}</span>
             <span v-else>{{ $t('common.loading') }}</span>
           </Button>

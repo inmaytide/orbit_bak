@@ -3,7 +3,7 @@ package com.inmaytide.orbit.enums;
 public enum PermissionCategory {
 
     MENU("Menu"),
-    BUTTON("Button");
+    FUNCTION("Function");
 
     private String text;
 
