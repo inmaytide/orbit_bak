@@ -17,5 +17,8 @@ export default {
       }
     }
     return null
+  },
+  errorHandler (error) {
+    console.log(error)
   }
 }

@@ -74,7 +74,7 @@ public class PermissionServiceImpl implements PermissionService {
 
 
     @Override
-    public List<Permission> listNodes(Long category) {
+    public List<Permission> listNodes(PermissionCategory category) {
         return listToTreeNodes(repository.findByCategory(category, DEFAULT_SORT));
     }
 

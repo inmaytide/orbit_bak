@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.sys.controller;
 
+import com.inmaytide.orbit.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class PermissionController extends AbstractController {
     }
 
     @GetMapping
-    public Flux<Permission> list(Long category) {
+    public Flux<Permission> list(PermissionCategory category) {
         List<Permission> list = Objects.isNull(category) ? service.listNodes() : service.listNodes(category);
         return Flux.fromIterable(list);
     }

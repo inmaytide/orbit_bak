@@ -6,7 +6,7 @@
         <BreadcrumbItem>{{$t('menu.system.permission')}}</BreadcrumbItem>
     </Breadcrumb>
     <div class="toolbar">
-      <Button type="primary" icon="plus" size="small">{{$t('common.func.add')}}</Button>
+      <Button type="primary" icon="plus" size="small" @click="add()">{{$t('common.func.add')}}</Button>
     </div>
     <div class="list">
       <zk-table
@@ -27,23 +27,60 @@
     </div>
     <Modal
         v-model="showDetails"
+        :width="700"
         :title="$t('permission.modal.title')"
-        :ok-text="$t('permission.modal.actions.save')"
-        :cancel-text="$t('permission.modal.actions.cancel')">
-      <Form ref="instance" :model="instance" :rules="rules" :label-width="60">
+        :mask-closable="false">
+      <Form ref="instance" :model="instance" :rules="rules" :label-width="80">
         <FormItem :label="$t('permission.column.parent')" prop="parent">
-          <Cascader :data="data" v-model="instance.parent"></Cascader>
+          <Cascader :data="parentOptions" v-model="instance.parent" :clearable="false"></Cascader>
         </FormItem>
-        <FormItem :label="$t('permission.column.code')" prop="code">
-          <i-input v-model="instance.code"></i-input>
-        </FormItem>
-        <FormItem :label="$t('permission.column.name')" prop="name">
-          <i-input v-model="instance.name"></i-input>
+        <Row>
+          <i-col span="12">
+            <FormItem :label="$t('permission.column.code')" prop="code">
+              <i-input v-model="instance.code" :maxlength="32"></i-input>
+            </FormItem>
+          </i-col>
+          <i-col span="12">
+            <FormItem :label="$t('permission.column.name')" prop="name">
+              <i-input v-model="instance.name" :maxlength="64"></i-input>
+            </FormItem>
+        </i-col>
+        </Row>
+        <Row>
+          <i-col span="12">
+            <FormItem :label="$t('permission.column.category')" prop="category">
+              <i-select v-model="instance.category">
+                <Option v-for="item in categories" :value="item.value" :label="item.label" :key="item.value"></Option>
+              </i-select>
+            </FormItem>
+          </i-col>
+          <i-col span="12">
+            <FormItem :label="$t('permission.column.method')" prop="method">
+              <i-select v-model="instance.method">
+                <Option v-for="item in httpMethods" :value="item.value" :label="item.label" :key="item.value"></Option>
+              </i-select>
+            </FormItem>
+          </i-col>
+        </Row>
+        <Row>
+          <i-col span="16">
+            <FormItem :label="$t('permission.column.action')" prop="action">
+              <i-input v-model="instance.action" :maxlength="256"></i-input>
+            </FormItem>
+          </i-col>
+          <i-col span="8">
+            <FormItem :label="$t('permission.column.icon')" prop="icon">
+              <i-select v-model="instance.icon"></i-select>
+            </FormItem>
+          </i-col>
+        </Row>
+        <FormItem :label="$t('permission.column.description')" prop="description">
+          <i-input v-model="instance.description" type="textarea" :rows="2" :maxlength="256"></i-input>
         </FormItem>
       </Form>
       <div slot="footer">
-        <Button>Cancel</Button>
-        <Button type="primary">Save</Button>
+        <Button @click="cancel">{{$t('permission.modal.actions.cancel')}}</Button>
+        <Button type="primary" @click="save">{{$t('permission.modal.actions.save')}}</Button>
       </div>
     </Modal>
   </div>
@@ -71,49 +108,4 @@
   transform: rotate(90deg);
 }
 </style>
-
-<script>
-import PermissionService from './permission.service'
-export default {
-  name: 'PermissionIndex',
-  created: function () {
-    this.service = new PermissionService()
-    this.service.getData()
-      .then(res => {
-        this.list = res
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  },
-  data () {
-    return {
-      columns: [
-        {label: this.$i18n.t('permission.column.name'), prop: 'name', width: '25%'},
-        {label: this.$i18n.t('permission.column.code'), prop: 'code', width: '20%'},
-        {label: this.$i18n.t('permission.column.category'), prop: 'category', width: '10%'},
-        {label: this.$i18n.t('common.func.operations'), type: 'template', width: '45%', template: 'ops'}
-      ],
-      list: [],
-      showDetails: false,
-      instance: {},
-      rules: {
-        parent: [
-          {required: true, message: '', trigger: 'blur'}
-        ],
-        code: [
-          {required: true, message: this.$i18n.t('permission.validator.code.not.empty'), trigger: 'blur'}
-        ],
-        name: [
-          {required: true, message: this.$i18n.t('permission.validator.name.not.empty'), trigger: 'blur'}
-        ]
-      }
-    }
-  },
-  methods: {
-    edit: function (inst) {
-      this.showDetails = true
-    }
-  }
-}
-</script>
+<script src="./index.js">

@@ -19,9 +19,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.created;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
@@ -38,10 +36,29 @@ public class DataDictionaryHandler {
     @Autowired
     private DataDictionaryRepository repository;
 
+//    private static final Map<String, List<DataDictionary>> ENUM_DICTIONARIES = new ConcurrentHashMap<>();
+//    public static final String KEY_PERMISSION_CATEGORY = "permission_category";
+//    public static final String KEY_HTTP_METHOD = "http_method";
+//
+//    static {
+//        ENUM_DICTIONARIES.put(KEY_PERMISSION_CATEGORY, Stream.of(PermissionCategory.values())
+//                .map(value -> DataDictionary.withPermissionCategory(value).build()).collect(Collectors.toList()));
+//
+//        ENUM_DICTIONARIES.put(KEY_HTTP_METHOD, Stream.of(HttpMethod.values())
+//                .map(value -> DataDictionary.withHttpMethod(value).build()).collect(Collectors.toList()));
+//    }
+
+    private List<DataDictionary> list(String category) {
+//        if (ENUM_DICTIONARIES.containsKey(category)) {
+//            return ENUM_DICTIONARIES.get(category);
+//        }
+        return repository.findByCategory(category, DEFAULT_SORT);
+    }
+
     @NonNull
     public Mono<ServerResponse> list(ServerRequest request) {
         return request.queryParam("category")
-                .map(category -> repository.findByCategory(category, DEFAULT_SORT))
+                .map(this::list)
                 .map(Flux::fromIterable)
                 .map(flux -> ok().body(flux, DataDictionary.class))
                 .orElseThrow(() -> new PathNotFoundException(request.path()));

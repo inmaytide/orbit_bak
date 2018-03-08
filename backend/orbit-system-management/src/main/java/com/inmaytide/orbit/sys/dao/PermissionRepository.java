@@ -37,7 +37,7 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
     List<Permission> findByParent(Long parent, Sort sort);
 
-    List<Permission> findByCategory(Long category, Sort sort);
+    List<Permission> findByCategory(PermissionCategory category, Sort sort);
 
     Integer deleteByIdIn(List<Long> ids);
 }

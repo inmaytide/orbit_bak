@@ -22,7 +22,7 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
      * @return tree structure permissions
      * @see com.inmaytide.orbit.enums.PermissionCategory
      */
-    List<Permission> listNodes(Long category);
+    List<Permission> listNodes(PermissionCategory category);
 
     /**
      * Get all permissions and transform to tree nodes.

@@ -52,6 +52,9 @@ public class Permission extends AbstractEntity {
 
     private Integer sort;
 
+    @Column(name = "id_path")
+    private String idPath;
+
     @Transient
     private List<Permission> children;
 
@@ -153,6 +156,14 @@ public class Permission extends AbstractEntity {
 
     public void setMethod(String method) {
         this.method = HttpMethod.valueOf(method);
+    }
+
+    public String getIdPath() {
+        return idPath;
+    }
+
+    public void setIdPath(String idPath) {
+        this.idPath = idPath;
     }
 
     @Override
