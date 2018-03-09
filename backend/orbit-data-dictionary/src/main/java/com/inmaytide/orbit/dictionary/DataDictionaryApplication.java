@@ -60,11 +60,6 @@ public class DataDictionaryApplication {
     }
 
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean
     public DefaultVisitorResolver visitorResolver() {
         return new DefaultVisitorResolver(username -> userClient.getUserByUsername(username).map(ObjectNode::toString).orElse(null));
     }

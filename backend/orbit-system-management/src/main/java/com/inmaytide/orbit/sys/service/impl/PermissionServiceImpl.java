@@ -49,6 +49,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "user_menus", allEntries = true)
     public Permission insert(Permission inst) {
+        Assert.isTrue(checkCode(inst.getCode(), inst.getId()), "The permission code cannot not be repeat");
         inst.setSort(repository.getSort());
         return getRepository().save(inst);
     }
@@ -57,6 +58,9 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "user_menus", allEntries = true)
     public Permission update(Permission inst) {
+        Assert.notNull(inst.getId(), "The primary key of instance must not be null when it will be update");
+        Assert.isTrue(checkCode(inst.getCode(), inst.getId()), "The permission code cannot not be repeat");
+
         return getRepository().findById(inst.getId())
                 .map(original -> {
                     BeanUtils.copyProperties(original, inst, "parent", "createTime", "creator", "sort");

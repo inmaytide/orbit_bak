@@ -5,8 +5,6 @@ import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -42,18 +40,13 @@ public class PermissionController extends AbstractController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Permission> add(@RequestBody @Valid Permission permission, BindingResult bind) {
-        processBindingResult(bind);
-        Assert.isTrue(service.checkCode(permission.getCode(), permission.getId()), "The permission code cannot not be repeat");
-        return Mono.just(service.insert(permission));
+    public Mono<Permission> add(@RequestBody @Valid Mono<Permission> permission) {
+        return permission.onErrorResume(Mono::error).doOnSuccess(service::insert);
     }
 
     @PutMapping
-    public Mono<Permission> update(@RequestBody @Valid Permission permission, BindingResult bind) {
-        processBindingResult(bind);
-        Assert.notNull(permission.getId(), "The primary key of instance must not be null when it will be update");
-        Assert.isTrue(service.checkCode(permission.getCode(), permission.getId()), "The permission code cannot not be repeat");
-        return Mono.just(service.update(permission));
+    public Mono<Permission> update(@RequestBody @Valid Mono<Permission> permission) {
+        return permission.onErrorResume(Mono::error).doOnSuccess(service::update);
     }
 
     @DeleteMapping("/{ids}")
