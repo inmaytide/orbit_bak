@@ -3,7 +3,8 @@ import axios from 'axios'
 const PERMISSION_API = {
   getData: process.env.API_ROOT + 'sys/permissions',
   save: process.env.API_ROOT + 'sys/permissions',
-  getIconOptions: process.env.API_ROOT + 'dictionaries?category=common.icon'
+  getIconOptions: process.env.API_ROOT + 'dictionaries?category=common.icon',
+  remove: process.env.API_ROOT + 'sys/permissions/'
 }
 
 export const Categories = [
@@ -28,9 +29,12 @@ export class PermissionService {
     if (inst.parent !== -1) {
       inst.idPath = parent.join('-')
     }
-    action(PERMISSION_API.save, inst)
+    return action(PERMISSION_API.save, inst)
       .then(res => console.log(res))
       .catch(err => Promise.reject(err))
+  }
+  remove (id) {
+    return axios.delete(PERMISSION_API.remove + id)
   }
   getData () {
     return axios.get(PERMISSION_API.getData)

@@ -21,7 +21,7 @@
           <Button class="operations" type="primary" size="small" @click="edit(scope.row)">{{$t('common.func.edit')}}</Button>
           <Button class="operations" type="success" size="small">{{$t('permission.func.move.up')}}</Button>
           <Button class="operations" type="success" size="small">{{$t('permission.func.move.down')}}</Button>
-          <Button class="operations" type="error" size="small">{{$t('common.func.remove')}}</Button>
+          <Button class="operations" type="error" size="small" @click="remove(scope.row)">{{$t('common.func.remove')}}</Button>
         </template>
       </zk-table>
     </div>
@@ -32,7 +32,7 @@
         :mask-closable="false">
       <Form ref="instance" :model="instance" :rules="rules" :label-width="80">
         <FormItem :label="$t('permission.column.parent')" prop="parent">
-          <Cascader :data="parentOptions" v-model="instance.parent" :clearable="false"></Cascader>
+          <Cascader :placeholder="$t('common.select.placeholder')" :data="parentOptions" v-model="instance.parent"></Cascader>
         </FormItem>
         <Row>
           <i-col span="12">
@@ -117,9 +117,7 @@ export default {
   name: 'PermissionIndex',
   created: function () {
     this.service = new PermissionService()
-    this.service.getData()
-      .then(res => (this.list = res))
-      .catch(err => commons.errorHandler(err))
+    this.refresh()
     this.service.getParentOptions()
       .then(res => (this.parentOptions = res))
       .catch(err => commons.errorHandler(err))
@@ -156,13 +154,32 @@ export default {
     }
   },
   methods: {
+    refresh: function () {
+      this.service.getData()
+        .then(res => (this.list = res))
+        .catch(err => commons.errorHandler(err))
+    },
     add: function () {
       this.instance = {method: 'GET', category: 'MENU'}
       this.showDetails = true
     },
+    remove: function (inst) {
+      this.$Modal.confirm({
+        title: this.$i18n.t('layer.title.prompt'),
+        content: this.$i18n.t('permission.remove.confirm.message'),
+        okText: this.$i18n.t('layer.confirm.btn.ok'),
+        cancelText: this.$i18n.t('layer.confirm.btn.cancel'),
+        onOk: () => {
+          this.service.remove(inst.id)
+            .then(() => this.refresh())
+            .catch(err => commons.errorHandler(err))
+        }
+      })
+    },
     edit: function (inst) {
-      inst.parent = ['392062345830076416', '392062572091805696']
+      inst.parent = inst.idPath === null ? [] : inst.idPath.split('-')
       this.instance = inst
+      console.log(this.instance)
       this.showDetails = true
     },
     cancel: function () {
@@ -171,7 +188,13 @@ export default {
     save: function () {
       this.$refs['instance'].validate()
         .then(valid => {
-          valid && this.service.save(this.instance)
+          if (valid) {
+            this.service.save(this.instance)
+              .then(res => {
+                this.refresh()
+                this.cancel()
+              })
+          }
         })
     }
   }
