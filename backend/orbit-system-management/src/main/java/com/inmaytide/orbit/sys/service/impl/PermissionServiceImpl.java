@@ -92,9 +92,8 @@ public class PermissionServiceImpl implements PermissionService {
     @CacheEvict(value = "user_menus", allEntries = true)
     public void remove(String ids) {
         List<Long> permissionIds = split(ids);
-        if (permissionIds.stream().map(this::findByParent).map(List::size).anyMatch(len -> len > 0)) {
-            throw new IllegalArgumentException("Cannot remove permissions with ID [" + ids + "], maybe because its has sub permissions");
-        }
+        Assert.isTrue(permissionIds.stream().map(this::findByParent).map(List::size).anyMatch(len -> len > 0),
+                "Cannot remove permissions with ID [" + ids + "], maybe because its has sub permissions");
         getRepository().deleteByIdIn(permissionIds);
         rolePermissionRepository.deleteByPIdIn(permissionIds);
     }
@@ -108,14 +107,13 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "user_menus", allEntries = true)
     public void move(Long id, String category) {
-        Permission inst = get(id).orElseThrow(() -> new IllegalArgumentException("The permission needs to move is not exist. ID for [{}]" + id));
-        Permission exchanger = getExchanger(inst, category);
-        if (exchanger != null) {
+        Permission inst = get(id).orElseThrow(() -> new IllegalArgumentException(String.format("The permission needs to move is not exist. ID for [%s]", id)));
+        getExchanger(inst, category).ifPresent(exchanger -> {
             int sort = inst.getSort();
             inst.setSort(exchanger.getSort());
             exchanger.setSort(sort);
             getRepository().saveAll(List.of(inst, exchanger));
-        }
+        });
     }
 
     @Override
@@ -128,17 +126,17 @@ public class PermissionServiceImpl implements PermissionService {
         return StringUtils.isBlank(str) ? "" : str.toLowerCase();
     }
 
-    private Permission getExchanger(Permission current, String category) {
+    private Optional<Permission> getExchanger(Permission current, String category) {
         ExchangerIndexProvider provider = EXCHANGER_INDEX_PROVIDERS.get(toLowerCase(category));
         Assert.notNull(provider, "The move category must be up or down");
 
         List<Permission> permissions = findByParent(current.getParent());
         if (permissions.size() <= 1) {
-            log.error("The permission cannot to move,  because there is no same level permissions to exchange");
-            return null;
+            log.error("The permission cannot to move, because there is no same level permissions to exchange");
+            return Optional.empty();
         }
-
-        return permissions.get(provider.get(permissions.indexOf(current), permissions.size()));
+        int index = provider.get(permissions.indexOf(current), permissions.size());
+        return Optional.ofNullable(permissions.get(index));
     }
 
     private List<Permission> findByParent(Long parent) {

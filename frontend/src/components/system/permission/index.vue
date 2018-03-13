@@ -32,7 +32,11 @@
         :mask-closable="false">
       <Form ref="instance" :model="instance" :rules="rules" :label-width="80">
         <FormItem :label="$t('permission.column.parent')" prop="parent">
-          <Cascader :placeholder="$t('common.select.placeholder')" :data="parentOptions" v-model="instance.parent"></Cascader>
+          <Cascader
+            :placeholder="$t('common.select.placeholder')"
+            :data="parentOptions"
+            v-model="instance.parent"
+            :change-on-select="true"></Cascader>
         </FormItem>
         <Row>
           <i-col span="12">
@@ -118,9 +122,6 @@ export default {
   created: function () {
     this.service = new PermissionService()
     this.refresh()
-    this.service.getParentOptions()
-      .then(res => (this.parentOptions = res))
-      .catch(err => commons.errorHandler(err))
     this.service.getIconOptions()
       .then(res => (this.iconOptions = res))
       .catch(err => commons.errorHandler(err))
@@ -158,6 +159,9 @@ export default {
       this.service.getData()
         .then(res => (this.list = res))
         .catch(err => commons.errorHandler(err))
+      this.service.getParentOptions()
+        .then(res => (this.parentOptions = res))
+        .catch(err => commons.errorHandler(err))
     },
     add: function () {
       this.instance = {method: 'GET', category: 'MENU'}
@@ -179,7 +183,6 @@ export default {
     edit: function (inst) {
       inst.parent = inst.idPath === null ? [] : inst.idPath.split('-')
       this.instance = inst
-      console.log(this.instance)
       this.showDetails = true
     },
     cancel: function () {

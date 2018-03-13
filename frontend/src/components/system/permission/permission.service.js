@@ -25,11 +25,11 @@ export class PermissionService {
   save (inst) {
     const action = inst.id === undefined || inst.id === -1 ? axios.post : axios.put
     const parent = inst.parent
-    inst.parent = parent && parent.length > 0 ? parent[parent.length - 1] : -1
-    if (inst.parent !== -1) {
-      inst.idPath = parent.join('-')
+    const data = Object.assign({}, inst, {parent: parent && parent.length > 0 ? parent[parent.length - 1] : -1})
+    if (data.parent !== -1) {
+      data.idPath = parent.join('-')
     }
-    return action(PERMISSION_API.save, inst)
+    return action(PERMISSION_API.save, data)
       .then(res => console.log(res))
       .catch(err => Promise.reject(err))
   }

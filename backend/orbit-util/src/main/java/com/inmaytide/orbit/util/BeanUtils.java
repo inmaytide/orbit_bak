@@ -1,5 +1,7 @@
 package com.inmaytide.orbit.util;
 
+import org.springframework.util.ReflectionUtils;
+
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,11 +10,9 @@ import java.util.stream.Stream;
 public class BeanUtils {
 
     public static Field getField(Class<?> cls, String property) {
-        try {
-            return cls.getDeclaredField(property);
-        } catch (NoSuchFieldException e) {
-            throw new IllegalArgumentException(e);
-        }
+        Field field = ReflectionUtils.findField(cls, property);
+        Assert.nonNull(field, "Cann't find field. name => [" + property + "]");
+        return field;
     }
 
     public static List<Field> getFields(Class<?> cls, String... properties) {
