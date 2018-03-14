@@ -4,7 +4,8 @@ const PERMISSION_API = {
   getData: process.env.API_ROOT + 'sys/permissions',
   save: process.env.API_ROOT + 'sys/permissions',
   getIconOptions: process.env.API_ROOT + 'dictionaries?category=common.icon',
-  remove: process.env.API_ROOT + 'sys/permissions/'
+  remove: process.env.API_ROOT + 'sys/permissions/',
+  validCode: process.env.API_ROOT + 'sys/permissions/checkCode/'
 }
 
 export const Categories = [
@@ -32,6 +33,12 @@ export class PermissionService {
     return action(PERMISSION_API.save, data)
       .then(res => console.log(res))
       .catch(err => Promise.reject(err))
+  }
+  validCode (code, inst) {
+    let api = PERMISSION_API.validCode
+    api += (inst.id === null || inst.id === undefined) ? -1 : inst.id
+    api += '/' + code
+    return axios.get(api).then(res => res.data).catch(err => Promise.reject(err))
   }
   remove (id) {
     return axios.delete(PERMISSION_API.remove + id)
