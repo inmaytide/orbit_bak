@@ -1,7 +1,8 @@
 package com.inmaytide.orbit.sys.service.impl;
 
 
-import com.inmaytide.orbit.commons.query.PagingInformation;
+//import com.inmaytide.orbit.commons.query.PagingInformation;
+
 import com.inmaytide.orbit.sys.dao.RoleRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.UserRoleRepository;
@@ -15,8 +16,6 @@ import com.inmaytide.orbit.sys.service.UserService;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -55,13 +54,13 @@ public class RoleServiceImpl implements RoleService {
         return new HashSet<>(repository.findCodesByUsername(username));
     }
 
-    @Override
-    public Page<Role> list(PagingInformation pageModel) {
-        final Pageable pageable = pageModel.transform();
-        return pageModel.getKeywords()
-                .map(keywords -> repository.findByCodeLikeOrNameLike(keywords, keywords, pageable))
-                .orElse(repository.findAll(pageable));
-    }
+//    @Override
+//    public Page<Role> list(PagingInformation pageModel) {
+//        final Pageable pageable = pageModel.transform();
+//        return pageModel.getKeywords()
+//                .map(keywords -> repository.findByCodeLikeOrNameLike(keywords, keywords, pageable))
+//                .orElse(repository.findAll(pageable));
+//    }
 
     @Override
     public Optional<Role> get(final Long id) {

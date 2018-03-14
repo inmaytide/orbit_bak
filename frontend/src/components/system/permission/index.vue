@@ -16,6 +16,7 @@
         :tree-type="true"
         :expand-type="false"
         :border="true"
+        :empty-text="$t('table.no.data')"
         row-class-name="line">
         <template slot="ops" slot-scope="scope">
           <Button class="operations" type="primary" size="small" @click="edit(scope.row)">{{$t('common.func.edit')}}</Button>
@@ -127,6 +128,19 @@ export default {
       .catch(err => commons.errorHandler(err))
   },
   data () {
+    var validCodeExist = (rule, value, callback) => {
+      this.service.validCode(value, this.instance)
+        .then(res => {
+          if (res.isRepeat) {
+            callback()
+          } else {
+            callback(new Error(this.$i18n.t('permission.validator.name.not.empty')))
+          }
+        })
+        .catch(err => {
+          callback(new Error(err))
+        })
+    }
     return {
       columns: [
         {label: this.$i18n.t('permission.column.name'), prop: 'name', width: '25%'},
@@ -146,10 +160,11 @@ export default {
       httpMethods: HttpMethods,
       rules: {
         code: [
-          {required: true, message: this.$i18n.t('permission.validator.code.not.empty'), trigger: 'blur'}
+          {required: true, message: this.$i18n.t('permission.validator.code.not.empty'), trigger: 'blur'},
+          {validator: validCodeExist, message: this.$i18n.t('permission.validator.code.not.repeat'), trigger: 'blur'}
         ],
         name: [
-          {required: true, message: this.$i18n.t('permission.validator.name.not.empty'), trigger: 'blur'}
+          {required: true, trigger: 'blur'}
         ]
       }
     }

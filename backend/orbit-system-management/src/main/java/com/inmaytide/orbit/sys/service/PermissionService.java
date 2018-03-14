@@ -18,7 +18,7 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
 
     /**
      * Get permissions by category and transform to tree nodes.
-     * @param category {@link PermissionCategory#getCode()}
+     * @param category {@link PermissionCategory}
      * @return tree structure permissions
      * @see com.inmaytide.orbit.enums.PermissionCategory
      */
@@ -38,6 +38,12 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
      */
     Boolean checkCode(String code, Long excluded);
 
+    /**
+     * Exchange the sort value with the previous or next permission
+     *
+     * @param Primary  key that needs to move permissions
+     * @param category up or down
+     */
     void move(Long id, String category);
 
     void remove(String ids);

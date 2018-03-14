@@ -33,7 +33,7 @@ public class CaptchaHandler {
     }
 
     @NonNull
-    public Mono<ServerResponse> getCaptcha(ServerRequest request) {
+    public Mono<ServerResponse> getCaptcha(@SuppressWarnings("unused") ServerRequest request) {
         String cacheName = UUIDGenerator.generate();
         Resource resource = service.generateCaptcha(cacheName);
         try {
