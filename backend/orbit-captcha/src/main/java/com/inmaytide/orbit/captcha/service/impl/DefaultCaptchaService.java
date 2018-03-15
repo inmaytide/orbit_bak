@@ -48,7 +48,7 @@ public class DefaultCaptchaService implements CaptchaService {
             cacheName = generateCacheName(cacheName);
             String captcha = EncoderHelper.getChallangeAndWriteImage(configurableCaptchaService, "png", os);
             stringRedisTemplate.opsForValue().set(cacheName, captcha, 15, TimeUnit.MINUTES);
-            log.debug("Captcha generated: {key: '{}', value: '{}'}", cacheName, captcha);
+            log.debug("Captcha generated: [key: '{}', value: '{}']", cacheName, captcha);
         } catch (IOException e) {
             throw new RuntimeException("Failed to generate captcha. ", e);
         }
@@ -59,20 +59,20 @@ public class DefaultCaptchaService implements CaptchaService {
     public boolean validation(String captcha, String cacheName) {
         String key = generateCacheName(cacheName);
         boolean isValid = hasCaptcha(key) && StringUtils.equalsIgnoreCase(captcha, getServerCaptcha(key));
-        log.debug("Validation captcha: {key: '{}', input: '{}', isValid: '{}'}", key, captcha, isValid);
+        log.debug("Validation captcha: [key: '{}', input: '{}', isValid: '{}']", key, captcha, isValid);
         return isValid;
     }
 
     private Boolean hasCaptcha(String key) {
         Boolean hasCaptcha = stringRedisTemplate.hasKey(key);
-        log.debug("Check redis have captcha: {key: '{}', hasCaptcha: '{}'}", key, hasCaptcha);
+        log.debug("Check redis have captcha: [key: '{}', hasCaptcha: '{}']", key, hasCaptcha);
         return hasCaptcha;
     }
 
     private String getServerCaptcha(String key) {
         String serverCaptcha = stringRedisTemplate.opsForValue().get(key);
         stringRedisTemplate.delete(key);
-        log.debug("Get captcha from redis: {key: '{}', serverCaptcha: '{}'}", key, serverCaptcha);
+        log.debug("Get captcha from redis: [key: '{}', serverCaptcha: '{}']", key, serverCaptcha);
         return serverCaptcha;
     }
 

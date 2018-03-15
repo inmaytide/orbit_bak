@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.client.CaptchaClient;
 import com.inmaytide.orbit.auth.exception.BadCaptchaException;
-import com.inmaytide.orbit.constant.Constants;
 import com.inmaytide.orbit.util.Assert;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.*;
+
+import static com.inmaytide.orbit.constant.Constants.HEADER_NAME_CAPTCHA_NAME;
 
 /**
  * @author Moss
@@ -32,7 +33,7 @@ public class CaptchaInterceptor implements WebRequestInterceptor {
     }
 
     private String getCaptchaName(WebRequest request) {
-        String name = request.getHeader(Constants.HEADER_NAME_CAPTCHA_NAME);
+        String name = request.getHeader(HEADER_NAME_CAPTCHA_NAME);
         Assert.hasText(name, BadCaptchaException::new);
         return name;
     }

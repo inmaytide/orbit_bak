@@ -1,5 +1,7 @@
 package com.inmaytide.orbit.commons.id;
 
+import java.time.Instant;
+
 /**
  * An implementation for Twitter snowflake algorithm with Java <br/>
  *
@@ -123,7 +125,7 @@ public class SnowflakeIdWorker {
      * @return 当前时间(毫秒)
      */
     protected long timeGen() {
-        return System.currentTimeMillis();
+        return Instant.now().toEpochMilli();
     }
 
 }

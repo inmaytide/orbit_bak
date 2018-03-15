@@ -41,19 +41,14 @@ public class CaptchaApplication {
     public RouterFunction<?> routers(CaptchaHandler handler) {
         return route(GET("/captcha"), handler::getCaptcha)
                 .and(route(GET("/captcha/{captcha}"), handler::validation))
-                .andOther(route(RequestPredicates.all(), exceptionHandler()::notFound));
-    }
-
-    @Bean
-    public GlobalExceptionHandler exceptionHandler() {
-        return new GlobalExceptionHandler(true);
+                .andOther(route(RequestPredicates.all(), GlobalExceptionHandler::notFound));
     }
 
     @Bean
     public HttpHandler httpHandler(RouterFunction<?> routers) {
         return WebHttpHandlerBuilder
                 .webHandler(RouterFunctions.toWebHandler(routers))
-                .exceptionHandler(exceptionHandler())
+                .exceptionHandler(new GlobalExceptionHandler(true))
                 .build();
     }
 

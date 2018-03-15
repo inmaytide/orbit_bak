@@ -1,10 +1,12 @@
 package com.inmaytide.orbit;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 @Component
 @ConfigurationProperties(prefix = "orbit.cors")
@@ -74,12 +76,15 @@ public class CorsProperties {
         CorsConfiguration config = new CorsConfiguration();
         config.setMaxAge(getMaxAge());
         config.setAllowCredentials(getAllowCredentials());
-        String[] headers = getAllowedHeaders().split(",");
-        Arrays.stream(headers).map(String::trim).forEach(config::addAllowedHeader);
-        String[] methods = getAllowedMethods().split(",");
-        Arrays.stream(methods).map(String::trim).forEach(config::addAllowedMethod);
-        String[] origins = getAllowedOrigins().split(",");
-        Arrays.stream(origins).map(String::trim).forEach(config::addAllowedOrigin);
+        allowed(getAllowedHeaders(), config::addAllowedHeader);
+        allowed(getAllowedMethods(), config::addAllowedMethod);
+        allowed(getAllowedOrigins(), config::addAllowedOrigin);
         return config;
+    }
+
+    private void allowed(String value, Consumer<String> action) {
+        if (StringUtils.isNotBlank(value)) {
+            Arrays.stream(StringUtils.split(value, ",")).map(StringUtils::trim).forEach(action);
+        }
     }
 }

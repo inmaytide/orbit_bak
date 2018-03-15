@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.filter.visitor;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.inmaytide.orbit.util.AccessTokenUtils;
 import com.inmaytide.orbit.util.JsonUtils;
 import com.inmaytide.orbit.constant.Constants;
 import org.apache.commons.lang3.StringUtils;
@@ -45,21 +46,11 @@ public abstract class AbstractVisitorResolver<T extends Serializable> implements
         visitor.remove();
     }
 
-    private Optional<String> getAccessToken(ServerHttpRequest request) {
-        String value = request.getHeaders().getFirst(Constants.HEADER_NAME_AUTHORIZATION);
-        if (StringUtils.isBlank(value) || !value.startsWith(Constants.BEARER_TYPE)) {
-            value = request.getQueryParams().getFirst(Constants.ACCESS_TOKEN);
-        } else {
-            value = StringUtils.replaceFirst(value, Constants.BEARER_TYPE, StringUtils.EMPTY).trim();
-        }
-        return Optional.ofNullable(value);
-    }
-
 
     @Override
     @NonNull
     public Mono<Void> filter(@NonNull ServerWebExchange exchange, @NonNull WebFilterChain chain) {
-        getAccessToken(exchange.getRequest())
+        AccessTokenUtils.getValue(exchange.getRequest())
                 .ifPresentOrElse(this::setVisitor, this::clearVisitor);
         return chain.filter(exchange);
     }

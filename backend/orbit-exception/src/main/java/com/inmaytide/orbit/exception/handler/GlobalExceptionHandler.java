@@ -41,7 +41,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
     }
 
     @NonNull
-    public Mono<ServerResponse> notFound(final ServerRequest request) {
+    public static Mono<ServerResponse> notFound(final ServerRequest request) {
         log.error("Path [{}] not found.", request.path());
         return Mono.just(new PathNotFoundException(request.path()))
                 .transform(ThrowableTranslator::translate)
