@@ -5,7 +5,8 @@ const PERMISSION_API = {
   save: process.env.API_ROOT + 'sys/permissions',
   getIconOptions: process.env.API_ROOT + 'dictionaries?category=common.icon',
   remove: process.env.API_ROOT + 'sys/permissions/',
-  validCode: process.env.API_ROOT + 'sys/permissions/checkCode/'
+  validCode: process.env.API_ROOT + 'sys/permissions/checkCode/',
+  move: process.env.API_ROOT + 'sys/permissions/move/'
 }
 
 export const Categories = [
@@ -15,11 +16,11 @@ export const Categories = [
 
 export const HttpMethods = [
   {'label': 'GET', 'value': 'GET'},
-  {'label': 'HEAD', 'value': 'HEAD'},
   {'label': 'POST', 'value': 'POST'},
   {'label': 'PUT', 'value': 'PUT'},
   {'label': 'PATCH', 'value': 'PATCH'},
-  {'label': 'DELETE', 'value': 'DELETE'}
+  {'label': 'DELETE', 'value': 'DELETE'},
+  {'label': 'HEAD', 'value': 'HEAD'}
 ]
 
 export class PermissionService {
@@ -31,35 +32,29 @@ export class PermissionService {
       data.idPath = parent.join('-')
     }
     return action(PERMISSION_API.save, data)
-      .then(res => console.log(res))
-      .catch(err => Promise.reject(err))
   }
   validCode (code, inst) {
-    let api = PERMISSION_API.validCode
-    api += (inst.id === null || inst.id === undefined) ? -1 : inst.id
-    api += '/' + code
-    return axios.get(api).then(res => res.data).catch(err => Promise.reject(err))
+    const id = (inst.id === null || inst.id === undefined) ? -1 : inst.id
+    return axios.get(PERMISSION_API.validCode + id + '/' + code)
   }
   remove (id) {
     return axios.delete(PERMISSION_API.remove + id)
   }
+  move (category, id) {
+    return axios.patch(PERMISSION_API.move + id + '/' + category)
+  }
   getData () {
     return axios.get(PERMISSION_API.getData)
-      .then(res => res.data)
-      .catch(err => Promise.reject(err))
   }
   getParentOptions () {
     return axios.get(PERMISSION_API.getData, {
       params: {
         'category': 'MENU'
       }
-    }).then(res => this.transformToOptions(res.data))
-      .catch(err => Promise.reject(err))
+    }).then(res => this.transformToOptions(res))
   }
   getIconOptions () {
     return axios.get(PERMISSION_API.getIconOptions)
-      .then(res => res.data)
-      .catch(err => Promise.reject(err))
   }
   transformToOptions (list) {
     let options = []

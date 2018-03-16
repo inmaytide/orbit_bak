@@ -30,7 +30,7 @@ public class Organization extends AbstractEntity {
     private String description;
 
     @Column(name = "is_removed")
-    private int isRemoved;
+    private Integer isRemoved;
 
     private Integer sort;
 
@@ -82,11 +82,11 @@ public class Organization extends AbstractEntity {
         this.description = description;
     }
 
-    public int getIsRemoved() {
+    public Integer getIsRemoved() {
         return isRemoved;
     }
 
-    public void setIsRemoved(int isRemoved) {
+    public void setIsRemoved(Integer isRemoved) {
         this.isRemoved = isRemoved;
     }
 

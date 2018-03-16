@@ -15,7 +15,6 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.server.reactive.HttpHandler;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -67,20 +66,15 @@ public class DataDictionaryApplication {
     @Bean
     public RouterFunction<?> routers(DataDictionaryHandler handler) {
         RouterFunction<?> routers = route(GET("/"), handler::list)
-                .and(route(POST("/"), handler::add));
-        return nest(RequestPredicates.path("/dictionaries"), routers)
-                .andOther(route(RequestPredicates.all(), exceptionHandler()::notFound));
-    }
-
-    @Bean
-    public GlobalExceptionHandler exceptionHandler() {
-        return new GlobalExceptionHandler(true);
+                .and(route(POST("/"), handler::add))
+                .andOther(route(RequestPredicates.all(), GlobalExceptionHandler::notFound));
+        return nest(RequestPredicates.path("/dictionaries"), routers);
     }
 
     @Bean
     public HttpHandler httpHandler(RouterFunction<?> routers, DefaultVisitorResolver visitorResolver) {
         return WebHttpHandlerBuilder.webHandler(RouterFunctions.toWebHandler(routers))
-                .exceptionHandler(exceptionHandler())
+                .exceptionHandler(new GlobalExceptionHandler(true))
                 .filter(visitorResolver)
                 .build();
     }

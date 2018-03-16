@@ -17,6 +17,8 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.path;
+import static org.springframework.web.reactive.function.server.RouterFunctions.nest;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @SpringBootApplication
@@ -39,9 +41,10 @@ public class CaptchaApplication {
 
     @Bean
     public RouterFunction<?> routers(CaptchaHandler handler) {
-        return route(GET("/captcha"), handler::getCaptcha)
-                .and(route(GET("/captcha/{captcha}"), handler::validation))
+        RouterFunction<?> routers = route(GET("/"), handler::getCaptcha)
+                .and(route(GET("/{captcha}"), handler::validation))
                 .andOther(route(RequestPredicates.all(), GlobalExceptionHandler::notFound));
+        return nest(path("/captcha"), routers);
     }
 
     @Bean

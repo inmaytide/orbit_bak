@@ -32,7 +32,9 @@ axios.interceptors.request.use(config => {
     config.headers.Authorization = authorization
   }
   return config
-}, error => Promise.reject(error))
+}, error => commons.errorHandler(error))
+
+axios.interceptors.response.use(response => response.data, err => commons.errorHandler(err))
 
 /* eslint-disable no-new */
 new Vue({

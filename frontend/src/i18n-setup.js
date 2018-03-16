@@ -14,8 +14,7 @@ export function loadLanguage () {
   return axios.get(process.env.API_I18N + lang)
     .then(res => {
       i18n.locale = lang
-      i18n.setLocaleMessage(lang, res.data)
+      i18n.setLocaleMessage(lang, res)
       return Promise.resolve(lang)
     })
-    .catch(res => Promise.reject(res))
 }

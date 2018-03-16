@@ -12,8 +12,8 @@ export default class {
   getCaptcha () {
     return axios.get(LOGIN_API.getCaptcha + Date.now())
       .then(res => {
-        this.currentCaptchaName = res.data.captchaName
-        return res.data.image
+        this.currentCaptchaName = res.captchaName
+        return res.image
       })
   }
   login (token) {

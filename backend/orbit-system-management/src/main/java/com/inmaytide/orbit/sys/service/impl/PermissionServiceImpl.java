@@ -1,9 +1,9 @@
 package com.inmaytide.orbit.sys.service.impl;
 
 import com.inmaytide.orbit.enums.PermissionCategory;
-import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
+import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.service.PermissionService;
 import com.inmaytide.orbit.util.BeanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -92,7 +92,7 @@ public class PermissionServiceImpl implements PermissionService {
     @CacheEvict(value = "user_menus", allEntries = true)
     public void remove(String ids) {
         List<Long> permissionIds = split(ids);
-        Assert.isTrue(permissionIds.stream().map(this::findByParent).map(List::size).anyMatch(len -> len > 0),
+        Assert.isTrue(permissionIds.stream().map(this::findByParent).map(List::size).allMatch(len -> len == 0),
                 "Cannot remove permissions with ID [" + ids + "], maybe because its has sub permissions");
         getRepository().deleteByIdIn(permissionIds);
         rolePermissionRepository.deleteByPIdIn(permissionIds);
@@ -132,7 +132,7 @@ public class PermissionServiceImpl implements PermissionService {
 
         List<Permission> permissions = findByParent(current.getParent());
         if (permissions.size() <= 1) {
-            log.error("The permission cannot to move, because there is no same level permissions to exchange");
+            log.warn("The permission cannot to move, because there is no same level permissions to exchange");
             return Optional.empty();
         }
         int index = provider.get(permissions.indexOf(current), permissions.size());

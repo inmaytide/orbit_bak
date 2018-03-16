@@ -73,7 +73,7 @@ export default {
             this.loading = true
             this.loginService.login(this.token)
               .then(res => {
-                commons.storeUser(res.data)
+                commons.storeUser(res)
                 this.$router.push('index')
               })
               .catch(error => {
@@ -89,9 +89,6 @@ export default {
         .then(res => {
           this.token.captcha = ''
           this.captchaImagePage = 'data:image/jpeg;base64,' + res
-        })
-        .catch(error => {
-          console.log(error)
         })
     },
     getLoginFailedMessage (error) {

@@ -2,6 +2,7 @@ package com.inmaytide.orbit.i18n;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @author Moss
  * @since September 11, 2017
  */
+@Component
 public class I18nResourceProvider {
 
     @Autowired

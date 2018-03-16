@@ -18,11 +18,14 @@
         :border="true"
         :empty-text="$t('table.no.data')"
         row-class-name="line">
+        <template slot="category" slot-scope="scope">
+          {{categoryFilter(scope.row.category)}}
+        </template>
         <template slot="ops" slot-scope="scope">
           <Button class="operations" type="primary" size="small" @click="edit(scope.row)">{{$t('common.func.edit')}}</Button>
-          <Button class="operations" type="success" size="small">{{$t('permission.func.move.up')}}</Button>
-          <Button class="operations" type="success" size="small">{{$t('permission.func.move.down')}}</Button>
-          <Button class="operations" type="error" size="small" @click="remove(scope.row)">{{$t('common.func.remove')}}</Button>
+          <Button class="operations" type="success" size="small" @click="move('up', scope.row)">{{$t('permission.func.move.up')}}</Button>
+          <Button class="operations" type="success" size="small" @click="move('down', scope.row)">{{$t('permission.func.move.down')}}</Button>
+          <Button v-if="scope.row.children.length == 0" class="operations" type="error" size="small" @click="remove(scope.row)">{{$t('common.func.remove')}}</Button>
         </template>
       </zk-table>
     </div>
@@ -145,7 +148,7 @@ export default {
       columns: [
         {label: this.$i18n.t('permission.column.name'), prop: 'name', width: '25%'},
         {label: this.$i18n.t('permission.column.code'), prop: 'code', width: '20%'},
-        {label: this.$i18n.t('permission.column.category'), prop: 'category', width: '10%'},
+        {label: this.$i18n.t('permission.column.category'), type: 'template', width: '10%', template: 'category'},
         {label: this.$i18n.t('common.func.operations'), type: 'template', width: '45%', template: 'ops'}
       ],
       list: [],
@@ -171,16 +174,15 @@ export default {
   },
   methods: {
     refresh: function () {
-      this.service.getData()
-        .then(res => (this.list = res))
-        .catch(err => commons.errorHandler(err))
-      this.service.getParentOptions()
-        .then(res => (this.parentOptions = res))
-        .catch(err => commons.errorHandler(err))
+      this.service.getData().then(res => (this.list = res))
+      this.service.getParentOptions().then(res => (this.parentOptions = res))
     },
     add: function () {
       this.instance = {method: 'GET', category: 'MENU'}
       this.showDetails = true
+    },
+    move: function (category, inst) {
+      this.service.move(category, inst.id).then(() => this.refresh())
     },
     remove: function (inst) {
       this.$Modal.confirm({
@@ -191,7 +193,6 @@ export default {
         onOk: () => {
           this.service.remove(inst.id)
             .then(() => this.refresh())
-            .catch(err => commons.errorHandler(err))
         }
       })
     },
@@ -202,6 +203,10 @@ export default {
     },
     cancel: function () {
       this.showDetails = false
+    },
+    categoryFilter: function (category) {
+      const filtered = Categories.filter(c => c.value === category)
+      return filtered && filtered.length > 0 ? filtered[0].label : ''
     },
     save: function () {
       this.$refs['instance'].validate()

@@ -1,6 +1,8 @@
 package com.inmaytide.orbit.i18n;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
@@ -13,18 +15,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Moss
  * @since September 22, 2017
  */
+@Component
 public class I18nResourceHolder {
 
-    private Map<Locale, Map<String, String>> cache = new ConcurrentHashMap<>(4);
-
-    private String basename;
-
+    @Value("#{ @environment['orbit.i18n.resource-cache'] ?: true }")
     private boolean isCache;
 
-    public I18nResourceHolder(String basename, boolean isCache) {
-        this.basename = basename;
-        this.isCache = isCache;
-    }
+    @Value("#{ @environment['spring.messages.basename'] ?: 'messages' }")
+    private String basename;
+
+    private Map<Locale, Map<String, String>> cache = new ConcurrentHashMap<>(4);
 
     private Locale resolveLocale(String lang) {
         Assert.hasText(lang, "The argument => lang must be not empty.");

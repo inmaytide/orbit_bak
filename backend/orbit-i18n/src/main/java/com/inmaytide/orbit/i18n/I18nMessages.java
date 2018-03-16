@@ -2,9 +2,11 @@ package com.inmaytide.orbit.i18n;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
@@ -12,6 +14,7 @@ import java.util.Locale;
  * @author Moss
  * @since September 22, 2017
  */
+@Component
 public class I18nMessages {
 
     private static final Logger log = LoggerFactory.getLogger(I18nMessages.class);
@@ -20,6 +23,7 @@ public class I18nMessages {
 
     private MessageSource messageSource;
 
+    @Autowired
     public I18nMessages(MessageSource messageSource) {
         this.messageSource = messageSource;
     }

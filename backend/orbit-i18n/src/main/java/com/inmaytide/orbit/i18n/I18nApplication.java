@@ -1,12 +1,9 @@
 package com.inmaytide.orbit.i18n;
 
 import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.web.reactive.config.EnableWebFlux;
@@ -27,50 +24,21 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @EnableDiscoveryClient
 public class I18nApplication {
 
-    @Autowired
-    private MessageSource messageSource;
-
-    @Value("#{ @environment['orbit.i18n.resource-cache'] ?: true }")
-    private boolean isCache;
-
-    @Value("#{ @environment['spring.messages.basename'] ?: 'messages' }")
-    private String basename;
-
     public static void main(String... args) {
         SpringApplication.run(I18nApplication.class, args);
     }
 
     @Bean
-    public I18nMessages i18nMessages() {
-        return new I18nMessages(messageSource);
-    }
-
-    @Bean
-    public I18nResourceHolder i18nResourceHolder() {
-        return new I18nResourceHolder(basename, isCache);
-    }
-
-    @Bean
-    public I18nResourceProvider i18nResourceProvider() {
-        return new I18nResourceProvider();
-    }
-
-    @Bean
-    public GlobalExceptionHandler exceptionHandler() {
-        return new GlobalExceptionHandler();
-    }
-
-    @Bean
     public RouterFunction<?> routers(I18nResourceProvider provider) {
         return route(GET("/lang/{lang}"), provider::lang)
-                .andOther(route(RequestPredicates.all(), exceptionHandler()::notFound));
+                .andOther(route(RequestPredicates.all(), GlobalExceptionHandler::notFound));
     }
 
     @Bean
     public HttpHandler httpHandler(RouterFunction<?> routers) {
         return WebHttpHandlerBuilder
                 .webHandler(RouterFunctions.toWebHandler(routers))
-                .exceptionHandler(exceptionHandler())
+                .exceptionHandler(new GlobalExceptionHandler())
                 .build();
     }
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,9 +26,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<Organization> listByParent(Long parent) {
-        if (parent == null) {
-            parent = ROOT_ID;
-        }
+        parent = Objects.requireNonNullElse(parent, ROOT_ID);
         log.debug("Query organizations by parent [{}]", parent);
         return getRepository().findByParent(parent, DEFAULT_SORT);
     }
