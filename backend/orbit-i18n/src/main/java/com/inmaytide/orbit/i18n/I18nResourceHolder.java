@@ -31,15 +31,13 @@ public class I18nResourceHolder {
         return Locale.forLanguageTag(lang);
     }
 
-
-    public Map<String, String> getResources() {
-        Locale locale = LocaleContextHolder.getLocale();
-        return getResources(locale);
+    public Map<String, String> getResources(String lang) {
+        return getResources(resolveLocale(lang));
     }
 
-    public Map<String, String> getResources(String lang) {
-        Locale locale = resolveLocale(lang);
-        return getResources(locale);
+    private Map<String, String> getResources(Locale locale) {
+        Map<String, String> resources = isCache ? cache.get(locale) : null;
+        return resources == null ? generateI18nResources(locale) : resources;
     }
 
     private Map<String, String> generateI18nResources(Locale locale) {
@@ -50,10 +48,6 @@ public class I18nResourceHolder {
             cache.put(locale, map);
         }
         return map;
-    }
-
-    private Map<String, String> getResources(Locale locale) {
-        return cache.getOrDefault(locale, generateI18nResources(locale));
     }
 
 }

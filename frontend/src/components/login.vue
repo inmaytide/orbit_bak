@@ -77,6 +77,7 @@ export default {
                 this.$router.push('index')
               })
               .catch(error => {
+                console.log(error)
                 this.$Message.error(this.getLoginFailedMessage(error))
                 this.getCaptcha()
                 this.loading = false

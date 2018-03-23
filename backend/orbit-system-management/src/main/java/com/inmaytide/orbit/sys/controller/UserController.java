@@ -24,9 +24,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     public Mono<User> getByUsername(@PathVariable String username) {
-        return service.getByUsername(username)
-                .map(Mono::just)
-                .orElse(Mono.empty());
+        return Mono.justOrEmpty(service.getByUsername(username));
     }
 
 }

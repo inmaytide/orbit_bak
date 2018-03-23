@@ -5,15 +5,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.server.reactive.HttpHandler;
+import org.springframework.core.annotation.Order;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.config.EnableWebFlux;
-import org.springframework.web.reactive.function.server.RequestPredicates;
-import org.springframework.web.reactive.function.server.RouterFunction;
-import org.springframework.web.reactive.function.server.RouterFunctions;
-import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
+import reactor.core.publisher.Mono;
 
-import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
-import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author Moss
@@ -22,24 +22,25 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @SpringBootApplication
 @EnableWebFlux
 @EnableDiscoveryClient
+@RestController
 public class I18nApplication {
 
     public static void main(String... args) {
         SpringApplication.run(I18nApplication.class, args);
     }
 
-    @Bean
-    public RouterFunction<?> routers(I18nResourceProvider provider) {
-        return route(GET("/lang/{lang}"), provider::lang)
-                .andOther(route(RequestPredicates.all(), GlobalExceptionHandler::notFound));
+    @Resource
+    private I18nResourceHolder resourceHolder;
+
+    @GetMapping("/lang/{lang}")
+    public Mono<Map<String, String>> lang(@PathVariable String lang) {
+        return Mono.create(sink -> sink.success(resourceHolder.getResources(lang)));
     }
 
     @Bean
-    public HttpHandler httpHandler(RouterFunction<?> routers) {
-        return WebHttpHandlerBuilder
-                .webHandler(RouterFunctions.toWebHandler(routers))
-                .exceptionHandler(new GlobalExceptionHandler())
-                .build();
+    @Order(-1)
+    public GlobalExceptionHandler errorHandler() {
+        return new GlobalExceptionHandler(true);
     }
 
 }

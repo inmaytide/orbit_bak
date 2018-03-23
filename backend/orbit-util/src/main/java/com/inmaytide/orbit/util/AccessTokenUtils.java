@@ -13,10 +13,10 @@ public class AccessTokenUtils {
 
     public static Optional<String> getValue(ServerHttpRequest request) {
         String value = request.getHeaders().getFirst(HEADER_NAME_AUTHORIZATION);
-        if (!StringUtils.hasLength(value) || !value.startsWith(BEARER_TYPE)) {
-            value = request.getQueryParams().getFirst(ACCESS_TOKEN);
-        } else {
+        if (StringUtils.hasLength(value) && value.startsWith(BEARER_TYPE)) {
             value = value.substring(BEARER_TYPE.length() + 1);
+        } else {
+            value = request.getQueryParams().getFirst(ACCESS_TOKEN);
         }
         return Optional.ofNullable(value);
     }
