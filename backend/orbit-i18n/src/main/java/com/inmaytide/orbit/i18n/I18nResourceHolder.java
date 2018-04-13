@@ -1,7 +1,6 @@
 package com.inmaytide.orbit.i18n;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 

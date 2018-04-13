@@ -29,7 +29,7 @@ public class ThrowableTranslator {
         return throwable.flatMap(error -> Mono.just(new ThrowableTranslator(error, path)));
     }
 
-    public static <T extends Throwable> Mono<ThrowableTranslator> translate(final Mono<T> throwable) {
+    static <T extends Throwable> Mono<ThrowableTranslator> translate(final Mono<T> throwable) {
         return throwable.flatMap(error -> Mono.just(new ThrowableTranslator(error)));
     }
 
@@ -39,15 +39,15 @@ public class ThrowableTranslator {
         return response.writeAndFlushWith(Mono.just(Mono.just(buffer)));
     }
 
-    public Mono<ServerResponse> getResponse() {
+    Mono<ServerResponse> getResponse() {
         return status(getHttpStatus()).body(Mono.just(getError()), ResponseError.class);
     }
 
-    public HttpStatus getHttpStatus() {
+    private HttpStatus getHttpStatus() {
         return HttpStatus.valueOf(error.getStatus());
     }
 
-    public ResponseError getError() {
+    private ResponseError getError() {
         return error;
     }
 

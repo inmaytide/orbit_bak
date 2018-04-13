@@ -2,12 +2,12 @@ package com.inmaytide.orbit.i18n;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Locale;
 
 /**
@@ -21,7 +21,7 @@ public class I18nMessages {
 
     private static final String UN_KNOWN_MESSAGE = "unknown";
 
-    @Resource
+    @Autowired
     private MessageSource messageSource;
 
     public String get(String key, Locale locale, Object... args) {

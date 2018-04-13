@@ -16,14 +16,14 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    private boolean showStackTrace = false;
+    private boolean showStackTrace;
 
     public GlobalExceptionHandler() {
-
+        this(false);
     }
 
     public GlobalExceptionHandler(boolean showStackTrace) {
-        this.showStackTrace = showStackTrace;
+        setShowStackTrace(showStackTrace);
     }
 
     @Override
