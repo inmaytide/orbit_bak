@@ -37,7 +37,7 @@ public class SystemManagementApplication extends WebFluxConfigurationSupport {
     public DefaultVisitorResolver visitorResolver(final UserService userService) {
         return new DefaultVisitorResolver(username ->
             userService.getByUsername(username)
-                    .map(JsonUtils::getJsonString)
+                    .map(JsonUtils::serialize)
                     .orElseThrow(() -> new IllegalStateException("Unauthorized access, please access the system through normal channels."))
         );
     }

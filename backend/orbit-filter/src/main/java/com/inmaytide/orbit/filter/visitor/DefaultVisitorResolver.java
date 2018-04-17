@@ -12,7 +12,7 @@ public class DefaultVisitorResolver extends AbstractVisitorResolver<String> {
     }
 
     public static Optional<ObjectNode> currentVisitor() {
-        return Optional.ofNullable(visitor.get()).map(Object::toString).map(JsonUtils::readJsonString);
+        return Optional.ofNullable(visitor.get()).map(Object::toString).map(JsonUtils::deserialize);
     }
 
 }

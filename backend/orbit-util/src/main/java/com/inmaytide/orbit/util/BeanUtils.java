@@ -11,7 +11,7 @@ public class BeanUtils {
 
     public static Field getField(Class<?> cls, String property) {
         Field field = ReflectionUtils.findField(cls, property);
-        Assert.nonNull(field, "Cann't find field. name => [" + property + "]");
+        Assert.nonNull(field, String.format("Property %s not found", property));
         return field;
     }
 

@@ -5,8 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 @Component
 @ConfigurationProperties(prefix = "orbit.cors")
@@ -84,7 +84,7 @@ public class CorsProperties {
 
     private void allowed(String value, Consumer<String> action) {
         if (StringUtils.isNotBlank(value)) {
-            Arrays.stream(StringUtils.split(value, ",")).map(StringUtils::trim).forEach(action);
+            Pattern.compile(",").splitAsStream(value).map(StringUtils::trim).forEach(action);
         }
     }
 }

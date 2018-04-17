@@ -1,9 +1,9 @@
 package com.inmaytide.orbit.dictionary.handler;
 
-import com.inmaytide.orbit.util.JsonUtils;
 import com.inmaytide.orbit.dictionary.dao.DataDictionaryRepository;
 import com.inmaytide.orbit.dictionary.domain.DataDictionary;
 import com.inmaytide.orbit.exception.PathNotFoundException;
+import com.inmaytide.orbit.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
@@ -19,7 +19,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.created;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
@@ -88,7 +91,7 @@ public class DataDictionaryHandler {
 
     private <T> T validate(T instance) {
         Set<ConstraintViolation<T>> violations = getValidator().validate(instance);
-        Assert.isTrue(CollectionUtils.isEmpty(violations), JsonUtils.getJsonString(transformErrorMessage(violations)));
+        Assert.isTrue(CollectionUtils.isEmpty(violations), JsonUtils.serialize(transformErrorMessage(violations)));
         return instance;
     }
 

@@ -30,7 +30,7 @@ public abstract class AbstractVisitorResolver<T extends Serializable> implements
     private void setVisitor(String token) {
         try {
             Jwt jwt = JwtHelper.decode(token);
-            ObjectNode node = JsonUtils.readJsonString(jwt.getClaims());
+            ObjectNode node = JsonUtils.deserialize(jwt.getClaims());
             visitor.set(provider.getByUsername(node.get("user_name").asText()));
         } catch (Exception e) {
             log.error("There is a error in resolve visitor.", e);

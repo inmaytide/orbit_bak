@@ -35,7 +35,7 @@ public class ThrowableTranslator {
 
     public Mono<Void> write(ServerHttpResponse response) {
         response.setStatusCode(getHttpStatus());
-        DataBuffer buffer = response.bufferFactory().wrap(JsonUtils.getJsonBytes(getError()));
+        DataBuffer buffer = response.bufferFactory().wrap(JsonUtils.serializeAsBytes(getError()));
         return response.writeAndFlushWith(Mono.just(Mono.just(buffer)));
     }
 

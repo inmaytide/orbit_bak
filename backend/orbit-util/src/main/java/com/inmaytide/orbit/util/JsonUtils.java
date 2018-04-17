@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class JsonUtils {
 
-    public static byte[] getJsonBytes(Object o) {
+    public static byte[] serializeAsBytes(Object o) {
         try {
             return new ObjectMapper().writerFor(o.getClass()).writeValueAsBytes(o);
         } catch (JsonProcessingException e) {
@@ -16,17 +16,22 @@ public class JsonUtils {
         }
     }
 
-    public static String getJsonString(Object instance) {
+    public static String serialize(Object o) {
         try {
-            return new ObjectMapper().writerFor(instance.getClass()).writeValueAsString(instance);
+            return new ObjectMapper().writerFor(o.getClass()).writeValueAsString(o);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static ObjectNode readJsonString(String str) {
+    public static ObjectNode deserialize(String str) {
+        return deserialize(ObjectNode.class, str);
+    }
+
+
+    public static <T> T deserialize(Class<T> cls, String str) {
         try {
-            return new ObjectMapper().readerFor(ObjectNode.class).readValue(str);
+            return new ObjectMapper().readValue(str, cls);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
