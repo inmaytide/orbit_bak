@@ -2,6 +2,7 @@ package com.inmaytide.orbit.exception.handler;
 
 import com.inmaytide.orbit.util.JsonUtils;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -36,7 +37,8 @@ public class ThrowableTranslator {
     public Mono<Void> write(ServerHttpResponse response) {
         response.setStatusCode(getHttpStatus());
         DataBuffer buffer = response.bufferFactory().wrap(JsonUtils.serializeAsBytes(getError()));
-        return response.writeAndFlushWith(Mono.just(Mono.just(buffer)));
+        return response.writeWith(Mono.just(buffer))
+                .doOnError(error -> DataBufferUtils.release(buffer));
     }
 
     Mono<ServerResponse> getResponse() {

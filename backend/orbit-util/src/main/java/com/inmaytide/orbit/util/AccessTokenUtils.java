@@ -2,8 +2,12 @@ package com.inmaytide.orbit.util;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ServerWebExchange;
 
 import java.util.Optional;
+
+import static com.inmaytide.orbit.constant.Constants.HEADER_NAME_INNER_TOKEN;
+import static com.inmaytide.orbit.constant.Constants.INNER_TOKEN;
 
 public class AccessTokenUtils {
 
@@ -19,6 +23,16 @@ public class AccessTokenUtils {
             value = request.getQueryParams().getFirst(ACCESS_TOKEN);
         }
         return Optional.ofNullable(value);
+    }
+
+    public static Optional<String> getInnerValue(ServerWebExchange exchange) {
+        return Optional.ofNullable(exchange.getRequest().getHeaders().getFirst(HEADER_NAME_INNER_TOKEN));
+    }
+
+    public static boolean matchInnerToken(ServerWebExchange exchange) {
+        return getInnerValue(exchange)
+                .map(INNER_TOKEN::equals)
+                .orElse(false);
     }
 
 }

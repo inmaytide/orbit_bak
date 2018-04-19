@@ -1,8 +1,8 @@
 package com.inmaytide.orbit;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.function.Consumer;
@@ -83,8 +83,8 @@ public class CorsProperties {
     }
 
     private void allowed(String value, Consumer<String> action) {
-        if (StringUtils.isNotBlank(value)) {
-            Pattern.compile(",").splitAsStream(value).map(StringUtils::trim).forEach(action);
+        if (StringUtils.hasText(value)) {
+            Pattern.compile(",").splitAsStream(value).map(StringUtils::trimAllWhitespace).forEach(action);
         }
     }
 }

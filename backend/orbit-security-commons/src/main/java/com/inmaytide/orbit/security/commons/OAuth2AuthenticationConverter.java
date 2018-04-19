@@ -1,6 +1,7 @@
-package com.inmaytide.orbit.security;
+package com.inmaytide.orbit.security.commons;
 
 import com.inmaytide.orbit.util.AccessTokenUtils;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -13,7 +14,7 @@ public class OAuth2AuthenticationConverter implements Function<ServerWebExchange
 
     private TokenStore tokenStore;
 
-    public OAuth2AuthenticationConverter(TokenStore tokenStore) {
+    OAuth2AuthenticationConverter(TokenStore tokenStore) {
         this.tokenStore = tokenStore;
     }
 
@@ -23,6 +24,6 @@ public class OAuth2AuthenticationConverter implements Function<ServerWebExchange
                 .map(value -> tokenStore.readAuthentication(value))
                 .map(OAuth2Authentication::getUserAuthentication)
                 .map(Mono::just)
-                .orElse(Mono.empty());
+                .orElse(Mono.error(new AccessDeniedException("There is no token in the request")));
     }
 }

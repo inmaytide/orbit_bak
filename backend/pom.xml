@@ -28,6 +28,7 @@
         <module>orbit-constant</module>
         <module>orbit-util</module>
         <module>orbit-configurations</module>
+        <module>orbit-security-commons</module>
     </modules>
 
     <properties>
@@ -81,6 +82,11 @@
             <dependency>
                 <groupId>com.inmaytide.orbit</groupId>
                 <artifactId>orbit-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.inmaytide.orbit</groupId>
+                <artifactId>orbit-security-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

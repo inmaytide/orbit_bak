@@ -5,6 +5,7 @@ import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -33,6 +34,7 @@ public class PermissionController extends AbstractController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('permission')")
     public Flux<Permission> list(PermissionCategory category) {
         List<Permission> list = Objects.isNull(category) ? service.listNodes() : service.listNodes(category);
         return Flux.fromIterable(list);
@@ -40,6 +42,7 @@ public class PermissionController extends AbstractController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('permission-add')")
     public Mono<Permission> add(@RequestBody @Valid Mono<Permission> permission) {
         return permission.onErrorResume(Mono::error).doOnSuccess(service::insert);
     }

@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-exception</artifactId>
+            <artifactId>orbit-security-commons</artifactId>
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
