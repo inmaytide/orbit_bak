@@ -45,7 +45,7 @@ public class SystemManagementApplication extends WebFluxConfigurationSupport {
     @Bean
     @Order(-1)
     public GlobalExceptionHandler exceptionHandler() {
-        return new GlobalExceptionHandler(true);
+        return new GlobalExceptionHandler();
     }
 
     public static void main(String... args) {

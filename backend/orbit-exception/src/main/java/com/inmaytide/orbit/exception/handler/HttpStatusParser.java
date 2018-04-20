@@ -26,6 +26,7 @@ class HttpStatusParser {
         CLASS_NAME_MAPPERS.put("org.springframework.orm.ObjectOptimisticLockingFailureException", HttpStatus.CONFLICT);
         CLASS_NAME_MAPPERS.put("org.springframework.web.bind.support.WebExchangeBindException", HttpStatus.BAD_REQUEST);
         CLASS_NAME_MAPPERS.put("com.inmaytide.orbit.auth.exception.BadCaptchaException", HttpStatus.FORBIDDEN);
+        CLASS_NAME_MAPPERS.put("org.springframework.security.access.AccessDeniedException", HttpStatus.FORBIDDEN);
     }
 
     static HttpStatus parser(final Throwable e) {

@@ -51,7 +51,7 @@ public class CaptchaApplication {
     public HttpHandler httpHandler(RouterFunction<?> routers) {
         return WebHttpHandlerBuilder
                 .webHandler(RouterFunctions.toWebHandler(routers))
-                .exceptionHandler(new GlobalExceptionHandler(true))
+                .exceptionHandler(new GlobalExceptionHandler())
                 .build();
     }
 

@@ -16,14 +16,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    private boolean showStackTrace;
-
     public GlobalExceptionHandler() {
-        this(false);
-    }
-
-    public GlobalExceptionHandler(boolean showStackTrace) {
-        setShowStackTrace(showStackTrace);
     }
 
     @Override
@@ -31,10 +24,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
     public Mono<Void> handle(@NonNull ServerWebExchange exchange, @NonNull Throwable e) {
         String path = exchange.getRequest().getPath().pathWithinApplication().value();
         e = special(e);
-        log.error("Exception handling [{}] => [{}]", e.getClass().getSimpleName(), e.getMessage());
-        if (showStackTrace) {
-            e.printStackTrace();
-        }
+        log.error("Exception handling......", e);
         return Mono.just(e)
                 .transform(mono -> ThrowableTranslator.translate(mono, path))
                 .flatMap(translator -> translator.write(exchange.getResponse()));
@@ -58,7 +48,4 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         return e;
     }
 
-    public void setShowStackTrace(boolean showStackTrace) {
-        this.showStackTrace = showStackTrace;
-    }
 }

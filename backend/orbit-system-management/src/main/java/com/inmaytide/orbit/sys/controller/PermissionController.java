@@ -34,7 +34,6 @@ public class PermissionController extends AbstractController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('permission')")
     public Flux<Permission> list(PermissionCategory category) {
         List<Permission> list = Objects.isNull(category) ? service.listNodes() : service.listNodes(category);
         return Flux.fromIterable(list);

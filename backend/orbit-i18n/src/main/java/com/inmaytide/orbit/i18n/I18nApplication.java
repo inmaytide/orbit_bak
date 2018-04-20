@@ -40,7 +40,7 @@ public class I18nApplication {
     @Bean
     @Order(-1)
     public GlobalExceptionHandler errorHandler() {
-        return new GlobalExceptionHandler(true);
+        return new GlobalExceptionHandler();
     }
 
 }

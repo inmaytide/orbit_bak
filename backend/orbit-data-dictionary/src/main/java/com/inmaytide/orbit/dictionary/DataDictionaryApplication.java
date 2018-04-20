@@ -74,7 +74,7 @@ public class DataDictionaryApplication {
     @Bean
     public HttpHandler httpHandler(RouterFunction<?> routers, DefaultVisitorResolver visitorResolver) {
         return WebHttpHandlerBuilder.webHandler(RouterFunctions.toWebHandler(routers))
-                .exceptionHandler(new GlobalExceptionHandler(true))
+                .exceptionHandler(new GlobalExceptionHandler())
                 .filter(visitorResolver)
                 .build();
     }
