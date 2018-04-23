@@ -1,9 +1,10 @@
 package com.inmaytide.orbit.sys;
 
 import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
-import com.inmaytide.orbit.filter.visitor.DefaultVisitorResolver;
+import com.inmaytide.orbit.security.commons.OAuth2AuthenticationManager;
+import com.inmaytide.orbit.sys.domain.User;
 import com.inmaytide.orbit.sys.service.UserService;
-import com.inmaytide.orbit.util.JsonUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -26,20 +27,15 @@ import java.util.Optional;
 @EnableCaching
 public class SystemManagementApplication extends WebFluxConfigurationSupport {
 
-    @Bean
-    public AuditorAware<Long> auditorAware() {
-        return () -> DefaultVisitorResolver.currentVisitor()
-                .map(node -> node.get("id").asLong())
-                .or(Optional::empty);
-    }
+    @Autowired
+    private UserService userService;
 
     @Bean
-    public DefaultVisitorResolver visitorResolver(final UserService userService) {
-        return new DefaultVisitorResolver(username ->
-            userService.getByUsername(username)
-                    .map(JsonUtils::serialize)
-                    .orElseThrow(() -> new IllegalStateException("Unauthorized access, please access the system through normal channels."))
-        );
+    public AuditorAware<Long> auditorAware() {
+        return () -> OAuth2AuthenticationManager.getAuthentication()
+                .flatMap(authentication -> userService.getByUsername(authentication.getName()))
+                .map(User::getId)
+                .or(Optional::empty);
     }
 
     @Bean

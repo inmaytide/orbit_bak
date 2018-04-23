@@ -58,10 +58,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-filter</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

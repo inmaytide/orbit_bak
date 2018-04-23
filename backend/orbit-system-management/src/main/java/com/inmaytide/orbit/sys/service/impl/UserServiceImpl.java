@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable(value = "user", key = "#username")
     public Optional<User> getByUsername(String username) {
-        return Optional.ofNullable(getRepository().findByUsername(username));
+        return getRepository().findByUsername(username);
     }
 
     @Override

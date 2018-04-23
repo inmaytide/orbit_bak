@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.auth.exception;
 
 /**
- * Throw when captcha is null, empty and mistake
+ * Throw when captcha is null, empty or mistake
  *
  * @author Moss
  * @since November 26, 2017

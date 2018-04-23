@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 
 import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher.MatchResult.match;
 import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher.MatchResult.notMatch;
@@ -25,6 +26,7 @@ public class SecurityConfiguration extends SecurityConfigurerAdapter {
     @Bean
     public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
         return http
+                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .exceptionHandling()
                 .authenticationEntryPoint(exceptionHandler::handle)
                 .and()
@@ -42,7 +44,7 @@ public class SecurityConfiguration extends SecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .pathMatchers(HttpMethod.GET, "/sys/permissions").hasAuthority("permissions")
+                .pathMatchers(HttpMethod.POST, "/sys/permissions").hasAuthority("permission:add")
                 .matchers(exchange -> AccessTokenUtils.matchInnerToken(exchange) ? match() : notMatch()).permitAll()
                 .anyExchange().authenticated()
                 .and().build();
