@@ -9,11 +9,11 @@ import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
 
-public class OAuth2AuthenticationConverter implements Function<ServerWebExchange, Mono<Authentication>> {
+public class JwtAuthenticationConverter implements Function<ServerWebExchange, Mono<Authentication>> {
 
     private TokenStore tokenStore;
 
-    OAuth2AuthenticationConverter(TokenStore tokenStore) {
+    JwtAuthenticationConverter(TokenStore tokenStore) {
         this.tokenStore = tokenStore;
     }
 

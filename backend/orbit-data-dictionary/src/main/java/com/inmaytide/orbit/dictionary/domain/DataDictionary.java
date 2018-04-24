@@ -1,13 +1,9 @@
 package com.inmaytide.orbit.dictionary.domain;
 
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
-import com.inmaytide.orbit.dictionary.handler.DataDictionaryHandler;
-import com.inmaytide.orbit.enums.PermissionCategory;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.http.HttpMethod;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Table;
@@ -69,50 +65,4 @@ public class DataDictionary extends AbstractEntity {
     public void setSort(Integer sort) {
         this.sort = sort;
     }
-
-//    public static DataDictionaryBuilder withPermissionCategory(PermissionCategory category) {
-//        return new DataDictionaryBuilder().code(category.name())
-//                .text(category.getText())
-//                .category(DataDictionaryHandler.KEY_PERMISSION_CATEGORY);
-//    }
-//
-//    public static DataDictionaryBuilder withHttpMethod(HttpMethod method) {
-//        return new DataDictionaryBuilder().code(method.name())
-//                .text(method.name())
-//                .category(DataDictionaryHandler.KEY_HTTP_METHOD);
-//    }
-
-
-//    public static class DataDictionaryBuilder {
-//        private String category;
-//        private String text;
-//        private String code;
-//
-//        private DataDictionaryBuilder() {
-//
-//        }
-//
-//        public DataDictionaryBuilder category(String category) {
-//            this.category = category;
-//            return this;
-//        }
-//
-//        public DataDictionaryBuilder text(String text) {
-//            this.text = text;
-//            return this;
-//        }
-//
-//        public DataDictionaryBuilder code(String code) {
-//            this.code = code;
-//            return this;
-//        }
-//
-//        public DataDictionary build() {
-//            DataDictionary inst = new DataDictionary();
-//            inst.setCategory(category);
-//            inst.setText(text);
-//            inst.setCode(code);
-//            return inst;
-//        }
-//    }
 }

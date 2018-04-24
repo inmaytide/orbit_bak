@@ -55,11 +55,7 @@
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-exception</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-filter</artifactId>
+            <artifactId>orbit-security-commons</artifactId>
         </dependency>
     </dependencies>
 

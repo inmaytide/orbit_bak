@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.sys;
 
 import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
-import com.inmaytide.orbit.security.commons.OAuth2AuthenticationManager;
+import com.inmaytide.orbit.security.commons.ThreadLocalAuthenticationHolder;
 import com.inmaytide.orbit.sys.domain.User;
 import com.inmaytide.orbit.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class SystemManagementApplication extends WebFluxConfigurationSupport {
 
     @Bean
     public AuditorAware<Long> auditorAware() {
-        return () -> OAuth2AuthenticationManager.getAuthentication()
+        return () -> ThreadLocalAuthenticationHolder.getAuthentication()
                 .flatMap(authentication -> userService.getByUsername(authentication.getName()))
                 .map(User::getId)
                 .or(Optional::empty);

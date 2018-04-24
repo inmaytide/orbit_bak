@@ -58,9 +58,6 @@ public class Permission extends AbstractEntity {
     @Transient
     private List<Permission> children;
 
-    public Permission() {
-    }
-
     public static Permission of(Long id) {
         Permission permission = new Permission();
         permission.setId(id);
@@ -168,7 +165,7 @@ public class Permission extends AbstractEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !Permission.class.isInstance(obj)) {
+        if (!Permission.class.isInstance(obj)) {
             return false;
         }
         Permission other = (Permission) obj;

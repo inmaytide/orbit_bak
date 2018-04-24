@@ -2,7 +2,6 @@ package com.inmaytide.orbit.dictionary.handler;
 
 import com.inmaytide.orbit.dictionary.dao.DataDictionaryRepository;
 import com.inmaytide.orbit.dictionary.domain.DataDictionary;
-import com.inmaytide.orbit.exception.PathNotFoundException;
 import com.inmaytide.orbit.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,8 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.springframework.web.reactive.function.server.ServerResponse.created;
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
+import static org.springframework.web.reactive.function.server.ServerResponse.*;
 
 /**
  * @author Moss
@@ -39,22 +37,7 @@ public class DataDictionaryHandler {
     @Autowired
     private DataDictionaryRepository repository;
 
-//    private static final Map<String, List<DataDictionary>> ENUM_DICTIONARIES = new ConcurrentHashMap<>();
-//    public static final String KEY_PERMISSION_CATEGORY = "permission_category";
-//    public static final String KEY_HTTP_METHOD = "http_method";
-//
-//    static {
-//        ENUM_DICTIONARIES.put(KEY_PERMISSION_CATEGORY, Stream.of(PermissionCategory.values())
-//                .map(value -> DataDictionary.withPermissionCategory(value).build()).collect(Collectors.toList()));
-//
-//        ENUM_DICTIONARIES.put(KEY_HTTP_METHOD, Stream.of(HttpMethod.values())
-//                .map(value -> DataDictionary.withHttpMethod(value).build()).collect(Collectors.toList()));
-//    }
-
     private List<DataDictionary> list(String category) {
-//        if (ENUM_DICTIONARIES.containsKey(category)) {
-//            return ENUM_DICTIONARIES.get(category);
-//        }
         return repository.findByCategory(category, DEFAULT_SORT);
     }
 
@@ -64,7 +47,7 @@ public class DataDictionaryHandler {
                 .map(this::list)
                 .map(Flux::fromIterable)
                 .map(flux -> ok().body(flux, DataDictionary.class))
-                .orElseThrow(() -> new PathNotFoundException(request.path()));
+                .orElse(noContent().build());
     }
 
     @NonNull

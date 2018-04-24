@@ -52,7 +52,7 @@
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-util</artifactId>
+            <artifactId>orbit-utils</artifactId>
         </dependency>
     </dependencies>
 

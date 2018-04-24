@@ -1,4 +1,4 @@
-module orbit.util {
+module orbit.utils {
 
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;

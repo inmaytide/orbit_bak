@@ -30,10 +30,10 @@ public abstract class SecurityConfigurerAdapter {
     @Bean
     public abstract SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http);
 
-    protected AuthenticationWebFilter oauth2Filter(ErrorWebExceptionHandler exceptionHandler) {
+    protected AuthenticationWebFilter jwtFilter(ErrorWebExceptionHandler exceptionHandler) {
         Assert.nonNull(exceptionHandler, "exceptionHandler must be not null");
-        AuthenticationWebFilter filter = new AuthenticationWebFilter(new OAuth2AuthenticationManager());
-        filter.setAuthenticationConverter(new OAuth2AuthenticationConverter(tokenStore()));
+        AuthenticationWebFilter filter = new AuthenticationWebFilter(new JwtAuthenticationManager());
+        filter.setAuthenticationConverter(new JwtAuthenticationConverter(tokenStore()));
         filter.setAuthenticationFailureHandler(new ServerAuthenticationEntryPointFailureHandler(exceptionHandler::handle));
         return filter;
     }

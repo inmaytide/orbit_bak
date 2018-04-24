@@ -6,7 +6,7 @@ module orbit.commons {
     requires hibernate.core;
     requires spring.data.commons;
     requires hibernate.jpa;
-    requires orbit.util;
+    requires orbit.utils;
 
     exports com.inmaytide.orbit.commons.deser;
     exports com.inmaytide.orbit.commons.ser;
