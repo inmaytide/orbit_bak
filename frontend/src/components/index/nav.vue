@@ -9,7 +9,8 @@
             <Icon type="ios-gear" size="16"></Icon>
             System
         </template>
-        <Menu-item name="2-1" v-on:click.native="changeContent('213123123123123')">Permission</Menu-item>
+        <Menu-item name="2-1" v-on:click.native="changeContent('/index/system/menu')">Permission</Menu-item>
+        <Menu-item name="2-2" v-on:click.native="changeContent('/index/system/organization')">Organization</Menu-item>
         </Submenu>
     </Menu>
 </template>
@@ -18,8 +19,7 @@ export default {
   name: 'IndexNav',
   methods: {
     changeContent (url) {
-      console.log(url)
-      this.$router.push('/index/system/menu')
+      this.$router.push(url)
     }
   }
 }

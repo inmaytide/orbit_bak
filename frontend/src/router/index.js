@@ -1,6 +1,7 @@
 import Login from '@/components/login'
 import Index from '@/components/index/main'
 import PermissionIndex from '@/components/system/permission/index'
+import OrganizationIndex from '@/components/system/organization/index'
 
 const routers = [
   {
@@ -18,6 +19,10 @@ const routers = [
       {
         path: 'system/menu',
         component: PermissionIndex
+      },
+      {
+        path: 'system/organization',
+        component: OrganizationIndex
       }
     ]
   }
