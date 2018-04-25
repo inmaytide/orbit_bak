@@ -24,9 +24,5 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-constant</artifactId>
-        </dependency>
     </dependencies>
 </project>

@@ -23,7 +23,6 @@
         <module>orbit-authorization</module>
         <module>orbit-data-dictionary</module>
         <module>orbit-system-management</module>
-        <module>orbit-constant</module>
         <module>orbit-utils</module>
         <module>orbit-commons</module>
         <module>orbit-commons-exception</module>
@@ -66,11 +65,6 @@
             <dependency>
                 <groupId>com.inmaytide.orbit</groupId>
                 <artifactId>orbit-commons-exception</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.inmaytide.orbit</groupId>
-                <artifactId>orbit-constant</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.sys.controller;
 
-import com.inmaytide.orbit.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.domain.Permission;
+import com.inmaytide.orbit.sys.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

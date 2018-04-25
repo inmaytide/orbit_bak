@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.commons.security;
+package com.inmaytide.orbit.commons.security.authentication;
 
 import com.inmaytide.orbit.util.AccessTokenUtils;
 import org.springframework.security.core.Authentication;
@@ -13,7 +13,7 @@ public class JwtAuthenticationConverter implements Function<ServerWebExchange, M
 
     private TokenStore tokenStore;
 
-    JwtAuthenticationConverter(TokenStore tokenStore) {
+    public JwtAuthenticationConverter(TokenStore tokenStore) {
         this.tokenStore = tokenStore;
     }
 

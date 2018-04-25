@@ -8,9 +8,10 @@ import com.inmaytide.orbit.util.Assert;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.context.request.*;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.request.WebRequestInterceptor;
 
-import static com.inmaytide.orbit.constant.Constants.HEADER_NAME_CAPTCHA_NAME;
+import static com.inmaytide.orbit.commons.Constants.HEADER_NAME_CAPTCHA_NAME;
 
 /**
  * @author Moss

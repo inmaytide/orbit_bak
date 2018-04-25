@@ -1,9 +1,9 @@
 package com.inmaytide.orbit.sys.service.impl;
 
-import com.inmaytide.orbit.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
 import com.inmaytide.orbit.sys.domain.Permission;
+import com.inmaytide.orbit.sys.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.service.PermissionService;
 import com.inmaytide.orbit.util.BeanUtils;
 import org.apache.commons.lang.StringUtils;

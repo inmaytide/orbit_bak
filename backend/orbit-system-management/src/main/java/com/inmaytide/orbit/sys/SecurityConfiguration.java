@@ -2,7 +2,7 @@ package com.inmaytide.orbit.sys;
 
 import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
 import com.inmaytide.orbit.commons.security.SecurityConfigurerAdapter;
-import com.inmaytide.orbit.util.InsideTokenMatcher;
+import com.inmaytide.orbit.commons.security.matcher.InsideTokenMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;

@@ -3,7 +3,7 @@ package com.inmaytide.orbit.sys.domain;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
-import com.inmaytide.orbit.enums.PermissionCategory;
+import com.inmaytide.orbit.sys.enums.PermissionCategory;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.http.HttpMethod;

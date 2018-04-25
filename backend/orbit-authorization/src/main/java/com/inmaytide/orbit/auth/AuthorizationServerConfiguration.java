@@ -4,7 +4,7 @@ import com.inmaytide.orbit.auth.client.AuthorizationClient;
 import com.inmaytide.orbit.auth.client.CaptchaClient;
 import com.inmaytide.orbit.auth.exception.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor;
-import com.inmaytide.orbit.constant.Constants;
+import com.inmaytide.orbit.commons.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

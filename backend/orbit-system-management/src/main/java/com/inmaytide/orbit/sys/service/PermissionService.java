@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.sys.service;
 
-import com.inmaytide.orbit.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.domain.Permission;
+import com.inmaytide.orbit.sys.enums.PermissionCategory;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
      * Get permissions by category and transform to tree nodes.
      * @param category {@link PermissionCategory}
      * @return tree structure permissions
-     * @see com.inmaytide.orbit.enums.PermissionCategory
+     * @see com.inmaytide.orbit.sys.enums.PermissionCategory
      */
     List<Permission> listNodes(PermissionCategory category);
 

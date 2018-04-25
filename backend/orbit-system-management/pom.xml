@@ -43,10 +43,6 @@
             <artifactId>orbit-commons-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-constant</artifactId>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>

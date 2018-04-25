@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.commons.security;
+package com.inmaytide.orbit.commons.security.authentication;
 
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.core.Authentication;

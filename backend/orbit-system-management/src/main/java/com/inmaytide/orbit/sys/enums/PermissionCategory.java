@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.enums;
+package com.inmaytide.orbit.sys.enums;
 
 public enum PermissionCategory {
 

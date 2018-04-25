@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.commons.security;
 
-import com.inmaytide.orbit.constant.Constants;
+import com.inmaytide.orbit.commons.security.authentication.JwtAuthenticationConverter;
+import com.inmaytide.orbit.commons.security.authentication.JwtAuthenticationManager;
 import com.inmaytide.orbit.util.Assert;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +14,14 @@ import org.springframework.security.web.server.authentication.AuthenticationWebF
 import org.springframework.security.web.server.authentication.ServerAuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.server.authorization.ExceptionTranslationWebFilter;
 
+import static com.inmaytide.orbit.commons.Constants.SIGNING_KEY;
+
 public abstract class SecurityConfigurerAdapter {
 
     @Bean
     public JwtAccessTokenConverter converter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(Constants.SIGNING_KEY);
+        converter.setSigningKey(SIGNING_KEY);
         return converter;
     }
 

@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.constant;
+package com.inmaytide.orbit.commons;
 
 public interface Constants {
 

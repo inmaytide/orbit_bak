@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.commons.security;
+package com.inmaytide.orbit.commons.security.authentication;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

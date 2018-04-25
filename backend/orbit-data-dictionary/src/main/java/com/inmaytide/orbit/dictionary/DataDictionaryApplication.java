@@ -2,7 +2,7 @@ package com.inmaytide.orbit.dictionary;
 
 import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
 import com.inmaytide.orbit.commons.security.SecurityConfigurerAdapter;
-import com.inmaytide.orbit.commons.security.ThreadLocalAuthenticationHolder;
+import com.inmaytide.orbit.commons.security.authentication.ThreadLocalAuthenticationHolder;
 import com.inmaytide.orbit.dictionary.client.UserClient;
 import com.inmaytide.orbit.dictionary.handler.DataDictionaryHandler;
 import org.springframework.beans.factory.annotation.Autowired;

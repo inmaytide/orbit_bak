@@ -1,11 +1,11 @@
-package com.inmaytide.orbit.util;
+package com.inmaytide.orbit.commons.security.matcher;
 
 import org.springframework.web.server.ServerWebExchange;
 
 import java.util.Optional;
 
-import static com.inmaytide.orbit.constant.Constants.HEADER_NAME_INSIDE_TOKEN;
-import static com.inmaytide.orbit.constant.Constants.INSIDE_TOKEN;
+import static com.inmaytide.orbit.commons.Constants.HEADER_NAME_INSIDE_TOKEN;
+import static com.inmaytide.orbit.commons.Constants.INSIDE_TOKEN;
 
 public class InsideTokenMatcher {
 

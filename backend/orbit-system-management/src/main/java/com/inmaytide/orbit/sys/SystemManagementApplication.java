@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.sys;
 
 import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
-import com.inmaytide.orbit.commons.security.ThreadLocalAuthenticationHolder;
+import com.inmaytide.orbit.commons.security.authentication.ThreadLocalAuthenticationHolder;
 import com.inmaytide.orbit.sys.domain.User;
 import com.inmaytide.orbit.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
