@@ -1,10 +1,10 @@
 package com.inmaytide.orbit.dictionary;
 
+import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
+import com.inmaytide.orbit.commons.security.SecurityConfigurerAdapter;
+import com.inmaytide.orbit.commons.security.ThreadLocalAuthenticationHolder;
 import com.inmaytide.orbit.dictionary.client.UserClient;
 import com.inmaytide.orbit.dictionary.handler.DataDictionaryHandler;
-import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
-import com.inmaytide.orbit.security.commons.SecurityConfigurerAdapter;
-import com.inmaytide.orbit.security.commons.ThreadLocalAuthenticationHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

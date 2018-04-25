@@ -18,6 +18,7 @@ public class AdditionalAccessTokenConverter extends DefaultAccessTokenConverter 
 
     @Override
     public Map<String, ?> convertAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
+        @SuppressWarnings("unchecked")
         Map<String, Object> response = (Map<String, Object>) super.convertAccessToken(token, authentication);
         ObjectNode user = client.getUser(authentication.getName());
         if (user != null) {

@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-exception</artifactId>
+            <artifactId>orbit-commons-exception</artifactId>
         </dependency>
     </dependencies>
 

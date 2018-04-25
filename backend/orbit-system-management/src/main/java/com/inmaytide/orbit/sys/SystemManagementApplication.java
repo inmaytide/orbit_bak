@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.sys;
 
-import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
-import com.inmaytide.orbit.security.commons.ThreadLocalAuthenticationHolder;
+import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
+import com.inmaytide.orbit.commons.security.ThreadLocalAuthenticationHolder;
 import com.inmaytide.orbit.sys.domain.User;
 import com.inmaytide.orbit.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ import org.springframework.web.reactive.config.WebFluxConfigurationSupport;
 
 import java.util.Optional;
 
+@EnableWebFlux
+@EnableCaching
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableWebFlux
 @EnableJpaRepositories
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
-@EnableCaching
 public class SystemManagementApplication extends WebFluxConfigurationSupport {
 
     @Autowired

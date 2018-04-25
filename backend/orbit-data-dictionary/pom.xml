@@ -55,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-security-commons</artifactId>
+            <artifactId>orbit-commons-security</artifactId>
         </dependency>
     </dependencies>
 

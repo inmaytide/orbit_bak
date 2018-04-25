@@ -8,8 +8,8 @@ module orbit.commons {
     requires hibernate.jpa;
     requires orbit.utils;
 
-    exports com.inmaytide.orbit.commons.deser;
-    exports com.inmaytide.orbit.commons.ser;
+    exports com.inmaytide.orbit.commons.json.deser;
+    exports com.inmaytide.orbit.commons.json.ser;
     exports com.inmaytide.orbit.commons.domain;
     exports com.inmaytide.orbit.commons.id;
 

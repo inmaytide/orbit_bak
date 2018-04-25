@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.sys;
 
-import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
-import com.inmaytide.orbit.security.commons.SecurityConfigurerAdapter;
-import com.inmaytide.orbit.util.AccessTokenUtils;
+import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
+import com.inmaytide.orbit.commons.security.SecurityConfigurerAdapter;
+import com.inmaytide.orbit.util.InsideTokenMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -45,7 +45,7 @@ public class SecurityConfiguration extends SecurityConfigurerAdapter {
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers(HttpMethod.POST, "/sys/permissions").hasAuthority("permission:add")
-                .matchers(exchange -> AccessTokenUtils.matchInnerToken(exchange) ? match() : notMatch()).permitAll()
+                .matchers(exchange -> new InsideTokenMatcher(exchange).match() ? match() : notMatch()).permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }

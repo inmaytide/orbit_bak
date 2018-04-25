@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.captcha;
 
 import com.inmaytide.orbit.captcha.handler.CaptchaHandler;
-import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
+import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
 import org.patchca.color.RandomColorFactory;
 import org.patchca.filter.predefined.CurvesRippleFilterFactory;
 import org.patchca.service.ConfigurableCaptchaService;

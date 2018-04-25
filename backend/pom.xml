@@ -15,19 +15,19 @@
     </parent>
 
     <modules>
+        <module>orbit-configurations</module>
         <module>orbit-discovery</module>
-        <module>orbit-commons</module>
-        <module>orbit-exception</module>
-        <module>orbit-i18n</module>
         <module>orbit-api-gateway</module>
-        <module>orbit-authorization</module>
-        <module>orbit-system-management</module>
+        <module>orbit-i18n</module>
         <module>orbit-captcha</module>
+        <module>orbit-authorization</module>
         <module>orbit-data-dictionary</module>
+        <module>orbit-system-management</module>
         <module>orbit-constant</module>
         <module>orbit-utils</module>
-        <module>orbit-configurations</module>
-        <module>orbit-security-commons</module>
+        <module>orbit-commons</module>
+        <module>orbit-commons-exception</module>
+        <module>orbit-commons-security</module>
     </modules>
 
     <properties>
@@ -65,7 +65,7 @@
             </dependency>
             <dependency>
                 <groupId>com.inmaytide.orbit</groupId>
-                <artifactId>orbit-exception</artifactId>
+                <artifactId>orbit-commons-exception</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -80,7 +80,7 @@
             </dependency>
             <dependency>
                 <groupId>com.inmaytide.orbit</groupId>
-                <artifactId>orbit-security-commons</artifactId>
+                <artifactId>orbit-commons-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -19,7 +19,7 @@ public class AuthorizationApplication {
     @Bean
     public RequestInterceptor authRequestInterceptor() {
         return (template) -> {
-            template.header(Constants.HEADER_NAME_INNER_TOKEN, Constants.INNER_TOKEN);
+            template.header(Constants.HEADER_NAME_INSIDE_TOKEN, Constants.INSIDE_TOKEN);
         };
     }
 

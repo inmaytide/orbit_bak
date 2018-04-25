@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.i18n;
 
-import com.inmaytide.orbit.exception.handler.GlobalExceptionHandler;
+import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
