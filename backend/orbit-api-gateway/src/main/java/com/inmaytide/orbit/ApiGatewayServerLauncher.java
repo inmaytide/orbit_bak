@@ -3,8 +3,6 @@ package com.inmaytide.orbit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -27,10 +25,10 @@ public class ApiGatewayServerLauncher {
         return new CorsWebFilter(source);
     }
 
-    @Bean
-    public DiscoveryClientRouteDefinitionLocator discoveryClientRouteDefinitionLocator(DiscoveryClient discoveryClient) {
-        return new DiscoveryClientRouteDefinitionLocator(discoveryClient);
-    }
+//    @Bean
+//    public DiscoveryClientRouteDefinitionLocator discoveryClientRouteDefinitionLocator(DiscoveryClient discoveryClient) {
+//        return new DiscoveryClientRouteDefinitionLocator(discoveryClient);
+//    }
 
     public static void main(String... args) {
         SpringApplication.run(ApiGatewayServerLauncher.class, args);

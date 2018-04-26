@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.util;
+package com.inmaytide.orbit.commons.util;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.StringUtils;

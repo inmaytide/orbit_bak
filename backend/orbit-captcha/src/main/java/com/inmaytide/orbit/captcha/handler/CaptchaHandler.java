@@ -2,7 +2,7 @@ package com.inmaytide.orbit.captcha.handler;
 
 import com.inmaytide.orbit.captcha.service.CaptchaService;
 import com.inmaytide.orbit.commons.id.UUIDGenerator;
-import com.inmaytide.orbit.util.Assert;
+import com.inmaytide.orbit.commons.util.Assert;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;

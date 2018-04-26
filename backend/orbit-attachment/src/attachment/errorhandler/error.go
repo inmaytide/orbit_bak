@@ -5,7 +5,7 @@ import "log"
 func Throws(err error, message string) {
 	if err != nil {
 		log.Printf("error message => [%s] \n", err.Error())
-		log.Panicln(message + "\n")
+		log.Panicln(message)
 	}
 }
 

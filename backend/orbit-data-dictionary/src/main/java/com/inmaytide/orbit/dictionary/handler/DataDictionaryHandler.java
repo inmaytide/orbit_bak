@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.dictionary.handler;
 
+import com.inmaytide.orbit.commons.util.JsonUtils;
 import com.inmaytide.orbit.dictionary.dao.DataDictionaryRepository;
 import com.inmaytide.orbit.dictionary.domain.DataDictionary;
-import com.inmaytide.orbit.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;

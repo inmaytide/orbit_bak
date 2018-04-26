@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.commons.exception.handler;
 
-import com.inmaytide.orbit.util.JsonUtils;
+import com.inmaytide.orbit.commons.util.JsonUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpStatus;

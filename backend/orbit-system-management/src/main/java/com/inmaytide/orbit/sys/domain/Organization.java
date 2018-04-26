@@ -1,10 +1,9 @@
 package com.inmaytide.orbit.sys.domain;
 
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
+import com.inmaytide.orbit.sys.enums.OrganizationCategory;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -21,7 +20,8 @@ public class Organization extends AbstractEntity {
     private String name;
 
     @NotNull
-    private Long category;
+    @Enumerated(EnumType.STRING)
+    private OrganizationCategory category;
 
     private Long parent;
 
@@ -50,11 +50,11 @@ public class Organization extends AbstractEntity {
         this.name = name;
     }
 
-    public Long getCategory() {
+    public OrganizationCategory getCategory() {
         return category;
     }
 
-    public void setCategory(Long category) {
+    public void setCategory(OrganizationCategory category) {
         this.category = category;
     }
 

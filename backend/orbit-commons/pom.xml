@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-utils</artifactId>
+            <artifactId>orbit-commons-utils</artifactId>
         </dependency>
     </dependencies>
 </project>

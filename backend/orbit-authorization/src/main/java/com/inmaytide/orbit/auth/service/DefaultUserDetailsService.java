@@ -2,7 +2,7 @@ package com.inmaytide.orbit.auth.service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.client.AuthorizationClient;
-import com.inmaytide.orbit.util.Assert;
+import com.inmaytide.orbit.commons.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.GrantedAuthority;

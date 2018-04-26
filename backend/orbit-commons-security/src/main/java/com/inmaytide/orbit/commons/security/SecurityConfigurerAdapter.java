@@ -2,7 +2,7 @@ package com.inmaytide.orbit.commons.security;
 
 import com.inmaytide.orbit.commons.security.authentication.JwtAuthenticationConverter;
 import com.inmaytide.orbit.commons.security.authentication.JwtAuthenticationManager;
-import com.inmaytide.orbit.util.Assert;
+import com.inmaytide.orbit.commons.util.Assert;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.web.server.ServerHttpSecurity;

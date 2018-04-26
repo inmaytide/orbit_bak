@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.util;
+package com.inmaytide.orbit.commons.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

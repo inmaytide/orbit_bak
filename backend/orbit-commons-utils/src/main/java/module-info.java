@@ -5,6 +5,6 @@ module orbit.utils {
     requires spring.core;
     requires spring.web;
 
-    exports com.inmaytide.orbit.util;
+    exports com.inmaytide.orbit.commons.util;
 
 }

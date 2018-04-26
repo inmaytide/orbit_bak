@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.commons.security.authentication;
 
-import com.inmaytide.orbit.util.AccessTokenUtils;
+import com.inmaytide.orbit.commons.util.AccessTokenUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;

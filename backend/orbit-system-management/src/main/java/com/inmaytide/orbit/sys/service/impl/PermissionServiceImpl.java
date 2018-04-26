@@ -1,12 +1,11 @@
 package com.inmaytide.orbit.sys.service.impl;
 
+import com.inmaytide.orbit.commons.util.BeanUtils;
 import com.inmaytide.orbit.sys.dao.PermissionRepository;
 import com.inmaytide.orbit.sys.dao.link.RolePermissionRepository;
 import com.inmaytide.orbit.sys.domain.Permission;
 import com.inmaytide.orbit.sys.enums.PermissionCategory;
 import com.inmaytide.orbit.sys.service.PermissionService;
-import com.inmaytide.orbit.util.BeanUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -100,7 +100,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Boolean checkCode(String code, Long id) {
-        return StringUtils.isBlank(code) || repository.countByCodeAndIdNot(code, id == null ? MENU_ROOT_ID : id) == 0;
+        return !StringUtils.hasText(code) || repository.countByCodeAndIdNot(code, id == null ? MENU_ROOT_ID : id) == 0;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     private String toLowerCase(String str) {
-        return StringUtils.isBlank(str) ? "" : str.toLowerCase();
+        return StringUtils.hasText(str) ? str.toLowerCase() : "";
     }
 
     private Optional<Permission> getExchanger(Permission current, String category) {
