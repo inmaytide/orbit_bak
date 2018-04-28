@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const ORGANIZATION_API = {
+export const ORGANIZATION_API = {
   list: process.env.API_ROOT + 'sys/organizations',
   save: process.env.API_ROOT + 'sys/permissions',
   remove: process.env.API_ROOT + 'sys/permissions/',

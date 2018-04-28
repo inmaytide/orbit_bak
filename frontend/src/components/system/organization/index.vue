@@ -11,8 +11,9 @@
     <div class="list">
       <m-tree-grid
         :columns="columns"
-        :checkbox="true"
-        :data="list">
+        :items="list"
+        :async="true"
+        :asyncApi="dataUrl">
       </m-tree-grid>
     </div>
   </div>
@@ -21,13 +22,9 @@
 @import url('../../../../static/css/content.css');
 </style>
 <script>
-import {OrganizationService} from './organization.service'
+import {ORGANIZATION_API} from './organization.service'
 export default {
   name: 'OrganizationIndex',
-  created: function () {
-    this.service = new OrganizationService()
-    this.refresh()
-  },
   data () {
     return {
       columns: [
@@ -36,12 +33,8 @@ export default {
         {label: this.$i18n.t('organization.column.category'), prop: 'category', width: '200'},
         {label: this.$i18n.t('common.func.operations'), prop: 'op', width: '200'}
       ],
-      list: []
-    }
-  },
-  methods: {
-    refresh: function () {
-      this.service.getData().then(res => (this.list = res))
+      list: [],
+      dataUrl: ORGANIZATION_API.list
     }
   }
 }
