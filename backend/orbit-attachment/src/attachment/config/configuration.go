@@ -2,7 +2,6 @@ package config
 
 import (
 	"attachment/errorhandler"
-	"attachment/util"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"

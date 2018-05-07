@@ -5,6 +5,7 @@ import (
 	"github.com/satori/go.uuid"
 	"strings"
 	"log"
+	"sync"
 )
 
 func GetUUID() string {
@@ -12,15 +13,16 @@ func GetUUID() string {
 }
 
 var node *snowflake.Node
+var once sync.Once
 
 func getSnowflakeNode() *snowflake.Node {
-	if node == nil {
+	once.Do(func() {
 		var err error
 		node, err = snowflake.NewNode(2)
 		if err != nil {
-			log.Fatalf("Can't to generate a snowflake id, err => [%s]", err.Error());
+			log.Fatalf("Can't to generate a snowflake id, err => [%s]", err.Error())
 		}
-	}
+	});
 	return node
 }
 

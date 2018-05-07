@@ -73,9 +73,10 @@ func getUser(authorization string) (User, error) {
 		return user, err
 	}
 
-	user, _ = getCacheUser(username)
+	user, err = getCacheUser(username)
 
-	if user.ID == 0 {
+	if err != nil {
+		log.Println(err.Error())
 		request, err := http.NewRequest(http.MethodGet, config.GetApi().GetUserByUsername(username), nil)
 		if err != nil {
 			return User{}, err
@@ -99,14 +100,12 @@ func getCacheUser(username string) (User, error) {
 		return user, err
 	}
 	if len(data) == 0 {
-		log.Println("There is no cache for visitor")
-		return user, nil
+		return user, errors.New("There is no cache for visitor");
 	}
 
 	if data[0] != byte('{') {
 		if len(data) < 8 {
-			log.Println("Incorrect format of cache for visitor")
-			return user, nil
+			return user, errors.New("Incorrect format of cache for visitor");
 		}
 		data = data[7:]
 	}
