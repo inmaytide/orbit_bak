@@ -3,12 +3,12 @@ package com.inmaytide.orbit.captcha.handler;
 import com.inmaytide.orbit.captcha.service.CaptchaService;
 import com.inmaytide.orbit.commons.id.UUIDGenerator;
 import com.inmaytide.orbit.commons.util.Assert;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -37,7 +37,7 @@ public class CaptchaHandler {
         String cacheName = UUIDGenerator.generate();
         Resource resource = service.generateCaptcha(cacheName);
         try {
-            String image = Base64.encodeBase64String(FileUtils.readFileToByteArray(resource.getFile()));
+            String image = Base64Utils.encodeToString(FileUtils.readFileToByteArray(resource.getFile()));
             return ok().body(Mono.just(Map.of("image", image, "captchaName", cacheName)), Map.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
