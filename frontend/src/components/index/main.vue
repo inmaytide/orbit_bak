@@ -17,13 +17,13 @@
 @import url("../../../static/css/index.css");
 </style>
 <script>
-import IndexTop from './top'
-import IndexNav from './nav'
+import IndexTop from './top';
+import IndexNav from './nav';
 export default {
   name: 'Index',
   components: {
     'index-top': IndexTop,
     'index-nav': IndexNav
   }
-}
+};
 </script>

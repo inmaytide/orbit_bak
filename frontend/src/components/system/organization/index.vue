@@ -22,7 +22,7 @@
 @import url('../../../../static/css/content.css');
 </style>
 <script>
-import {ORGANIZATION_API} from './organization.service'
+import {ORGANIZATION_API} from './organization.service';
 export default {
   name: 'OrganizationIndex',
   data () {
@@ -35,7 +35,7 @@ export default {
       ],
       list: [],
       dataUrl: ORGANIZATION_API.list
-    }
+    };
   }
-}
+};
 </script>

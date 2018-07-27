@@ -119,31 +119,31 @@
 }
 </style>
 <script>
-import {PermissionService, Categories, HttpMethods} from './permission.service'
-import commons from '../../../commons'
+import {PermissionService, Categories, HttpMethods} from './permission.service';
+import commons from '../../../commons';
 export default {
   name: 'PermissionIndex',
   created: function () {
-    this.service = new PermissionService()
-    this.refresh()
+    this.service = new PermissionService();
+    this.refresh();
     this.service.getIconOptions()
       .then(res => (this.iconOptions = res))
-      .catch(err => commons.errorHandler(err))
+      .catch(err => commons.errorHandler(err));
   },
   data () {
     var validCodeExist = (rule, value, callback) => {
       this.service.validCode(value, this.instance)
         .then(res => {
           if (res.isRepeat) {
-            callback()
+            callback();
           } else {
-            callback(new Error(this.$i18n.t('permission.validator.name.not.empty')))
+            callback(new Error(this.$i18n.t('permission.validator.name.not.empty')));
           }
         })
         .catch(err => {
-          callback(new Error(err))
-        })
-    }
+          callback(new Error(err));
+        });
+    };
     return {
       columns: [
         {label: this.$i18n.t('permission.column.name'), prop: 'name', width: '25%'},
@@ -170,19 +170,19 @@ export default {
           {required: true, trigger: 'blur'}
         ]
       }
-    }
+    };
   },
   methods: {
     refresh: function () {
-      this.service.getData().then(res => (this.list = res))
-      this.service.getParentOptions().then(res => (this.parentOptions = res))
+      this.service.getData().then(res => (this.list = res));
+      this.service.getParentOptions().then(res => (this.parentOptions = res));
     },
     add: function () {
-      this.instance = {method: 'GET', category: 'MENU'}
-      this.showDetails = true
+      this.instance = {method: 'GET', category: 'MENU'};
+      this.showDetails = true;
     },
     move: function (category, inst) {
-      this.service.move(category, inst.id).then(() => this.refresh())
+      this.service.move(category, inst.id).then(() => this.refresh());
     },
     remove: function (inst) {
       this.$Modal.confirm({
@@ -192,21 +192,21 @@ export default {
         cancelText: this.$i18n.t('layer.confirm.btn.cancel'),
         onOk: () => {
           this.service.remove(inst.id)
-            .then(() => this.refresh())
+            .then(() => this.refresh());
         }
-      })
+      });
     },
     edit: function (inst) {
-      inst.parent = inst.idPath === null ? [] : inst.idPath.split('-')
-      this.instance = inst
-      this.showDetails = true
+      inst.parent = inst.idPath === null ? [] : inst.idPath.split('-');
+      this.instance = inst;
+      this.showDetails = true;
     },
     cancel: function () {
-      this.showDetails = false
+      this.showDetails = false;
     },
     categoryFilter: function (category) {
-      const filtered = Categories.filter(c => c.value === category)
-      return filtered && filtered.length > 0 ? filtered[0].label : ''
+      const filtered = Categories.filter(c => c.value === category);
+      return filtered && filtered.length > 0 ? filtered[0].label : '';
     },
     save: function () {
       this.$refs['instance'].validate()
@@ -214,12 +214,12 @@ export default {
           if (valid) {
             this.service.save(this.instance)
               .then(res => {
-                this.refresh()
-                this.cancel()
-              })
+                this.refresh();
+                this.cancel();
+              });
           }
-        })
+        });
     }
   }
-}
+};
 </script>

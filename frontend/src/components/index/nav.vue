@@ -19,8 +19,8 @@ export default {
   name: 'IndexNav',
   methods: {
     changeContent (url) {
-      this.$router.push(url)
+      this.$router.push(url);
     }
   }
-}
+};
 </script>

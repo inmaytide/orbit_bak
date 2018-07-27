@@ -28,13 +28,13 @@
     </div>
 </template>
 <script>
-import commons from '../../commons'
+import commons from '../../commons';
 export default {
   name: 'IndexTop',
   data () {
     return {
       name: commons.getProfile().name
-    }
+    };
   }
-}
+};
 </script>

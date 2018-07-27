@@ -1,0 +1,33 @@
+{
+  "common": {
+    "btn": {
+      "loading": "Loading..."
+    }
+  },
+  "login": {
+    "btn": {
+      "login": "Sign in"
+    },
+    "title": {
+      "username": "Username",
+      "password": "Password",
+      "captcha": "Captcha"
+    },
+    "error": {
+      "empty": {
+        "username": "Please input your username",
+        "password": "Please input your password",
+        "captcha": "Please input the characters in the picture"
+      },
+      "len": {
+        "password": "The password length cannot be less than 6 bits"
+      },
+      "wrong": {
+        "captcha": "Unexpected captcha",
+        "user": "Your username and password don't match"
+      },
+      "locked": "Your account is locked, please contract the administrator",
+      "other": "Unknown error, please contract the administrator"
+    }
+  }
+}

@@ -5,15 +5,18 @@
       <div class="login-form">
         <Form ref="token" :model="token" :rules="rules">
           <FormItem prop="username">
-            <i-input v-model="token.username" size="large" :maxlength="16" icon="person" :title="$t('login.placeholder.username')"/>
+            <i-input v-model="token.username" size="large" :maxlength="16" icon="person"
+                     :title="$t('login.title.username')"/>
           </FormItem>
           <FormItem prop="password">
-            <i-input type="password" v-model="token.password" size="large" :maxlength="16" icon="ios-locked-outline" :title="$t('login.placeholder.password')"/>
+            <i-input type="password" v-model="token.password" size="large" :maxlength="16" icon="ios-locked-outline"
+                     :title="$t('login.title.password')"/>
           </FormItem>
           <FormItem prop="captcha">
             <Row>
               <i-col span="15">
-                <i-input v-model="token.captcha" size="large" :maxlength="6" icon="image" :title="$t('login.placeholder.captcha')"/>
+                <i-input v-model="token.captcha" size="large" :maxlength="6" icon="image"
+                         :title="$t('login.title.captcha')"/>
               </i-col>
               <i-col span="9">
                 <img :src="captchaImagePage" class="login-captcha-image" v-on:click="getCaptcha()"/>
@@ -21,8 +24,8 @@
             </Row>
           </FormItem>
           <Button type="primary" :loading="loading" @click="login" long size="large">
-            <span v-if="!loading">{{ $t('login.btn.text') }}</span>
-            <span v-else>{{ $t('common.loading') }}</span>
+            <span v-if="!loading">{{ $t('login.btn.login') }}</span>
+            <span v-else>{{ $t('common.btn.loading') }}</span>
           </Button>
         </Form>
       </div>
@@ -33,14 +36,14 @@
   @import '../../static/css/login.css';
 </style>
 <script>
-import LoginService from './login.service'
-import commons from '../commons'
+import LoginService from './login.service';
+import commons from '../commons';
 
 export default {
   name: 'Login',
   created () {
-    this.loginService = new LoginService()
-    this.getCaptcha()
+    this.loginService = new LoginService();
+    this.getCaptcha();
   },
   data () {
     return {
@@ -53,56 +56,56 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: this.$i18n.t('login.error.username.empty'), trigger: 'blur' }
+          {required: true, message: this.$i18n.t('login.error.empty.username'), trigger: 'blur'}
         ],
         password: [
-          { required: true, message: this.$i18n.t('login.error.password.empty'), trigger: 'blur' },
-          { type: 'string', min: 6, message: this.$i18n.t('login.error.password.len'), trigger: 'blur' }
+          {required: true, message: this.$i18n.t('login.error.empty.password'), trigger: 'blur'},
+          {type: 'string', min: 6, message: this.$i18n.t('login.error.len.password'), trigger: 'blur'}
         ],
         captcha: [
-          { required: true, message: this.$i18n.t('login.error.captcha.empty'), trigger: 'blur' }
+          {required: true, message: this.$i18n.t('login.error.empty.captcha'), trigger: 'blur'}
         ]
       }
-    }
+    };
   },
   methods: {
     login () {
       this.$refs['token'].validate()
         .then(valid => {
           if (valid) {
-            this.loading = true
+            this.loading = true;
             this.loginService.login(this.token)
               .then(res => {
-                commons.storeUser(res)
-                this.$router.push('index')
+                commons.storeUser(res);
+                this.$router.push('index');
               })
               .catch(error => {
-                console.log(error)
-                this.$Message.error(this.getLoginFailedMessage(error))
-                this.getCaptcha()
-                this.loading = false
-              })
+                console.log(error);
+                this.$Message.error(this.getLoginFailedMessage(error));
+                this.getCaptcha();
+                this.loading = false;
+              });
           }
-        })
+        });
     },
     getCaptcha () {
       this.loginService.getCaptcha()
         .then(res => {
-          this.token.captcha = ''
-          this.captchaImagePage = 'data:image/jpeg;base64,' + res
-        })
+          this.token.captcha = '';
+          this.captchaImagePage = 'data:image/jpeg;base64,' + res;
+        });
     },
     getLoginFailedMessage (error) {
-      let key = 'login.error'
+      let key = 'login.error.other';
       if (error.response && error.response.data.error_description === 'Bad captcha') {
-        key = 'login.error.captcha.wrong'
+        key = 'login.error.wrong.captcha';
       } else if (error.response && error.response.data.error_description === 'Bad credentials') {
-        key = 'login.error.username.password.unmatching'
+        key = 'login.error.wrong.user';
       } else if (error.response && error.response.data.error_description === 'Locked account') {
-        key = 'login.error.user.locked'
+        key = 'login.error.locked';
       }
-      return this.$i18n.t(key)
+      return this.$i18n.t(key);
     }
   }
-}
+};
 </script>

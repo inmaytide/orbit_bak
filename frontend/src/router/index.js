@@ -1,7 +1,7 @@
-import Login from '@/components/login'
-import Index from '@/components/index/main'
-import PermissionIndex from '@/components/system/permission/index'
-import OrganizationIndex from '@/components/system/organization/index'
+import Login from '@/components/login';
+import Index from '@/components/index/main';
+import PermissionIndex from '@/components/system/permission/index';
+import OrganizationIndex from '@/components/system/organization/index';
 
 const routers = [
   {
@@ -26,6 +26,6 @@ const routers = [
       }
     ]
   }
-]
+];
 
-export default routers
+export default routers;
