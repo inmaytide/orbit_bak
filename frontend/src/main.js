@@ -5,7 +5,7 @@ import VueRouter from 'vue-router';
 import VueI18n from 'vue-i18n';
 import iView from 'iview';
 import App from './app';
-import routers from './router';
+import routers from './routers';
 import 'iview/dist/styles/iview.css';
 import axios from 'axios';
 import commons from './commons';
@@ -22,7 +22,7 @@ const router = new VueRouter({
 });
 
 const locales = {
-  'en-US': require('./lang/en.json')
+  'en-US': require('./langs/en.json')
 };
 
 let lang = navigator.language;

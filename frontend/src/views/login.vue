@@ -5,17 +5,17 @@
       <div class="login-form">
         <Form ref="token" :model="token" :rules="rules">
           <FormItem prop="username">
-            <i-input v-model="token.username" size="large" :maxlength="16" icon="person"
+            <i-input v-model="token.username" size="large" :maxlength="16" icon="md-person"
                      :title="$t('login.title.username')"/>
           </FormItem>
           <FormItem prop="password">
-            <i-input type="password" v-model="token.password" size="large" :maxlength="16" icon="ios-locked-outline"
+            <i-input type="password" v-model="token.password" size="large" :maxlength="16" icon="ios-lock-outline"
                      :title="$t('login.title.password')"/>
           </FormItem>
           <FormItem prop="captcha">
             <Row>
               <i-col span="15">
-                <i-input v-model="token.captcha" size="large" :maxlength="6" icon="image"
+                <i-input v-model="token.captcha" size="large" :maxlength="6" icon="md-image"
                          :title="$t('login.title.captcha')"/>
               </i-col>
               <i-col span="9">
@@ -33,10 +33,48 @@
   </div>
 </template>
 <style scoped>
-  @import '../../static/css/login.css';
+  .login-body {
+    height: 100%;
+    width: 100%;
+    background: url('../assets/images/login/background.jpg') no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: '微软雅黑', Arial, Helvetica, sans-serif;
+  }
+
+  .login-wapper {
+    background-color: rgba(51, 51, 51, .3);
+    width: 380px;
+    height: 350px;
+    margin-top: -20px;
+    border-radius: 10px;
+  }
+
+  .login-title {
+    font-family: Papyrus, Verdana, "Lucida Grande", Arial, sans-serif;
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    margin: 35px auto 25px auto;
+    letter-spacing: 1px;
+  }
+
+  .login-form {
+    padding: 0 35px;
+  }
+
+  .login-captcha-image {
+    height: 36px;
+    float: right;
+    border-radius: 5px;
+    border: 1px solid #dddee1;
+  }
 </style>
 <script>
-import LoginService from './login.service';
+import LoginService from '../components/login.service';
 import commons from '../commons';
 
 export default {

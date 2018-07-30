@@ -96,7 +96,7 @@
   </div>
 </template>
 <style>
-@import url('../../../../static/css/content.css');
+@import url('../../../assets/css/content.css');
 
 .line {
   padding: 3px 5px!important;

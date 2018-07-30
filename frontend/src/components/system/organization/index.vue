@@ -19,7 +19,7 @@
   </div>
 </template>
 <style>
-@import url('../../../../static/css/content.css');
+@import url('../../../assets/css/content.css');
 </style>
 <script>
 import {ORGANIZATION_API} from './organization.service';

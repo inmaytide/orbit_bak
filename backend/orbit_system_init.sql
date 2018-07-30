@@ -1,6 +1,6 @@
 create table public.sys_user (
   id bigint primary key,
-  name varchar(8) not null,
+  name varchar(64) not null,
   username varchar(16) not null unique,
   password varchar(64) not null,
   status int not null default 1,

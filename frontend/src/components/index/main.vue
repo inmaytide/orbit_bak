@@ -14,7 +14,7 @@
   </Layout>
 </template>
 <style>
-@import url("../../../static/css/index.css");
+@import url("../../assets/css/index.css");
 </style>
 <script>
 import IndexTop from './top';
