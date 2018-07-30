@@ -18,7 +18,6 @@
         <module>orbit-configurations</module>
         <module>orbit-discovery</module>
         <module>orbit-api-gateway</module>
-        <module>orbit-i18n</module>
         <module>orbit-captcha</module>
         <module>orbit-authorization</module>
         <module>orbit-data-dictionary</module>
