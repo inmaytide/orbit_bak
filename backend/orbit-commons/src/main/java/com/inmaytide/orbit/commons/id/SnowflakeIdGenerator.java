@@ -1,21 +1,17 @@
 package com.inmaytide.orbit.commons.id;
 
-import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.IdentifierGenerator;
 
 import java.io.Serializable;
 
-public class SnowflakeIdGenerator implements IdentifierGenerator {
+public class SnowflakeIdGenerator {
 
     private final SnowflakeIdWorker idWorker;
 
-    public SnowflakeIdGenerator() {
-        idWorker = new SnowflakeIdWorker(1, 1);
+    public SnowflakeIdGenerator(long workerId, long dataCenterId) {
+        idWorker = new SnowflakeIdWorker(workerId, dataCenterId);
     }
 
-    @Override
-    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
+    public Serializable generate() {
         return idWorker.nextId();
     }
 }

@@ -1,7 +1,8 @@
 package com.inmaytide.orbit.commons.exception.handler;
 
+import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.commons.exception.PathNotFoundException;
-import com.inmaytide.orbit.commons.exception.VersionMatchedException;
+import com.inmaytide.orbit.commons.exception.VersionMismatchedException;
 import org.springframework.http.HttpStatus;
 
 import java.util.Map;
@@ -18,7 +19,8 @@ class HttpStatusParser {
         CLASS_MAPPERS.put(PathNotFoundException.class, HttpStatus.NOT_FOUND);
         CLASS_MAPPERS.put(IllegalArgumentException.class, HttpStatus.BAD_REQUEST);
         CLASS_MAPPERS.put(IllegalAccessException.class, HttpStatus.FORBIDDEN);
-        CLASS_MAPPERS.put(VersionMatchedException.class, HttpStatus.CONFLICT);
+        CLASS_MAPPERS.put(VersionMismatchedException.class, HttpStatus.CONFLICT);
+        CLASS_MAPPERS.put(ObjectNotFoundException.class, HttpStatus.NOT_FOUND);
 
         CLASS_NAME_MAPPERS = new ConcurrentHashMap<>();
         CLASS_NAME_MAPPERS.put("org.springframework.security.core.AuthenticationException", HttpStatus.FORBIDDEN);

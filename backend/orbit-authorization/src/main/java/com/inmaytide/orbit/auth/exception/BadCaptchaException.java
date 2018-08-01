@@ -4,8 +4,8 @@ package com.inmaytide.orbit.auth.exception;
  * Throws when captcha is null, blank or mistake
  *
  * @author Moss
- * @since November 26, 2017
  * @see com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor
+ * @since November 26, 2017
  */
 public class BadCaptchaException extends RuntimeException {
 

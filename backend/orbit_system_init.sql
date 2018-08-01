@@ -8,7 +8,7 @@ create table public.sys_user (
   education int,
   email varchar(512),
   qq varchar(16),
-  wechart varchar(32),
+  wechat varchar(32),
   telephone varchar(16),
   cellphone varchar(16),
   avatar bigint,

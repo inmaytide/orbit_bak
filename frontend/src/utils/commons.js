@@ -21,8 +21,5 @@ export default {
       }
     }
     return null;
-  },
-  errorHandler (error) {
-    return Promise.reject(error);
   }
 };

@@ -21,7 +21,7 @@
         <module>orbit-captcha</module>
         <module>orbit-authorization</module>
         <module>orbit-data-dictionary</module>
-        <module>orbit-system-management</module>
+        <module>orbit-system</module>
         <module>orbit-commons</module>
         <module>orbit-commons-utils</module>
         <module>orbit-commons-exception</module>
@@ -75,6 +75,11 @@
                 <groupId>com.inmaytide.orbit</groupId>
                 <artifactId>orbit-commons-security</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.3.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

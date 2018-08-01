@@ -19,9 +19,9 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
     @Override
     @NonNull
     public Mono<Void> handle(@NonNull ServerWebExchange exchange, @NonNull Throwable e) {
-        e = cast(e);
-        String path = exchange.getRequest().getPath().pathWithinApplication().value();
         log.error("Exception handling......", e);
+        String path = exchange.getRequest().getPath().pathWithinApplication().value();
+        e = cast(e);
         return Mono.just(e)
                 .transform(mono -> ThrowableTranslator.translate(mono, path))
                 .flatMap(translator -> translator.write(exchange.getResponse()));
@@ -30,8 +30,8 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
     @NonNull
     public static Mono<ServerResponse> notFound(final ServerRequest request) {
         log.error("Path [{}] not found.", request.path());
-        return Mono.just(new PathNotFoundException(request.path()))
-                .transform(ThrowableTranslator::translate)
+        return Mono.just(new PathNotFoundException())
+                .transform(mono -> ThrowableTranslator.translate(mono, request.path()))
                 .flatMap(ThrowableTranslator::getResponse);
     }
 
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         if (e instanceof ResponseStatusException) {
             ResponseStatusException ex = (ResponseStatusException) e;
             if (ex.getStatus() == HttpStatus.NOT_FOUND) {
-                e = new PathNotFoundException(e);
+                e = new PathNotFoundException();
             }
         }
         return e;

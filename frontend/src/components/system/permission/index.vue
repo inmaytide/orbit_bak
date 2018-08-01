@@ -120,7 +120,7 @@
 </style>
 <script>
 import {PermissionService, Categories, HttpMethods} from './permission.service';
-import commons from '../../../commons';
+import commons from '../../../utils/commons';
 export default {
   name: 'PermissionIndex',
   created: function () {

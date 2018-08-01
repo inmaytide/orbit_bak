@@ -19,7 +19,7 @@
                          :title="$t('login.title.captcha')"/>
               </i-col>
               <i-col span="9">
-                <img :src="captchaImagePage" class="login-captcha-image" v-on:click="getCaptcha()"/>
+                <img :src="captcha.image" class="login-captcha-image" v-on:click="refreshCaptcha()"/>
               </i-col>
             </Row>
           </FormItem>
@@ -74,23 +74,29 @@
   }
 </style>
 <script>
-import LoginService from '../components/login.service';
-import commons from '../commons';
+import commons from '../utils/commons';
+import api from '../apis/login';
 
 export default {
   name: 'Login',
-  created () {
-    this.loginService = new LoginService();
-    this.getCaptcha();
+  mounted () {
+    this.refreshCaptcha();
   },
   data () {
     return {
       loading: false,
-      captchaImagePage: '',
+      captcha: {
+        name: '',
+        image: null
+      },
       token: {
         username: '',
         password: '',
-        captcha: ''
+        captcha: '',
+        grant_type: 'password',
+        client_id: 'apps',
+        scope: 'all',
+        client_secret: '59a84cbf83227a35'
       },
       rules: {
         username: [
@@ -108,41 +114,33 @@ export default {
   },
   methods: {
     login () {
-      this.$refs['token'].validate()
-        .then(valid => {
-          if (valid) {
-            this.loading = true;
-            this.loginService.login(this.token)
-              .then(res => {
-                commons.storeUser(res);
-                this.$router.push('index');
-              })
-              .catch(error => {
-                console.log(error);
-                this.$Message.error(this.getLoginFailedMessage(error));
-                this.getCaptcha();
-                this.loading = false;
-              });
-          }
-        });
+      this.$refs['token'].validate().then((valid) => {
+        if (valid) {
+          this.loading = true;
+          let data = new FormData();
+          const config = {
+            headers: {
+              'x-captcha-name': this.captcha.name
+            }
+          };
+          Object.keys(this.token).forEach(k => data.append(k, this.token[k]));
+          this.$http.post(api.login, data, config).then(res => {
+            commons.storeUser(res);
+            this.$router.push('index');
+          }).catch(() => {
+            this.refreshCaptcha();
+            this.loading = false;
+          });
+        }
+      });
     },
-    getCaptcha () {
-      this.loginService.getCaptcha()
+    refreshCaptcha () {
+      this.$http.get(api.captcha)
         .then(res => {
           this.token.captcha = '';
-          this.captchaImagePage = 'data:image/jpeg;base64,' + res;
+          this.captcha.image = 'data:image/jpeg;base64,' + res.image;
+          this.captcha.name = res.captchaName;
         });
-    },
-    getLoginFailedMessage (error) {
-      let key = 'login.error.other';
-      if (error.response && error.response.data.error_description === 'Bad captcha') {
-        key = 'login.error.wrong.captcha';
-      } else if (error.response && error.response.data.error_description === 'Bad credentials') {
-        key = 'login.error.wrong.user';
-      } else if (error.response && error.response.data.error_description === 'Locked account') {
-        key = 'login.error.locked';
-      }
-      return this.$i18n.t(key);
     }
   }
 };

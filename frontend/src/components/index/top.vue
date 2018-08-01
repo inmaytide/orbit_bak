@@ -28,7 +28,7 @@
     </div>
 </template>
 <script>
-import commons from '../../commons';
+import commons from '../../utils/commons';
 export default {
   name: 'IndexTop',
   data () {

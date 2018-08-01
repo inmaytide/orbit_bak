@@ -18,6 +18,7 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
 
     /**
      * Get permissions by category and transform to tree nodes.
+     *
      * @param category {@link PermissionCategory}
      * @return tree structure permissions
      * @see com.inmaytide.orbit.sys.enums.PermissionCategory
@@ -26,13 +27,15 @@ public interface PermissionService extends BasicService<PermissionRepository, Pe
 
     /**
      * Get all permissions and transform to tree nodes.
+     *
      * @return tree structure permissions
      */
     List<Permission> listNodes();
 
     /**
      * Check if a permission code already exists
-     * @param code The permission code to check
+     *
+     * @param code    The permission code to check
      * @param exculde exclude permission
      * @return if exists return false else return true
      */

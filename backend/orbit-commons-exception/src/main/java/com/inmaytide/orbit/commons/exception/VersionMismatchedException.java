@@ -6,16 +6,11 @@ package com.inmaytide.orbit.commons.exception;
  * @author Moss
  * @since September 3, 2017
  */
-public class VersionMatchedException extends RuntimeException {
+public class VersionMismatchedException extends AbstractException {
 
     private static final long serialVersionUID = -22605139663792344L;
 
-    public VersionMatchedException() {
-        super();
+    public VersionMismatchedException() {
+        super(ExceptionCode.VERSION_MISMATCHED);
     }
-
-    public VersionMatchedException(String message) {
-        super(message);
-    }
-
 }

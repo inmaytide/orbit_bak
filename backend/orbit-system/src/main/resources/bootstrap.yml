@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: orbit-system
+  cloud:
+    config:
+      uri: http://orbit-configurations:6999/
+      profile: dev
+      label: master

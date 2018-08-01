@@ -5,48 +5,31 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.inmaytide.orbit.commons.json.deser.LocalDateTimeDeserializer;
 import com.inmaytide.orbit.commons.json.ser.LocalDateTimeSerializer;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
 public class AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 5784033340704847103L;
 
-    @Id
-    @GenericGenerator(name = "snowflake", strategy = "com.inmaytide.orbit.commons.id.SnowflakeIdGenerator")
-    @GeneratedValue(generator = "snowflake")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @Column(name = "create_time")
-    @CreatedDate
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createTime;
 
-    @Column(name = "update_time")
-    @LastModifiedDate
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updateTime;
 
-    @CreatedBy
     @JsonSerialize(using = ToStringSerializer.class)
     private Long creator;
 
-    @LastModifiedBy
     @JsonSerialize(using = ToStringSerializer.class)
     private Long updater;
 
-    @Version
     private Integer version;
 
     public Long getId() {
