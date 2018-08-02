@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.commons.exception.handler;
 
+import com.inmaytide.orbit.commons.exception.GeneralException;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 
@@ -14,7 +15,7 @@ public class ResponseError implements Serializable {
 
     private Integer status;
 
-    private String error;
+    private String code;
 
     private String path;
 
@@ -29,7 +30,7 @@ public class ResponseError implements Serializable {
     }
 
     public static ResponseErrorBuilder withThrowable(Throwable throwable) {
-        return getBuilder().throwable(throwable).status(HttpStatusParser.parser(throwable));
+        return getBuilder().throwable(throwable);
     }
 
     public Long getTimestamp() {
@@ -44,12 +45,12 @@ public class ResponseError implements Serializable {
         this.status = status;
     }
 
-    public String getError() {
-        return error;
+    public String getCode() {
+        return code;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getPath() {
@@ -71,11 +72,13 @@ public class ResponseError implements Serializable {
     public static class ResponseErrorBuilder {
 
         private String path;
-        private Throwable throwable;
-        private HttpStatus status;
+        private Integer status;
+        private String code;
+        private String message;
 
         private ResponseErrorBuilder() {
-
+            status = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            code = GeneralException.ERROR_UNEXPECTED;
         }
 
         public ResponseErrorBuilder path(String path) {
@@ -85,25 +88,21 @@ public class ResponseError implements Serializable {
 
         public ResponseErrorBuilder throwable(Throwable throwable) {
             Assert.notNull(throwable, "The throwable must not be null");
-            this.throwable = throwable;
-            return this;
-        }
-
-        public ResponseErrorBuilder status(HttpStatus status) {
-            Assert.notNull(throwable, "The status must not be null");
-            this.status = status;
+            this.message = throwable.getMessage();
+            if (throwable instanceof GeneralException) {
+                GeneralException e = (GeneralException) throwable;
+                this.status = e.getHttpStatus().value();
+                this.code = e.getCode();
+            }
             return this;
         }
 
         public ResponseError build() {
-            Assert.notNull(status, "The status must not be null");
             ResponseError inst = new ResponseError();
+            inst.setMessage(message);
+            inst.setStatus(status);
+            inst.setCode(code);
             inst.setPath(path);
-            inst.setStatus(status.value());
-            inst.setError(status.getReasonPhrase());
-            if (throwable != null) {
-                inst.setMessage(throwable.getMessage());
-            }
             return inst;
         }
     }

@@ -4,6 +4,12 @@
       "loading": "Loading..."
     }
   },
+  "errors": {
+    "unexpected_username": "Your username and password don't match",
+    "bad_credentials": "Your username and password don't match",
+    "bad_captcha": "Incorrect captcha",
+    "unexpected": "Unknown error has happened, please contact the administrator or try again later"
+  },
   "login": {
     "btn": {
       "login": "Sign in"

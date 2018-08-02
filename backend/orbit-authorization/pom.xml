@@ -46,6 +46,10 @@
             <groupId>com.inmaytide.orbit</groupId>
             <artifactId>orbit-commons-utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.inmaytide.orbit</groupId>
+            <artifactId>orbit-commons-exception</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

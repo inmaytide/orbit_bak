@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.system.domain;
 
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
+import com.inmaytide.orbit.system.constant.UserStatus;
 
 import java.time.LocalDate;
 
@@ -123,5 +124,9 @@ public class User extends AbstractEntity {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Boolean isDisabled() {
+        return UserStatus.of(this.status) == UserStatus.DISABLED;
     }
 }

@@ -1,7 +1,9 @@
 package com.inmaytide.orbit.commons.exception;
 
-public class ObjectNotFoundException extends AbstractException{
+import org.springframework.http.HttpStatus;
+
+public class ObjectNotFoundException extends GeneralException {
     public ObjectNotFoundException() {
-        super(ExceptionCode.OBJECT_NOT_FOUND);
+        super(ERROR_OBJ_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 }

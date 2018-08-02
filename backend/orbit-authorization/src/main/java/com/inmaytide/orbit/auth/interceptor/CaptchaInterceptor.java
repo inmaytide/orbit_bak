@@ -3,7 +3,7 @@ package com.inmaytide.orbit.auth.interceptor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.client.CaptchaClient;
-import com.inmaytide.orbit.auth.exception.BadCaptchaException;
+import com.inmaytide.orbit.commons.exception.auth.BadCaptchaException;
 import com.inmaytide.orbit.commons.util.Assert;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

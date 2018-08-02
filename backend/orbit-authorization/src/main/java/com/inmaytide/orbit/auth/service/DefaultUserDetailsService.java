@@ -2,9 +2,11 @@ package com.inmaytide.orbit.auth.service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.client.AuthorizationClient;
+import com.inmaytide.orbit.commons.exception.auth.DisabledUserException;
+import com.inmaytide.orbit.commons.exception.auth.UnexpectedUsernameException;
 import com.inmaytide.orbit.commons.util.Assert;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class DefaultUserDetailsService implements UserDetailsService {
@@ -24,7 +25,8 @@ public class DefaultUserDetailsService implements UserDetailsService {
     private AuthorizationClient client;
 
     private Set<GrantedAuthority> getAuthorities(String username) {
-        return Stream.concat(client.getPermissionCodes(username).stream(), client.getRoleCodes(username).stream().map(authority -> "ROLE_" + authority))
+        System.out.println(client.listPermissions(username));
+        return client.listPermissions(username).stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }
@@ -32,9 +34,16 @@ public class DefaultUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Assert.hasText(username, "username cannot be empty");
-        ObjectNode user = client.getUser(username);
-        Assert.nonNull(user, () -> new UsernameNotFoundException("Unknown account"));
-        Assert.isTrue(!user.get("locked").asBoolean(), () -> new LockedException("Locked account"));
+        ObjectNode user;
+        try {
+            user = client.getUser(username);
+        } catch (FeignException e) {
+            if (e.status() == 404) {
+                throw new UnexpectedUsernameException();
+            }
+            throw e;
+        }
+        Assert.isTrue(!user.get("disabled").asBoolean(), DisabledUserException::new);
         return User.withUsername(username)
                 .password(user.get("password").asText())
                 .accountLocked(false)
