@@ -12,6 +12,7 @@ public class GeneralException extends RuntimeException {
     protected static final String ERROR_VERSION_MISMATCHED = "version_mismatched";
     protected static final String ERROR_UNEXPECTED_USERNAME = "unexpected_username";
     protected static final String ERROR_DISABLED_USER = "disabled_user";
+    protected static final String ERROR_NOT_AUTHENTICATED = "not_authenticated";
 
     private final String code;
     private final HttpStatus httpStatus;

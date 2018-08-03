@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.commons.exception.handler;
 
 import com.inmaytide.orbit.commons.exception.PathNotFoundException;
+import com.inmaytide.orbit.commons.exception.auth.NotAuthenticatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -11,6 +12,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.Objects;
 
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
@@ -41,6 +44,8 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             if (ex.getStatus() == HttpStatus.NOT_FOUND) {
                 e = new PathNotFoundException();
             }
+        } else if (Objects.equals(e.getClass().getName(), "org.springframework.security.authentication.AuthenticationCredentialsNotFoundException")) {
+            e = new NotAuthenticatedException();
         }
         return e;
     }

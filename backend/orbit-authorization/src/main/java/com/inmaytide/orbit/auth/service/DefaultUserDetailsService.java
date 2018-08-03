@@ -25,7 +25,6 @@ public class DefaultUserDetailsService implements UserDetailsService {
     private AuthorizationClient client;
 
     private Set<GrantedAuthority> getAuthorities(String username) {
-        System.out.println(client.listPermissions(username));
         return client.listPermissions(username).stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());

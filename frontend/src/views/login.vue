@@ -45,11 +45,12 @@
   }
 
   .login-wapper {
-    background-color: rgba(51, 51, 51, .3);
+    background-color: rgba(51, 51, 51, .6);
     width: 380px;
     height: 350px;
     margin-top: -20px;
     border-radius: 10px;
+    box-shadow: 1px 1px 15px #777;
   }
 
   .login-title {
@@ -78,7 +79,6 @@ import commons from '../utils/commons';
 import api from '../apis/login';
 
 export default {
-  name: 'Login',
   mounted () {
     this.refreshCaptcha();
   },
@@ -125,8 +125,11 @@ export default {
           };
           Object.keys(this.token).forEach(k => data.append(k, this.token[k]));
           this.$http.post(api.login, data, config).then(res => {
-            commons.storeUser(res);
-            this.$router.push('index');
+            commons.storeToken(res);
+            this.$http.get(api.getUser + this.token.username).then(res => {
+              commons.storeUser(res);
+              this.$router.push('/');
+            });
           }).catch(() => {
             this.refreshCaptcha();
             this.loading = false;

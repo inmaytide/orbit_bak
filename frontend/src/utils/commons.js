@@ -1,24 +1,25 @@
 export default {
-  storeUser (token) {
-    const profileStr = decodeURIComponent(escape(atob(token.access_token.split('.')[1])));
-    const profile = JSON.parse(profileStr);
-    localStorage.setItem('token', JSON.stringify(token));
-    localStorage.setItem('profile', JSON.stringify({
-      avatar: profile.avatar,
-      name: profile.name,
-      username: profile.user_name
-    }));
+  storeToken (token) {
+    localStorage.setItem('token', token.token_type + ' ' + token.access_token);
+  },
+  storeUser (user) {
+    delete user.password;
+    localStorage.setItem('user', JSON.stringify(user));
+  },
+  getUser () {
+    const stored = localStorage.getItem('user');
+    if (typeof stored !== 'undefined' && stored != null) {
+      return JSON.parse(stored);
+    }
+    return null;
   },
   getProfile () {
     return JSON.parse(localStorage.getItem('profile'));
   },
   getAuthorization () {
-    const stored = localStorage.getItem('token');
-    if (stored != null) {
-      const token = JSON.parse(stored);
-      if (token.access_token) {
-        return 'Bearer ' + token.access_token;
-      }
+    const token = localStorage.getItem('token');
+    if (typeof token !== 'undefined' && token != null && token !== '') {
+      return token;
     }
     return null;
   }

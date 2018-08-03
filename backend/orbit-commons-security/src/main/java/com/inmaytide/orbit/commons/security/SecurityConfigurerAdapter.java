@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.authentication.ServerAuthenticationEntryPointFailureHandler;
-import org.springframework.security.web.server.authorization.ExceptionTranslationWebFilter;
 
 import static com.inmaytide.orbit.commons.Constants.SIGNING_KEY;
 
@@ -40,14 +39,5 @@ public abstract class SecurityConfigurerAdapter {
         filter.setAuthenticationFailureHandler(new ServerAuthenticationEntryPointFailureHandler(exceptionHandler::handle));
         return filter;
     }
-
-    protected ExceptionTranslationWebFilter exceptionTranslationWebFilter(ErrorWebExceptionHandler exceptionHandler) {
-        Assert.nonNull(exceptionHandler, "exceptionHandler must be not null");
-        ExceptionTranslationWebFilter exceptionTranslationWebFilter = new ExceptionTranslationWebFilter();
-        exceptionTranslationWebFilter.setAuthenticationEntryPoint(exceptionHandler::handle);
-        exceptionTranslationWebFilter.setAccessDeniedHandler(exceptionHandler::handle);
-        return exceptionTranslationWebFilter;
-    }
-
 
 }

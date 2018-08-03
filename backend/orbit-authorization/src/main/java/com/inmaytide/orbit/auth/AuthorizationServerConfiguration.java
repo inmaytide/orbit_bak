@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.auth;
 
-import com.inmaytide.orbit.auth.client.AuthorizationClient;
 import com.inmaytide.orbit.auth.client.CaptchaClient;
 import com.inmaytide.orbit.auth.exception.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor;
@@ -29,9 +28,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Autowired
     private CaptchaClient captchaClient;
-
-    @Autowired
-    private AuthorizationClient authorizationClient;
 
     @Value("${validate.captcha:true}")
     private boolean validateCaptcha;
@@ -70,7 +66,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setAccessTokenConverter(new AdditionalAccessTokenConverter(authorizationClient));
         converter.setSigningKey(Constants.SIGNING_KEY);
         return converter;
     }

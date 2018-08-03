@@ -1,11 +1,14 @@
 package com.inmaytide.orbit.commons.security.matcher;
 
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
 import static com.inmaytide.orbit.commons.Constants.HEADER_NAME_INSIDE_TOKEN;
 import static com.inmaytide.orbit.commons.Constants.INSIDE_TOKEN;
+import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher.MatchResult.notMatch;
 
 public class InsideTokenMatcher {
 
@@ -15,8 +18,11 @@ public class InsideTokenMatcher {
         this.exchange = exchange;
     }
 
-    public boolean match() {
-        return getTokenValue().map(INSIDE_TOKEN::equals).orElse(false);
+    public Mono<ServerWebExchangeMatcher.MatchResult> match() {
+        return getTokenValue()
+                .map(INSIDE_TOKEN::equals)
+                .map(bool -> bool ? ServerWebExchangeMatcher.MatchResult.match() : notMatch())
+                .orElse(notMatch());
     }
 
     private Optional<String> getTokenValue() {

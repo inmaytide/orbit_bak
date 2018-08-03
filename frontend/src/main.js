@@ -4,8 +4,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import iView from 'iview';
 import App from './app';
-import routers from './routers';
+import routers from './routers/main';
 import request from './utils/request';
+import commons from './utils/commons';
 import i18n from './utils/i18n';
 import 'iview/dist/styles/iview.css';
 
@@ -18,6 +19,23 @@ Vue.prototype.$http = request;
 const router = new VueRouter({
   mode: 'history',
   routes: routers
+});
+
+router.beforeEach((to, from, next) => {
+  iView.LoadingBar.start();
+  if (to.meta.authenticated && commons.getUser() == null) {
+    next({
+      path: '/login',
+      query: {redirect: to.fullPath}
+    });
+  } else {
+    next();
+  }
+});
+
+router.afterEach((to, from, next) => {
+  iView.LoadingBar.finish();
+  window.scrollTo(0, 0);
 });
 
 /* eslint-disable no-new */
