@@ -1,7 +1,5 @@
 package com.inmaytide.orbit.commons.util;
 
-import org.springframework.util.ReflectionUtils;
-
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,9 +8,13 @@ import java.util.stream.Stream;
 public class BeanUtils {
 
     public static Field getField(Class<?> cls, String property) {
-        Field field = ReflectionUtils.findField(cls, property);
-        Assert.nonNull(field, String.format("Property %s not found", property));
-        return field;
+        Assert.hasText(property);
+        Assert.nonNull(cls, "The parameter \"class\" cannt not be null");
+        try {
+            return cls.getDeclaredField(property);
+        } catch (NoSuchFieldException e) {
+            throw new IllegalArgumentException(String.format("Property %s not found", property));
+        }
     }
 
     public static List<Field> getFields(Class<?> cls, String... properties) {

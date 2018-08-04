@@ -1,37 +1,49 @@
 <template>
-  <Menu theme="dark" :accordion="true">
-    <Submenu name="system" >
-      <template slot="title">
-        <Icon type="ios-analytics" />
-        Navigation One
-      </template>
-      <MenuGroup title="Item 1">
-        <MenuItem name="1-1">Option 1</MenuItem>
-        <MenuItem name="1-2">Option 2</MenuItem>
-      </MenuGroup>
-      <MenuGroup title="Item 2">
-        <MenuItem name="1-3">Option 3</MenuItem>
-        <MenuItem name="1-4">Option 4</MenuItem>
-      </MenuGroup>
-    </Submenu>
-    <Submenu name="system1" >
-      <template slot="title">
-        <Icon type="ios-analytics" />
-        123123123
-      </template>
-      <MenuItem name="system1-111">Option 1</MenuItem>
-      <MenuItem name="system11-2323">Option 2</MenuItem>
-    </Submenu>
-  </Menu>
+  <div>
+    <div class="menu-log">
+      Orbit
+    </div>
+    <div>
+      <Menu theme="dark" :accordion="true">
+        <Submenu v-for="menu in menus" v-bind:key="menu" v-if="menu.parent === '0'" name="menu.code">
+          <template slot="title">
+            <Icon :type="menu.icon" size="18"/>
+            {{menu.name}}
+          </template>
+          <MenuItem v-for="submenu in menus" v-bind:key="submenu" v-if="menu.id === submenu.parent" name="submenu.code">
+            {{submenu.name}}
+          </MenuItem>
+        </Submenu>
+      </Menu>
+    </div>
+  </div>
 </template>
+<style scoped>
+  .menu-log {
+    font-family: Papyrus, Verdana, "Lucida Grande", Arial, sans-serif;
+    font-size: 26px;
+    text-align: left;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 20px 0 10px 15px;
+    user-select: none;
+  }
+</style>
 <script>
+import api from '../../apis/menu';
 
 export default {
   name: 'orbit-menu',
   mounted () {
+    this.$http.get(api.mineMenus).then(res => {
+      this.menus = res;
+    });
   },
   data () {
-    return {};
+    return {
+      menus: []
+    };
   },
   methods: {}
 };

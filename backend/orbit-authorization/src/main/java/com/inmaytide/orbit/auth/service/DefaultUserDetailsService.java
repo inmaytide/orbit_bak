@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.auth.service;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.inmaytide.orbit.auth.client.AuthorizationClient;
 import com.inmaytide.orbit.commons.exception.auth.DisabledUserException;
 import com.inmaytide.orbit.commons.exception.auth.UnexpectedUsernameException;
@@ -15,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Assert.hasText(username, "username cannot be empty");
-        ObjectNode user;
+        Map<String, Object> user;
         try {
             user = client.getUser(username);
         } catch (FeignException e) {
@@ -42,9 +43,9 @@ public class DefaultUserDetailsService implements UserDetailsService {
             }
             throw e;
         }
-        Assert.isTrue(!user.get("disabled").asBoolean(), DisabledUserException::new);
+        Assert.isTrue(!Boolean.valueOf(Objects.toString(user.get("disabled"), "false")), DisabledUserException::new);
         return User.withUsername(username)
-                .password(user.get("password").asText())
+                .password(Objects.toString(user.get("password"), null))
                 .accountLocked(false)
                 .authorities(getAuthorities(username))
                 .build();

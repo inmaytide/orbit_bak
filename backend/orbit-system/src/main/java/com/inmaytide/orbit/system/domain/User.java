@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public class User extends AbstractEntity {
 
+    private static final long serialVersionUID = -5004364741503962227L;
     private String name;
     private String username;
     private String password;

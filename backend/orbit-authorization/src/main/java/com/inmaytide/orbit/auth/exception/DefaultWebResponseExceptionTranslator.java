@@ -24,7 +24,7 @@ public class DefaultWebResponseExceptionTranslator extends org.springframework.s
         }
         if (e instanceof InvalidGrantException && "Bad credentials".equals(e.getMessage())) {
             OAuth2Exception exception = new OAuth2Exception(GeneralException.ERROR_BAD_CREDENTIALS, e);
-            return new ResponseEntity<>(exception, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(exception, HttpStatus.UNAUTHORIZED);
         }
 
         return super.translate(e);

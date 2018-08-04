@@ -4,6 +4,7 @@ import com.inmaytide.orbit.commons.domain.AbstractEntity;
 
 public class MenuFunction extends AbstractEntity {
 
+    private static final long serialVersionUID = 5089182578612526382L;
     private Long menuId;
     private String code;
     private String name;

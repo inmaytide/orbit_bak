@@ -21,7 +21,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => response.status === 200 ? response.data : response,
   error => {
-    const res = error.response.data;
+    const res = error.response ? error.response.data : {};
     let name = ERROR_NAME_PREFIX + 'unexpected';
     if (res.hasOwnProperty('error_description')) {
       name = ERROR_NAME_PREFIX + res['error_description'];

@@ -4,6 +4,7 @@ import com.inmaytide.orbit.commons.domain.AbstractEntity;
 
 public class Menu extends AbstractEntity {
 
+    private static final long serialVersionUID = 3253907963586618457L;
     private String code;
     private String name;
     private String method;
@@ -11,6 +12,7 @@ public class Menu extends AbstractEntity {
     private String description;
     private Long parent;
     private Integer seqOrder;
+    private String icon;
 
     public String getCode() {
         return code;
@@ -66,5 +68,13 @@ public class Menu extends AbstractEntity {
 
     public void setSeqOrder(Integer seqOrder) {
         this.seqOrder = seqOrder;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

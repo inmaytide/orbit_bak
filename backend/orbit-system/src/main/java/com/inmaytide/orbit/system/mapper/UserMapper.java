@@ -12,7 +12,7 @@ public interface UserMapper extends BasicMapper {
 
     String TABLE_NAME = "sys_user";
 
-    String COLUMNS = "name, username, password, status, brithday, education, email, qq, wechat, telephone, cellphone, avatar, remark" + ", " + COMMON_COLUMNS;
+    String COLUMNS = "name, username, password, status, brithday, education, email, qq, wechat, telephone, cellphone, avatar, remark, " + COMMON_COLUMNS;
 
     @Select("select " + COLUMNS + " from " + TABLE_NAME + " where id = #{id}")
     User get(Long id);

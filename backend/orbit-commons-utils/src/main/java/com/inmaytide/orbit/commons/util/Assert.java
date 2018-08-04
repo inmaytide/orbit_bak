@@ -1,8 +1,5 @@
 package com.inmaytide.orbit.commons.util;
 
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -10,25 +7,25 @@ import java.util.function.Supplier;
 public class Assert {
 
     public static void hasText(String text) {
-        if (!StringUtils.hasText(text)) {
+        if (text == null || text.trim().length() == 0) {
             throw new IllegalArgumentException();
         }
     }
 
     public static void hasText(String text, String message) {
-        if (!StringUtils.hasText(text)) {
+        if (text == null || text.trim().length() == 0) {
             throw new IllegalArgumentException(message);
         }
     }
 
     public static void hasText(String text, Supplier<RuntimeException> supplier) {
-        if (!StringUtils.hasText(text)) {
+        if (text == null || text.trim().length() == 0) {
             throw supplier.get();
         }
     }
 
     public static void nonEmpty(Collection<?> collection, String message) {
-        if (CollectionUtils.isEmpty(collection)) {
+        if (collection == null || collection.isEmpty()) {
             throw new IllegalArgumentException(message);
         }
     }

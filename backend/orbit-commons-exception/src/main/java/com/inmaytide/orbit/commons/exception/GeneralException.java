@@ -13,6 +13,8 @@ public class GeneralException extends RuntimeException {
     protected static final String ERROR_UNEXPECTED_USERNAME = "unexpected_username";
     protected static final String ERROR_DISABLED_USER = "disabled_user";
     protected static final String ERROR_NOT_AUTHENTICATED = "not_authenticated";
+    protected static final String ERROR_PERMISSION_DENIED = "permission_denied";
+    private static final long serialVersionUID = 5787716233351989628L;
 
     private final String code;
     private final HttpStatus httpStatus;

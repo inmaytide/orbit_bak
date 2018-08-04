@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 
 public class UnexpectedUsernameException extends GeneralException {
 
+    private static final long serialVersionUID = 6262058689974289552L;
+
     public UnexpectedUsernameException() {
-        super(ERROR_UNEXPECTED_USERNAME, HttpStatus.FORBIDDEN);
+        super(ERROR_UNEXPECTED_USERNAME, HttpStatus.UNAUTHORIZED);
     }
 }

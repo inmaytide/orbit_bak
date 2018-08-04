@@ -1,11 +1,5 @@
 package com.inmaytide.orbit.commons.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.inmaytide.orbit.commons.json.deser.LocalDateTimeDeserializer;
-import com.inmaytide.orbit.commons.json.ser.LocalDateTimeSerializer;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -13,21 +7,14 @@ public class AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 5784033340704847103L;
 
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createTime;
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updateTime;
 
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long creator;
 
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long updater;
 
     private Integer version;
