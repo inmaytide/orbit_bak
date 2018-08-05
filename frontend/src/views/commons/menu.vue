@@ -34,7 +34,7 @@
 import api from '../../apis/menu';
 
 export default {
-  name: 'orbit-menu',
+  name: 'commons-menu',
   mounted () {
     this.$http.get(api.mineMenus).then(res => {
       this.menus = res;

@@ -1,10 +1,10 @@
 <template>
   <Layout>
     <Sider :width="240">
-      <orbit-menu></orbit-menu>
+      <commons-menu />
     </Sider>
     <Layout>
-      <Header></Header>
+      <Header><commons-header /></Header>
       <Content>
         <router-view></router-view>
       </Content>
@@ -18,11 +18,13 @@
   }
 </style>
 <script>
-import orbitMenu from './menu/menu';
+import commonsMenu from './commons/menu';
+import commonsHeader from './commons/header';
 
 export default {
   components: {
-    orbitMenu
+    commonsMenu,
+    commonsHeader
   }
 };
 </script>

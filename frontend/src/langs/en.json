@@ -2,6 +2,13 @@
   "common": {
     "btn": {
       "loading": "Loading..."
+    },
+    "menu": {
+      "header": {
+        "home": "Home",
+        "tasks": "Tasks",
+        "favorites": "Favorites"
+      }
     }
   },
   "errors": {
