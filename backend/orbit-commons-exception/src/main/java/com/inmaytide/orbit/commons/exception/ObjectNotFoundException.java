@@ -1,11 +1,11 @@
 package com.inmaytide.orbit.commons.exception;
 
-import org.springframework.http.HttpStatus;
+import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
 
-public class ObjectNotFoundException extends GeneralException {
+public class ObjectNotFoundException extends ResponseException {
     private static final long serialVersionUID = -2502972592465592867L;
 
     public ObjectNotFoundException() {
-        super(ERROR_OBJ_NOT_FOUND, HttpStatus.NOT_FOUND);
+        super(ResponseDefinition.OBJ_NOT_FOUND);
     }
 }

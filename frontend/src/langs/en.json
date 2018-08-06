@@ -8,6 +8,10 @@
         "home": "Home",
         "tasks": "Tasks",
         "favorites": "Favorites"
+      },
+      "nav": {
+        "system": "Settings",
+        "menu": "Menus"
       }
     }
   },

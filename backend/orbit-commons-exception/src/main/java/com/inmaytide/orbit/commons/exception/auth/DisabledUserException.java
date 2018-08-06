@@ -1,13 +1,13 @@
 package com.inmaytide.orbit.commons.exception.auth;
 
-import com.inmaytide.orbit.commons.exception.GeneralException;
-import org.springframework.http.HttpStatus;
+import com.inmaytide.orbit.commons.exception.ResponseException;
+import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
 
-public class DisabledUserException extends GeneralException {
+public class DisabledUserException extends ResponseException {
 
     private static final long serialVersionUID = -2544984344793406147L;
 
     public DisabledUserException() {
-        super(ERROR_DISABLED_USER, HttpStatus.UNAUTHORIZED);
+        super(ResponseDefinition.DISABLED_USER);
     }
 }

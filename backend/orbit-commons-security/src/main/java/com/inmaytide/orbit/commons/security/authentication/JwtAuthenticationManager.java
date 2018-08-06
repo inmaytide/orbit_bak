@@ -13,8 +13,6 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
         return Mono.justOrEmpty(token)
                 .switchIfEmpty(Mono.error(new AccessTokenRequiredException(new BaseOAuth2ProtectedResourceDetails())))
                 .filter(Authentication::isAuthenticated);
-//                .doOnSuccess(ThreadLocalAuthenticationHolder::setAuthentication)
-//                .doOnError(e -> ThreadLocalAuthenticationHolder.resetAuthentication());
     }
 
 }

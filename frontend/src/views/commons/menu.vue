@@ -5,13 +5,13 @@
     </div>
     <div>
       <Menu theme="dark" :accordion="true">
-        <Submenu v-for="menu in menus" v-bind:key="menu" v-if="menu.parent === '0'" name="menu.code">
+        <Submenu v-for="menu in menus" v-bind:key="menu.id" v-if="menu.parent === '0'" name="menu.code">
           <template slot="title">
             <Icon :type="menu.icon" size="18"/>
-            {{menu.name}}
+            {{displayName(menu)}}
           </template>
-          <MenuItem v-for="submenu in menus" v-bind:key="submenu" v-if="menu.id === submenu.parent" name="submenu.code">
-            {{submenu.name}}
+          <MenuItem v-for="submenu in menus" v-bind:key="submenu.id" v-if="menu.id === submenu.parent" name="submenu.code">
+            {{displayName(submenu)}}
           </MenuItem>
         </Submenu>
       </Menu>
@@ -45,6 +45,14 @@ export default {
       menus: []
     };
   },
-  methods: {}
+  methods: {
+    displayName (menu) {
+      let name = this.$i18n.t('common.menu.nav.' + menu.code);
+      if (name === '' || name === menu.code) {
+        name = menu.name;
+      }
+      return name;
+    }
+  }
 };
 </script>

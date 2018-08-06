@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.commons.security.authentication;
 
+import com.inmaytide.orbit.commons.exception.auth.ExpiredTokenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -31,12 +32,20 @@ public class JwtAuthenticationConverter implements Function<ServerWebExchange, M
 
     @Override
     public Mono<Authentication> apply(ServerWebExchange exchange) {
-        return extract(exchange.getRequest()).map(Mono::just).orElse(Mono.empty());
+        return extract(exchange.getRequest())
+                .map(Mono::just)
+                .orElse(Mono.empty());
     }
 
     private Optional<Authentication> extract(ServerHttpRequest request) {
         return extractToken(request)
-                .map(tokenStore::readAuthentication)
+                .map(tokenStore::readAccessToken)
+                .map(token -> {
+                    if (token.isExpired()) {
+                        throw new ExpiredTokenException();
+                    }
+                    return tokenStore.readAuthentication(token);
+                })
                 .map(OAuth2Authentication::getUserAuthentication);
     }
 

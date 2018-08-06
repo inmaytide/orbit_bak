@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.system.constant;
+package com.inmaytide.orbit.system.consts;
 
 import java.util.Arrays;
 import java.util.Objects;

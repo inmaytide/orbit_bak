@@ -1,9 +1,16 @@
 export default {
   storeToken (token) {
-    localStorage.setItem('token', token.token_type + ' ' + token.access_token);
+    localStorage.setItem('token', JSON.stringify(token));
+  },
+  getToken () {
+    const stored = localStorage.getItem('token');
+    if (typeof stored !== 'undefined' && stored != null && stored !== '') {
+      return JSON.parse(stored);
+    }
+    return null;
   },
   storeUser (user) {
-    delete user.password;
+    delete user.password;// earse password
     localStorage.setItem('user', JSON.stringify(user));
   },
   getUser () {
@@ -13,13 +20,10 @@ export default {
     }
     return null;
   },
-  getProfile () {
-    return JSON.parse(localStorage.getItem('profile'));
-  },
   getAuthorization () {
-    const token = localStorage.getItem('token');
-    if (typeof token !== 'undefined' && token != null && token !== '') {
-      return token;
+    const token = this.getToken();
+    if (token !== null) {
+      return token.token_type + ' ' + token.access_token;
     }
     return null;
   }

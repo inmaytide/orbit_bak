@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.commons.exception.handler;
 
-import com.inmaytide.orbit.commons.exception.GeneralException;
+import com.inmaytide.orbit.commons.exception.ResponseException;
+import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 
@@ -77,8 +78,8 @@ public class ResponseError implements Serializable {
         private String message;
 
         private ResponseErrorBuilder() {
-            status = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            code = GeneralException.ERROR_UNEXPECTED;
+            status = ResponseDefinition.UNEXPECTED.getStatus().value();
+            code = ResponseDefinition.UNEXPECTED.getCode();
         }
 
         public ResponseErrorBuilder path(String path) {
@@ -89,8 +90,8 @@ public class ResponseError implements Serializable {
         public ResponseErrorBuilder throwable(Throwable throwable) {
             Assert.notNull(throwable, "The throwable must not be null");
             this.message = throwable.getMessage();
-            if (throwable instanceof GeneralException) {
-                GeneralException e = (GeneralException) throwable;
+            if (throwable instanceof ResponseException) {
+                ResponseException e = (ResponseException) throwable;
                 this.status = e.getHttpStatus().value();
                 this.code = e.getCode();
             }

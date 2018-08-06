@@ -1,11 +1,23 @@
 import Vue from 'vue';
 import axios from 'axios';
-import commons from './commons.js';
+import commons from './commons';
 import i18n from './i18n';
 
 const CONTEXT_PATH = process.env.API_ROOT;
 const VUE_INST = new Vue();
 const ERROR_NAME_PREFIX = 'errors.';
+
+function tokenExpired (config) {
+  var token = commons.getToken();
+  if (token === null) {
+    location.href = '/login';
+    return;
+  }
+
+  axios.get(CONTEXT_PATH + '/oauth/token?grant_type=refresh_token&refresh_token=' + token.refresh_token)
+    .then(() => axios(config))
+    .catch(() => (location.href = '/login'));
+}
 
 axios.interceptors.request.use(
   config => {
@@ -26,6 +38,9 @@ axios.interceptors.response.use(
     if (res.hasOwnProperty('error_description')) {
       name = ERROR_NAME_PREFIX + res['error_description'];
     } else if (res.hasOwnProperty('code')) {
+      if (res['code'] === 'expired_token') {
+        return tokenExpired(error.config);
+      }
       name = ERROR_NAME_PREFIX + res['code'];
     } else {
       console.log(error);
