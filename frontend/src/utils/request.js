@@ -8,7 +8,7 @@ const VUE_INST = new Vue();
 const ERROR_NAME_PREFIX = 'errors.';
 
 function tokenExpired (config) {
-  var token = commons.getToken();
+  const token = commons.getToken();
   if (token === null) {
     location.href = '/login';
     return;

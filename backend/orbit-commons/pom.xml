@@ -2,8 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+
+    <groupId>com.inmaytide.orbit.commons</groupId>
     <artifactId>orbit-commons</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <parent>
         <artifactId>orbit</artifactId>
@@ -11,14 +13,26 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-commons-utils</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>orbit-commons-exception</module>
+        <module>orbit-commons-model</module>
+        <module>orbit-commons-security</module>
+        <module>orbit-commons-util</module>
+        <module>orbit-commons-consts</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.inmaytide.orbit.commons</groupId>
+                <artifactId>orbit-commons-exception</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.inmaytide.orbit.commons</groupId>
+                <artifactId>orbit-commons-consts</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
