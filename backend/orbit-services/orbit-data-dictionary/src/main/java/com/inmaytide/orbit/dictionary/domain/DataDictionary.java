@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.dictionary.domain;
 
-import domain.AbstractEntity;
+import org.dom4j.tree.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

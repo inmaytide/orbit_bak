@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.system.domain;
 
-import domain.AbstractEntity;
+
+import com.inmaytide.orbit.commons.domain.AbstractEntity;
 
 public class Menu extends AbstractEntity {
 

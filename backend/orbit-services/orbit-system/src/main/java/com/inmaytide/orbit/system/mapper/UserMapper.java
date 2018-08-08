@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.system.mapper;
 
+import com.inmaytide.orbit.commons.mapper.BasicMapper;
 import com.inmaytide.orbit.system.domain.User;
-import mapper.BasicMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.system.domain;
 
+import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import com.inmaytide.orbit.system.consts.UserStatus;
-import domain.AbstractEntity;
 
 import java.time.LocalDate;
 

@@ -16,5 +16,9 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.inmaytide.orbit.commons</groupId>
+            <artifactId>orbit-commons-utils</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -17,7 +17,7 @@
         <module>orbit-commons-exception</module>
         <module>orbit-commons-model</module>
         <module>orbit-commons-security</module>
-        <module>orbit-commons-util</module>
+        <module>orbit-commons-utils</module>
         <module>orbit-commons-consts</module>
     </modules>
 

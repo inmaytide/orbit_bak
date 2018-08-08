@@ -50,11 +50,7 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
-            <artifactId>orbit-commons</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
+            <groupId>com.inmaytide.orbit.commons</groupId>
             <artifactId>orbit-commons-security</artifactId>
         </dependency>
     </dependencies>

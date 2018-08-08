@@ -6,8 +6,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-import static com.inmaytide.orbit.commons.consts.Constants.HEADER_NAME_INSIDE_TOKEN;
-import static com.inmaytide.orbit.commons.consts.Constants.INSIDE_TOKEN;
+import static com.inmaytide.orbit.commons.Constants.HEADER_NAME_INSIDE_TOKEN;
+import static com.inmaytide.orbit.commons.Constants.INSIDE_TOKEN;
 import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher.MatchResult.notMatch;
 
 public class InsideTokenMatcher {

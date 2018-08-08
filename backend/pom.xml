@@ -56,7 +56,7 @@
             </dependency>
             <dependency>
                 <groupId>com.inmaytide.orbit.commons</groupId>
-                <artifactId>orbit-commons-util</artifactId>
+                <artifactId>orbit-commons-utils</artifactId>
                 <version>${orbit.commons.version}</version>
             </dependency>
             <dependency>
