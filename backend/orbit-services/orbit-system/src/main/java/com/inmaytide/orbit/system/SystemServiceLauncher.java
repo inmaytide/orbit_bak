@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.inmaytide.orbit.commons.exception.handler.GlobalExceptionHandler;
+import com.inmaytide.orbit.commons.id.IdGenerator;
+import com.inmaytide.orbit.commons.id.SnowflakeIdGenerator;
 import com.inmaytide.orbit.commons.util.DateTimeUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -37,6 +39,11 @@ public class SystemServiceLauncher {
     @Order(-1)
     public GlobalExceptionHandler exceptionHandler() {
         return new GlobalExceptionHandler();
+    }
+
+    @Bean
+    public IdGenerator idGenerator() {
+        return new SnowflakeIdGenerator(1, 1);
     }
 
     public static void main(String[] args) {

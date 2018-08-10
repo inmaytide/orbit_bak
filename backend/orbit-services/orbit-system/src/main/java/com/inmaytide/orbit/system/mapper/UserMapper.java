@@ -8,16 +8,9 @@ import org.apache.ibatis.annotations.Select;
 import java.util.Set;
 
 @Mapper
-public interface UserMapper extends BasicMapper {
+public interface UserMapper extends BasicMapper<User> {
 
-    String TABLE_NAME = "sys_user";
-
-    String COLUMNS = "name, username, password, status, brithday, education, email, qq, wechat, telephone, cellphone, avatar, remark, " + COMMON_COLUMNS;
-
-    @Select("select " + COLUMNS + " from " + TABLE_NAME + " where id = #{id}")
-    User get(Long id);
-
-    @Select("select " + COLUMNS + " from " + TABLE_NAME + " where username = #{username}")
+    @Select("select * from sys_user where username = #{username}")
     User getByUsername(String username);
 
     @Select("select code from sys_menu menu " +

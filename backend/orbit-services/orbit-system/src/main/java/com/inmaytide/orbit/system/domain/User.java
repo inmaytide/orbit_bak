@@ -1,10 +1,12 @@
 package com.inmaytide.orbit.system.domain;
 
+import com.inmaytide.orbit.commons.database.annotation.Table;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import com.inmaytide.orbit.system.consts.UserStatus;
 
 import java.time.LocalDate;
 
+@Table("sys_user")
 public class User extends AbstractEntity {
 
     private static final long serialVersionUID = -5004364741503962227L;

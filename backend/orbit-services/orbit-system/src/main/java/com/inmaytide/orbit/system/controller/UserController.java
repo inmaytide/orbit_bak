@@ -21,12 +21,12 @@ public class UserController {
 
     @GetMapping("/u/{username}")
     public Mono<User> getByUsername(@PathVariable String username) {
-        return Mono.just(service.getByUsername(username).orElseThrow(ObjectNotFoundException::new));
+        return service.getByUsername(username).map(Mono::just).orElseThrow(ObjectNotFoundException::new);
     }
 
     @GetMapping("/{id}")
     public Mono<User> get(@PathVariable Long id) {
-        return Mono.just(service.get(id).orElseThrow(ObjectNotFoundException::new));
+        return service.get(id).map(Mono::just).orElseThrow(ObjectNotFoundException::new);
     }
 
     @GetMapping("/u/{username}/permissions")

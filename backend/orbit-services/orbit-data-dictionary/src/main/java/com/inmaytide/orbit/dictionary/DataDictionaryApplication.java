@@ -50,6 +50,7 @@ public class DataDictionaryApplication extends SecurityConfigurerAdapter {
 
     @Autowired
     public DataDictionaryApplication() {
+        super(exceptionHandler);
         this.exceptionHandler = new GlobalExceptionHandler();
     }
 

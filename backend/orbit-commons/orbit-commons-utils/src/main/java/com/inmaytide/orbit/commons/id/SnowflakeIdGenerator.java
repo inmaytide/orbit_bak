@@ -3,7 +3,7 @@ package com.inmaytide.orbit.commons.id;
 
 import java.io.Serializable;
 
-public class SnowflakeIdGenerator {
+public class SnowflakeIdGenerator implements IdGenerator<Long> {
 
     private final SnowflakeIdWorker idWorker;
 
@@ -11,7 +11,7 @@ public class SnowflakeIdGenerator {
         idWorker = new SnowflakeIdWorker(workerId, dataCenterId);
     }
 
-    public Serializable generate() {
+    public Long generate() {
         return idWorker.nextId();
     }
 }
