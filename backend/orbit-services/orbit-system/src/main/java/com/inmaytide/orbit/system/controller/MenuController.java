@@ -4,6 +4,7 @@ import com.inmaytide.orbit.commons.exception.ObjectInvalidException;
 import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.system.domain.Menu;
 import com.inmaytide.orbit.system.service.MenuService;
+import com.inmaytide.orbit.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,9 +25,12 @@ public class MenuController {
     @Autowired
     private MenuService service;
 
-    @GetMapping("/own")
-    public Flux<Menu> listByUsername(@AuthenticationPrincipal Principal principal) {
-        return Flux.fromIterable(service.listByUsername(principal.getName()));
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/u/{username}")
+    public Flux<Menu> listByUsername(@PathVariable String username) {
+        return Flux.fromIterable(service.listByUsername(username));
     }
 
     @GetMapping("/{id}")
@@ -36,8 +40,13 @@ public class MenuController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Menu> insert(@RequestBody Mono<Menu> menu) {
-        return menu.doOnSuccess(service::save);
+    public Mono<Menu> insert(@RequestBody Mono<Menu> menu, @AuthenticationPrincipal Principal principal) {
+        return menu
+                .doOnSuccess(inst -> {
+                    userService.getByUsername(principal.getName())
+                            .ifPresent(user -> inst.setCreator(user.getId()));
+                    service.save(inst);
+                });
     }
 
 }

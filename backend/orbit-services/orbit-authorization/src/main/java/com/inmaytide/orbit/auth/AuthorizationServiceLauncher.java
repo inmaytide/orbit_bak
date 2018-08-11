@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableCaching
 @EnableDiscoveryClient
 @SpringBootApplication
-public class AuthorizationApplication {
+public class AuthorizationServiceLauncher {
 
     @Bean
     public RequestInterceptor authRequestInterceptor() {
@@ -24,7 +24,7 @@ public class AuthorizationApplication {
     }
 
     public static void main(String... args) {
-        SpringApplication.run(AuthorizationApplication.class, args);
+        SpringApplication.run(AuthorizationServiceLauncher.class, args);
     }
 
 }

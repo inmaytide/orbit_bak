@@ -24,6 +24,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
     public Mono<Void> handle(@NonNull ServerWebExchange exchange, @NonNull Throwable e) {
         String path = exchange.getRequest().getPath().pathWithinApplication().value();
         log.error("Handing error: {}, {}, {}", path, e.getClass().getSimpleName(), e.getMessage());
+        e.printStackTrace();
         e = parse(e);
         return Mono.just(e)
                 .transform(mono -> ThrowableTranslator.translate(mono, path))

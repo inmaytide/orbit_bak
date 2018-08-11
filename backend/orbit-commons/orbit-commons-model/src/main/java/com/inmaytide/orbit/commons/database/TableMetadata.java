@@ -10,10 +10,7 @@ public class TableMetadata {
     static final Class<?> BASIC_CLASS = AbstractEntity.class;
 
     private String tableName;
-
-    private ColumnMetadata pkColumn = ColumnMetadata.of("id", "id");
-    private ColumnMetadata versionColumn = ColumnMetadata.of("version", "version");
-
+    private Class<?> entityClass;
     private Set<ColumnMetadata> columns;
 
     private TableMetadata() {
@@ -24,6 +21,7 @@ public class TableMetadata {
             throw new IllegalArgumentException(String.format("Only support the subclass of [%s]", BASIC_CLASS.getName()));
         }
         TableMetadata inst = new TableMetadata();
+        inst.entityClass = entityClass;
         inst.tableName = fetchTableName(entityClass);
         inst.columns = ColumnMetadata.fetchColumns(entityClass);
         return inst;
@@ -44,11 +42,7 @@ public class TableMetadata {
         return columns;
     }
 
-    public ColumnMetadata getPkColumn() {
-        return pkColumn;
-    }
-
-    public ColumnMetadata getVersionColumn() {
-        return versionColumn;
+    public Class<?> getEntityClass() {
+        return entityClass;
     }
 }

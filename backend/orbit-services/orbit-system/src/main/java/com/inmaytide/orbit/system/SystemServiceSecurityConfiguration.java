@@ -15,7 +15,7 @@ public class SystemServiceSecurityConfiguration extends SecurityConfigurerAdapte
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return httpSecurityConfiguer(http)
-                .authorizeExchange().pathMatchers("/menus/*").permitAll()
+                .authorizeExchange()
                 .anyExchange().authenticated()
                 .and().build();
     }
