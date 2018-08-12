@@ -78,8 +78,16 @@ public class ColumnMetadata {
         return field;
     }
 
+    public boolean isAssociate() {
+        return isAssociate;
+    }
+
     public String getValueColumn() {
         return String.format("#{%s}", getPropertyName());
+    }
+
+    public String getSetColumn() {
+        return String.format("%s = #{%s}", columnName, propertyName);
     }
 
     public String whereEquals() {

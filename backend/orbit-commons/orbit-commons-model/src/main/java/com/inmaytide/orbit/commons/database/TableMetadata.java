@@ -1,9 +1,11 @@
 package com.inmaytide.orbit.commons.database;
 
+import com.google.common.base.CaseFormat;
 import com.inmaytide.orbit.commons.database.annotation.Table;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
 
 public class TableMetadata {
 
@@ -31,7 +33,7 @@ public class TableMetadata {
         if (entityClass.isAnnotationPresent(Table.class)) {
             return entityClass.getAnnotation(Table.class).value();
         }
-        return entityClass.getSimpleName().toLowerCase();
+        return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName());
     }
 
     public String getTableName() {
