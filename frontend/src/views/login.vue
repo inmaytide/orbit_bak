@@ -75,11 +75,15 @@
   }
 </style>
 <script>
-import commons from '../utils/commons';
 import api from '../apis/login';
 
 export default {
   mounted () {
+    const m = this.$commons.getParamValue('m');
+    if (m != null && m !== '') {
+      this.$http.error(m);
+    }
+
     this.refreshCaptcha();
   },
   data () {
@@ -125,9 +129,9 @@ export default {
           };
           Object.keys(this.token).forEach(k => data.append(k, this.token[k]));
           this.$http.post(api.login, data, config).then(res => {
-            commons.storeToken(res);
+            this.$commons.storeToken(res);
             this.$http.get(api.getUser + this.token.username).then(res => {
-              commons.storeUser(res);
+              this.$commons.storeUser(res);
               this.$router.push('/');
             });
           }).catch(() => {

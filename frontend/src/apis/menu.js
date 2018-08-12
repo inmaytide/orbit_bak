@@ -1,3 +1,3 @@
 export default {
-  mineMenus: '/sys/menus/own'
+  mineMenus: '/sys/menus/u/{username}'
 };

@@ -7,7 +7,10 @@
       "header": {
         "home": "Home",
         "tasks": "Tasks",
-        "favorites": "Favorites"
+        "favorites": "Favorites",
+        "profile": "Profile",
+        "change_password": "Change Password",
+        "sign_out": "Sign Out"
       },
       "nav": {
         "system": "Settings",
@@ -19,6 +22,7 @@
     "unexpected_username": "Your username and password don't match",
     "bad_credentials": "Your username and password don't match",
     "bad_captcha": "Incorrect captcha",
+    "expired_token": "Your token has expired, please sign in again",
     "unexpected": "Unknown error has happened, please contact the administrator or try again later"
   },
   "login": {

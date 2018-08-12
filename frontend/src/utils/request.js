@@ -7,16 +7,26 @@ const CONTEXT_PATH = process.env.API_ROOT;
 const VUE_INST = new Vue();
 const ERROR_NAME_PREFIX = 'errors.';
 
+function displayError (name = 'unexpected') {
+  name = ERROR_NAME_PREFIX + name;
+  VUE_INST.$Message.error({
+    duration: 3,
+    content: i18n.t(name)
+  });
+}
+
 function tokenExpired (config) {
   const token = commons.getToken();
   if (token === null) {
-    location.href = '/login';
+    location.href = '/login?m=expired_token';
     return;
   }
 
   axios.get(CONTEXT_PATH + '/oauth/token?grant_type=refresh_token&refresh_token=' + token.refresh_token)
     .then(() => axios(config))
-    .catch(() => (location.href = '/login'));
+    .catch(() => {
+      location.href = '/login?m=expired_token';
+    });
 }
 
 axios.interceptors.request.use(
@@ -34,21 +44,18 @@ axios.interceptors.response.use(
   response => response.status === 200 ? response.data : response,
   error => {
     const res = error.response ? error.response.data : {};
-    let name = ERROR_NAME_PREFIX + 'unexpected';
+    let name = 'unexpected';
     if (res.hasOwnProperty('error_description')) {
-      name = ERROR_NAME_PREFIX + res['error_description'];
+      name = res['error_description'];
     } else if (res.hasOwnProperty('code')) {
       if (res['code'] === 'expired_token') {
         return tokenExpired(error.config);
       }
-      name = ERROR_NAME_PREFIX + res['code'];
+      name = res['code'];
     } else {
       console.log(error);
     }
-    VUE_INST.$Message.error({
-      duration: 3,
-      content: i18n.t(name)
-    });
+    displayError(name);
     return Promise.reject(error);
   }
 );
@@ -81,7 +88,8 @@ const request = {
   patch: (url, data, config) => {
     url = CONTEXT_PATH + url;
     return axios.patch(url, data || {}, config || {});
-  }
+  },
+  error: displayError
 };
 
 export default request;

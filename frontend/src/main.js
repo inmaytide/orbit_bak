@@ -15,6 +15,7 @@ Vue.use(VueRouter);
 Vue.use(iView);
 
 Vue.prototype.$http = request;
+Vue.prototype.$commons = commons;
 
 const router = new VueRouter({
   mode: 'history',

@@ -1,19 +1,15 @@
 <template>
-  <div>
+  <div style="width: 200px;">
     <div class="menu-log">
       Orbit
     </div>
     <div>
-      <Menu theme="dark" :accordion="true">
-        <Submenu v-for="menu in menus" v-bind:key="menu.id" v-if="menu.parent === '0'" name="menu.code">
-          <template slot="title">
-            <Icon :type="menu.icon" size="18"/>
-            {{displayName(menu)}}
-          </template>
-          <MenuItem v-for="submenu in menus" v-bind:key="submenu.id" v-if="menu.id === submenu.parent" name="submenu.code">
-            {{displayName(submenu)}}
-          </MenuItem>
-        </Submenu>
+      <Menu theme="dark" :accordion="true" :width="'200'">
+        <MenuItem v-for="menu in menus" v-bind:key="menu.id" v-if="menu.parent === '0'" name="menu.code">
+          <Icon :type="menu.icon" size="20"/>
+          {{displayName(menu)}}
+          <Icon type="ios-arrow-forward" size="14" class="menu-arrow-right"/>
+        </MenuItem>
       </Menu>
     </div>
   </div>
@@ -25,9 +21,15 @@
     text-align: left;
     color: white;
     font-weight: bold;
-    letter-spacing: 1px;
-    padding: 20px 0 10px 15px;
+    letter-spacing: 3px;
+    padding: 20px 0 10px 30px;
     user-select: none;
+  }
+
+  .menu-arrow-right {
+    position: absolute;
+    right: 5px;
+    top: 18px;
   }
 </style>
 <script>
@@ -36,7 +38,7 @@ import api from '../../apis/menu';
 export default {
   name: 'commons-menu',
   mounted () {
-    this.$http.get(api.mineMenus).then(res => {
+    this.$http.get(api.mineMenus.replace('{username}', this.$commons.getUser().username)).then(res => {
       this.menus = res;
     });
   },

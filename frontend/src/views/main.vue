@@ -1,10 +1,10 @@
 <template>
   <Layout>
-    <Sider :width="240">
+    <Sider :width="'200'">
       <commons-menu />
     </Sider>
     <Layout>
-      <Header><commons-header /></Header>
+      <Header style="padding-right: 0!important; height: 100px;"><commons-header /></Header>
       <Content>
         <router-view></router-view>
       </Content>
