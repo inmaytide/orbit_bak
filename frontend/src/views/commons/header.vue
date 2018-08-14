@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="header-nav">
-      <Menu mode="horizontal" active-name="home">
-        <MenuItem name="home">
+      <Menu mode="horizontal" :active-name="actvieMenu">
+        <MenuItem name="home" to="/home">
           {{$t('common.menu.header.home')}}
         </MenuItem>
-        <MenuItem name="tasks">
+        <MenuItem name="tasks" to="/home/tasks">
           {{$t('common.menu.header.tasks')}}
         </MenuItem>
-        <MenuItem name="favorites">
+        <MenuItem name="favorites" to="/home/favorites">
           {{$t('common.menu.header.favorites')}}
         </MenuItem>
       </Menu>
@@ -32,9 +32,18 @@ export default {
     commonsDropdownMessage,
     commonsDropdownOperation
   },
+  data () {
+    return {
+      actvieMenu: 'home'
+    };
+  },
   watch: {
     '$route' (to) {
-      console.log(to);
+      if (to.path === '/') {
+        this.actvieMenu = 'home';
+      } else {
+        this.actvieMenu = to.path.substring(to.path.lastIndexOf('/') + 1);
+      }
     }
   }
 };
@@ -47,5 +56,12 @@ export default {
     background-color: white;
     border-bottom: 1px solid #F0F0F0;
     padding-right: 20px;
+  }
+  .ivu-menu-item {
+    padding: 0 40px;
+  }
+  .ivu-menu-horizontal.ivu-menu-light:after {
+    background: none;
+    height: 0;
   }
 </style>

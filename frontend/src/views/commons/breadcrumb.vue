@@ -1,15 +1,20 @@
 <template>
   <Breadcrumb separator=">">
-    <BreadcrumbItem v-for="item in breadcrambs" v-bind:key="item.path" :to="item.path">{{item.text}}</BreadcrumbItem>
+    <BreadcrumbItem v-for="item in breadcrumbs" v-bind:key="item.path" :to="item.path">{{item.text}}</BreadcrumbItem>
   </Breadcrumb>
 </template>
 
 <script>
 export default {
   name: 'commons-breadcrumb',
+  watch: {
+    '$route' (to) {
+      this.breadcrumbs = to.meta.breadcrumbs;
+    }
+  },
   data () {
     return {
-      breadcrambs: [{text: this.$i18n.t('common.menu.header.home'), path: '/'}]
+      breadcrumbs: [{text: this.$i18n.t('common.menu.header.home'), path: '/'}]
     };
   }
 };

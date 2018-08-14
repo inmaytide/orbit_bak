@@ -24,7 +24,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start();
-  if (to.meta.authenticated && commons.getUser() == null) {
+  if (to.meta.authenticated && commons.getToken() == null) {
     next({
       path: '/login',
       query: {redirect: to.fullPath}

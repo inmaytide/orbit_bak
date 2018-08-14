@@ -19,13 +19,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-  .ivu-menu-item {
-    padding: 0 40px;
-  }
-  .ivu-menu-horizontal.ivu-menu-light:after {
-    background: none;
-    height: 0;
-  }
-</style>

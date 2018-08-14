@@ -1,4 +1,8 @@
 export default {
+  clearAuthenticated () {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  },
   storeToken (token) {
     localStorage.setItem('token', JSON.stringify(token));
   },
