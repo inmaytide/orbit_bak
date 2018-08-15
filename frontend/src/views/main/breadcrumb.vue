@@ -1,6 +1,6 @@
 <template>
   <Breadcrumb separator=">">
-    <BreadcrumbItem v-for="item in breadcrumbs" v-bind:key="item.path" :to="item.path">{{item.text}}</BreadcrumbItem>
+    <BreadcrumbItem v-for="item in breadcrumbs" v-bind:key="item.path" :to="item.path">{{$t(item.text)}}</BreadcrumbItem>
   </Breadcrumb>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   },
   data () {
     return {
-      breadcrumbs: [{text: this.$i18n.t('common.menu.header.home'), path: '/'}]
+      breadcrumbs: [{text: 'common.menu.header.home', path: '/'}]
     };
   }
 };

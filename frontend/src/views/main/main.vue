@@ -18,8 +18,8 @@
   }
 </style>
 <script>
-import commonsMenu from './commons/menu';
-import commonsHeader from './commons/header';
+import commonsMenu from './menu';
+import commonsHeader from './header';
 
 export default {
   components: {

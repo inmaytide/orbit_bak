@@ -1,16 +1,16 @@
 <template>
-  <div style="width: 200px;">
+  <div style="width: 200px; height: 100%;">
     <div class="menu-log">
       Orbit
     </div>
-    <div>
-      <Menu theme="dark" :accordion="true" :width="'200'">
-        <MenuItem v-for="menu in menus" v-bind:key="menu.id" v-if="menu.parent === '0'" name="menu.code">
-          <Icon :type="menu.icon" size="20"/>
+    <div class="menus">
+      <ul>
+        <li v-for="menu in menus" v-bind:key="menu.id" v-if="menu.parent === '0'">
+          <Icon :type="menu.icon" size="24" style="padding-right: 10px;"/>
           {{displayName(menu)}}
-          <Icon type="ios-arrow-forward" size="14" class="menu-arrow-right"/>
-        </MenuItem>
-      </Menu>
+          <Icon type="ios-arrow-forward" class="menu-arrow-right" size="16"/>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -24,12 +24,37 @@
     letter-spacing: 3px;
     padding: 20px 0 10px 30px;
     user-select: none;
+    height: 70px;
+  }
+
+  .menus {
+    height: calc(100% - 70px);
+    width: 100%;
+  }
+
+  .menus ul {
+    list-style: none;
+  }
+
+  .menus li {
+    position: relative;
+    padding-left: 10px;
+    color: white;
+    height: 60px;
+    line-height: 60px;
+    font-size: 14px;
+    user-select: none;
+  }
+
+  .menus li:hover, .menus li:hover {
+    background-color: #808695!important;
+    cursor: pointer;
   }
 
   .menu-arrow-right {
     position: absolute;
     right: 5px;
-    top: 18px;
+    top: 23px;
   }
 </style>
 <script>

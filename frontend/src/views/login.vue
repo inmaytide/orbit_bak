@@ -83,7 +83,6 @@ export default {
     if (m != null && m !== '') {
       this.$http.error(m);
     }
-
     this.refreshCaptcha();
   },
   data () {

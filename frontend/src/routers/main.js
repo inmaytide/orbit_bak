@@ -1,6 +1,5 @@
 import login from '../views/login';
-import main from '../views/main';
-import i18n from '../utils/i18n';
+import main from '../views/main/main';
 
 const routers = [
   {
@@ -11,14 +10,14 @@ const routers = [
       component: (resolve) => require(['../views/home/home'], resolve),
       meta: {
         authenticated: true,
-        breadcrumbs: [{text: i18n.t('common.menu.header.home'), path: '/'}]
+        breadcrumbs: [{text: 'common.menu.header.home', path: '/'}]
       }
     }, {
       path: 'home',
       component: (resolve) => require(['../views/home/home'], resolve),
       meta: {
         authenticated: true,
-        breadcrumbs: [{text: i18n.t('common.menu.header.home'), path: '/'}]
+        breadcrumbs: [{text: 'common.menu.header.home', path: '/'}]
       }
     }, {
       path: 'home/tasks',
@@ -26,8 +25,8 @@ const routers = [
       meta: {
         authenticated: true,
         breadcrumbs: [
-          {text: i18n.t('common.menu.header.home'), path: '/'},
-          {text: i18n.t('common.menu.header.tasks'), path: '/home/tasks'}
+          {text: 'common.menu.header.home', path: '/'},
+          {text: 'common.menu.header.tasks', path: '/home/tasks'}
         ]
       }
     }, {
@@ -36,8 +35,8 @@ const routers = [
       meta: {
         authenticated: true,
         breadcrumbs: [
-          {text: i18n.t('common.menu.header.home'), path: '/'},
-          {text: i18n.t('common.menu.header.favorites'), path: '/home/favorites'}
+          {text: 'common.menu.header.home', path: '/'},
+          {text: 'common.menu.header.favorites', path: '/home/favorites'}
         ]
       }
     }]
