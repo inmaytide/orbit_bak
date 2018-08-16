@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import iView from 'iview';
+import locale from 'iview/dist/locale/en-US';
 import App from './app';
 import routers from './routers/main';
 import request from './utils/request';
@@ -12,7 +13,7 @@ import 'iview/dist/styles/iview.css';
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
-Vue.use(iView);
+Vue.use(iView, {locale});
 
 Vue.prototype.$http = request;
 Vue.prototype.$commons = commons;

@@ -1,5 +1,6 @@
 import login from '../views/login';
 import main from '../views/main/main';
+import menus from './modules/menu';
 
 const routers = [
   {
@@ -39,7 +40,9 @@ const routers = [
           {text: 'common.menu.header.favorites', path: '/home/favorites'}
         ]
       }
-    }]
+    },
+    ...menus
+    ]
   },
   {
     path: '/login',

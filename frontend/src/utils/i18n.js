@@ -4,7 +4,7 @@ import Vue from 'vue';
 Vue.use(VueI18n);
 
 const locales = {
-  'en-US': require('../langs/en.json')
+  'en': require('../langs/en.json')
 };
 
 // let lang = navigator.language;
@@ -12,7 +12,7 @@ const locales = {
 //   lang = navigator.browserLanguage;
 // }
 
-const lang = 'en-US';
+const lang = 'en';
 
 const i18n = new VueI18n({
   locale: lang,

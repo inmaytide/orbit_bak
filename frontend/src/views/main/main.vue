@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Sider :width="'200'">
+    <Sider :width="'180'">
       <commons-menu />
     </Sider>
     <Layout>

@@ -33,5 +33,10 @@ export default {
   },
   getParamValue (name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || ['', ''])[1].replace(/\+/g, '%20')) || null;
+  },
+  transform (data, parent = '0') {
+    const filtered = data.filter(element => element.parent === parent);
+    filtered.forEach(element => (element.children = this.transform(data, element.id)));
+    return filtered;
   }
 };

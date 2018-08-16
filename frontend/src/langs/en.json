@@ -1,7 +1,14 @@
 {
   "common": {
     "btn": {
-      "loading": "Loading..."
+      "advanced_search": "Advanced Search",
+      "loading": "Loading...",
+      "search": "Search",
+      "reset": "Reset"
+    },
+    "label": {
+      "keyword": "Keyword",
+      "org": "Organization"
     },
     "menu": {
       "header": {
@@ -14,7 +21,8 @@
       },
       "nav": {
         "system": "Settings",
-        "menu": "Menus"
+        "menu": "Menus",
+        "user": "Users"
       }
     }
   },
@@ -49,6 +57,11 @@
       },
       "locked": "Your account is locked, please contract the administrator",
       "other": "Unknown error, please contract the administrator"
+    }
+  },
+  "system": {
+    "menu": {
+      "search_text_placeholder": "Name/Code"
     }
   }
 }
