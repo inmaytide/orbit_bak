@@ -1,32 +1,37 @@
 package com.inmaytide.orbit.commons.exception.handler;
 
 import com.inmaytide.orbit.commons.exception.PathNotFoundException;
-import com.inmaytide.orbit.commons.exception.auth.NotAuthenticatedException;
+import com.inmaytide.orbit.commons.exception.handler.parser.DefaultErrorParser;
+import com.inmaytide.orbit.commons.exception.handler.parser.ErrorParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
-import java.util.Objects;
 
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    private ErrorParser parser;
+
+    public GlobalExceptionHandler() {
+        this(new DefaultErrorParser());
+    }
+
+    public GlobalExceptionHandler(ErrorParser parser) {
+        this.parser = parser;
+    }
 
     @Override
     @NonNull
     public Mono<Void> handle(@NonNull ServerWebExchange exchange, @NonNull Throwable e) {
         String path = exchange.getRequest().getPath().pathWithinApplication().value();
         log.error("Handing error: {}, {}, {}", path, e.getClass().getSimpleName(), e.getMessage());
-        e.printStackTrace();
-        e = parse(e);
-        return Mono.just(e)
+        return Mono.just(parser.parse(e))
                 .transform(mono -> ThrowableTranslator.translate(mono, path))
                 .flatMap(translator -> translator.write(exchange.getResponse()));
     }
@@ -37,18 +42,6 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         return Mono.just(new PathNotFoundException())
                 .transform(mono -> ThrowableTranslator.translate(mono, request.path()))
                 .flatMap(ThrowableTranslator::getResponse);
-    }
-
-    private Throwable parse(Throwable e) {
-        if (e instanceof ResponseStatusException) {
-            ResponseStatusException ex = (ResponseStatusException) e;
-            if (ex.getStatus() == HttpStatus.NOT_FOUND) {
-                e = new PathNotFoundException();
-            }
-        } else if (Objects.equals(e.getClass().getName(), "org.springframework.security.authentication.AuthenticationCredentialsNotFoundException")) {
-            e = new NotAuthenticatedException();
-        }
-        return e;
     }
 
 }

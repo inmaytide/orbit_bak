@@ -3,6 +3,7 @@ package com.inmaytide.orbit.commons.database;
 import com.google.common.base.CaseFormat;
 import com.inmaytide.orbit.commons.database.annotation.Associate;
 import com.inmaytide.orbit.commons.database.annotation.Ignorable;
+import com.inmaytide.orbit.commons.database.annotation.OrderBy;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -90,8 +91,15 @@ public class ColumnMetadata {
         return String.format("%s = #{%s}", columnName, propertyName);
     }
 
+    public String getOrderColumn() {
+        if (!field.isAnnotationPresent(OrderBy.class)) {
+            throw new IllegalArgumentException(String.format("Only columns with the [%s] annotation added can be used as a sequence", OrderBy.class.getName()));
+        }
+        return String.format("%s %s", columnName, field.getAnnotation(OrderBy.class).category());
+    }
+
     public String whereEquals() {
-        if (this.isAssociate) {
+        if (isAssociate()) {
             throw new IllegalStateException("Associated column can not be condition for query");
         }
         return String.format("%s = #{%s}", columnName, propertyName);

@@ -15,7 +15,8 @@ public enum ResponseDefinition {
     OBJ_NOT_FOUND("obj_not_found", HttpStatus.NOT_FOUND),
     OBJ_INVALID("obj_invalid", HttpStatus.BAD_REQUEST),
     PATH_NOT_FOUND("path_not_found", HttpStatus.NOT_FOUND),
-    VERSION_MISMATCHED("version_mismatched", HttpStatus.CONFLICT);
+    VERSION_MISMATCHED("version_mismatched", HttpStatus.CONFLICT),
+    BAD_ARGUMENTS("bad_arguments", HttpStatus.BAD_REQUEST);
 
     private String code;
     private HttpStatus status;

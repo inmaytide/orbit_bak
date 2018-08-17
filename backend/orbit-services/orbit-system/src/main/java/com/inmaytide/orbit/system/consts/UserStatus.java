@@ -5,8 +5,9 @@ import java.util.Objects;
 
 public enum UserStatus {
     ENABLE(1),
-    DISABLED(2),
-    DELETED(3);
+    OUTWORK(2),
+    DISABLED(3),
+    VACATION(4);
 
     private Integer value;
 

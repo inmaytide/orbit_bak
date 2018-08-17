@@ -93,6 +93,9 @@ public class ResponseError implements Serializable {
                 ResponseException e = (ResponseException) throwable;
                 this.status = e.getHttpStatus().value();
                 this.code = e.getCode();
+            } else if (throwable instanceof IllegalArgumentException) {
+                this.status = ResponseDefinition.BAD_ARGUMENTS.getStatus().value();
+                this.code = ResponseDefinition.BAD_ARGUMENTS.getCode();
             }
             return this;
         }

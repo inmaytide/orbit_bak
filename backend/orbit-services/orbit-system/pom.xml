@@ -39,10 +39,6 @@
             <groupId>com.inmaytide.orbit.commons</groupId>
             <artifactId>orbit-commons-security</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.inmaytide.orbit.commons</groupId>
-            <artifactId>orbit-commons-exception</artifactId>
-        </dependency>
     </dependencies>
 
 

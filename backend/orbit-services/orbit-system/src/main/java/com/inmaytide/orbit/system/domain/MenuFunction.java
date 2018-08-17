@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.system.domain;
 
-
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 
 public class MenuFunction extends AbstractEntity {

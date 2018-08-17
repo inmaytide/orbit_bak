@@ -3,7 +3,7 @@ package com.inmaytide.orbit.commons.exception;
 import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
 import org.springframework.http.HttpStatus;
 
-public class ResponseException extends RuntimeException {
+public abstract class ResponseException extends RuntimeException {
 
     private static final long serialVersionUID = 5787716233351989628L;
 

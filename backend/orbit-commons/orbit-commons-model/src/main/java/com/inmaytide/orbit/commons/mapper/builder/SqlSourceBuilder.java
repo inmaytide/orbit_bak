@@ -2,11 +2,13 @@ package com.inmaytide.orbit.commons.mapper.builder;
 
 import com.inmaytide.orbit.commons.database.ColumnMetadata;
 import com.inmaytide.orbit.commons.database.TableMetadata;
+import com.inmaytide.orbit.commons.database.annotation.OrderBy;
 import com.inmaytide.orbit.commons.database.helper.MetadataHelper;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -65,9 +67,18 @@ public class SqlSourceBuilder {
 
     public String all(ProviderContext context) {
         TableMetadata metadata = MetadataHelper.getTableMetadata(context);
+
+        String[] orders = metadata.getColumns().stream().filter(column -> column.getField().isAnnotationPresent(OrderBy.class))
+                .map(ColumnMetadata::getOrderColumn)
+                .toArray(String[]::new);
+        if (orders.length == 0) {
+            orders = new String[] {ColumnMetadata.CREATE_TIME.getColumnName() + " desc"};
+        }
+
         return new SQL()
                 .SELECT(MetadataHelper.translateSelectColumns(metadata))
                 .FROM(metadata.getTableName())
+                .ORDER_BY(orders)
                 .toString();
     }
 
