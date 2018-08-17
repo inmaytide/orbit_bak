@@ -1,10 +1,9 @@
 package com.inmaytide.orbit.dictionary.handler;
 
 import com.inmaytide.orbit.commons.util.JsonUtils;
-import com.inmaytide.orbit.dictionary.dao.DataDictionaryRepository;
+import com.inmaytide.orbit.dictionary.dao.DataDictionaryMapper;
 import com.inmaytide.orbit.dictionary.domain.DataDictionary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -32,13 +31,11 @@ import static org.springframework.web.reactive.function.server.ServerResponse.*;
 @Component
 public class DataDictionaryHandler {
 
-    private static final Sort DEFAULT_SORT = new Sort(Sort.Direction.ASC, "sort");
-
     @Autowired
-    private DataDictionaryRepository repository;
+    private DataDictionaryMapper mapper;
 
     private List<DataDictionary> list(String category) {
-        return repository.findByCategory(category, DEFAULT_SORT);
+        return mapper.listByCategory(category);
     }
 
     @NonNull
@@ -55,7 +52,10 @@ public class DataDictionaryHandler {
         return request
                 .bodyToMono(DataDictionary.class)
                 .map(this::validate)
-                .map(repository::save)
+                .map(inst -> {
+                    mapper.save(inst);
+                    return mapper.get(inst.getId());
+                })
                 .map(Mono::just)
                 .flatMap(mono -> created(request.uri()).body(mono, DataDictionary.class));
     }

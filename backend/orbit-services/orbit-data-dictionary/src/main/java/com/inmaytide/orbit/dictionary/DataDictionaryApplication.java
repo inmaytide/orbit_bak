@@ -9,16 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -37,8 +32,6 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
  */
 @EnableWebFlux
 @EnableCaching
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
-@EnableJpaRepositories
 @EnableFeignClients
 @SpringBootApplication
 @EnableWebFluxSecurity
@@ -50,7 +43,6 @@ public class DataDictionaryApplication extends SecurityConfigurerAdapter {
 
     @Autowired
     public DataDictionaryApplication() {
-        super(exceptionHandler);
         this.exceptionHandler = new GlobalExceptionHandler();
     }
 
@@ -76,20 +68,9 @@ public class DataDictionaryApplication extends SecurityConfigurerAdapter {
     }
 
     @Override
-    public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
-        return http
-                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
-                .exceptionHandling()
-                .accessDeniedHandler(exceptionHandler::handle)
-                .authenticationEntryPoint(exceptionHandler::handle)
-                .and()
-                .addFilterAt(jwtFilter(exceptionHandler), SecurityWebFiltersOrder.AUTHENTICATION)
-                .csrf().disable()
-                .httpBasic().disable()
-                .authorizeExchange()
-                .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .pathMatchers(HttpMethod.POST, "/dictionaries").hasAuthority("dictionaries:add")
-                .anyExchange().authenticated()
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        return httpSecurityConfiguer(http)
+                .authorizeExchange().anyExchange().authenticated()
                 .and().build();
     }
 }
