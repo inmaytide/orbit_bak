@@ -1,8 +1,6 @@
 package com.inmaytide.orbit.commons.id;
 
 
-import java.io.Serializable;
-
 public class SnowflakeIdGenerator implements IdGenerator<Long> {
 
     private final SnowflakeIdWorker idWorker;

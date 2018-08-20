@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.system.service.impl;
 
+import com.inmaytide.orbit.commons.service.AbstractService;
 import com.inmaytide.orbit.system.domain.User;
 import com.inmaytide.orbit.system.mapper.UserMapper;
 import com.inmaytide.orbit.system.service.UserService;
@@ -10,23 +11,25 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractService<User> implements UserService {
 
     @Autowired
     private UserMapper mapper;
 
-    @Override
-    public Optional<User> get(Long id) {
-        return Optional.ofNullable(mapper.get(id));
-    }
 
     @Override
     public Optional<User> getByUsername(String username) {
-        return Optional.ofNullable(mapper.getByUsername(username));
+        return Optional.ofNullable(getMapper().getByUsername(username));
     }
 
     @Override
     public Set<String> listPermissions(String username) {
-        return mapper.listPermissions(username);
+        return getMapper().listPermissions(username);
     }
+
+    @Override
+    public UserMapper getMapper() {
+        return mapper;
+    }
+
 }

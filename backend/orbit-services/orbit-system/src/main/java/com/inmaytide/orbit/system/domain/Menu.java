@@ -22,7 +22,7 @@ public class Menu extends AbstractEntity {
     @Length(max = 64)
     private String name;
 
-    @Pattern(regexp = "POST|GET|PUT|PATCH|DELETE", message = "Unexpected method value")
+    @Pattern(regexp = "POST|GET|PUT|PATCH|DELETE", message = "Unexpected method target")
     private String method;
 
     @Length(max = 256)

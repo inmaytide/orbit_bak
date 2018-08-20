@@ -11,6 +11,7 @@ import com.inmaytide.orbit.commons.id.IdGenerator;
 import com.inmaytide.orbit.commons.id.SnowflakeIdGenerator;
 import com.inmaytide.orbit.commons.util.DateTimeUtils;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,12 @@ import java.time.LocalDateTime;
 @SpringBootApplication
 @MapperScan("com.inmaytide.orbit.system.mapper")
 public class SystemServiceLauncher {
+
+    @Value("${orbit.server.work-id:0}")
+    private Long workId;
+
+    @Value("${orbit.server.data-center-id:0}")
+    private Long dataCenterId;
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -43,7 +50,7 @@ public class SystemServiceLauncher {
 
     @Bean
     public IdGenerator idGenerator() {
-        return new SnowflakeIdGenerator(1, 1);
+        return new SnowflakeIdGenerator(workId, dataCenterId);
     }
 
     public static void main(String[] args) {

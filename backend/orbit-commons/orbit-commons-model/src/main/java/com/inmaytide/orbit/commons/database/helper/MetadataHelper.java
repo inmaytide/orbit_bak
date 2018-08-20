@@ -9,10 +9,10 @@ import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.springframework.core.ResolvableType;
 import org.springframework.util.Assert;
 
-import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.StringJoiner;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.inmaytide.orbit.commons.database.ColumnMetadata.GENERAL_COLUMNS;
@@ -26,14 +26,12 @@ public class MetadataHelper {
     }
 
     private static Class<?> getEntityClass(ProviderContext context) {
-        Type[] types = context.getMapperType().getGenericInterfaces();
-        for (Type parent : types) {
-            ResolvableType parentType = ResolvableType.forType(parent);
-            if (parentType.getRawClass() == BasicMapper.class) {
-                return parentType.getGeneric(0).getRawClass();
-            }
-        }
-        throw new IllegalArgumentException(String.format("The [%s] is not a implementation of [%s]", context.getMapperType().getName(), BasicMapper.class.getName()));
+        return Arrays.stream(context.getMapperType().getGenericInterfaces())
+                .map(ResolvableType::forType)
+                .filter(type -> type.getRawClass() == BasicMapper.class)
+                .map(type -> type.getGeneric(0).getRawClass())
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("The [%s] is not a implementation of [%s]", context.getMapperType().getName(), BasicMapper.class.getName())));
     }
 
     private static TableMetadata getTableMetadata(Class<?> cls) {
@@ -57,19 +55,15 @@ public class MetadataHelper {
 
 
     public static String translateSelectColumns(TableMetadata metadata) {
-        StringJoiner joiner = new StringJoiner(", ");
-        Stream.concat(metadata.getColumns().stream(), GENERAL_COLUMNS.stream())
+        return Stream.concat(metadata.getColumns().stream(), GENERAL_COLUMNS.stream())
                 .map(ColumnMetadata::getColumnName)
-                .forEach(joiner::add);
-        return joiner.toString();
+                .collect(Collectors.joining(","));
     }
 
     public static String translateColumns(Collection<ColumnMetadata> metadatas, Function<ColumnMetadata, String> translator) {
         Assert.notNull(translator, "Translator cannot be null");
         Assert.notEmpty(metadatas, "The columns to be translate cannot be empty");
-        StringJoiner joiner = new StringJoiner(",");
-        metadatas.stream().map(translator).forEach(joiner::add);
-        return joiner.toString();
+        return metadatas.stream().map(translator).collect(Collectors.joining(","));
     }
 
 }

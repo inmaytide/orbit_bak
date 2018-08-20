@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.system.service.impl;
 
-import com.inmaytide.orbit.commons.id.IdGenerator;
 import com.inmaytide.orbit.commons.mapper.BasicMapper;
+import com.inmaytide.orbit.commons.service.AbstractService;
 import com.inmaytide.orbit.system.domain.Menu;
 import com.inmaytide.orbit.system.mapper.MenuMapper;
 import com.inmaytide.orbit.system.service.MenuService;
@@ -18,13 +18,10 @@ import java.util.Objects;
  * @since August 04, 2018
  */
 @Service
-public class MenuServiceImpl implements MenuService {
+public class MenuServiceImpl extends AbstractService<Menu> implements MenuService {
 
     @Autowired
     private MenuMapper mapper;
-
-    @Autowired
-    private IdGenerator<Long> generator;
 
     @Override
     public List<Menu> listByUsername(String username) {
@@ -42,10 +39,5 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public BasicMapper<Menu> getMapper() {
         return mapper;
-    }
-
-    @Override
-    public IdGenerator<Long> getIdGenerator() {
-        return generator;
     }
 }

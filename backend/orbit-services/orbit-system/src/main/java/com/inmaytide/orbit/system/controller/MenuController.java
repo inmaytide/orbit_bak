@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 /**
  * @author Moss
  * @since August 04, 2018
@@ -38,8 +40,8 @@ public class MenuController {
     }
 
     @GetMapping("/exist")
-    public Mono<Boolean> exist(String code, Long ignore) {
-        return Mono.just(service.exist(code, ignore));
+    public Mono<Map<String, Boolean>> exist(String code, Long ignore) {
+        return Mono.just(Map.of("isValid", service.exist(code, ignore)));
     }
 
     @DeleteMapping("/{id}")
@@ -51,26 +53,24 @@ public class MenuController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Menu> insert(@RequestBody @Validated Mono<Menu> menu) {
-        return menu.map(inst -> {
-            Assert.isTrue(!service.exist(inst.getCode(), -1L), "Code is existed");
-            return service.save(inst);
-        });
+        return menu.doOnSuccess(this::assertCodeNotExist).map(service::save);
     }
 
     @PutMapping
-    public Mono<Menu> update(@RequestBody Mono<Menu> menu) {
-        return menu.map(inst -> {
-            Assert.isTrue(!service.exist(inst.getCode(), inst.getId()), "Code is existed");
-            return service.update(inst);
-        });
+    public Mono<Menu> update(@RequestBody @Validated Mono<Menu> menu) {
+        return menu.doOnSuccess(this::assertCodeNotExist).map(service::update);
     }
 
     @PatchMapping
     public Mono<Menu> updateSelective(@RequestBody Mono<Menu> menu) {
-        return menu.map(inst -> {
-            Assert.isTrue(!service.exist(inst.getCode(), inst.getId()), "Code is existed");
-            return service.updateSelective(inst);
-        });
+        return menu.doOnSuccess(this::assertCodeNotExist).map(service::updateSelective);
+    }
+
+
+    private void assertCodeNotExist(Menu menu) {
+        if (menu.getCode() != null) {
+            Assert.isTrue(!service.exist(menu.getCode(), menu.getId() == null ? -1L : menu.getId()), "Code is existed");
+        }
     }
 
 }

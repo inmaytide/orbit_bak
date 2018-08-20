@@ -16,7 +16,7 @@ public interface MenuService extends BasicService<Menu> {
     /**
      * Determine if a code is already present
      * @param code
-     * @param ignore  ignored the menu if it's id equal
+     * @param ignore  Ignored the menu if it's id equal
      * @return
      */
     boolean exist(String code, Long ignore);

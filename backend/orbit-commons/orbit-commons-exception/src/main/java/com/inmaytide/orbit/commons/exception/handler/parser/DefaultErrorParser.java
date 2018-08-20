@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.commons.exception.handler.parser;
 
 import com.inmaytide.orbit.commons.exception.PathNotFoundException;
+import com.inmaytide.orbit.commons.exception.ResponseException;
 import com.inmaytide.orbit.commons.exception.auth.NotAuthenticatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,10 @@ public class DefaultErrorParser implements ErrorParser {
 
     @Override
     public Throwable parse(Throwable e) {
+        if (e instanceof ResponseException) {
+            return e;
+        }
+
         if (MAPPERS.containsKey(e.getClass().getName())) {
             return mapped(e);
         }
@@ -42,6 +47,8 @@ public class DefaultErrorParser implements ErrorParser {
                 return new PathNotFoundException();
             }
         }
+
+        logger.error("unexpected error......", e);
         return e;
     }
 

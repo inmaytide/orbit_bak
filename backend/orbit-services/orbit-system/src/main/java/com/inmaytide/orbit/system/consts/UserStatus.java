@@ -19,7 +19,7 @@ public enum UserStatus {
     public static UserStatus of(final Integer value) {
         return Arrays.stream(values())
                 .filter(status -> Objects.equals(status.value, value))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unkown value for \"User Status\""));
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unkown target for \"User Status\""));
     }
 
     public Integer getValue() {

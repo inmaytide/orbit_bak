@@ -4,7 +4,6 @@ import com.inmaytide.orbit.commons.database.annotation.Table;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import com.inmaytide.orbit.system.consts.UserStatus;
 
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Table("sys_user")

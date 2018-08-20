@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.commons.database;
 
 import com.google.common.base.CaseFormat;
-import com.inmaytide.orbit.commons.database.annotation.Associate;
-import com.inmaytide.orbit.commons.database.annotation.Ignorable;
+import com.inmaytide.orbit.commons.database.annotation.Associated;
+import com.inmaytide.orbit.commons.database.annotation.Ignored;
 import com.inmaytide.orbit.commons.database.annotation.OrderBy;
 import org.springframework.util.ReflectionUtils;
 
@@ -48,12 +48,12 @@ public class ColumnMetadata {
         column.field = field;
         column.propertyName = field.getName();
         column.columnName = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, column.getPropertyName());
-        if (field.isAnnotationPresent(Associate.class)) {
-            Associate associate = field.getAnnotation(Associate.class);
+        if (field.isAnnotationPresent(Associated.class)) {
+            Associated associated = field.getAnnotation(Associated.class);
             column.columnName = String.format("(select %s from %s where id = %s) as %s",
-                    associate.value(),
-                    associate.table(),
-                    associate.associate(),
+                    associated.target(),
+                    associated.table(),
+                    associated.source(),
                     column.columnName);
             column.isAssociate = true;
         }
@@ -62,7 +62,7 @@ public class ColumnMetadata {
 
     static Set<ColumnMetadata> fetchColumns(Class<?> entityClass) {
         return Arrays.stream(entityClass.getDeclaredFields())
-                .filter(f -> !Modifier.isStatic(f.getModifiers()) && !f.isAnnotationPresent(Ignorable.class))
+                .filter(f -> !Modifier.isStatic(f.getModifiers()) && !f.isAnnotationPresent(Ignored.class))
                 .map(ColumnMetadata::forProperty)
                 .collect(Collectors.toSet());
     }
