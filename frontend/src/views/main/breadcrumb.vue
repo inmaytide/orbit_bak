@@ -7,15 +7,8 @@
 <script>
 export default {
   name: 'commons-breadcrumb',
-  watch: {
-    '$route' (to) {
-      this.breadcrumbs = to.meta.breadcrumbs;
-    }
-  },
-  data () {
-    return {
-      breadcrumbs: [{text: 'common.menu.header.home', path: '/'}]
-    };
+  props: {
+    breadcrumbs: Array
   }
 };
 </script>

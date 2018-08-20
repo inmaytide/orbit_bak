@@ -11,6 +11,7 @@ const routers = [
       component: (resolve) => require(['../views/home/home'], resolve),
       meta: {
         authenticated: true,
+        active: 'home',
         breadcrumbs: [{text: 'common.menu.header.home', path: '/'}]
       }
     }, {
@@ -18,6 +19,7 @@ const routers = [
       component: (resolve) => require(['../views/home/home'], resolve),
       meta: {
         authenticated: true,
+        active: 'home',
         breadcrumbs: [{text: 'common.menu.header.home', path: '/'}]
       }
     }, {
@@ -25,6 +27,7 @@ const routers = [
       component: (resolve) => require(['../views/home/home'], resolve),
       meta: {
         authenticated: true,
+        active: 'tasks',
         breadcrumbs: [
           {text: 'common.menu.header.home', path: '/'},
           {text: 'common.menu.header.tasks', path: '/home/tasks'}
@@ -35,6 +38,7 @@ const routers = [
       component: (resolve) => require(['../views/home/home'], resolve),
       meta: {
         authenticated: true,
+        active: 'favorites',
         breadcrumbs: [
           {text: 'common.menu.header.home', path: '/'},
           {text: 'common.menu.header.favorites', path: '/home/favorites'}

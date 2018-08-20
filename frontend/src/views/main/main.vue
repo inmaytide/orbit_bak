@@ -1,11 +1,13 @@
 <template>
   <Layout>
     <Sider :width="'180'">
-      <commons-menu />
+      <commons-menu :active="active"/>
     </Sider>
     <Layout>
-      <Header style="padding-right: 0!important; height: 100px;"><commons-header /></Header>
-      <Content>
+      <Header style="padding-right: 0!important; height: 100px;">
+        <commons-header :active="active" :breadcrumbs="breadcrumbs" />
+      </Header>
+      <Content style="height: calc(100% - 100px);">
         <router-view></router-view>
       </Content>
     </Layout>
@@ -25,6 +27,18 @@ export default {
   components: {
     commonsMenu,
     commonsHeader
+  },
+  data () {
+    return {
+      active: this.$route.meta.active,
+      breadcrumbs: this.$route.meta.breadcrumbs
+    };
+  },
+  watch: {
+    '$route' () {
+      this.breadcrumbs = this.$route.meta.breadcrumbs;
+      this.active = this.$route.meta.active;
+    }
   }
 };
 </script>

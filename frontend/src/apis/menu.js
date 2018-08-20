@@ -1,3 +1,4 @@
 export default {
-  mineMenus: '/sys/menus/u/{username}'
+  mineMenus: '/sys/menus/u/{username}',
+  list: '/sys/menus'
 };

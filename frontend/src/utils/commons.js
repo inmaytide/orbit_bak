@@ -36,7 +36,9 @@ export default {
   },
   transform (data, parent = '0') {
     const filtered = data.filter(element => element.parent === parent);
-    filtered.forEach(element => (element.children = this.transform(data, element.id)));
+    filtered.forEach(element => {
+      element.children = this.transform(data, element.id);
+    });
     return filtered;
   }
 };

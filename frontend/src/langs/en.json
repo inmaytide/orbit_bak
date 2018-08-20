@@ -1,5 +1,8 @@
 {
   "common": {
+    "title": {
+      "info": "Information"
+    },
     "btn": {
       "advanced_search": "Advanced Search",
       "loading": "Loading...",
@@ -61,6 +64,16 @@
   },
   "system": {
     "menu": {
+      "block": {
+        "title": {
+          "func": "Functions"
+        }
+      },
+      "properties": {
+        "name": "Name",
+        "code": "Code",
+        "parent": "Parent"
+      },
       "search_text_placeholder": "Name/Code"
     }
   }

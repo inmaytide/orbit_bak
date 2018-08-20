@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header-nav">
-      <Menu mode="horizontal" :active-name="actvieMenu">
+      <Menu mode="horizontal" :active-name="active">
         <MenuItem name="home" to="/home">
           {{$t('common.menu.header.home')}}
         </MenuItem>
@@ -17,7 +17,7 @@
         <commons-dropdown-operation />
       </div>
     </div>
-    <commons-breadcrumb />
+    <commons-breadcrumb :breadcrumbs="breadcrumbs"/>
   </div>
 </template>
 <script>
@@ -32,19 +32,9 @@ export default {
     commonsDropdownMessage,
     commonsDropdownOperation
   },
-  data () {
-    return {
-      actvieMenu: 'home'
-    };
-  },
-  watch: {
-    '$route' (to) {
-      if (to.path === '/') {
-        this.actvieMenu = 'home';
-      } else {
-        this.actvieMenu = to.path.substring(to.path.lastIndexOf('/') + 1);
-      }
-    }
+  props: {
+    active: String,
+    breadcrumbs: Array
   }
 };
 </script>

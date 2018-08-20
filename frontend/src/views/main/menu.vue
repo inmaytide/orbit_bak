@@ -7,7 +7,7 @@
       <ul>
         <li v-for="menu in menus"
             v-bind:key="menu.id"
-            v-bind:class="{active: active === menu.id}"
+            v-bind:class="{active: active === menu.code}"
             @mouseover="menuMouseover" @mouseout="menuMouseout">
           <Icon :type="menu.icon" size="22" style="padding-right: 10px;"/>
           <a :href="menu.url">{{displayName(menu)}}</a>
@@ -34,10 +34,12 @@ export default {
       this.menus = this.$commons.transform(res);
     });
   },
+  props: {
+    active: String
+  },
   data () {
     return {
-      menus: [],
-      active: ''
+      menus: []
     };
   },
   methods: {
@@ -64,7 +66,6 @@ export default {
       childMenu.style.display = 'none';
     },
     to (menu) {
-      this.active = menu.parent === '0' ? menu.id : menu.parent;
       this.$router.push(menu.url);
     }
   }
