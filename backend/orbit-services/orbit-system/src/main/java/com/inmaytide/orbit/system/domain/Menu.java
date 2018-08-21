@@ -22,9 +22,6 @@ public class Menu extends AbstractEntity {
     @Length(max = 64)
     private String name;
 
-    @Pattern(regexp = "POST|GET|PUT|PATCH|DELETE", message = "Unexpected method target")
-    private String method;
-
     @Length(max = 256)
     private String url;
 
@@ -52,14 +49,6 @@ public class Menu extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
     }
 
     public String getUrl() {
