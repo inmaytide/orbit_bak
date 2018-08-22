@@ -34,7 +34,8 @@
     "bad_credentials": "Your username and password don't match",
     "bad_captcha": "Incorrect captcha",
     "expired_token": "Your token has expired, please sign in again",
-    "unexpected": "Unknown error has happened, please contact the administrator or try again later"
+    "unexpected": "Unknown error has happened, please contact the administrator or try again later",
+    "field_not_empty": "The field cannot not be empty"
   },
   "login": {
     "btn": {
@@ -53,13 +54,7 @@
       },
       "len": {
         "password": "The password length cannot be less than 6 bits"
-      },
-      "wrong": {
-        "captcha": "Unexpected captcha",
-        "user": "Your username and password don't match"
-      },
-      "locked": "Your account is locked, please contract the administrator",
-      "other": "Unknown error, please contract the administrator"
+      }
     }
   },
   "system": {
@@ -72,9 +67,15 @@
       "properties": {
         "name": "Name",
         "code": "Code",
-        "parent": "Parent"
+        "parent": "Parent",
+        "sort": "Sort",
+        "icon": "Icon",
+        "url": "URL",
+        "description": "Desc"
       },
-      "search_text_placeholder": "Name/Code"
+      "errors": {
+        "code_not_repeat": "The code is existed"
+      }
     }
   }
 }

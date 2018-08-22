@@ -41,7 +41,7 @@ public class MenuController {
 
     @GetMapping("/exist")
     public Mono<Map<String, Boolean>> exist(String code, Long ignore) {
-        return Mono.just(Map.of("isValid", service.exist(code, ignore)));
+        return Mono.just(Map.of("exist", service.exist(code, ignore)));
     }
 
     @DeleteMapping("/{id}")

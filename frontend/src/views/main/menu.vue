@@ -9,7 +9,7 @@
             v-bind:key="menu.id"
             v-bind:class="{active: active === menu.code}"
             @mouseover="menuMouseover" @mouseout="menuMouseout">
-          <Icon :type="menu.icon" size="22" style="padding-right: 10px;"/>
+          <Icon :type="menu.icon" size="22" style="padding-right: 10px; margin-top: -5px;"/>
           <a :href="menu.url">{{displayName(menu)}}</a>
           <Icon v-if="menu.children.length > 0" type="ios-arrow-forward" class="menu-arrow-right" size="16"/>
           <div class="menu-child" v-if="menu.children.length > 0">

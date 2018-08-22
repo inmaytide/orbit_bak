@@ -9,6 +9,7 @@ import routers from './routers/main';
 import request from './utils/request';
 import commons from './utils/commons';
 import i18n from './utils/i18n';
+import store from './stores';
 import 'iview/dist/styles/iview.css';
 
 Vue.config.productionTip = false;
@@ -45,5 +46,6 @@ new Vue({
   el: '#app',
   router,
   i18n,
+  store,
   render: h => h(App)
 });
