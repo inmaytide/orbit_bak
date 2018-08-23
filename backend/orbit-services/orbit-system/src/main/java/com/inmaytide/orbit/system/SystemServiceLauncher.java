@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.system;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -38,6 +39,7 @@ public class SystemServiceLauncher {
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeUtils.FORMATTER_DEFAULT_DATETIME));
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.registerModule(module);
         return mapper;
     }

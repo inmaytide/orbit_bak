@@ -1,10 +1,11 @@
 import VueI18n from 'vue-i18n';
 import Vue from 'vue';
+import en from '../langs/en/';
 
 Vue.use(VueI18n);
 
 const locales = {
-  'en': require('../langs/en.json'),
+  'en': en,
   'zh': require('../langs/zh.json')
 };
 

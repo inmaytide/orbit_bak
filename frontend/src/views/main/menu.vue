@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <div class="menu-log">
-      Orbit
+      <Icon type="ios-ionitron-outline" size="50" style="color: #A6C2DE;"/>
+      <div style="position: absolute; top: 25px; left:75px; font-weight: bold; ">rbit</div>
     </div>
     <div class="menus">
       <ul>
@@ -44,11 +45,7 @@ export default {
   },
   methods: {
     displayName (menu) {
-      let name = this.$i18n.t('common.menu.nav.' + menu.code);
-      if (name === '' || name === menu.code) {
-        name = menu.name;
-      }
-      return name;
+      return api.displayName(menu, this.$i18n);
     },
     menuMouseover (e) {
       const menu = e.currentTarget;
@@ -84,13 +81,14 @@ export default {
   }
 
   .menu-log {
+    position: relative;
     font-family: Papyrus, Verdana, "Lucida Grande", Arial, sans-serif;
     font-size: 26px;
     text-align: left;
     color: white;
-    font-weight: bold;
     letter-spacing: 1px;
-    padding: 20px 0 10px 30px;
+    padding-left: 25px;
+    padding-top: 8px;
     user-select: none;
     height: 70px;
   }

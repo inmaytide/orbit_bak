@@ -7,7 +7,10 @@
       "advanced_search": "高级搜索",
       "loading": "加载中...",
       "search": "查询",
-      "reset": "重置"
+      "reset": "重置",
+      "remove": "删除",
+      "new": "新建",
+      "edit": "编辑"
     },
     "label": {
       "keyword": "关键字",
@@ -63,6 +66,10 @@
         "title": {
           "func": "相关功能"
         }
+      },
+      "btn": {
+        "root": "Root",
+        "child": "Child"
       },
       "properties": {
         "name": "菜单名称",

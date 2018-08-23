@@ -1,13 +1,24 @@
 {
   "common": {
     "title": {
-      "info": "Information"
+      "info": "Information",
+      "prompt": "System Prompt"
+    },
+    "message": {
+      "delete": "Are you sure you want to delete this item?",
+      "delete_success": "Delete successfully",
+      "confirm_cancel": "Confirm cancel?"
     },
     "btn": {
       "advanced_search": "Advanced Search",
       "loading": "Loading...",
       "search": "Search",
-      "reset": "Reset"
+      "reset": "Reset",
+      "remove": "Remove",
+      "new": "New",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel"
     },
     "label": {
       "keyword": "Keyword",
@@ -23,19 +34,12 @@
         "sign_out": "Sign Out"
       },
       "nav": {
+        "root": "Root",
         "system": "Settings",
         "menu": "Menus",
         "user": "Users"
       }
     }
-  },
-  "errors": {
-    "unexpected_username": "Your username and password don't match",
-    "bad_credentials": "Your username and password don't match",
-    "bad_captcha": "Incorrect captcha",
-    "expired_token": "Your token has expired, please sign in again",
-    "unexpected": "Unknown error has happened, please contact the administrator or try again later",
-    "field_not_empty": "The field cannot not be empty"
   },
   "login": {
     "btn": {
@@ -54,27 +58,6 @@
       },
       "len": {
         "password": "The password length cannot be less than 6 bits"
-      }
-    }
-  },
-  "system": {
-    "menu": {
-      "block": {
-        "title": {
-          "func": "Functions"
-        }
-      },
-      "properties": {
-        "name": "Name",
-        "code": "Code",
-        "parent": "Parent",
-        "sort": "Sort",
-        "icon": "Icon",
-        "url": "URL",
-        "description": "Desc"
-      },
-      "errors": {
-        "code_not_repeat": "The code is existed"
       }
     }
   }
