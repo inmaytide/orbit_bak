@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.commons.exception;
 
-import static com.inmaytide.orbit.commons.exception.consts.ResponseDefinition.OBJ_INVALID;
+import static com.inmaytide.orbit.commons.exception.consts.ThrowableDefinition.OBJ_INVALID;
 
 public class ObjectInvalidException extends ResponseException {
 

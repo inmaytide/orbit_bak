@@ -1,8 +1,8 @@
 package com.inmaytide.orbit.commons.exception.handler;
 
 import com.inmaytide.orbit.commons.exception.PathNotFoundException;
-import com.inmaytide.orbit.commons.exception.handler.parser.DefaultErrorParser;
-import com.inmaytide.orbit.commons.exception.handler.parser.ErrorParser;
+import com.inmaytide.orbit.commons.exception.handler.parser.DefaultThrowableParser;
+import com.inmaytide.orbit.commons.exception.handler.parser.ThrowableParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -16,13 +16,13 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    private ErrorParser parser;
+    private ThrowableParser parser;
 
     public GlobalExceptionHandler() {
-        this(new DefaultErrorParser());
+        this(new DefaultThrowableParser());
     }
 
-    public GlobalExceptionHandler(ErrorParser parser) {
+    public GlobalExceptionHandler(ThrowableParser parser) {
         this.parser = parser;
     }
 

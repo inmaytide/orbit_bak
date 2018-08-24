@@ -1,7 +1,7 @@
 <template>
   <div class="node" @mouseover="showActions=true" @mouseout="showActions=false">
     <span @click="nodeClick" :class="{'node-selected': selected, 'node-title': true}">{{name}}</span>
-    <div class="node-actions">
+    <div class="node-actions" v-if="showActions && status === $store.state.enums.FORM_STATUS_CHECK">
       <Poptip
         confirm
         class="node-action"
@@ -31,7 +31,8 @@ export default {
   props: {
     name: String,
     menu: Object,
-    selected: Boolean
+    selected: Boolean,
+    status: String
   },
   data () {
     return {
@@ -40,6 +41,9 @@ export default {
   },
   methods: {
     nodeClick () {
+      if (this.status !== this.$store.state.enums.FORM_STATUS_CHECK) {
+        return;
+      }
       this.$emit('nodeClick', this.menu);
     },
     remove () {
@@ -59,33 +63,36 @@ export default {
 </script>
 <style scoped>
   .node {
-    display: inline-block;
+    display: inline-flex;
     width: 95%;
     cursor: pointer;
-    padding: 0 5px 3px 0px;
+    padding: 0 5px 0 0;
     position: relative;
-  }
-
-  .node:hover {
-    background-color: #fcfcfc;
+    justify-content: space-between;
   }
 
   .node-selected {
-    background-color: #d5e8fc;
+    background-color: #f8f8f9;
   }
 
   .node-title {
     font-size: 13px;
     padding: 0 5px 3px 5px;
     color: #515a6e;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    float: left;
+    user-select: none;
   }
 
   .node-actions {
     position: absolute;
     top: 2px;
-    right: 0;
+    right: 10px;
     z-index: 9999;
-    background-color: rgba(255, 255, 255, .8);
+    background-color: #FFFFFF;
     padding-right: 5px;
   }
 

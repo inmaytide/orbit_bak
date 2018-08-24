@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.commons.exception;
 
-import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
+import com.inmaytide.orbit.commons.exception.consts.ThrowableDefinition;
 
 /**
  * The version property does not match while the data is going to modify or remove.
@@ -13,6 +13,6 @@ public class VersionMismatchedException extends ResponseException {
     private static final long serialVersionUID = -22605139663792344L;
 
     public VersionMismatchedException() {
-        super(ResponseDefinition.VERSION_MISMATCHED);
+        super(ThrowableDefinition.VERSION_MISMATCHED);
     }
 }

@@ -2,7 +2,7 @@ package com.inmaytide.orbit.commons.exception.consts;
 
 import org.springframework.http.HttpStatus;
 
-public enum ResponseDefinition {
+public enum ThrowableDefinition {
 
     UNEXPECTED("unexpected", HttpStatus.INTERNAL_SERVER_ERROR),
     BAD_CREDENTIALS("bad_credentials", HttpStatus.UNAUTHORIZED),
@@ -21,7 +21,7 @@ public enum ResponseDefinition {
     private String code;
     private HttpStatus status;
 
-    ResponseDefinition(String code, HttpStatus status) {
+    ThrowableDefinition(String code, HttpStatus status) {
         this.code = code;
         this.status = status;
     }

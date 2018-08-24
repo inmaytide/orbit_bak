@@ -16,10 +16,10 @@ import static org.springframework.web.reactive.function.server.ServerResponse.st
  */
 class ThrowableTranslator {
 
-    private final ResponseError body;
+    private final ThrowableBody body;
 
     private ThrowableTranslator(Throwable throwable, String path) {
-        body = ResponseError.withThrowable(throwable).path(path).build();
+        body = ThrowableBody.builder().throwable(throwable).path(path).build();
     }
 
     static <T extends Throwable> Mono<ThrowableTranslator> translate(final Mono<T> throwable, String path) {
@@ -35,14 +35,14 @@ class ThrowableTranslator {
     }
 
     Mono<ServerResponse> getResponse() {
-        return status(getHttpStatus()).contentType(MediaType.APPLICATION_JSON).body(Mono.just(getBody()), ResponseError.class);
+        return status(getHttpStatus()).contentType(MediaType.APPLICATION_JSON).body(Mono.just(getBody()), ThrowableBody.class);
     }
 
     private HttpStatus getHttpStatus() {
         return HttpStatus.valueOf(body.getStatus());
     }
 
-    private ResponseError getBody() {
+    private ThrowableBody getBody() {
         return body;
     }
 

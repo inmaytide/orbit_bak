@@ -41,7 +41,7 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(
-  response => response.status === 200 ? response.data : response,
+  response => response.data,
   error => {
     const res = error.response ? error.response.data : {};
     let name = 'unexpected';

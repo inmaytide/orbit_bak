@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.system.domain;
 
 
+import com.inmaytide.orbit.commons.database.annotation.OrderBy;
 import com.inmaytide.orbit.commons.database.annotation.Table;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
@@ -30,6 +31,7 @@ public class Menu extends AbstractEntity {
 
     private Long parent;
 
+    @OrderBy
     private Integer seqOrder;
 
     @Length(max = 64)

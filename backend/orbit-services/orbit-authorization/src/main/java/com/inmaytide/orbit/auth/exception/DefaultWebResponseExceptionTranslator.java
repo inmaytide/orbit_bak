@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.auth.exception;
 
 import com.inmaytide.orbit.commons.exception.ResponseException;
-import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
+import com.inmaytide.orbit.commons.exception.consts.ThrowableDefinition;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
@@ -23,8 +23,8 @@ public class DefaultWebResponseExceptionTranslator extends org.springframework.s
             return new ResponseEntity<>(exception, cause.getHttpStatus());
         }
         if (e instanceof InvalidGrantException && "Bad credentials".equals(e.getMessage())) {
-            OAuth2Exception exception = new OAuth2Exception(ResponseDefinition.BAD_CREDENTIALS.getCode(), e);
-            return new ResponseEntity<>(exception, ResponseDefinition.BAD_CREDENTIALS.getStatus());
+            OAuth2Exception exception = new OAuth2Exception(ThrowableDefinition.BAD_CREDENTIALS.getCode(), e);
+            return new ResponseEntity<>(exception, ThrowableDefinition.BAD_CREDENTIALS.getStatus());
         }
 
         return super.translate(e);

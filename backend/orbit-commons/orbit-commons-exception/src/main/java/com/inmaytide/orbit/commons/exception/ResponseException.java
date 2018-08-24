@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.commons.exception;
 
-import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
+import com.inmaytide.orbit.commons.exception.consts.ThrowableDefinition;
 import org.springframework.http.HttpStatus;
 
 public abstract class ResponseException extends RuntimeException {
@@ -10,7 +10,7 @@ public abstract class ResponseException extends RuntimeException {
     private final String code;
     private final HttpStatus httpStatus;
 
-    public ResponseException(ResponseDefinition definition) {
+    public ResponseException(ThrowableDefinition definition) {
         this.code = definition.getCode();
         this.httpStatus = definition.getStatus();
     }

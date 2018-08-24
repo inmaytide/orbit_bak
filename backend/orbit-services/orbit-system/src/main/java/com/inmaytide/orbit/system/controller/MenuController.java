@@ -46,13 +46,13 @@ public class MenuController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remove(@PathVariable Long id) {
-        service.remove(id);
+    public void remove(@PathVariable Mono<Long> id) {
+        id.subscribe(service::remove);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Menu> insert(@RequestBody @Validated Mono<Menu> menu) {
+    public Mono<Menu> create(@RequestBody @Validated Mono<Menu> menu) {
         return menu.doOnSuccess(this::assertCodeNotExist).map(service::save);
     }
 

@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DefaultErrorParser implements ErrorParser {
+public class DefaultThrowableParser implements ThrowableParser {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultErrorParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultThrowableParser.class);
     private static final Map<String, Class<? extends Throwable>> MAPPERS = Map.of(
             "org.springframework.security.authentication.AuthenticationCredentialsNotFoundException",
             NotAuthenticatedException.class

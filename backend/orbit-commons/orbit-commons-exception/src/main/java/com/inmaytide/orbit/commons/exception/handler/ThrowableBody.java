@@ -1,13 +1,13 @@
 package com.inmaytide.orbit.commons.exception.handler;
 
 import com.inmaytide.orbit.commons.exception.ResponseException;
-import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
+import com.inmaytide.orbit.commons.exception.consts.ThrowableDefinition;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.time.Instant;
 
-public class ResponseError implements Serializable {
+public class ThrowableBody implements Serializable {
 
     private static final long serialVersionUID = 4807240539075912410L;
 
@@ -21,16 +21,12 @@ public class ResponseError implements Serializable {
 
     private String message;
 
-    private ResponseError() {
+    private ThrowableBody() {
         this.timestamp = Instant.now().getEpochSecond();
     }
 
-    public static ResponseErrorBuilder getBuilder() {
-        return new ResponseErrorBuilder();
-    }
-
-    public static ResponseErrorBuilder withThrowable(Throwable throwable) {
-        return getBuilder().throwable(throwable);
+    public static Builder builder() {
+        return new Builder();
     }
 
     public Long getTimestamp() {
@@ -69,24 +65,24 @@ public class ResponseError implements Serializable {
         this.message = message;
     }
 
-    public static class ResponseErrorBuilder {
+    public static class Builder {
 
         private String path;
         private Integer status;
         private String code;
         private String message;
 
-        private ResponseErrorBuilder() {
-            status = ResponseDefinition.UNEXPECTED.getStatus().value();
-            code = ResponseDefinition.UNEXPECTED.getCode();
+        private Builder() {
+            status = ThrowableDefinition.UNEXPECTED.getStatus().value();
+            code = ThrowableDefinition.UNEXPECTED.getCode();
         }
 
-        public ResponseErrorBuilder path(String path) {
+        public Builder path(String path) {
             this.path = path;
             return this;
         }
 
-        public ResponseErrorBuilder throwable(Throwable throwable) {
+        public Builder throwable(Throwable throwable) {
             Assert.notNull(throwable, "The throwable must not be null");
             this.message = throwable.getMessage();
             if (throwable instanceof ResponseException) {
@@ -94,14 +90,14 @@ public class ResponseError implements Serializable {
                 this.status = e.getHttpStatus().value();
                 this.code = e.getCode();
             } else if (throwable instanceof IllegalArgumentException) {
-                this.status = ResponseDefinition.BAD_ARGUMENTS.getStatus().value();
-                this.code = ResponseDefinition.BAD_ARGUMENTS.getCode();
+                this.status = ThrowableDefinition.BAD_ARGUMENTS.getStatus().value();
+                this.code = ThrowableDefinition.BAD_ARGUMENTS.getCode();
             }
             return this;
         }
 
-        public ResponseError build() {
-            ResponseError inst = new ResponseError();
+        public ThrowableBody build() {
+            ThrowableBody inst = new ThrowableBody();
             inst.setMessage(message);
             inst.setStatus(status);
             inst.setCode(code);

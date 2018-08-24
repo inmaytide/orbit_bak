@@ -90,7 +90,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         return (
           module.resource &&
           /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
+          module.resource.findIndex(
             path.join(__dirname, '../node_modules')
           ) === 0
         )

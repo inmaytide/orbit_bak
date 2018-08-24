@@ -40,5 +40,14 @@ export default {
       element.children = this.transform(data, element.id);
     });
     return filtered;
+  },
+  isEmptyArray (value) {
+    return typeof value === 'undefined' || value == null || value.length === 0;
+  },
+  isBlank (value) {
+    return typeof value === 'undefined' || value == null || value.trim() === '';
+  },
+  isNull (value) {
+    return typeof value === 'undefined' || value == null || JSON.stringify(value) === '{}';
   }
 };

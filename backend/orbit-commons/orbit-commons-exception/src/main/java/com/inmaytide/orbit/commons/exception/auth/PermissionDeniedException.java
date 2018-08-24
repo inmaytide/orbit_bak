@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.commons.exception.auth;
 
 import com.inmaytide.orbit.commons.exception.ResponseException;
-import com.inmaytide.orbit.commons.exception.consts.ResponseDefinition;
+import com.inmaytide.orbit.commons.exception.consts.ThrowableDefinition;
 
 /**
  * @author Moss
@@ -11,6 +11,6 @@ public class PermissionDeniedException extends ResponseException {
     private static final long serialVersionUID = 6758390661200583145L;
 
     public PermissionDeniedException() {
-        super(ResponseDefinition.PERMISSION_DENIED);
+        super(ThrowableDefinition.PERMISSION_DENIED);
     }
 }

@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import api from '../../apis/menu';
+import api from '../../apis/modules/system/menu';
 
 export default {
   name: 'commons-menu',
