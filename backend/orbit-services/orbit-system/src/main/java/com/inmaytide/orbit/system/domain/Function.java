@@ -24,9 +24,6 @@ public class Function extends AbstractEntity {
     @Length(max = 64)
     private String name;
 
-    @Length(max = 256)
-    private String description;
-
     @OrderBy
     private Integer seqOrder;
 
@@ -52,14 +49,6 @@ public class Function extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Integer getSeqOrder() {

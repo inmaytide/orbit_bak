@@ -79,6 +79,12 @@ create table public.sys_menu_func (
   version int not null default 0
 );
 
+insert into sys_menu_func(id, menu_id, code, name, seq_order, create_time, creator)
+  values(323441402547015693, 323441402547015681, 'menu:add', 'New', 1, now(), 423441402547015680);
+insert into sys_menu_func(id, menu_id, code, name, seq_order, create_time, creator)
+  values(323441402547015694, 323441402547015681, 'menu:remove', 'Remove', 1, now(), 423441402547015680);
+
+
 drop sequence if exists auto_increment_id cascade;
 create sequence auto_increment_id
   START WITH 10000

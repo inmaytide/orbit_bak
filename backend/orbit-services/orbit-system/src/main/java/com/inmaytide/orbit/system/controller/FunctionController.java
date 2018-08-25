@@ -32,8 +32,8 @@ public class FunctionController {
 
     @DeleteMapping("/functions/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remove(@PathVariable Mono<Long> id) {
-        id.subscribe(service::remove);
+    public void remove(@PathVariable Long id) {
+        service.remove(id);
     }
 
     @PutMapping("/functions")
