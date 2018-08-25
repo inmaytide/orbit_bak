@@ -1,8 +1,18 @@
 <template>
   <div>
-    <ul>
-      <li v-for="element in elements" :key="element.id">{{element.name}}</li>
-    </ul>
+    <CellGroup @on-click="select">
+      <Cell>
+        <a slot="extra" style="padding: 1px 5px;">{{$t('common.btn.new')}}</a>
+      </Cell>
+      <Cell :selected="selected === element.id"
+            v-for="element in elements"
+            :key="element.id"
+            :title="element.name"
+            :label="element.code"
+            :name="element.id">
+        <a v-if="selected === element.id" slot="extra" style="padding: 1px 5px; color: red;">{{$t('common.btn.remove')}}</a>
+      </Cell>
+    </CellGroup>
   </div>
 </template>
 <script>
@@ -15,7 +25,8 @@ export default {
   },
   data () {
     return {
-      elements: []
+      elements: [],
+      selected: ''
     };
   },
   watch: {
@@ -29,6 +40,10 @@ export default {
         this.$http.get(api.listByMenuId(this.menuId))
           .then(res => (this.elements = res));
       }
+    },
+    select (id) {
+      console.log(id);
+      this.selected = id;
     }
   },
   mounted () {

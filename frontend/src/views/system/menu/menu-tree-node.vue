@@ -8,7 +8,7 @@
         v-if="showActions && menu.children.length === 0"
         :title="this.$i18n.t('common.message.delete')"
         @on-ok="remove">
-        <a href="javascript:void(0);">{{$t('common.btn.remove')}}</a>
+        <a href="javascript:void(0);" style="color: red;">{{$t('common.btn.remove')}}</a>
       </Poptip>
       <a @click="edit" href="javascript:void(0);" class="node-action" v-if="showActions">{{$t('common.btn.edit')}}</a>
       <Poptip
@@ -92,7 +92,6 @@ export default {
     top: 2px;
     right: 10px;
     z-index: 9999;
-    background-color: #FFFFFF;
     padding-right: 5px;
   }
 
@@ -100,6 +99,7 @@ export default {
     float: right;
     margin-left: 5px;
     font-size: 12px;
+    background-color: #FFFFFF;
   }
 </style>
 <style>

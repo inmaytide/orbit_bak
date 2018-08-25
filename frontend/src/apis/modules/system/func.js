@@ -1,3 +1,5 @@
 export default {
-  listByMenuId: `/sys/menus/${'menuId'}/functions`
+  listByMenuId: function (menuId) {
+    return `/sys/menus/${menuId}/functions`;
+  }
 };
