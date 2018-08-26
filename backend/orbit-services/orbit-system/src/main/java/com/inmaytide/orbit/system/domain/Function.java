@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.system.domain;
 
-import com.inmaytide.orbit.commons.database.annotation.OrderBy;
 import com.inmaytide.orbit.commons.database.annotation.Table;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
@@ -23,9 +22,6 @@ public class Function extends AbstractEntity {
     @NotEmpty
     @Length(max = 64)
     private String name;
-
-    @OrderBy
-    private Integer seqOrder;
 
     public Long getMenuId() {
         return menuId;
@@ -51,11 +47,4 @@ public class Function extends AbstractEntity {
         this.name = name;
     }
 
-    public Integer getSeqOrder() {
-        return seqOrder;
-    }
-
-    public void setSeqOrder(Integer seqOrder) {
-        this.seqOrder = seqOrder;
-    }
 }

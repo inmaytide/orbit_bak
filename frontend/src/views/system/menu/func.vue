@@ -1,9 +1,26 @@
 <template>
   <div>
     <CellGroup @on-click="select">
-      <Cell>
-        <a slot="extra" style="padding: 1px 5px;">{{$t('common.btn.new')}}</a>
-      </Cell>
+        <Poptip placement="bottom-end" style="float: right;" :width="300" :show-message="false">
+          <div slot="content">
+            <Form ref="current" :model="current" :label-width="45">
+              <FormItem label="Name">
+                <Input v-model="current.name" size="small"></Input>
+              </FormItem>
+              <FormItem label="Code">
+                <Input v-model="current.code"  size="small"></Input>
+              </FormItem>
+              <FormItem style="text-align: right;">
+                <Button type="primary" size="small">{{$t('common.btn.save')}}</Button>
+                <Button style="margin-left: 8px" size="small">{{$t('common.btn.cancel')}}</Button>
+              </FormItem>
+            </Form>
+          </div>
+          <Cell style="display:flex; justify-content: center;">
+            <icon type="md-add" style="color: #2d8cf0;"/>
+            <a style="padding: 1px 0; user-select: none; font-size: 12px;" href="javascript:void(0);">{{$t('common.btn.new')}}</a>
+          </Cell>
+        </Poptip>
       <Cell :selected="selected === element.id"
             v-for="element in elements"
             :key="element.id"
@@ -26,7 +43,8 @@ export default {
   data () {
     return {
       elements: [],
-      selected: ''
+      selected: '',
+      current: {}
     };
   },
   watch: {

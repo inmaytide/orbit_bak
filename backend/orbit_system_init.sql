@@ -71,7 +71,6 @@ create table public.sys_menu_func (
   menu_id bigint,
   code varchar(64) not null unique,
   name varchar(64) not null,
-  seq_order int,
   create_time timestamp,
   creator bigint,
   update_time timestamp,
@@ -79,10 +78,10 @@ create table public.sys_menu_func (
   version int not null default 0
 );
 
-insert into sys_menu_func(id, menu_id, code, name, seq_order, create_time, creator)
-  values(323441402547015693, 323441402547015681, 'menu:add', 'New', 1, now(), 423441402547015680);
-insert into sys_menu_func(id, menu_id, code, name, seq_order, create_time, creator)
-  values(323441402547015694, 323441402547015681, 'menu:remove', 'Remove', 1, now(), 423441402547015680);
+insert into sys_menu_func(id, menu_id, code, name, create_time, creator)
+  values(323441402547015693, 323441402547015681, 'menu:add', 'New', now(), 423441402547015680);
+insert into sys_menu_func(id, menu_id, code, name, create_time, creator)
+  values(323441402547015694, 323441402547015681, 'menu:remove', 'Remove', now(), 423441402547015680);
 
 
 drop sequence if exists auto_increment_id cascade;
