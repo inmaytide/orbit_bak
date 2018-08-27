@@ -12,7 +12,6 @@ public class Function extends AbstractEntity {
 
     private static final long serialVersionUID = 5089182578612526382L;
 
-    @NotNull
     private Long menuId;
 
     @NotEmpty

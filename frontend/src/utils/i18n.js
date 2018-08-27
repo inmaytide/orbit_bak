@@ -1,12 +1,13 @@
 import VueI18n from 'vue-i18n';
 import Vue from 'vue';
 import en from '../langs/en/';
+import zh from '../langs/zh/';
 
 Vue.use(VueI18n);
 
 const locales = {
   'en': en,
-  'zh': require('../langs/zh.json')
+  'zh': zh
 };
 
 // let lang = navigator.language;
@@ -14,7 +15,7 @@ const locales = {
 //   lang = navigator.browserLanguage;
 // }
 
-const lang = 'en';
+const lang = 'zh';
 
 const i18n = new VueI18n({
   locale: lang,

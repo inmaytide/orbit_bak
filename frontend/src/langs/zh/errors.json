@@ -1,0 +1,9 @@
+{
+  "unexpected_username": "用户名或密码输入错误",
+  "bad_credentials": "用户名或密码输入错误",
+  "bad_captcha": "验证码输入错误",
+  "expired_token": "您的认证信息已过期，请重新登录",
+  "unexpected": "发生未知错误，请联系管理员或稍后载时",
+  "field_not_empty": "该值不能为空",
+  "obj_not_found": "您请求的数据不存在."
+}

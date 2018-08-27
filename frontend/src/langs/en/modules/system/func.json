@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "name": "Name",
+    "code": "Code"
+  },
+  "name": {
+    "new": "New",
+    "remove": "Remove",
+    "update": "Edit"
+  }
+}

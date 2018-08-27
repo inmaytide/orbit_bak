@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping
 public class FunctionController {
@@ -36,9 +38,9 @@ public class FunctionController {
         service.remove(id);
     }
 
-    @PutMapping("/functions")
-    public Mono<Function> update(@RequestBody @Validated Mono<Function> inst) {
-        return inst.doOnSuccess(this::assertCodeNotExist).map(service::update);
+    @GetMapping("/functions/exist")
+    public Mono<Map<String, Boolean>> exist(String code, Long ignore) {
+        return Mono.just(Map.of("exist", service.exist(code, ignore)));
     }
 
     private void assertCodeNotExist(Function func) {

@@ -1,0 +1,64 @@
+{
+  "common": {
+    "title": {
+      "info": "基本信息",
+      "prompt": "系统提示"
+    },
+    "message": {
+      "delete": "确认删除?",
+      "delete_success": "删除成功",
+      "confirm_cancel": "确认取消?"
+    },
+    "btn": {
+      "advanced_search": "高级查询",
+      "loading": "加载中...",
+      "search": "查询",
+      "reset": "重置",
+      "remove": "删除",
+      "new": "新增",
+      "edit": "编辑",
+      "save": "保存",
+      "cancel": "取消"
+    },
+    "label": {
+      "keyword": "关键字",
+      "org": "所属组织"
+    },
+    "menu": {
+      "header": {
+        "home": "首页",
+        "tasks": "我的任务",
+        "favorites": "收藏夹",
+        "profile": "用户信息",
+        "change_password": "修改密码",
+        "sign_out": "注销"
+      },
+      "nav": {
+        "root": "根菜单",
+        "system": "系统管理",
+        "menu": "菜单管理",
+        "user": "用户管理"
+      }
+    }
+  },
+  "login": {
+    "btn": {
+      "login": "登录"
+    },
+    "title": {
+      "username": "用户名",
+      "password": "登录密码",
+      "captcha": "验证码"
+    },
+    "error": {
+      "empty": {
+        "username": "用户名不能为空",
+        "password": "密码不能为空",
+        "captcha": "验证码不能为空"
+      },
+      "len": {
+        "password": "密码不能小于6位"
+      }
+    }
+  }
+}

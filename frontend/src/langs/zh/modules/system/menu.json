@@ -1,0 +1,26 @@
+{
+  "block": {
+    "title": {
+      "func": "相关功能"
+    }
+  },
+  "message": {
+    "choose_root_or_child": "创建根菜单或子菜单?"
+  },
+  "btn": {
+    "root": "根菜单",
+    "child": "子菜单"
+  },
+  "properties": {
+    "name": "菜单名称",
+    "code": "菜单编码",
+    "parent": "父菜单",
+    "sort": "排序",
+    "icon": "图标",
+    "url": "URL",
+    "description": "说明"
+  },
+  "errors": {
+    "code_not_repeat": "编码已存在"
+  }
+}
