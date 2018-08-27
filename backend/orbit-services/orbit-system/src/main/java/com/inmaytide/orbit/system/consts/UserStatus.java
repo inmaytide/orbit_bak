@@ -1,5 +1,7 @@
 package com.inmaytide.orbit.system.consts;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ public enum UserStatus {
     DISABLED(3),
     VACATION(4);
 
+    @JsonValue
     private Integer value;
 
     UserStatus(Integer value) {

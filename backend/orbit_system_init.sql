@@ -120,3 +120,19 @@ create table link_role_func (
   func_id bigint
 );
 alter table link_role_func alter column id set default nextval('auto_increment_id');
+
+
+create table sys_organization (
+  id bigint primary key,
+  code varchar(64) not null unique,
+  name varchar(64) not null,
+  parent bigint not null default 0,
+  remark varchar(512),
+  telephone varchar(16),
+  category int not null,
+  create_time timestamp,
+  creator bigint,
+  update_time timestamp,
+  updater bigint,
+  version int not null default 0
+)
