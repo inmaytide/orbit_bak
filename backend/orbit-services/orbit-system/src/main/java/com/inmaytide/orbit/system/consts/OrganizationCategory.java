@@ -2,6 +2,9 @@ package com.inmaytide.orbit.system.consts;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public enum OrganizationCategory {
     GROUP(0),
     COMPANY(1),
@@ -13,6 +16,12 @@ public enum OrganizationCategory {
 
     OrganizationCategory(Integer value) {
         this.value = value;
+    }
+
+    public static OrganizationCategory of(final Integer value) {
+        return Arrays.stream(values())
+                .filter(status -> Objects.equals(status.value, value))
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unkown target for \"Organization Category\""));
     }
 
     @JsonValue

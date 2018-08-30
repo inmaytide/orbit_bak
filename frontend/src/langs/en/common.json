@@ -37,7 +37,8 @@
         "root": "Root",
         "system": "Settings",
         "menu": "Menus",
-        "user": "Users"
+        "user": "Users",
+        "org": "Organizations"
       }
     }
   },

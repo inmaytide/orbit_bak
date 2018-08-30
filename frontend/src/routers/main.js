@@ -1,6 +1,6 @@
 import login from '../views/login';
 import main from '../views/main/main';
-import menus from './modules/menu';
+import system from './modules/system';
 
 const routers = [
   {
@@ -45,7 +45,7 @@ const routers = [
         ]
       }
     },
-    ...menus
+    ...system
     ]
   },
   {

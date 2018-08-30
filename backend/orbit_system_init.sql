@@ -44,9 +44,11 @@ create table public.sys_menu (
 insert into public.sys_menu(id, code, name, url, seq_order, create_time, creator, parent, icon)
 values(323441402547015680, 'system', 'Settings', null, 99999, now(), 423441402547015680, 0, 'ios-settings');
 insert into public.sys_menu(id, code, name, url, seq_order, create_time, creator, parent)
-values(323441402547015681, 'menu', 'Menus', '/system/menu', 1, now(), 423441402547015680, 323441402547015680);
+values(323441402547015681, 'menu', 'Menus', '/system/menu', 8, now(), 423441402547015680, 323441402547015680);
 insert into public.sys_menu(id, code, name, url, seq_order, create_time, creator, parent)
-values(323441402547015684, 'user', 'Users', '/system/users', 0, now(), 423441402547015680, 323441402547015680);
+values(323441402547015684, 'user', 'Users', '/system/users', 5, now(), 423441402547015680, 323441402547015680);
+insert into public.sys_menu(id, code, name, url, seq_order, create_time, creator, parent)
+values(483941363017056256, 'org', 'Organizations', '/system/org', 3, now(), 423441402547015680, 323441402547015680);
 
 
 drop table if exists public.sys_role;
@@ -111,7 +113,10 @@ create table link_role_menu (
 alter table link_role_menu alter column id set default nextval('auto_increment_id');
 
 insert into link_role_menu(role_id, menu_id)
-values(323441402547015682, 323441402547015680), (323441402547015682, 323441402547015681), (323441402547015682, 323441402547015684);
+values(323441402547015682, 323441402547015680),
+(323441402547015682, 323441402547015681),
+(323441402547015682, 323441402547015684),
+(323441402547015682, 483941363017056256);
 
 drop table if exists public.link_role_func;
 create table link_role_func (
@@ -121,7 +126,7 @@ create table link_role_func (
 );
 alter table link_role_func alter column id set default nextval('auto_increment_id');
 
-
+drop table if exists public.sys_organization;
 create table sys_organization (
   id bigint primary key,
   code varchar(64) not null unique,
