@@ -3,24 +3,59 @@
     <div>
       <div class="block-title blue-left-border">{{$t('common.menu.nav.org')}}</div>
       <div class="block-content">
-        <Tree :data="orgs" />
+        <Tree :data="orgs" :render="treeRender"/>
       </div>
     </div>
     <div>
       <div class="block-title blue-left-border">{{$t('common.title.info')}}</div>
-      <div class="block-content">
-        123123123
+      <div class="block-content" style="padding: 10px 30px 10px 10px;">
+        <org-form :status="status" :instance="selected" />
       </div>
     </div>
   </div>
 </template>
 <script>
+import api from '../../../apis/modules/system/org';
+import orgForm from './org-form';
+import orgTreeNode from './org-tree-node';
+
 export default {
   name: 'orgs',
+  components: {
+    orgForm
+  },
   data () {
     return {
-      orgs: []
+      status: this.$store.state.enums.FORM_STATUS_CHECK,
+      selected: {},
+      orgs: [{id: '0', name: this.$i18n.t('common.menu.nav.org'), children: []}]
     };
+  },
+  methods: {
+    refresh () {
+      this.$http.get(api.all).then(res => {
+        this.orgs.children = this.$commons.transform(res);
+      });
+    },
+    nodeClick (inst) {
+      this.selected = inst;
+    },
+    treeRender (h, {root, node, data}) {
+      return h(orgTreeNode, {
+        props: {
+          name: data.name,
+          org: Object.assign({}, data),
+          status: this.status,
+          isSelected: this.selected.id === data.id
+        },
+        on: {
+          nodeClick: this.nodeClick
+        }
+      });
+    }
+  },
+  mounted () {
+    this.refresh();
   }
 };
 </script>
@@ -39,11 +74,11 @@ export default {
   }
 
   .container-center > div:nth-child(1) {
-    width: 40%;
+    width: 35%;
   }
 
   .container-center > div:last-child {
-    width: 60%;
+    width: 65%;
     margin-right: 10px;
   }
 

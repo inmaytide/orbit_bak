@@ -22,11 +22,22 @@ function tokenExpired (config) {
     return;
   }
 
-  axios.get(CONTEXT_PATH + '/oauth/token?grant_type=refresh_token&refresh_token=' + token.refresh_token)
-    .then(() => axios(config))
-    .catch(() => {
-      location.href = '/login?m=expired_token';
-    });
+  const body = {
+    grant_type: 'refresh_token',
+    refresh_token: token.refresh_token,
+    client_id: 'apps',
+    scope: 'all',
+    client_secret: '59a84cbf83227a35'
+  };
+  const data = new FormData();
+  Object.keys(body).forEach(k => data.append(k, body[k]));
+
+  axios.post(CONTEXT_PATH + '/oauth/token', data).then(res => {
+    commons.storeToken(res);
+    axios(config);
+  }).catch(() => {
+    location.href = '/login?m=expired_token';
+  });
 }
 
 axios.interceptors.request.use(

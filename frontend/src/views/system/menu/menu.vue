@@ -238,8 +238,7 @@ export default {
       if (this.$commons.isNull(this.current) || this.current.parent === '0') {
         return this.$i18n.t('common.menu.nav.root');
       }
-      const parent = this.menus.filter(menu => menu.id === this.current.parent);
-      return api.displayName(parent[0], this.$i18n);
+      return api.displayName(this.current.parentObject, this.$i18n);
     }
   }
 };

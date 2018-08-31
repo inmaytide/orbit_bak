@@ -3,6 +3,7 @@ package com.inmaytide.orbit.auth;
 import com.inmaytide.orbit.auth.client.CaptchaClient;
 import com.inmaytide.orbit.auth.exception.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor;
+import com.inmaytide.orbit.auth.service.DefaultUserDetailsService;
 import com.inmaytide.orbit.commons.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Autowired
     private CaptchaClient captchaClient;
+
+    @Autowired
+    private DefaultUserDetailsService service;
 
     @Value("${validate.captcha:true}")
     private boolean validateCaptcha;
@@ -55,6 +59,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         endpoints.tokenStore(tokenStore())
                 .tokenEnhancer(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager)
+                .userDetailsService(service)
                 .exceptionTranslator(new DefaultWebResponseExceptionTranslator());
     }
 

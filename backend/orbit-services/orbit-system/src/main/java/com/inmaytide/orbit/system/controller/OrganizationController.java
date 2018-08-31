@@ -5,10 +5,8 @@ import com.inmaytide.orbit.system.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -17,6 +15,11 @@ public class OrganizationController {
 
     @Autowired
     private OrganizationService service;
+
+    @GetMapping
+    public Flux<Organization> list() {
+        return Flux.fromIterable(service.all());
+    }
 
     @PostMapping
     public Mono<Organization> create(@Validated @RequestBody Mono<Organization> organization) {

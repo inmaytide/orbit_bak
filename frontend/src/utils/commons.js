@@ -8,7 +8,7 @@ export default {
   },
   getToken () {
     const stored = localStorage.getItem('token');
-    if (typeof stored !== 'undefined' && stored != null && stored !== '') {
+    if (!this.isBlank(stored)) {
       return JSON.parse(stored);
     }
     return null;
@@ -19,7 +19,7 @@ export default {
   },
   getUser () {
     const stored = localStorage.getItem('user');
-    if (typeof stored !== 'undefined' && stored != null) {
+    if (!this.isBlank(stored)) {
       return JSON.parse(stored);
     }
     return null;
@@ -34,10 +34,11 @@ export default {
   getParamValue (name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || ['', ''])[1].replace(/\+/g, '%20')) || null;
   },
-  transform (data, parent = '0') {
-    const filtered = data.filter(element => element.parent === parent);
+  transform (data, parent = {id: '0'}) {
+    const filtered = data.filter(element => element.parent === parent.id);
     filtered.forEach(element => {
-      element.children = this.transform(data, element.id);
+      element.parentObject = parent;
+      element.children = this.transform(data, element);
     });
     return filtered;
   },
@@ -45,9 +46,16 @@ export default {
     return typeof value === 'undefined' || value == null || value.length === 0;
   },
   isBlank (value) {
-    return typeof value === 'undefined' || value == null || value.trim() === '';
+    return typeof value === 'undefined' || value == null || value.trim() === '' || value === 'undefined';
   },
   isNull (value) {
-    return typeof value === 'undefined' || value == null || JSON.stringify(value) === '{}';
+    if (typeof value === 'undefined' || value == null) {
+      return true;
+    }
+    try {
+      return JSON.stringify(value) === '{}';
+    } catch (e) {
+      return false;
+    }
   }
 };
