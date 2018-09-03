@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.system.service.impl;
 
-import com.inmaytide.orbit.commons.mapper.BasicMapper;
 import com.inmaytide.orbit.commons.service.AbstractService;
 import com.inmaytide.orbit.system.domain.Function;
 import com.inmaytide.orbit.system.mapper.FunctionMapper;

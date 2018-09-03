@@ -9,13 +9,18 @@
     <div>
       <div class="block-title blue-left-border">{{$t('common.title.info')}}</div>
       <div class="block-content" style="padding: 10px 30px 10px 10px;">
-        <org-form :status="status" :instance="selected" />
+        <org-form :status="status"
+                  :instance="selected"
+                  @changeStatus="changeStatus"
+                  @changeSelected="changeSelected"
+                  @refresh="refresh"/>
       </div>
     </div>
   </div>
 </template>
 <script>
 import api from '../../../apis/modules/system/org';
+import form from '../../../utils/form';
 import orgForm from './org-form';
 import orgTreeNode from './org-tree-node';
 
@@ -26,19 +31,39 @@ export default {
   },
   data () {
     return {
-      status: this.$store.state.enums.FORM_STATUS_CHECK,
+      status: form.STATUS_VIEW,
       selected: {},
-      orgs: [{id: '0', name: this.$i18n.t('common.menu.nav.org'), children: []}]
+      orgs: [{id: '0', name: this.$i18n.t('common.menu.nav.org'), children: [], expand: true}]
     };
   },
   methods: {
-    refresh () {
-      this.$http.get(api.all).then(res => {
-        this.orgs.children = this.$commons.transform(res);
+    changeStatus (status) {
+      this.status = status;
+    },
+    changeSelected (inst) {
+      this.selected = inst;
+    },
+    refresh (selected) {
+      this.$http.get(api.common).then(res => {
+        this.orgs[0].children = this.$commons.transform(res);
+        if (!this.$commons.isNull(selected)) {
+          this.changeSelected(selected);
+        }
       });
     },
-    nodeClick (inst) {
-      this.selected = inst;
+    create (parent) {
+      this.changeSelected({
+        parent: parent.id,
+        parentObject: parent
+      });
+      this.changeStatus(form.STATUS_CREATE);
+    },
+    remove (selected) {
+      this.$http.delete(api.remove(selected.id)).then(() => {
+        const children = selected.parentObject.children;
+        const index = this.$commons.index(children, selected.id);
+        children.splice(index, 1);
+      });
     },
     treeRender (h, {root, node, data}) {
       return h(orgTreeNode, {
@@ -49,7 +74,9 @@ export default {
           isSelected: this.selected.id === data.id
         },
         on: {
-          nodeClick: this.nodeClick
+          nodeClick: this.changeSelected,
+          create: this.create,
+          remove: this.remove
         }
       });
     }

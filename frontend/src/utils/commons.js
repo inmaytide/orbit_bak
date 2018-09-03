@@ -42,6 +42,15 @@ export default {
     });
     return filtered;
   },
+  index (elements, conditionValue, conditionKey = 'id') {
+    const len = elements.length;
+    for (let i = 0; i < len; i++) {
+      if (elements[i][conditionKey] === conditionKey) {
+        return i;
+      }
+    }
+    return -1;
+  },
   isEmptyArray (value) {
     return typeof value === 'undefined' || value == null || value.length === 0;
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="node">
     <span @click="click" :class="{'node-selected': isSelected, 'node-title': true, 'node-title-root': org.id === '0'}">{{name}}</span>
-    <div class="node-actions" v-if="isSelected && status === $store.state.enums.FORM_STATUS_CHECK">
+    <div class="node-actions" v-if="isSelected && viewing">
       <Poptip
         confirm
         class="node-action"
@@ -11,11 +11,13 @@
         <a href="javascript:void(0);" style="color: red;">{{$t('common.btn.remove')}}</a>
       </Poptip>
       <a href="javascript:void(0);" class="node-action" v-if="org.id !== '0'">{{$t('common.btn.edit')}}</a>
-      <a href="javascript:void(0);" class="node-action">{{$t('common.btn.new')}}</a>
+      <a href="javascript:void(0);" class="node-action" @click="create">{{$t('common.btn.new')}}</a>
     </div>
   </div>
 </template>
 <script>
+import form from '../../../utils/form';
+
 export default {
   name: 'menu-tree-node',
   props: {
@@ -26,14 +28,22 @@ export default {
   },
   methods: {
     click () {
+      if (!this.viewing) {
+        return;
+      }
       this.$emit('nodeClick', this.org);
     },
+    create () {
+      this.$emit('create', this.org);
+    },
     remove () {
-
+      this.$emit('remove', this.org);
     }
   },
-  data () {
-    return {};
+  computed: {
+    viewing: function () {
+      return form.viewing(this.status);
+    }
   }
 };
 </script>
@@ -79,6 +89,5 @@ export default {
     float: right;
     margin-left: 5px;
     font-size: 12px;
-    background-color: #FFFFFF;
   }
 </style>

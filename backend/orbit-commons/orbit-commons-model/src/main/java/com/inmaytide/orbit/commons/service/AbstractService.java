@@ -12,7 +12,7 @@ import java.util.Optional;
 public abstract class AbstractService<T extends AbstractEntity> implements BasicService<T> {
 
     @Autowired
-    private IdGenerator<Long> generator;
+    protected IdGenerator<Long> generator;
 
     @Override
     public T save(T t) {
@@ -53,7 +53,4 @@ public abstract class AbstractService<T extends AbstractEntity> implements Basic
         return getMapper().all();
     }
 
-    protected IdGenerator<Long> generator() {
-        return this.generator;
-    }
 }

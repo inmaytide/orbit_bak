@@ -121,11 +121,11 @@ export default {
         this.selectNode(parent.children, selected);
       });
     },
-    editCancel () {
+    cancel () {
       this.$Modal.confirm({
         title: this.$i18n.t('common.message.confirm_cancel'),
         onOk: () => {
-          if (this.status === this.$store.state.enums.FORM_STATUS_CREATE) {
+          if (this.status === this.$store.state.enums.STATUS_CREATE) {
             this.selectNode(this.menus, {id: this.current.parent});
             this.status = this.$store.state.enums.FORM_STATUS_CHECK;
           } else {
@@ -138,10 +138,10 @@ export default {
     save () {
       this.$refs['inst'].validate().then(isValid => {
         if (isValid) {
-          if (this.status === this.$store.state.enums.FORM_STATUS_CREATE) {
+          if (this.status === this.$store.state.enums.STATUS_CREATE) {
             this.current.creator = this.$commons.getUser().id;
             this.$http.post(api.create, this.current).then(this.refresh);
-          } else if (this.status === this.$store.state.enums.FORM_STATUS_EDIT) {
+          } else if (this.status === this.$store.state.enums.STATUS_EDIT) {
             this.current.updater = this.$commons.getUser().id;
             this.$http.put(api.create, this.current).then(this.refresh);
           }
@@ -181,11 +181,11 @@ export default {
     },
     create (parent) {
       this.current = {parent: parent};
-      this.status = this.$store.state.enums.FORM_STATUS_CREATE;
+      this.status = this.$store.state.enums.STATUS_CREATE;
     },
     edit (menu) {
       this.current = menu;
-      this.status = this.$store.state.enums.FORM_STATUS_EDIT;
+      this.status = this.$store.state.enums.STATUS_EDIT;
     },
     renderNodes (h, {root, node, data}) {
       return h(menuTreeNode, {
