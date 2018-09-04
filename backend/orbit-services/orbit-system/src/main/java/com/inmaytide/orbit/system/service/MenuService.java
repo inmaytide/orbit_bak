@@ -9,16 +9,8 @@ import java.util.List;
  * @author Moss
  * @since August 04, 2018
  */
-public interface MenuService extends BasicService<Menu> {
+public interface MenuService extends ExistByCodeAdapter, BasicService<Menu> {
 
     List<Menu> listByUsername(String username);
-
-    /**
-     * Determine if a code is already present
-     * @param code
-     * @param ignore  Ignored the menu if it's id equal
-     * @return
-     */
-    boolean exist(String code, Long ignore);
 
 }

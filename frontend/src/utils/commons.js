@@ -45,7 +45,7 @@ export default {
   index (elements, conditionValue, conditionKey = 'id') {
     const len = elements.length;
     for (let i = 0; i < len; i++) {
-      if (elements[i][conditionKey] === conditionKey) {
+      if (elements[i][conditionKey] === conditionValue) {
         return i;
       }
     }

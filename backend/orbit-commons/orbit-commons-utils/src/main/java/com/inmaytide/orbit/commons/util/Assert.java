@@ -54,4 +54,10 @@ public class Assert {
         }
     }
 
+    public static void isTrue(boolean bool, String message) {
+        if (!bool) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
 }

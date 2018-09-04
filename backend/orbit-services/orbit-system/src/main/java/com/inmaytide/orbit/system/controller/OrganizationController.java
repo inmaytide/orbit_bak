@@ -25,8 +25,9 @@ public class OrganizationController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Mono<Organization> create(@Validated @RequestBody Mono<Organization> organization) {
-        return organization.doOnSuccess(this::assertCodeNotExist).map(service::save);
+        return organization.doOnSuccess(service::assertCodeNotExist).map(service::save);
     }
 
     @DeleteMapping("/{id}")
@@ -35,15 +36,14 @@ public class OrganizationController {
         service.remove(id);
     }
 
+    @PutMapping
+    public Mono<Organization> update(@Validated @RequestBody Mono<Organization> organization) {
+        return organization.doOnSuccess(service::assertCodeNotExist).map(service::update);
+    }
+
     @GetMapping("/exist")
     public Mono<Map<String, Boolean>> exist(String code, Long ignore) {
         return Mono.just(Map.of("exist", service.exist(code, ignore)));
-    }
-
-    private void assertCodeNotExist(Organization inst) {
-        if (inst.getCode() != null) {
-            Assert.isTrue(!service.exist(inst.getCode(), inst.getId() == null ? -1L : inst.getId()), "Code is existed");
-        }
     }
 
 }

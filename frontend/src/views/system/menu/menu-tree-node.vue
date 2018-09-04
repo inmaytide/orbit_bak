@@ -1,20 +1,20 @@
 <template>
-  <div class="node" @mouseover="showActions=true" @mouseout="showActions=false">
+  <div class="node">
     <span @click="nodeClick" :class="{'node-selected': selected, 'node-title': true}">{{name}}</span>
-    <div class="node-actions" v-if="showActions && status === $store.state.enums.FORM_STATUS_CHECK">
+    <div class="node-actions" v-if="viewing && selected">
       <Poptip
         confirm
         class="node-action"
-        v-if="showActions && menu.children.length === 0"
+        v-if="menu.children.length === 0"
         :title="this.$i18n.t('common.message.delete')"
         @on-ok="remove">
         <a href="javascript:void(0);" style="color: red;">{{$t('common.btn.remove')}}</a>
       </Poptip>
-      <a @click="edit" href="javascript:void(0);" class="node-action" v-if="showActions">{{$t('common.btn.edit')}}</a>
+      <a @click="edit" href="javascript:void(0);" class="node-action">{{$t('common.btn.edit')}}</a>
       <Poptip
         confirm
         class="node-action"
-        v-if="showActions && menu.parent === '0'"
+        v-if="menu.parent === '0'"
         :title="this.$i18n.t('system.menu.message.choose_root_or_child')"
         :ok-text="this.$i18n.t('system.menu.btn.root')"
         :cancel-text="this.$i18n.t('system.menu.btn.child')"
@@ -26,6 +26,8 @@
   </div>
 </template>
 <script>
+import form from '../../../utils/form';
+
 export default {
   name: 'menu-tree-node',
   props: {
@@ -34,14 +36,9 @@ export default {
     selected: Boolean,
     status: String
   },
-  data () {
-    return {
-      showActions: false
-    };
-  },
   methods: {
     nodeClick () {
-      if (this.status !== this.$store.state.enums.FORM_STATUS_CHECK) {
+      if (!this.viewing) {
         return;
       }
       this.$emit('nodeClick', this.menu);
@@ -57,6 +54,11 @@ export default {
     },
     edit () {
       this.$emit('edit', this.menu);
+    }
+  },
+  computed: {
+    viewing: function () {
+      return form.viewing(this.status);
     }
   }
 };
@@ -104,6 +106,6 @@ export default {
 </style>
 <style>
   .node-actions .ivu-poptip-popper {
-    width: 300px!important;
+    width: 300px !important;
   }
 </style>

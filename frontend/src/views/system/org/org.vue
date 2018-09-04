@@ -37,11 +37,30 @@ export default {
     };
   },
   methods: {
+    nodePaths (inst, paths = []) {
+      if (inst.parent !== '0') {
+        paths.push(inst.parent);
+        return this.nodePaths(inst.parentObject, paths);
+      }
+      return paths;
+    },
+    expand (paths = [], nodes = []) {
+      const id = paths.pop();
+      if (typeof id !== 'undefined') {
+        nodes.forEach(element => {
+          if (element.id === id) {
+            element.expand = true;
+            this.expand(paths, element.children);
+          }
+        });
+      }
+    },
     changeStatus (status) {
       this.status = status;
     },
     changeSelected (inst) {
       this.selected = inst;
+      this.expand(this.nodePaths(inst), this.orgs[0].children);
     },
     refresh (selected) {
       this.$http.get(api.common).then(res => {
@@ -58,11 +77,20 @@ export default {
       });
       this.changeStatus(form.STATUS_CREATE);
     },
+    edit (selected) {
+      this.changeSelected(selected);
+      this.changeStatus(form.STATUS_MODIFY);
+    },
     remove (selected) {
       this.$http.delete(api.remove(selected.id)).then(() => {
-        const children = selected.parentObject.children;
-        const index = this.$commons.index(children, selected.id);
+        const children = selected.parent === '0' ? this.orgs[0].children : selected.parentObject.children;
+        let index = this.$commons.index(children, selected.id);
         children.splice(index, 1);
+        if (children.length === 0) {
+          this.changeSelected(selected.parentObject);
+          return;
+        }
+        this.changeSelected(children[index === 0 ? ++index : --index]);
       });
     },
     treeRender (h, {root, node, data}) {
@@ -76,7 +104,8 @@ export default {
         on: {
           nodeClick: this.changeSelected,
           create: this.create,
-          remove: this.remove
+          remove: this.remove,
+          edit: this.edit
         }
       });
     }

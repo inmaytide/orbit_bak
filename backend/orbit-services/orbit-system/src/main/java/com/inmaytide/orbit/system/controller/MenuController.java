@@ -53,24 +53,17 @@ public class MenuController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Menu> create(@RequestBody @Validated Mono<Menu> menu) {
-        return menu.doOnSuccess(this::assertCodeNotExist).map(service::save);
+        return menu.doOnSuccess(service::assertCodeNotExist).map(service::save);
     }
 
     @PutMapping
     public Mono<Menu> update(@RequestBody @Validated Mono<Menu> menu) {
-        return menu.doOnSuccess(this::assertCodeNotExist).map(service::update);
+        return menu.doOnSuccess(service::assertCodeNotExist).map(service::update);
     }
 
     @PatchMapping
     public Mono<Menu> updateSelective(@RequestBody Mono<Menu> menu) {
-        return menu.doOnSuccess(this::assertCodeNotExist).map(service::updateSelective);
-    }
-
-
-    private void assertCodeNotExist(Menu menu) {
-        if (menu.getCode() != null) {
-            Assert.isTrue(!service.exist(menu.getCode(), menu.getId() == null ? -1L : menu.getId()), "Code is existed");
-        }
+        return menu.doOnSuccess(service::assertCodeNotExist).map(service::updateSelective);
     }
 
 }

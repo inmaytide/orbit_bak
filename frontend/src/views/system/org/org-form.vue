@@ -78,6 +78,9 @@ export default {
         code: [
           {required: true, trigger: 'blur', message: this.$i18n.t('errors.field_not_empty')},
           {validator: __exists, trigger: 'blur'}
+        ],
+        category: [
+          {type: 'number', required: true, trigger: 'change', message: this.$i18n.t('errors.field_not_empty')}
         ]
       }
     };
@@ -89,6 +92,7 @@ export default {
           const method = form.isCreating(this.status) ? this.$http.post : this.$http.put;
           const body = Object.assign({}, this.instance);
           delete body.parentObject;
+          delete body.children;
           method(api.common, body).then(res => {
             res.parentObject = this.instance.parentObject;
             this.$emit('changeStatus', form.STATUS_VIEW);

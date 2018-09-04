@@ -5,13 +5,10 @@ import com.inmaytide.orbit.commons.service.AbstractService;
 import com.inmaytide.orbit.system.domain.Menu;
 import com.inmaytide.orbit.system.mapper.MenuMapper;
 import com.inmaytide.orbit.system.service.MenuService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Moss
@@ -30,10 +27,7 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
 
     @Override
     public boolean exist(String code, Long ignore) {
-        if (StringUtils.isBlank(code)) {
-            return false;
-        }
-        return mapper.countByCode(Map.of("code", code, "ignore", Objects.requireNonNullElse(ignore, -1L))) > 0;
+        return exist(code, ignore, mapper::countByCode);
     }
 
     @Override

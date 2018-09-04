@@ -9,62 +9,7 @@
     <div>
       <div class="block-title blue-left-border">{{$t('common.title.info')}}</div>
       <div class="block-content" style="padding: 10px 30px 10px 10px;">
-        <Form ref="inst" :model="current" :rules="rules" :label-width="80">
-          <FormItem :label="this.$i18n.t('system.menu.properties.parent')">
-            <p class="form-field-value">{{parentName}}</p>
-          </FormItem>
-          <Row>
-            <Col span="12">
-              <FormItem :label="this.$i18n.t('system.menu.properties.name')" prop="name">
-                <p class="form-field-value" v-if="status === $store.state.enums.FORM_STATUS_CHECK">{{current.name}}</p>
-                <i-input v-model="current.name" :maxlength="64" v-if="status !== $store.state.enums.FORM_STATUS_CHECK"/>
-              </FormItem>
-            </Col>
-            <Col span="12">
-              <FormItem :label="this.$i18n.t('system.menu.properties.code')" prop="code">
-                <p class="form-field-value" v-if="status === $store.state.enums.FORM_STATUS_CHECK">{{current.code}}</p>
-                <Input v-model="current.code" :maxlength="64" v-if="status !== $store.state.enums.FORM_STATUS_CHECK"/>
-              </FormItem>
-            </Col>
-          </Row>
-          <Row>
-            <Col span="12">
-              <FormItem :label="this.$i18n.t('system.menu.properties.sort')" prop="seqOrder">
-                <InputNumber v-model="current.seqOrder" :min="1" :max="999999" :precision="0"
-                             v-if="status !== $store.state.enums.FORM_STATUS_CHECK "/>
-                <p class="form-field-value" v-if="status === $store.state.enums.FORM_STATUS_CHECK">
-                  {{current.seqOrder}}</p>
-              </FormItem>
-            </Col>
-            <Col span="12">
-              <FormItem :label="this.$i18n.t('system.menu.properties.icon')" prop="icon">
-                <Select v-model="current.icon" v-if="status !== $store.state.enums.FORM_STATUS_CHECK">
-                  <Option :value="icon.value" v-for="icon in $store.state.enums.menu.icons" :key="icon.value">
-                    {{icon.label}}
-                    <Icon :type="icon.value" size="16" style="float: right;"/>
-                  </Option>
-                </Select>
-                <p class="form-field-value" v-for="icon in $store.state.enums.menu.icons"
-                   v-if="status === $store.state.enums.FORM_STATUS_CHECK && icon.value === current.icon"
-                   :key="icon.value">{{icon.label}}</p>
-              </FormItem>
-            </Col>
-          </Row>
-          <FormItem :label="this.$i18n.t('system.menu.properties.url')" prop="url">
-            <Input v-model="current.url" :maxlength="256" v-if="status !== $store.state.enums.FORM_STATUS_CHECK"/>
-            <p class="form-field-value" v-if="status === $store.state.enums.FORM_STATUS_CHECK">{{current.url}}</p>
-          </FormItem>
-          <FormItem :label="this.$i18n.t('system.menu.properties.description')" prop="description">
-            <Input type="textarea" :rows="3" v-model="current.description" :maxlength="512"
-                   v-if="status !== $store.state.enums.FORM_STATUS_CHECK"/>
-            <p class="form-field-value" v-if="status === $store.state.enums.FORM_STATUS_CHECK">
-              {{current.description}}</p>
-          </FormItem>
-          <FormItem style="text-align: right;" v-if="status!==$store.state.enums.FORM_STATUS_CHECK">
-            <Button type="primary" @click="save">{{$t('common.btn.save')}}</Button>
-            <Button style="margin-left: 8px" @click="editCancel">{{$t('common.btn.cancel')}}</Button>
-          </FormItem>
-        </Form>
+        <menu-form :status="status" :instance="current" @changeStatus="changeStatus" @changeSelected="changeSelected"/>
       </div>
     </div>
     <div>
@@ -79,73 +24,39 @@
 import api from '../../../apis/modules/system/menu.js';
 import menuTreeNode from './menu-tree-node';
 import functions from './func';
+import menuForm from './menu-form';
+import form from '../../../utils/form';
 
 export default {
   name: 'menus',
   components: {
     menuTreeNode,
-    functions
+    functions,
+    menuForm
   },
   methods: {
-    findIndex (menus, condition) {
-      if (this.$commons.isEmptyArray(menus)) {
-        return -1;
-      }
-      const len = menus.length;
-      for (let i = 0; i < len; i++) {
-        if (menus[i].id === condition) {
-          return i;
-        }
-      }
-      return -1;
+    changeStatus (status) {
+      this.status = status;
     },
-    selectNode (menus, selected) {
+    changeSelected (selected) {
       if (this.$commons.isNull(selected)) {
-        this.current = menus[0];
+        this.current = this.menus[0];
         return;
       }
-      const filtered = menus.filter(menu => menu.id === selected.id);
-      this.current = filtered.length === 0 ? menus[0] : filtered[0];
+      if (selected.parent === '0') {
+        this.current = selected;
+      } else {
+        const index = this.$commons.index(this.menus, selected.parent);
+        this.menus[index].expand = true;
+        this.current = selected;
+      }
     },
     refresh (selected) {
       this.menus = [];
-      this.status = this.$store.state.enums.FORM_STATUS_CHECK;
+      this.status = form.STATUS_VIEW;
       this.$http.get(api.list).then(res => {
         this.menus = this.$commons.transform(res);
-        if (this.$commons.isNull(selected) || selected.parent === '0') {
-          this.selectNode(this.menus, selected);
-          return;
-        }
-        const parent = this.menus.filter(menu => menu.id === selected.parent)[0];
-        parent.expand = true;
-        this.selectNode(parent.children, selected);
-      });
-    },
-    cancel () {
-      this.$Modal.confirm({
-        title: this.$i18n.t('common.message.confirm_cancel'),
-        onOk: () => {
-          if (this.status === this.$store.state.enums.STATUS_CREATE) {
-            this.selectNode(this.menus, {id: this.current.parent});
-            this.status = this.$store.state.enums.FORM_STATUS_CHECK;
-          } else {
-            this.$http.get(api.get.replace('{id}', this.current.id)).then(res => (this.current = res));
-            this.status = this.$store.state.enums.FORM_STATUS_CHECK;
-          }
-        }
-      });
-    },
-    save () {
-      this.$refs['inst'].validate().then(isValid => {
-        if (isValid) {
-          if (this.status === this.$store.state.enums.STATUS_CREATE) {
-            this.current.creator = this.$commons.getUser().id;
-            this.$http.post(api.create, this.current).then(this.refresh);
-          } else if (this.status === this.$store.state.enums.STATUS_EDIT) {
-            this.current.updater = this.$commons.getUser().id;
-            this.$http.put(api.create, this.current).then(this.refresh);
-          }
-        }
+        this.changeSelected(selected);
       });
     },
     nodeClick (data) {
@@ -160,7 +71,7 @@ export default {
           if (data.parent === '0') {
             this.menus.splice(index, 1);
             if (this.menus.length > 0) {
-              this.selectNode(this.menus, this.menus[index === this.menus.length ? --index : index]);
+              this.changeSelected(this.menus, this.menus[index === this.menus.length ? --index : index]);
             } else {
               this.current = {};
             }
@@ -169,9 +80,9 @@ export default {
             index = this.findIndex(parent.children, data.id);
             parent.children.splice(index, 1);
             if (parent.children.length === 0) {
-              this.selectNode(this.menus, parent);
+              this.changeSelected(this.menus, parent);
             } else {
-              this.selectNode(parent.children, parent.children[index === parent.children.length ? --index : index]);
+              this.changeSelected(parent.children, parent.children[index === parent.children.length ? --index : index]);
             }
           }
           this.$Notice.success({
@@ -180,12 +91,12 @@ export default {
         });
     },
     create (parent) {
-      this.current = {parent: parent};
-      this.status = this.$store.state.enums.STATUS_CREATE;
+      this.changeSelected({parent: parent});
+      this.changeStatus(form.STATUS_CREATE);
     },
-    edit (menu) {
-      this.current = menu;
-      this.status = this.$store.state.enums.STATUS_EDIT;
+    edit (inst) {
+      this.changeSelected(inst);
+      this.changeStatus(form.STATUS_MODIFY);
     },
     renderNodes (h, {root, node, data}) {
       return h(menuTreeNode, {
@@ -205,41 +116,14 @@ export default {
     }
   },
   data () {
-    const validateCode = (rule, value, callback) => {
-      this.$http.get(api.exist, {code: this.current.code, ignore: this.current.id})
-        .then(res => {
-          if (res.exist) {
-            callback(new Error(this.$i18n.t('system.menu.errors.code_not_repeat').toString()));
-          } else {
-            callback();
-          }
-        });
-    };
     return {
-      status: this.$store.state.enums.FORM_STATUS_CHECK,
+      status: form.STATUS_VIEW,
       menus: [],
-      current: {},
-      rules: {
-        name: [
-          {required: true, trigger: 'blur', message: this.$i18n.t('errors.field_not_empty')}
-        ],
-        code: [
-          {required: true, trigger: 'blur', message: this.$i18n.t('errors.field_not_empty')},
-          {validator: validateCode, trigger: 'blur'}
-        ]
-      }
+      current: {}
     };
   },
   mounted () {
     this.refresh();
-  },
-  computed: {
-    parentName: function () {
-      if (this.$commons.isNull(this.current) || this.current.parent === '0') {
-        return this.$i18n.t('common.menu.nav.root');
-      }
-      return api.displayName(this.current.parentObject, this.$i18n);
-    }
   }
 };
 </script>

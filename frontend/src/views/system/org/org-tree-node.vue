@@ -10,7 +10,7 @@
         @on-ok="remove">
         <a href="javascript:void(0);" style="color: red;">{{$t('common.btn.remove')}}</a>
       </Poptip>
-      <a href="javascript:void(0);" class="node-action" v-if="org.id !== '0'">{{$t('common.btn.edit')}}</a>
+      <a href="javascript:void(0);" class="node-action" v-if="org.id !== '0'" @click="edit">{{$t('common.btn.edit')}}</a>
       <a href="javascript:void(0);" class="node-action" @click="create">{{$t('common.btn.new')}}</a>
     </div>
   </div>
@@ -38,6 +38,9 @@ export default {
     },
     remove () {
       this.$emit('remove', this.org);
+    },
+    edit () {
+      this.$emit('edit', this.org);
     }
   },
   computed: {
@@ -89,5 +92,11 @@ export default {
     float: right;
     margin-left: 5px;
     font-size: 12px;
+  }
+</style>
+
+<style>
+  .node-actions .ivu-poptip-popper {
+    width: 300px!important;
   }
 </style>
