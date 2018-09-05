@@ -31,7 +31,7 @@ import api from '../../apis/modules/system/menu';
 export default {
   name: 'commons-menu',
   mounted () {
-    this.$http.get(api.mineMenus.replace('{username}', this.$commons.getUser().username)).then(res => {
+    this.$http.get(api.mineMenus(this.$commons.getUser().username)).then(res => {
       this.menus = this.$commons.transform(res);
     });
   },

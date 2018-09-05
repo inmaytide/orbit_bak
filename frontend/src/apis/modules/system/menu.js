@@ -1,11 +1,9 @@
 export default {
-  mineMenus: '/sys/menus/u/{username}',
-  list: '/sys/menus',
+  mineMenus: (username) => `/sys/menus/u/${username}`,
+  common: '/sys/menus',
   exist: '/sys/menus/exist',
-  get: '/sys/menus/{id}',
-  remove: '/sys/menus/{id}',
-  create: '/sys/menus',
-  update: '/sys/menus',
+  get: (id) => `/sys/menus/${id}`,
+  remove: (id) => `/sys/menus/${id}`,
   displayName: function (menu, i18n) {
     const key = 'common.menu.nav.' + menu.code;
     let name = i18n.t(key);

@@ -54,7 +54,7 @@ export default {
     refresh (selected) {
       this.menus = [];
       this.status = form.STATUS_VIEW;
-      this.$http.get(api.list).then(res => {
+      this.$http.get(api.common).then(res => {
         this.menus = this.$commons.transform(res);
         this.changeSelected(selected);
       });

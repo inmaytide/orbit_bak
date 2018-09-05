@@ -101,7 +101,6 @@ export default {
     float: right;
     margin-left: 5px;
     font-size: 12px;
-    background-color: #FFFFFF;
   }
 </style>
 <style>
