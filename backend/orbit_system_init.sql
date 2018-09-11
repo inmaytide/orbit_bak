@@ -6,7 +6,6 @@ create table public.sys_user (
   password varchar(64) not null,
   status int not null default 1,
   brithday date,
-  education int,
   email varchar(512),
   qq varchar(16),
   wechat varchar(32),

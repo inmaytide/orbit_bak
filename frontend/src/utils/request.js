@@ -90,21 +90,21 @@ const request = {
   },
   post: (url, data, config) => {
     url = CONTEXT_PATH + url;
-    if (data) {
+    if (data && commons.getUser()) {
       data.creator = commons.getUser().id;
     }
     return axios.post(url, data || {}, config || {});
   },
   put: (url, data, config) => {
     url = CONTEXT_PATH + url;
-    if (data) {
+    if (data && commons.getUser()) {
       data.updater = commons.getUser().id;
     }
     return axios.put(url, data || {}, config || {});
   },
   patch: (url, data, config) => {
     url = CONTEXT_PATH + url;
-    if (data) {
+    if (data && commons.getUser()) {
       data.updater = commons.getUser().id;
     }
     return axios.patch(url, data || {}, config || {});

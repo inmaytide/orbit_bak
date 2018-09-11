@@ -4,10 +4,8 @@ import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.system.domain.User;
 import com.inmaytide.orbit.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Set;
@@ -24,6 +22,11 @@ public class UserController {
         return service.getByUsername(username).map(Mono::just).orElseThrow(ObjectNotFoundException::new);
     }
 
+    @PutMapping
+    public Mono<User> update(@RequestBody @Validated Mono<User> user) {
+        return user.doOnSuccess(service::assertNotExist).map(service::update);
+    }
+
     @GetMapping("/{id}")
     public Mono<User> get(@PathVariable Long id) {
         return service.get(id).map(Mono::just).orElseThrow(ObjectNotFoundException::new);
@@ -33,5 +36,6 @@ public class UserController {
     public Mono<Set<String>> listPermissions(@PathVariable String username) {
         return Mono.just(service.listPermissions(username));
     }
+
 
 }

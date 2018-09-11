@@ -13,9 +13,8 @@ public class User extends AbstractEntity {
     private String name;
     private String username;
     private String password;
-    private Integer status;
+    private UserStatus status;
     private LocalDate birthday;
-    private Integer education;
     private String email;
     private String qq;
     private String wechat;
@@ -49,11 +48,11 @@ public class User extends AbstractEntity {
         this.password = password;
     }
 
-    public Integer getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
@@ -63,14 +62,6 @@ public class User extends AbstractEntity {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-    }
-
-    public Integer getEducation() {
-        return education;
-    }
-
-    public void setEducation(Integer education) {
-        this.education = education;
     }
 
     public String getEmail() {
@@ -130,6 +121,6 @@ public class User extends AbstractEntity {
     }
 
     public Boolean isDisabled() {
-        return UserStatus.of(this.status) == UserStatus.DISABLED;
+        return this.status == UserStatus.DISABLED;
     }
 }

@@ -9,7 +9,7 @@
     <div>
       <div class="block-title blue-left-border">{{$t('common.title.info')}}</div>
       <div class="block-content" style="padding: 10px 30px 10px 10px;">
-        <menu-form :status="status" :instance="current" @changeStatus="changeStatus" @changeSelected="changeSelected"/>
+        <menu-form :status="status" :instance="current" @changeStatus="changeStatus" @refresh="refresh"/>
       </div>
     </div>
     <div>
@@ -59,30 +59,28 @@ export default {
         this.changeSelected(selected);
       });
     },
-    nodeClick (data) {
-      this.current = data;
-    },
     remove (data) {
       this.$http
-        .delete(api.remove.replace('{id}', data.id))
+        .delete(api.remove(data.id))
         .then(() => {
           const conditions = data.parent === '0' ? data.id : data.parent;
-          let index = this.findIndex(this.menus, conditions);
+          let index = this.$commons.index(this.menus, conditions);
+
           if (data.parent === '0') {
             this.menus.splice(index, 1);
             if (this.menus.length > 0) {
-              this.changeSelected(this.menus, this.menus[index === this.menus.length ? --index : index]);
+              this.changeSelected(this.menus[index === this.menus.length ? --index : index]);
             } else {
               this.current = {};
             }
           } else {
             const parent = this.menus[index];
-            index = this.findIndex(parent.children, data.id);
+            index = this.$commons.index(parent.children, data.id);
             parent.children.splice(index, 1);
             if (parent.children.length === 0) {
-              this.changeSelected(this.menus, parent);
+              this.changeSelected(parent);
             } else {
-              this.changeSelected(parent.children, parent.children[index === parent.children.length ? --index : index]);
+              this.changeSelected(parent.children[index === parent.children.length ? --index : index]);
             }
           }
           this.$Notice.success({
@@ -91,7 +89,7 @@ export default {
         });
     },
     create (parent) {
-      this.changeSelected({parent: parent});
+      this.changeSelected({parent: parent.id, parentObject: parent});
       this.changeStatus(form.STATUS_CREATE);
     },
     edit (inst) {
@@ -107,7 +105,7 @@ export default {
           status: this.status
         },
         on: {
-          nodeClick: this.nodeClick,
+          nodeClick: this.changeSelected,
           remove: this.remove,
           create: this.create,
           edit: this.edit

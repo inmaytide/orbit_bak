@@ -67,13 +67,17 @@ export default {
     save () {
       this.$refs['inst'].validate().then(isValid => {
         if (isValid) {
-          if (this.status === this.$store.state.enums.STATUS_CREATE) {
-            this.current.creator = this.$commons.getUser().id;
-            this.$http.post(api.create, this.current).then(this.refresh);
-          } else if (this.status === this.$store.state.enums.STATUS_EDIT) {
-            this.current.updater = this.$commons.getUser().id;
-            this.$http.put(api.create, this.current).then(this.refresh);
-          }
+          const method = form.isCreating(this.status) ? this.$http.post : this.$http.put;
+          const body = Object.assign({}, this.instance);
+          delete body.parentObject;
+          delete body.children;
+
+          method(api.common, body)
+            .then(res => {
+              res.parentObject = this.instance.parentObject;
+              this.$emit('changeStatus', form.STATUS_VIEW);
+              this.$emit('refresh', res);
+            });
         }
       });
     },

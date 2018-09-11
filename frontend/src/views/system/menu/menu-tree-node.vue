@@ -47,10 +47,10 @@ export default {
       this.$emit('remove', this.menu);
     },
     createRoot () {
-      this.$emit('create', '0');
+      this.$emit('create', {id: '0'});
     },
     createChild () {
-      this.$emit('create', this.menu.id);
+      this.$emit('create', this.menu);
     },
     edit () {
       this.$emit('edit', this.menu);
@@ -93,7 +93,7 @@ export default {
     position: absolute;
     top: 2px;
     right: 10px;
-    z-index: 9999;
+    z-index: 999;
     padding-right: 5px;
   }
 

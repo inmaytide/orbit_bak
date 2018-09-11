@@ -90,7 +90,7 @@ export default {
           this.changeSelected(selected.parentObject);
           return;
         }
-        this.changeSelected(children[index === 0 ? ++index : --index]);
+        this.changeSelected(children[index === children.length ? --index : index]);
       });
     },
     treeRender (h, {root, node, data}) {

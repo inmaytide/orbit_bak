@@ -91,7 +91,6 @@ export default {
       this.saveButtonLoading = true;
       this.$refs['inst'].validate().then(isValid => {
         if (isValid) {
-          this.current.creator = this.$commons.getUser().id;
           this.$http.post(api.save(this.menuId), this.current)
             .then((res) => {
               this.elements.push(res);

@@ -5,21 +5,33 @@
       <div class="login-form">
         <Form ref="token" :model="token" :rules="rules">
           <FormItem prop="username">
-            <i-input v-model="token.username" size="large" :maxlength="16" icon="md-person"
+            <i-input v-model="token.username"
+                     size="large"
+                     icon="md-person"
+                     :maxlength="16"
                      :title="$t('login.title.username')"/>
           </FormItem>
           <FormItem prop="password">
-            <i-input type="password" v-model="token.password" size="large" :maxlength="16" icon="ios-lock-outline"
+            <i-input type="password"
+                     v-model="token.password"
+                     size="large"
+                     icon="ios-lock-outline"
+                     :maxlength="16"
                      :title="$t('login.title.password')"/>
           </FormItem>
           <FormItem prop="captcha">
             <Row>
               <i-col span="15">
-                <i-input v-model="token.captcha" size="large" :maxlength="6" icon="md-image"
+                <i-input v-model="token.captcha"
+                         size="large"
+                         :maxlength="6"
+                         icon="md-image"
                          :title="$t('login.title.captcha')"/>
               </i-col>
               <i-col span="9">
-                <img :src="captcha.image" class="login-captcha-image" v-on:click="refreshCaptcha()"/>
+                <img :src="captcha.image"
+                     class="login-captcha-image"
+                     v-on:click="refreshCaptcha()"/>
               </i-col>
             </Row>
           </FormItem>
