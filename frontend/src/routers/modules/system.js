@@ -20,4 +20,15 @@ export default [{
       {text: 'common.menu.nav.org'}
     ]
   }
+}, {
+  path: '/system/users',
+  component: (resolve) => require(['../../views/system/user/user'], resolve),
+  meta: {
+    authenticated: true,
+    active: 'system',
+    breadcrumbs: [
+      {text: 'common.menu.nav.system'},
+      {text: 'common.menu.nav.user'}
+    ]
+  }
 }];

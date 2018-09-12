@@ -2,15 +2,15 @@
   <div class="container-search-bar">
     <div style="width: 70%;" class="basic-conditions">
       {{$t('common.label.keyword')}}&nbsp;
-      <Input v-model="conditions.keyword" :placeholder="placeholder" style="width: 35%;margin-right: 40px;"/>
+      <Input v-model="conditions.keyword"
+             :placeholder="$i18n.t('system.user.search.keyword-placeholder')"
+             style="width: 35%;margin-right: 40px;"/>
       {{$t('common.label.org')}}&nbsp;
-      <Select v-model="conditions.organization" style="width:30%;">
+      <Select v-model="conditions.organization"
+              style="width:30%;">
       </Select>
     </div>
     <div class="actions">
-      <a>
-        <Icon type="ios-arrow-down"/>
-        {{$t('common.btn.advanced_search')}}</a>
       <Button shape="circle" type="info" @click="search">{{$t('common.btn.search')}}</Button>
       <Button shape="circle" @click="reset">{{$t('common.btn.reset')}}</Button>
     </div>
@@ -18,10 +18,7 @@
 </template>
 <script>
 export default {
-  name: 'search-bar',
-  props: {
-    placeholder: String
-  },
+  name: 'user-search-bar',
   data () {
     return {
       conditions: {
@@ -46,15 +43,15 @@ export default {
 </script>
 <style scoped>
   .container-search-bar {
-    width: 100%;
-    height: 50px;
+    width: calc(100%- 20px);
+    height: 45px;
     background-color: white;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-left: 3px solid #2db7f5;
     display: flex;
     justify-content: space-between;
-    line-height: 50px;
+    line-height: 45px;
     margin: 10px;
   }
 
@@ -70,8 +67,8 @@ export default {
   }
 
   .actions button {
-    width: 80px;
     margin-right: 10px;
+    padding: auto 10px;
   }
 
   .actions a {
