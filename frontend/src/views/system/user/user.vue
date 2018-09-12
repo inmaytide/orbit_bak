@@ -1,6 +1,7 @@
 <template>
   <div class="container-center">
     <user-search-bar />
+    <Table></Table>
   </div>
 </template>
 <script>

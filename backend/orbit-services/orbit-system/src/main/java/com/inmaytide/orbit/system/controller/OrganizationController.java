@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.system.controller;
 
+import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.system.domain.Organization;
 import com.inmaytide.orbit.system.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,12 @@ public class OrganizationController {
     public Mono<Organization> create(@Validated @RequestBody Mono<Organization> organization) {
         return organization.doOnSuccess(service::assertCodeNotExist).map(service::save);
     }
+
+    @GetMapping("/{id}")
+    public void get(@PathVariable Long id) {
+        service.get(id).orElseThrow(ObjectNotFoundException::new);
+    }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
