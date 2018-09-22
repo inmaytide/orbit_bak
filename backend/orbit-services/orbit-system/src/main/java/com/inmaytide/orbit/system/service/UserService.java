@@ -1,11 +1,13 @@
 package com.inmaytide.orbit.system.service;
 
+import com.github.pagehelper.Page;
 import com.inmaytide.orbit.commons.service.BasicService;
 import com.inmaytide.orbit.commons.util.Assert;
 import com.inmaytide.orbit.system.domain.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,6 +20,8 @@ public interface UserService extends BasicService<User> {
     Optional<User> getByUsername(String username);
 
     Set<String> listPermissions(String username);
+
+    Page<User> list(Map<String, Object> conditions);
 
     void changePassword(User user);
 

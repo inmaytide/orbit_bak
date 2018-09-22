@@ -1,5 +1,7 @@
 package com.inmaytide.orbit.system.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.inmaytide.orbit.commons.service.AbstractService;
 import com.inmaytide.orbit.system.consts.UserStatus;
 import com.inmaytide.orbit.system.domain.User;
@@ -8,9 +10,7 @@ import com.inmaytide.orbit.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServiceImpl extends AbstractService<User> implements UserService {
@@ -51,6 +51,11 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         selective.setUpdater(user.getUpdater());
         selective.setPassword(getPasswordEncoder().encode(user.getPassword()));
         updateSelective(selective);
+    }
+
+    @Override
+    public Page<User> list(Map<String, Object> conditions) {
+        return PageHelper.startPage(1, 10).doSelectPage(() -> mapper.list(conditions));
     }
 
     @Override

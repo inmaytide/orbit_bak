@@ -22,7 +22,8 @@
     },
     "label": {
       "keyword": "Keyword",
-      "org": "Organization"
+      "org": "Organization",
+      "op": "Operation"
     },
     "menu": {
       "header": {

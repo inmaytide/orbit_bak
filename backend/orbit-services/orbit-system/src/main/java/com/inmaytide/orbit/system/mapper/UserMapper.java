@@ -5,6 +5,7 @@ import com.inmaytide.orbit.system.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Map;
 import java.util.Set;
 
 @Mapper
@@ -26,4 +27,5 @@ public interface UserMapper extends BasicMapper<User> {
             "where u.username = #{username} ")
     Set<String> listPermissions(String username);
 
+    void list(Map<String, Object> conditions);
 }

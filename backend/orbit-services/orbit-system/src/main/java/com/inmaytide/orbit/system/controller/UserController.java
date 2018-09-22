@@ -1,13 +1,16 @@
 package com.inmaytide.orbit.system.controller;
 
+import com.github.pagehelper.Page;
 import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.system.domain.User;
 import com.inmaytide.orbit.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -22,9 +25,20 @@ public class UserController {
         return service.getByUsername(username).map(Mono::just).orElseThrow(ObjectNotFoundException::new);
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<User> create(@RequestBody @Validated Mono<User> user) {
+        return user.doOnSuccess(service::assertNotExist).map(service::save);
+    }
+
     @PutMapping
     public Mono<User> update(@RequestBody @Validated Mono<User> user) {
         return user.doOnSuccess(service::assertNotExist).map(service::update);
+    }
+
+    @PatchMapping("change-password")
+    public void changePassword(Mono<User> user) {
+        user.doOnSuccess(service::changePassword);
     }
 
     @GetMapping("/{id}")
@@ -35,6 +49,11 @@ public class UserController {
     @GetMapping("/u/{username}/permissions")
     public Mono<Set<String>> listPermissions(@PathVariable String username) {
         return Mono.just(service.listPermissions(username));
+    }
+
+    @GetMapping
+    public Mono<Page<User>> list(@RequestParam Map<String, Object> params) {
+        return Mono.just(service.list(params));
     }
 
 

@@ -1,5 +1,19 @@
 {
   "search": {
     "keyword-placeholder": "Name/Username/Cellphone"
+  },
+  "properties": {
+    "username": "Username",
+    "name": "Name",
+    "password": "Password",
+    "status": "Status",
+    "birthday": "Birthday",
+    "email": "E-mail",
+    "qq": "QQ",
+    "wechat": "WeChat",
+    "telephone": "Telephone",
+    "cellphone": "Cellphone",
+    "avatar": "Avatar",
+    "remark": "Remark"
   }
 }
