@@ -13,10 +13,12 @@ public class SystemServiceSecurityConfiguration extends SecurityConfigurerAdapte
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        return httpSecurityConfiguer(http)
+        httpSecurityConfiguer(http)
                 .authorizeExchange()
                 .anyExchange().authenticated()
-                .and().build();
+                .and()
+                .oauth2ResourceServer().jwt();
+        return http.build();
     }
 
 }

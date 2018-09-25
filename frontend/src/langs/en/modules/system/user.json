@@ -15,5 +15,12 @@
     "cellphone": "Cellphone",
     "avatar": "Avatar",
     "remark": "Remark"
+  },
+  "status": {
+    "all": "All",
+    "enable": "Enable",
+    "outwork": "On Business Trip",
+    "disabled": "Disabled",
+    "vacation": "On Vacation"
   }
 }

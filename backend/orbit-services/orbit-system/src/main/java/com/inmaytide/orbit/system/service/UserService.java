@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.system.service;
 
 import com.github.pagehelper.Page;
+import com.inmaytide.orbit.commons.Params;
 import com.inmaytide.orbit.commons.service.BasicService;
 import com.inmaytide.orbit.commons.util.Assert;
 import com.inmaytide.orbit.system.domain.User;
@@ -21,7 +22,7 @@ public interface UserService extends BasicService<User> {
 
     Set<String> listPermissions(String username);
 
-    Page<User> list(Map<String, Object> conditions);
+    Page<User> list(Params params);
 
     void changePassword(User user);
 

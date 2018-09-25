@@ -14,9 +14,14 @@ const state = {
       {label: 'station', value: 3}
     ]
   },
-  FORM_STATUS_CHECK: 'check',
-  FORM_STATUS_CREATE: 'create',
-  FORM_STATUS_EDIT: 'edit'
+  user: {
+    status: [
+      {label: 'enable', value: 1},
+      {label: 'outwork', value: 2},
+      {label: 'vacation', value: 3},
+      {label: 'disabled', value: 99}
+    ]
+  }
 };
 
 export default {

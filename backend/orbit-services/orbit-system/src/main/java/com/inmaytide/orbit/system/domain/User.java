@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.system.domain;
 
+import com.inmaytide.orbit.commons.database.annotation.Associated;
 import com.inmaytide.orbit.commons.database.annotation.Table;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import com.inmaytide.orbit.system.consts.UserStatus;
@@ -11,6 +12,9 @@ public class User extends AbstractEntity {
 
     private static final long serialVersionUID = -5004364741503962227L;
     private String name;
+    private Long org;
+    @Associated(table = "sys_organization", source = "org", target = "name")
+    private Long orgName;
     private String username;
     private String password;
     private UserStatus status;
@@ -122,5 +126,21 @@ public class User extends AbstractEntity {
 
     public Boolean isDisabled() {
         return this.status == UserStatus.DISABLED;
+    }
+
+    public Long getOrg() {
+        return org;
+    }
+
+    public void setOrg(Long org) {
+        this.org = org;
+    }
+
+    public Long getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(Long orgName) {
+        this.orgName = orgName;
     }
 }

@@ -1,6 +1,7 @@
 drop table if exists public.sys_user;
 create table public.sys_user (
   id bigint primary key,
+  org bigint,
   name varchar(64) not null,
   username varchar(16) not null unique,
   password varchar(64) not null,

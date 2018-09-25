@@ -18,14 +18,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DefaultUserDetailsService service;
+    @Bean
+    public DefaultUserDetailsService userDetailsService() {
+        return new DefaultUserDetailsService();
+    }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(new BCryptPasswordEncoder(10));
-        provider.setUserDetailsService(service);
+        provider.setUserDetailsService(userDetailsService());
         return provider;
     }
 
@@ -35,22 +37,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .requestMatchers().anyRequest()
-                .and()
+        http
                 .authorizeRequests()
-                .antMatchers("/oauth/**").permitAll();
+                .antMatchers("/.well-known/jwks.json").permitAll()
+                .anyRequest().authenticated();
     }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/hystrix.stream/**", "/info", "/error");
-    }
 }

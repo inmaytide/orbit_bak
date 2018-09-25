@@ -2,6 +2,7 @@ package com.inmaytide.orbit.system.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.inmaytide.orbit.commons.Params;
 import com.inmaytide.orbit.commons.service.AbstractService;
 import com.inmaytide.orbit.system.consts.UserStatus;
 import com.inmaytide.orbit.system.domain.User;
@@ -54,8 +55,10 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-    public Page<User> list(Map<String, Object> conditions) {
-        return PageHelper.startPage(1, 10).doSelectPage(() -> mapper.list(conditions));
+    public Page<User> list(Params params) {
+        Page<User> page = PageHelper.startPage(params.getPageNumber(), params.getPageSize());
+        mapper.list(params.getContent());
+        return page;
     }
 
     @Override

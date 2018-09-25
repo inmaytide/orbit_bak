@@ -1,8 +1,14 @@
 <template>
   <div class="container-center" style="height: calc(100% - 10px);">
-    <user-search-bar />
+    <user-search-bar @search="search"/>
     <div class="table-container">
-      <Table :columns="columns"
+      <div class="table-actions" style="padding-bottom: 10px;">
+        <Button type="primary" shape="circle" size="small" icon="md-person-add" title="New">{{$t('common.btn.new')}}</Button>
+      </div>
+      <Table stripe
+             border
+             size="small"
+             :columns="columns"
              :data="listData"/>
     </div>
   </div>
@@ -25,9 +31,6 @@ export default {
       listData: [],
       columns: [
         {
-          type: 'selection',
-          width: 60
-        }, {
           title: this.$i18n.t('system.user.properties.status'),
           key: 'status'
         }, {
@@ -49,6 +52,13 @@ export default {
     };
   },
   methods: {
+    search (conditions) {
+      this.conditions = Object.assign(this.conditions, {
+        pageNumber: 1,
+        ...conditions
+      });
+      this.refresh();
+    },
     refresh () {
       this.$http.get(api.list, this.conditions).then(res => (this.listData = res));
     }

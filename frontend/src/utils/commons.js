@@ -42,6 +42,18 @@ export default {
     });
     return filtered;
   },
+  transformOptions (data, parent = {id: '0'}, labelName = 'name', valueName = 'id') {
+    const options = [];
+    const filtered = data.filter(element => element.parent === parent.id);
+    filtered.forEach(element => {
+      options.push({
+        label: element[labelName],
+        value: element[valueName],
+        children: this.transformOptions(data, element)
+      });
+    });
+    return options;
+  },
   index (elements, conditionValue, conditionKey = 'id') {
     const len = elements.length;
     for (let i = 0; i < len; i++) {

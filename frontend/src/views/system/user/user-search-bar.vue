@@ -1,13 +1,17 @@
 <template>
   <div class="container-search-bar">
-    <div style="width: 70%;" class="basic-conditions">
+    <div class="conditions">
       {{$t('common.label.keyword')}}&nbsp;
       <Input v-model="conditions.keyword"
              :placeholder="$i18n.t('system.user.search.keyword-placeholder')"
-             style="width: 35%;margin-right: 40px;"/>
-      {{$t('common.label.org')}}&nbsp;
-      <Select v-model="conditions.organization"
-              style="width:30%;">
+             style="width: 30%;margin-right: 30px;"/>
+      <select-organization :width="'45%'" style="margin-right: 30px;" v-model="conditions.organization"/>
+      {{$t('system.user.properties.status')}}
+      <Select v-model="conditions.status" style="width:20%;">
+        <Option :value="'all'">{{$t('system.user.status.all')}}</Option>
+        <Option :value="op.value" v-for="op in $store.state.enums.user.status" :key="op.value">
+          {{$t('system.user.status.' + op.label)}}
+        </Option>
       </Select>
     </div>
     <div class="actions">
@@ -17,13 +21,19 @@
   </div>
 </template>
 <script>
+import SelectOrganization from '../../../components/select-organization';
+
 export default {
   name: 'user-search-bar',
+  components: {
+    SelectOrganization
+  },
   data () {
     return {
       conditions: {
         keyword: '',
-        organization: ''
+        organization: '',
+        status: 'all'
       }
     };
   },
@@ -34,7 +44,8 @@ export default {
     reset () {
       this.conditions = {
         keyword: '',
-        organization: ''
+        organization: '',
+        status: 'all'
       };
       this.search();
     }
@@ -55,20 +66,20 @@ export default {
     margin: 10px;
   }
 
-  .basic-conditions {
-    width: 65%;
+  .conditions {
+    width: 70%;
     padding-left: 30px;
+    white-space: nowrap;
   }
 
   .actions {
-    width: 35%;
+    width: 30%;
     text-align: right;
     padding-right: 20px;
   }
 
   .actions button {
     margin-right: 10px;
-    padding: auto 10px;
   }
 
   .actions a {

@@ -8,8 +8,8 @@ import java.util.Objects;
 public enum UserStatus {
     ENABLE(1),
     OUTWORK(2),
-    DISABLED(3),
-    VACATION(4);
+    VACATION(3),
+    DISABLED(99);
 
     @JsonValue
     private Integer value;

@@ -3,8 +3,10 @@ package com.inmaytide.orbit.system.mapper;
 import com.inmaytide.orbit.commons.mapper.BasicMapper;
 import com.inmaytide.orbit.system.domain.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,5 +29,14 @@ public interface UserMapper extends BasicMapper<User> {
             "where u.username = #{username} ")
     Set<String> listPermissions(String username);
 
-    void list(Map<String, Object> conditions);
+    @Select("<script>" +
+            "select * from sys_user where 1 = 1 " +
+            "<if test=\"conditions.keyword != null and conditions.keyword != ''\">" +
+            "and (instr(name, #{conditions.keyword}) or instr(username, #{conditions.keyword}) or instr(cellphone, #{conditions.keyword}))" +
+            "</if>" +
+            "<if test=\"conditions.organization != null\">" +
+            "and org = #{conditions.organization}" +
+            "</if>" +
+            "</script>")
+    List<User> list(@Param("conditions") Map<String, Object> conditions);
 }
