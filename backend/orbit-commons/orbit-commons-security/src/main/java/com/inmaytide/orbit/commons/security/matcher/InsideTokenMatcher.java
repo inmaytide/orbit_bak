@@ -6,11 +6,12 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-import static com.inmaytide.orbit.commons.Constants.HEADER_NAME_INSIDE_TOKEN;
-import static com.inmaytide.orbit.commons.Constants.INSIDE_TOKEN;
 import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher.MatchResult.notMatch;
 
 public class InsideTokenMatcher {
+
+    static final String HEADER_NAME_INSIDE_TOKEN = "inside-service-token";
+    static final String INSIDE_TOKEN = "MmY3ZDA4YjY1MDA2OGUzZDA2YWVmZTY3MTc0NjFlOTc0ZGEzZTJiNTc3ZDM4NDJhNmUyMDRjMGZjMDQ2YTM1ZQ==";
 
     private ServerWebExchange exchange;
 

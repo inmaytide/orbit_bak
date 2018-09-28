@@ -27,7 +27,7 @@ export default {
   getAuthorization () {
     const token = this.getToken();
     if (token !== null) {
-      return token.token_type + ' ' + token.access_token;
+      return 'Bearer ' + token.access_token;
     }
     return null;
   },

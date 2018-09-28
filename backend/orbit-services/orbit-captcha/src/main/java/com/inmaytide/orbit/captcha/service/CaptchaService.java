@@ -12,6 +12,6 @@ public interface CaptchaService {
 
     Resource generateCaptcha(String cacheName);
 
-    boolean validation(String captcha, String cacheName);
+    boolean validate(String captcha, String cacheName);
 
 }

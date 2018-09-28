@@ -45,9 +45,9 @@ public class CaptchaHandler {
     }
 
     @NonNull
-    public Mono<ServerResponse> validation(ServerRequest request) {
+    public Mono<ServerResponse> validate(ServerRequest request) {
         String captcha = request.pathVariable("captcha");
-        Boolean isValid = service.validation(captcha, getCacheName(request));
+        Boolean isValid = service.validate(captcha, getCacheName(request));
         return ok().body(Mono.just(Map.of("isValid", isValid)), Map.class);
     }
 

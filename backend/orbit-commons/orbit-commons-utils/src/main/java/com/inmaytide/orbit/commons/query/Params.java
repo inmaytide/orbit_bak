@@ -1,7 +1,7 @@
-package com.inmaytide.orbit.commons;
+package com.inmaytide.orbit.commons.query;
 
-import org.springframework.util.Assert;
-import org.springframework.util.NumberUtils;
+
+import com.inmaytide.orbit.commons.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class Params {
     }
 
     public Params(Map<String, Object> content, boolean needEraseInvalid) {
-        Assert.notNull(content, "The content of params cannot be null");
+        Assert.nonNull(content, "The content of params cannot be null");
         this.content = content;
         if (needEraseInvalid) {
             eraseInvalidParams();
@@ -39,7 +39,7 @@ public class Params {
             return defaultValue;
         }
         Object value = content.getOrDefault(name, defaultValue);
-        return value == null ? defaultValue : NumberUtils.parseNumber(value.toString(), Integer.class);
+        return value == null ? defaultValue : Integer.parseInt(value.toString());
     }
 
     public Integer getInt(String name) {

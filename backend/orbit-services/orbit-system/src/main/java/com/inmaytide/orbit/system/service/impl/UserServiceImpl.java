@@ -2,7 +2,7 @@ package com.inmaytide.orbit.system.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.inmaytide.orbit.commons.Params;
+import com.inmaytide.orbit.commons.query.Params;
 import com.inmaytide.orbit.commons.service.AbstractService;
 import com.inmaytide.orbit.system.consts.UserStatus;
 import com.inmaytide.orbit.system.domain.User;

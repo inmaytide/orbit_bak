@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.system.controller;
 
 import com.github.pagehelper.Page;
-import com.inmaytide.orbit.commons.Params;
+import com.inmaytide.orbit.commons.query.Params;
 import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.system.domain.User;
 import com.inmaytide.orbit.system.service.UserService;

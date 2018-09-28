@@ -42,7 +42,7 @@ public class CaptchaApplication {
     @Bean
     public RouterFunction<?> routers(CaptchaHandler handler) {
         RouterFunction<?> routers = route(GET("/"), handler::getCaptcha)
-                .and(route(GET("/{captcha}"), handler::validation))
+                .and(route(GET("/{captcha}"), handler::validate))
                 .andOther(route(RequestPredicates.all(), GlobalExceptionHandler::notFound));
         return nest(path("/captcha"), routers);
     }
