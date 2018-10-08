@@ -11,8 +11,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.WebRequestInterceptor;
 
-import static com.inmaytide.orbit.commons.Constants.HEADER_NAME_CAPTCHA_NAME;
-
 /**
  * @author Moss
  * @since November 18, 2017
@@ -20,6 +18,8 @@ import static com.inmaytide.orbit.commons.Constants.HEADER_NAME_CAPTCHA_NAME;
 public class CaptchaInterceptor implements WebRequestInterceptor {
 
     private static final String PARAMETER_NAME_CAPTCHA = "captcha";
+
+    public static final String HEADER_NAME_CAPTCHA_NAME = "x-captcha-name";
 
     private CaptchaClient client;
 

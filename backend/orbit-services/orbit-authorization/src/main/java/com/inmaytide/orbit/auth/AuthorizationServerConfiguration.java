@@ -4,7 +4,6 @@ import com.inmaytide.orbit.auth.client.CaptchaClient;
 import com.inmaytide.orbit.auth.exception.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.auth.interceptor.CaptchaInterceptor;
 import com.inmaytide.orbit.auth.service.DefaultUserDetailsService;
-import com.inmaytide.orbit.commons.Constants;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory().withClient("apps")
                 .authorizedGrantTypes("password", "refresh_token")
-                .secret("{noop}" + Constants.SIGNING_KEY);
+                .secret("{noop}59a84cbf83227a35");
     }
 
     @Override

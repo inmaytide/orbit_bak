@@ -3,6 +3,7 @@ package com.inmaytide.orbit.commons.database;
 import com.google.common.base.CaseFormat;
 import com.inmaytide.orbit.commons.database.annotation.Table;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 import java.util.Set;
@@ -30,10 +31,17 @@ public class TableMetadata {
     }
 
     private static String fetchTableName(Class<?> entityClass) {
+        String tableName = "";
         if (entityClass.isAnnotationPresent(Table.class)) {
-            return entityClass.getAnnotation(Table.class).value();
+            Table table = entityClass.getAnnotation(Table.class);
+            if (StringUtils.hasText(table.schema())) {
+                tableName += table.schema() + ".";
+            }
+            if (StringUtils.hasText(table.name())) {
+                return tableName + table.name();
+            }
         }
-        return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName());
+        return tableName + CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName());
     }
 
     public String getTableName() {

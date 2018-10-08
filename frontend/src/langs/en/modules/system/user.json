@@ -1,4 +1,7 @@
 {
+  "label": {
+    "detail": "User Details"
+  },
   "search": {
     "keyword-placeholder": "Name/Username/Cellphone"
   },
@@ -18,8 +21,8 @@
   },
   "status": {
     "all": "All",
-    "enable": "Enable",
-    "outwork": "On Business Trip",
+    "enable": "Normal",
+    "outwork": "On Business",
     "disabled": "Disabled",
     "vacation": "On Vacation"
   }

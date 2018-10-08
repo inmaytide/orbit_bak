@@ -17,7 +17,8 @@ public class SystemServiceSecurityConfiguration extends SecurityConfigurerAdapte
                 .authorizeExchange()
                 .anyExchange().authenticated()
                 .and()
-                .oauth2ResourceServer().jwt();
+                .oauth2ResourceServer()
+                .jwt();
         return http.build();
     }
 

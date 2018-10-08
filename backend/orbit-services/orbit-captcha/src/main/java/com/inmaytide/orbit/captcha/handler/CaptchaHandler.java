@@ -17,11 +17,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static com.inmaytide.orbit.commons.Constants.HEADER_NAME_CAPTCHA_NAME;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Component
 public class CaptchaHandler {
+
+    private static final String HEADER_NAME_CAPTCHA_NAME = "x-captcha-name";
 
     @Autowired
     private CaptchaService service;

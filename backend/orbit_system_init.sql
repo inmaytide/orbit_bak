@@ -1,12 +1,12 @@
-drop table if exists public.sys_user;
-create table public.sys_user (
+drop table if exists public.user;
+create table public.user (
   id bigint primary key,
   org bigint,
   name varchar(64) not null,
   username varchar(16) not null unique,
   password varchar(64) not null,
   status int not null default 1,
-  brithday date,
+  birthday date,
   email varchar(512),
   qq varchar(16),
   wechat varchar(32),
@@ -21,11 +21,11 @@ create table public.sys_user (
   version int not null default 0
 );
 
-insert into public.sys_user(id, name, username, password, status, create_time, creator)
-values(423441402547015680, 'administrator', 'admin', '$2a$10$8CDOiERjl1Y08dA.IbkaZuBYmrlkCEi.9sbrVaGYyeYKoQe87aYNi', 1, now(), 423441402547015680);
+insert into public.user(id, name, username, password, status, create_time, creator, cellphone, email)
+values(423441402547015680, 'administrator', 'admin', '$2a$10$8CDOiERjl1Y08dA.IbkaZuBYmrlkCEi.9sbrVaGYyeYKoQe87aYNi', 1, now(), 423441402547015680, '13972053481', 'inmaytide@gmail.com');
 
-drop table if exists public.sys_menu;
-create table public.sys_menu (
+drop table if exists public.menu;
+create table public.menu (
   id bigint primary key,
   code varchar(64) not null unique,
   name varchar(64) not null,
@@ -41,18 +41,18 @@ create table public.sys_menu (
   version int not null default 0
 );
 
-insert into public.sys_menu(id, code, name, url, seq_order, create_time, creator, parent, icon)
+insert into public.menu(id, code, name, url, seq_order, create_time, creator, parent, icon)
 values(323441402547015680, 'system', 'Settings', null, 99999, now(), 423441402547015680, 0, 'ios-settings');
-insert into public.sys_menu(id, code, name, url, seq_order, create_time, creator, parent)
+insert into public.menu(id, code, name, url, seq_order, create_time, creator, parent)
 values(323441402547015681, 'menu', 'Menus', '/system/menu', 8, now(), 423441402547015680, 323441402547015680);
-insert into public.sys_menu(id, code, name, url, seq_order, create_time, creator, parent)
+insert into public.menu(id, code, name, url, seq_order, create_time, creator, parent)
 values(323441402547015684, 'user', 'Users', '/system/users', 5, now(), 423441402547015680, 323441402547015680);
-insert into public.sys_menu(id, code, name, url, seq_order, create_time, creator, parent)
+insert into public.menu(id, code, name, url, seq_order, create_time, creator, parent)
 values(483941363017056256, 'org', 'Organizations', '/system/org', 3, now(), 423441402547015680, 323441402547015680);
 
 
-drop table if exists public.sys_role;
-create table public.sys_role (
+drop table if exists public.role;
+create table public.role (
   id bigint primary key,
   code varchar(64) not null unique,
   name varchar(64) not null,
@@ -64,11 +64,11 @@ create table public.sys_role (
   version int not null default 0
 );
 
-insert into public.sys_role(id, code, name, create_time, creator)
+insert into public.role(id, code, name, create_time, creator)
 values(323441402547015682, 'admin', 'Administrator', now(), 423441402547015680);
 
-drop table if exists public.sys_menu_func;
-create table public.sys_menu_func (
+drop table if exists public.menu_func;
+create table public.menu_func (
   id bigint primary key,
   menu_id bigint,
   code varchar(64) not null unique,
@@ -80,9 +80,9 @@ create table public.sys_menu_func (
   version int not null default 0
 );
 
-insert into sys_menu_func(id, menu_id, code, name, create_time, creator)
+insert into menu_func(id, menu_id, code, name, create_time, creator)
   values(323441402547015693, 323441402547015681, 'menu:add', 'New', now(), 423441402547015680);
-insert into sys_menu_func(id, menu_id, code, name, create_time, creator)
+insert into menu_func(id, menu_id, code, name, create_time, creator)
   values(323441402547015694, 323441402547015681, 'menu:remove', 'Remove', now(), 423441402547015680);
 
 
@@ -126,8 +126,8 @@ create table link_role_func (
 );
 alter table link_role_func alter column id set default nextval('auto_increment_id');
 
-drop table if exists public.sys_organization;
-create table sys_organization (
+drop table if exists public.organization;
+create table organization (
   id bigint primary key,
   code varchar(64) not null unique,
   name varchar(64) not null,

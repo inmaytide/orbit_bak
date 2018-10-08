@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.commons.domain;
 
-import com.inmaytide.orbit.commons.database.annotation.Associated;
+import com.inmaytide.orbit.commons.database.annotation.Ignored;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,12 +17,12 @@ public class AbstractEntity implements Serializable {
 
     private Long creator;
 
-    @Associated(table = "sys_user", source = "creator", target = "username")
+    @Ignored
     private String creatorName;
 
     private Long updater;
 
-    @Associated(table = "sys_user", source = "updater", target = "username")
+    @Ignored
     private String updaterName;
 
     private Integer version;

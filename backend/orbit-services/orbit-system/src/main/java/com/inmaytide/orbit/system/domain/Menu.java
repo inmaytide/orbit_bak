@@ -2,15 +2,11 @@ package com.inmaytide.orbit.system.domain;
 
 
 import com.inmaytide.orbit.commons.database.annotation.OrderBy;
-import com.inmaytide.orbit.commons.database.annotation.Table;
 import com.inmaytide.orbit.commons.domain.AbstractEntity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
-
-@Table("sys_menu")
 public class Menu extends AbstractEntity {
 
     private static final long serialVersionUID = 3253907963586618457L;

@@ -12,7 +12,7 @@ import java.util.Map;
 public interface OrganizationMapper extends BasicMapper<Organization> {
 
 
-    @Select("select count(1) from sys_organization where code = #{params.code} and id != #{params.ignore}")
+    @Select("select count(1) from organization where code = #{params.code} and id != #{params.ignore}")
     int countByCode(@Param("params") Map<String, Object> params);
 
 }

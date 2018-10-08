@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.auth;
 
-import com.inmaytide.orbit.commons.Constants;
 import feign.RequestInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,9 +17,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @SpringBootApplication
 public class AuthorizationServiceLauncher {
 
+    private static final String HEADER_NAME_INSIDE_TOKEN = "inside-service-token";
+    private static final String INSIDE_TOKEN = "MmY3ZDA4YjY1MDA2OGUzZDA2YWVmZTY3MTc0NjFlOTc0ZGEzZTJiNTc3ZDM4NDJhNmUyMDRjMGZjMDQ2YTM1ZQ==";
+
+
     @Bean
     public RequestInterceptor authRequestInterceptor() {
-        return (template) -> template.header(Constants.HEADER_NAME_INSIDE_TOKEN, Constants.INSIDE_TOKEN);
+        return (template) -> template.header(HEADER_NAME_INSIDE_TOKEN, INSIDE_TOKEN);
     }
 
     public static void main(String... args) {

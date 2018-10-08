@@ -15,7 +15,7 @@ function displayError (name = 'unexpected') {
   });
 }
 
-function tokenExpired (config) {
+function unauthorized (error) {
   const token = commons.getToken();
   if (token === null) {
     location.href = '/login?m=expired_token';
@@ -34,7 +34,7 @@ function tokenExpired (config) {
 
   axios.post(CONTEXT_PATH + '/oauth/token', data).then(res => {
     commons.storeToken(res);
-    axios(config);
+    axios(error.config);
   }).catch(() => {
     location.href = '/login?m=expired_token';
   });
@@ -54,15 +54,15 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => response.data,
   error => {
+    if (error.response.status === 401) {
+      unauthorized(error);
+      return;
+    }
+
     const res = error.response ? error.response.data : {};
     let name = 'unexpected';
     if (res.hasOwnProperty('error_description')) {
       name = res['error_description'];
-    } else if (res.hasOwnProperty('code')) {
-      if (res['code'] === 'expired_token') {
-        return tokenExpired(error.config);
-      }
-      name = res['code'];
     } else {
       console.log(error);
     }

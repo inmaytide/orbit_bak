@@ -47,3 +47,41 @@ html, body {
   width: 93%;
   overflow: hidden;
 }
+
+.container-title-bar {
+  width: calc(100%- 20px);
+  height: 45px;
+  background-color: white;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-left: 3px solid #2db7f5;
+  display: flex;
+  justify-content: space-between;
+  line-height: 45px;
+  margin: 10px;
+}
+
+.container-title-bar-actions {
+  width: 30%;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.container-title-bar-actions button {
+  margin-right: 10px;
+  min-width: 80px;
+}
+
+.container-title-bar-actions button:last-child {
+  margin-right: 0;
+}
+
+.container-title-bar-actions a {
+  margin-right: 15px;
+}
+
+.container-title {
+  padding-left: 15px;
+  font-size: 16px;
+  font-weight: bold;
+}

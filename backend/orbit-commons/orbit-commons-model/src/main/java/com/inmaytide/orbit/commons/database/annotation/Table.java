@@ -7,6 +7,8 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 public @interface Table {
 
-    String value();
+    String name() default "";
+
+    String schema() default "";
 
 }

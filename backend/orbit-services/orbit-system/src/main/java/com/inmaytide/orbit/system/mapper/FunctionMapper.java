@@ -12,10 +12,10 @@ import java.util.Map;
 @Mapper
 public interface FunctionMapper extends BasicMapper<Function> {
 
-    @Select("select * from sys_menu_func where menu_id = #{menuId}")
+    @Select("select * from menu_func where menu_id = #{menuId}")
     List<Function> listByMenuId(@Param("menuId") Long menuId);
 
-    @Select("select count(1) from sys_menu_func where code = #{params.code} and id != #{params.ignore}")
+    @Select("select count(1) from menu_func where code = #{params.code} and id != #{params.ignore}")
     int countByCode(@Param("params") Map<String, Object> params);
 
 }

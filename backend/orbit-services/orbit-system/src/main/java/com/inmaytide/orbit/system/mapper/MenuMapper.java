@@ -16,14 +16,14 @@ import java.util.Map;
 @Mapper
 public interface MenuMapper extends BasicMapper<Menu> {
 
-    @Select("select menu.* from sys_menu menu " +
+    @Select("select menu.* from menu menu " +
             "left join link_role_menu rm on rm.menu_id = menu.id " +
             "left join link_user_role ur on rm.role_id = ur.role_id " +
-            "left join sys_user u on u.id = ur.user_id " +
+            "left join public.user u on u.id = ur.user_id " +
             "where u.username = #{username} order by seq_order")
     List<Menu> listByUsername(String username);
 
-    @Select("select count(1) from sys_menu where code = #{params.code} and id != #{params.ignore}")
+    @Select("select count(1) from menu where code = #{params.code} and id != #{params.ignore}")
     int countByCode(@Param("params") Map<String, Object> params);
 
 }

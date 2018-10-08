@@ -18,7 +18,6 @@
         <module>orbit-commons-model</module>
         <module>orbit-commons-security</module>
         <module>orbit-commons-utils</module>
-        <module>orbit-commons-consts</module>
     </modules>
 
     <dependencyManagement>
@@ -26,11 +25,6 @@
             <dependency>
                 <groupId>com.inmaytide.orbit.commons</groupId>
                 <artifactId>orbit-commons-exception</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.inmaytide.orbit.commons</groupId>
-                <artifactId>orbit-commons-consts</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

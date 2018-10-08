@@ -3,8 +3,7 @@ package com.inmaytide.orbit.commons.query;
 
 import com.inmaytide.orbit.commons.util.Assert;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Params {
     public static final String PARAMS_PAGE_NUMBER = "pageNumber";
@@ -19,19 +18,17 @@ public class Params {
 
     public Params(Map<String, Object> content, boolean needEraseInvalid) {
         Assert.nonNull(content, "The content of params cannot be null");
-        this.content = content;
-        if (needEraseInvalid) {
-            eraseInvalidParams();
-        }
+        this.content = needEraseInvalid ? eraseInvalidParams(content) : content;
     }
 
-    private void eraseInvalidParams() {
-        if (content.isEmpty()) {
-            return;
+    private Map<String, Object> eraseInvalidParams(Map<String, Object> params) {
+        final Map<String, Object> erased = new HashMap<>();
+        if (!params.isEmpty()) {
+            params.entrySet().stream()
+                    .filter(entry -> hasText(entry.getValue()) && !INVALID_VALUES.contains(entry.getValue()))
+                    .forEach(entry -> erased.put(entry.getKey(), entry.getValue()));
         }
-        content.entrySet().stream()
-                .filter(entry -> INVALID_VALUES.contains(entry.getValue()))
-                .forEach(entry -> content.remove(entry.getKey()));
+        return Collections.unmodifiableMap(erased);
     }
 
     public Integer getInt(String name, Integer defaultValue) {
@@ -60,5 +57,12 @@ public class Params {
 
     public void addParam(String name, Object value) {
         content.put(name, value);
+    }
+
+    private boolean hasText(Object value) {
+        if (value == null) {
+            return false;
+        }
+        return value.toString().trim().length() != 0;
     }
 }

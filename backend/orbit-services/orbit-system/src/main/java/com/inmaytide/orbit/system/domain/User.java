@@ -7,13 +7,13 @@ import com.inmaytide.orbit.system.consts.UserStatus;
 
 import java.time.LocalDate;
 
-@Table("sys_user")
+@Table(schema = "public")
 public class User extends AbstractEntity {
 
     private static final long serialVersionUID = -5004364741503962227L;
     private String name;
     private Long org;
-    @Associated(table = "sys_organization", source = "org", target = "name")
+    @Associated(table = "organization", source = "org", target = "name")
     private Long orgName;
     private String username;
     private String password;

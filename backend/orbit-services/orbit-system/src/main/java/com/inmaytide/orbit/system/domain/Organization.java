@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Table("sys_organization")
 public class Organization extends AbstractEntity {
 
     @NotEmpty

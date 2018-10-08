@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Table("sys_menu_func")
 public class Function extends AbstractEntity {
 
     private static final long serialVersionUID = 5089182578612526382L;

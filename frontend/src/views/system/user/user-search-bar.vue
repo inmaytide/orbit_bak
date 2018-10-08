@@ -1,5 +1,5 @@
 <template>
-  <div class="container-search-bar">
+  <div class="container-title-bar">
     <div class="conditions">
       {{$t('common.label.keyword')}}&nbsp;
       <Input v-model="conditions.keyword"
@@ -14,7 +14,7 @@
         </Option>
       </Select>
     </div>
-    <div class="actions">
+    <div class="container-title-bar-actions">
       <Button shape="circle" type="info" @click="search">{{$t('common.btn.search')}}</Button>
       <Button shape="circle" @click="reset">{{$t('common.btn.reset')}}</Button>
     </div>
@@ -53,18 +53,6 @@ export default {
 };
 </script>
 <style scoped>
-  .container-search-bar {
-    width: calc(100%- 20px);
-    height: 45px;
-    background-color: white;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border-left: 3px solid #2db7f5;
-    display: flex;
-    justify-content: space-between;
-    line-height: 45px;
-    margin: 10px;
-  }
 
   .conditions {
     width: 70%;
@@ -72,17 +60,4 @@ export default {
     white-space: nowrap;
   }
 
-  .actions {
-    width: 30%;
-    text-align: right;
-    padding-right: 20px;
-  }
-
-  .actions button {
-    margin-right: 10px;
-  }
-
-  .actions a {
-    margin-right: 15px;
-  }
 </style>

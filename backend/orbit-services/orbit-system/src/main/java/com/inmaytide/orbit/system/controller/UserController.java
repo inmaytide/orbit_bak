@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.system.controller;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.inmaytide.orbit.commons.query.Params;
 import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.system.domain.User;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @GetMapping
-    public Mono<Page<User>> list(@RequestParam Map<String, Object> params) {
+    public Mono<PageInfo<User>> list(@RequestParam Map<String, Object> params) {
         return Mono.just(service.list(new Params(params)));
     }
 

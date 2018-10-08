@@ -1,3 +1,4 @@
 export default {
-  list: '/sys/users'
+  list: '/sys/users',
+  get: (id) => `/sys/users/${id}`
 };
