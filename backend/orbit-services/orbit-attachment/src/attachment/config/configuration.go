@@ -76,7 +76,7 @@ func GetApi() Api {
 	return GetApplication().Api
 }
 
-func (api *Api) GetUserByUsername(username string) string {
+func (api Api) GetUserByUsername(username string) string {
 	var url = api.Base + api.GetUserByUsername_
 	url = strings.Replace(url, "{username}", username, -1)
 	return url

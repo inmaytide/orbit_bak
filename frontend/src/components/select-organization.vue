@@ -6,6 +6,7 @@
               :data="options"
               :change-on-select="true"
               :render-format="displayFormat"
+              :clearable="clearable"
               filterable/>
   </div>
 </template>
@@ -18,7 +19,8 @@ export default {
     'show-paths': {type: Boolean, default: false},
     'show-label': {type: Boolean, default: true},
     label: {type: String, default: 'Organization'},
-    width: {type: String, default: '300px;'}
+    width: {type: String, default: '300px;'},
+    clearable: {type: Boolean, default: true}
   },
   methods: {
     load () {

@@ -7,8 +7,8 @@ import (
 	"errors"
 )
 
-const ATTACHMENT_FULL_COLUMNS = "id, original_name, storage_name, extension, storage_address, group_id, belong, size, status, create_time, creator"
-const ATTACHMENT_TABLE_NAME = "sys_attachment"
+const ATTACHMENT_FULL_COLUMNS = "id, original_name, storage_name, extension, storage_address, belong, size, status, creator"
+const ATTACHMENT_TABLE_NAME = "attachment"
 
 type AttachmentDao interface {
 	Get(id int64) (model.Attachment, error)
@@ -25,7 +25,7 @@ func NewAttachmentDao() AttachmentDao {
 	dao.sqlmap = make(map[string]string)
 	dao.sqlmap["get"] = fmt.Sprintf(SQL_PATTERN_GET, ATTACHMENT_FULL_COLUMNS, ATTACHMENT_TABLE_NAME)
 	dao.sqlmap["deleteById"] = fmt.Sprintf(SQL_PATTERN_DELETE_BY_ID, ATTACHMENT_TABLE_NAME)
-	dao.sqlmap["insert"] = fmt.Sprintf("insert into %s(%s) values(?, ?, ?, ?, ?, ?, ?, ?, ?, now(), ?)", ATTACHMENT_TABLE_NAME, ATTACHMENT_FULL_COLUMNS)
+	dao.sqlmap["insert"] = fmt.Sprintf("insert into %s(%s) values(?, ?, ?, ?, ?, ?, ?, ?, ?)", ATTACHMENT_TABLE_NAME, ATTACHMENT_FULL_COLUMNS)
 	return dao
 }
 
@@ -39,7 +39,7 @@ func (dao AttachmentDaoImpl) Get(id int64) (model.Attachment, error) {
 }
 
 func (dao AttachmentDaoImpl) Insert(inst model.Attachment) (model.Attachment, error) {
-	result, err := getInstance().getConnection().Exec(dao.sqlmap["insert"], inst.ID, inst.OriginalName, inst.StorageName, inst.Extension, inst.StorageAddress, inst.Group, inst.Belong, inst.Size, inst.Status, inst.Creator)
+	result, err := getInstance().getConnection().Exec(dao.sqlmap["insert"], inst.ID, inst.OriginalName, inst.StorageName, inst.Extension, inst.StorageAddress, inst.Belong, inst.Size, inst.Status, inst.Creator)
 	if err != nil {
 		return model.Attachment{}, err
 	}
@@ -62,7 +62,7 @@ func buildAttachment(rows *sql.Rows) (model.Attachment, error) {
 	var err error
 	if rows.Next() {
 		err = rows.Scan(&attachment.ID, &attachment.OriginalName, &attachment.StorageName, &attachment.Extension,
-			&attachment.StorageAddress, &attachment.Group, &attachment.Belong, &attachment.Size, &attachment.Status,
+			&attachment.StorageAddress, &attachment.Belong, &attachment.Size, &attachment.Status,
 			&attachment.CreateTime, &attachment.Creator)
 	}
 	return attachment, err

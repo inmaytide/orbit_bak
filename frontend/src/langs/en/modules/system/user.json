@@ -1,11 +1,19 @@
 {
   "label": {
-    "detail": "User Details"
+    "detail": "User Details",
+    "upload_avatar": "Upload"
   },
   "search": {
     "keyword-placeholder": "Name/Username/Cellphone"
   },
+  "errors": {
+    "invalid_email": "The value isn't a valid email",
+    "invalid_cellphone": "The value isn't a valid cellphone number",
+    "invalid_telephone": "This isn't a valid telephone number",
+    "username_repeat": "The username was existed"
+  },
   "properties": {
+    "org": "Organization",
     "username": "Username",
     "name": "Name",
     "password": "Password",

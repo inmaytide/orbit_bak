@@ -27,6 +27,11 @@ public class UserController {
         return service.getByUsername(username).map(Mono::just).orElseThrow(ObjectNotFoundException::new);
     }
 
+    @GetMapping("/exist")
+    public Mono<Map<String, Boolean>> exist(String username, Long ignore) {
+        return Mono.just(Map.of("exist", service.exist(new User(ignore, username))));
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<User> create(@RequestBody @Validated Mono<User> user) {

@@ -36,7 +36,7 @@ func NewAttachmentService() AttachmentService {
 
 func (service AttachmentServiceImpl) Save(attachment model.Attachment) (model.Attachment, error) {
 	attachment.ID = util.GetSnowflakeID()
-	attachment.Status = null.IntFrom(model.ATTACHMENT_STATUS_TEMPORARY)
+	attachment.Status = null.StringFrom(model.ATTACHMENT_STATUS_TEMPORARY)
 	return attachment, redis.GetClient().ESet(attachment.CacheName(), attachment, config.GetTemporaryExpireTime())
 }
 
@@ -83,7 +83,7 @@ func (service AttachmentServiceImpl) Formal(id int64) (model.Attachment, error) 
 		return attachment, nil
 	}
 
-	attachment.Status = null.IntFrom(model.ATTACHMENT_STATUS_FORMAL)
+	attachment.Status = null.StringFrom(model.ATTACHMENT_STATUS_FORMAL)
 	attachment, err = service.dao.Insert(attachment)
 	if err != nil {
 		return attachment, err

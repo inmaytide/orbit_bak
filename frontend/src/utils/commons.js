@@ -67,6 +67,7 @@ export default {
     return typeof value === 'undefined' || value == null || value.length === 0;
   },
   isBlank (value) {
+    value = value + '';
     return typeof value === 'undefined' || value == null || value.trim() === '' || value === 'undefined';
   },
   isNull (value) {

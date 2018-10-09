@@ -17,6 +17,7 @@
     "axios": "^0.17.1",
     "iview": "^3.0.0",
     "vue": "^2.5.2",
+    "vue-core-image-upload": "^2.4.11",
     "vue-i18n": "^7.4.1",
     "vue-router": "^3.0.1",
     "vue-table-with-tree-grid": "^0.2.4",

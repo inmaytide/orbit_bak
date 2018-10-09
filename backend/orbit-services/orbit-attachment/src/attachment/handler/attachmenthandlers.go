@@ -32,7 +32,7 @@ func getAttachmentHandlerInstance() *AttachmentHandler {
 
 func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	file, header, err := r.FormFile("attachment")
+	file, header, err := r.FormFile("files")
 
 	if file == nil || err != nil {
 		model.WriteBadRequest(w, r.RequestURI, "Failed to get attachment from request body")
@@ -64,7 +64,9 @@ func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http
 		log.Panicln(err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(inst)
+
+	body, err := json.Marshal(inst)
+	w.Write(body)
 }
 
 func (handler AttachmentHandler) FormalAttachment(w http.ResponseWriter, r *http.Request) {
@@ -80,7 +82,9 @@ func (handler AttachmentHandler) FormalAttachment(w http.ResponseWriter, r *http
 		model.WriteInternalServerError(w, r.RequestURI, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(attachment)
+
+	body, err := json.Marshal(attachment)
+	w.Write(body)
 }
 
 func (handler AttachmentHandler) DownloadAttachment(w http.ResponseWriter, r *http.Request) {

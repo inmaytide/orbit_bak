@@ -109,7 +109,10 @@ const request = {
     }
     return axios.patch(url, data || {}, config || {});
   },
-  error: displayError
+  error: displayError,
+  getApiRoot () {
+    return CONTEXT_PATH;
+  }
 };
 
 export default request;

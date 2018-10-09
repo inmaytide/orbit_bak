@@ -15,8 +15,8 @@ import (
 
 const (
 	ATTACHMENT_CACHE_NAME       = "attachment:%d"
-	ATTACHMENT_STATUS_FORMAL    = 944103312234389504
-	ATTACHMENT_STATUS_TEMPORARY = 944103645861912576
+	ATTACHMENT_STATUS_FORMAL    = "FORMAL"
+	ATTACHMENT_STATUS_TEMPORARY = "TEMPORARY"
 )
 
 type AttachmentHelper interface {
@@ -26,16 +26,15 @@ type AttachmentHelper interface {
 }
 
 type Attachment struct {
-	ID             int64       `json:"id"`
+	ID             int64       `json:"id,string"`
 	OriginalName   null.String `json:"originalName"`
 	StorageName    null.String `json:"storageName"`
 	Extension      null.String `json:"extension"`
 	StorageAddress null.String `json:"storageAddress"`
-	Group          null.Int    `json:"group"`
 	Belong         null.Int    `json:"belong"`
 	Size           null.Int    `json:"size"`
-	Status         null.Int    `json:"status"`
-	Creator        null.Int    `json:"creator"`
+	Status         null.String `json:"status"`
+	Creator        null.Int    `json:"creator,string"`
 	CreateTime     null.Time   `json:"createTime"`
 }
 

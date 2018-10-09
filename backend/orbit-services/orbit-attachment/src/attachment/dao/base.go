@@ -3,7 +3,7 @@ package dao
 import (
 	"attachment/config"
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 	"attachment/errorhandler"
 	"sync"
 )
@@ -24,7 +24,7 @@ func getInstance() *dao {
 	once.Do(func() {
 		instance = &dao{}
 		var err error
-		instance.db, err = sql.Open("mysql", config.GetApplication().Datasource)
+		instance.db, err = sql.Open("postgres", config.GetApplication().Datasource)
 		errorhandler.Termination(err, "Database connection failed.")
 	})
 	return instance

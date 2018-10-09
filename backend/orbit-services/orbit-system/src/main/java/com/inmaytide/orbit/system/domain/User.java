@@ -14,7 +14,7 @@ public class User extends AbstractEntity {
     private String name;
     private Long org;
     @Associated(table = "organization", source = "org", target = "name")
-    private Long orgName;
+    private String orgName;
     private String username;
     private String password;
     private UserStatus status;
@@ -26,6 +26,15 @@ public class User extends AbstractEntity {
     private String cellphone;
     private Long avatar;
     private String remark;
+
+    public User() {
+
+    }
+
+    public User(Long id, String username) {
+        setId(id);
+        this.username = username;
+    }
 
 
     public String getName() {
@@ -136,11 +145,11 @@ public class User extends AbstractEntity {
         this.org = org;
     }
 
-    public Long getOrgName() {
+    public String getOrgName() {
         return orgName;
     }
 
-    public void setOrgName(Long orgName) {
+    public void setOrgName(String orgName) {
         this.orgName = orgName;
     }
 }

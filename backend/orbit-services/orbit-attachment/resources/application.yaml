@@ -1,12 +1,12 @@
 port: 7002
 application-name: orbit-attachment
-datasource: root:123@tcp(127.0.0.1:3306)/db_orbit?charset=utf8&parseTime=true
-eureka: http://127.0.0.1:7000/eureka/
+datasource: user=postgres password=3224781 dbname=orbit_attachment sslmode=disable
+eureka: http://orbit-discovery:7000/eureka/
 attachment:
-  formal-storage-address: d:/attachment
+  formal-storage-address: e:/attachment
   temporary-expire-time: 86400
 redis:
-  addr: 127.0.0.1:6379
+  addr: redis-server:6379
 api:
   base: http://127.0.0.1:7001
-  get-user-by-username: /sys/users/{username}
+  get-user-by-username: /sys/users/u/{username}
