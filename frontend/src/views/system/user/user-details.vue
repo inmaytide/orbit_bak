@@ -3,7 +3,7 @@
     <div class="container-title-bar">
       <div class="container-title">{{$t('common.title.' + status)}}{{$t('system.user.label.detail')}}</div>
       <div class="container-title-bar-actions">
-        <Button shape="circle" type="info" @click="submit">{{$t('common.btn.save')}}</Button>
+        <Button shape="circle" type="info" @click="submit" :loading="submitting">{{$t('common.btn.save')}}</Button>
         <Button shape="circle" @click="back">{{$t('common.btn.back')}}</Button>
       </div>
     </div>
@@ -130,6 +130,7 @@ export default {
     return {
       status: form.STATUS_VIEW,
       avatar: null,
+      submitting: false,
       instance: {
         id: this.$route.params.id
       },
@@ -179,8 +180,18 @@ export default {
       this.$router.back();
     },
     submit () {
-      console.log(this.instance);
-      console.log('submit');
+      this.submitting = true
+      this.$refs['basicInformation'].validate().then(isValid => {
+        if (isValid) {
+          this.$http.post(api.common, this.instance).then(res => {
+            this.instance = res;
+            this.status = form.STATUS_VIEW;
+            this.submitting = false;
+          }).catch(() => (this.submitting = false));
+        } else {
+          this.submitting = false;
+        }
+      });
     },
     imageuploaded (res) {
       this.avatar = res.id;

@@ -98,7 +98,7 @@ export default {
       this.refresh();
     },
     refresh () {
-      this.$http.get(api.list, this.conditions).then(res => {
+      this.$http.get(api.common, this.conditions).then(res => {
         this.pager = res;
       });
     }

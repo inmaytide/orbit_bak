@@ -26,16 +26,15 @@ type AttachmentHelper interface {
 }
 
 type Attachment struct {
-	ID             int64       `json:"id,string"`
-	OriginalName   null.String `json:"originalName"`
-	StorageName    null.String `json:"storageName"`
-	Extension      null.String `json:"extension"`
-	StorageAddress null.String `json:"storageAddress"`
-	Belong         null.Int    `json:"belong"`
-	Size           null.Int    `json:"size"`
-	Status         null.String `json:"status"`
-	Creator        null.Int    `json:"creator,string"`
-	CreateTime     null.Time   `json:"createTime"`
+	ID             int64       `json:"id,string" gorm:"column:id;primary_key"`
+	OriginalName   null.String `json:"originalName" gorm:"column:original_name;type:varchar(512)"`
+	StorageName    null.String `json:"storageName" gorm:"column:storage_name;type:varchar(32)"`
+	Extension      null.String `json:"extension" gorm:"column:extension;type:varchar(16)"`
+	StorageAddress null.String `json:"storageAddress" gorm:"column:storage_address;type:varchar(512)"`
+	Belong         null.Int    `json:"belong" gorm:"column:belong"`
+	Size           null.Int    `json:"size" gorm:"column:size"`
+	Creator        null.Int    `json:"creator,string" gorm:"column:creator"`
+	CreatedAt     null.Time   `json:"createTime" gorm:"column:create_time"`
 }
 
 func (inst Attachment) StoragePath() string {

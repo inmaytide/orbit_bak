@@ -11,7 +11,7 @@ import (
 )
 
 type Api struct {
-	Base              string `yaml:"base"`
+	Base               string `yaml:"base"`
 	GetUserByUsername_ string `yaml:"get-user-by-username"`
 }
 
@@ -29,6 +29,9 @@ type Application struct {
 		TemporaryExpireTime  uint64 `yaml:"temporary-expire-time"`
 	}
 	Api Api
+	Jwt struct {
+		JwkSetUri string `yaml:"jwk-set-uri"`
+	}
 }
 
 var application Application
@@ -36,13 +39,13 @@ var once sync.Once
 
 func loadApplication() {
 	dir, err := os.Getwd()
-	errorhandler.Termination(err, "Failed to get program root directory")
+	errorhandler.Terminate(err, "Failed to get program root directory")
 
 	content, err := ioutil.ReadFile(dir + "/resources/application.yaml")
-	errorhandler.Termination(err, "Failed to read \"application.yaml\" file")
+	errorhandler.Terminate(err, "Failed to read \"application.yaml\" file")
 
 	err = yaml.Unmarshal(content, &application)
-	errorhandler.Termination(err, "Failed to get program root directory")
+	errorhandler.Terminate(err, "Failed to get program root directory")
 
 	log.Println("The configuration file is loaded successfully.")
 }

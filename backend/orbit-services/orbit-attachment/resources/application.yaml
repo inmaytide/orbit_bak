@@ -10,3 +10,5 @@ redis:
 api:
   base: http://127.0.0.1:7001
   get-user-by-username: /sys/users/u/{username}
+jwt:
+  jwk-set-uri: http://orbit-authorization:7004/.well-known/jwks.json

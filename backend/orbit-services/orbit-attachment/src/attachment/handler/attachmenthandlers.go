@@ -12,22 +12,16 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"sync"
 )
 
 type AttachmentHandler struct {
 	attachmentService service.AttachmentService
 }
 
-var attachmentHandlerInstance *AttachmentHandler
-var once sync.Once
-
-func getAttachmentHandlerInstance() *AttachmentHandler {
-	once.Do(func() {
-		attachmentHandlerInstance = &AttachmentHandler{}
-		attachmentHandlerInstance.attachmentService = service.NewAttachmentService()
-	})
-	return attachmentHandlerInstance
+func NewAttachmentHandler(service *service.AttachmentService) *AttachmentHandler {
+	return &AttachmentHandler{
+		attachmentService: service,
+	}
 }
 
 func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +54,7 @@ func (handler AttachmentHandler) UploadAttachment(w http.ResponseWriter, r *http
 	inst, err = handler.attachmentService.Save(inst)
 
 	if err != nil {
-		model.WriteInternalServerError(w, r.RequestURI, "Failed to save temporary attachment instance to cache")
+		model.WriteInternalServerError(w, r.RequestURI, "Failed to save temporary attachment instance to redis")
 		log.Panicln(err.Error())
 		return
 	}

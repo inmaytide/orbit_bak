@@ -12,12 +12,13 @@ import (
 	"attachment/util"
 	"crypto/rsa"
 	"math/big"
+	"sync"
+	"encoding/base64"
+	"attachment/errorhandler"
 )
 
 const (
 	VISITOR_CACHE_NAME_PATTERN = "visitor-json::%s"
-	E = 65537
-	N = "92032540060540856130699856218033980227909420161154272440856424391337831083081633223257042754076930142688883599931819080863310751260975563655931896404073841267772979089007431866988369523052660671922204391891685962100812539714008553578527942925270385160702076827458753644833661843321703086079889898175420563511"
 )
 
 type User struct {
@@ -26,16 +27,44 @@ type User struct {
 	Name     string `json:"name"`
 }
 
+type jwks struct {
+	Keys []key `json:"keys"`
+}
+
+type key struct {
+	Kty string `json:"kty"`
+	E   string `json:"e"`
+	N   string `json:"n"`
+}
+
+var verifyKey *rsa.PublicKey;
+var once sync.Once;
 
 func keyfunc(token *jwt.Token) (interface{}, error) {
-	module, b := new(big.Int).SetString(N, 0)
-	if b {
-		return &rsa.PublicKey{
-			E: E,
-			N: module,
-		}, nil
-	}
-	return nil, errors.New("Wrong module value");
+	once.Do(func() {
+		request, _ := http.NewRequest(http.MethodGet, config.GetApplication().Jwt.JwkSetUri, nil)
+		body, err := util.DoRequest(request);
+		errorhandler.Terminate(err, "The authorization service is unavailable right now")
+
+		var jwks = jwks{}
+		err = json.Unmarshal(body, &jwks)
+		errorhandler.Terminate(err, "The authorization service is unavailable right now")
+
+		e, err := base64.RawURLEncoding.DecodeString(jwks.Keys[0].E)
+		E := new(big.Int).SetBytes(e).Int64();
+		errorhandler.Terminate(err, "The authorization service is unavailable right now")
+
+		n, err := base64.RawURLEncoding.DecodeString(jwks.Keys[0].N)
+		N := new(big.Int).SetBytes(n);
+		errorhandler.Terminate(err, "The authorization service is unavailable right now")
+
+		verifyKey = &rsa.PublicKey{
+			E: int(E),
+			N: N,
+		}
+
+	})
+	return verifyKey, nil;
 }
 
 func getAuthorization(r *http.Request) (string, error) {

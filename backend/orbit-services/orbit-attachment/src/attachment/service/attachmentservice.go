@@ -25,22 +25,21 @@ type AttachmentService interface {
 }
 
 type AttachmentServiceImpl struct {
-	dao dao.AttachmentDao
+	repository dao.AttachmentRepository
 }
 
-func NewAttachmentService() AttachmentService {
-	var service = new(AttachmentServiceImpl)
-	service.dao = dao.NewAttachmentDao()
-	return service
+func NewAttachmentService(repository *dao.AttachmentRepository) AttachmentService {
+	return &AttachmentServiceImpl{
+		repository: repository,
+	}
 }
 
-func (service AttachmentServiceImpl) Save(attachment model.Attachment) (model.Attachment, error) {
+func (service *AttachmentServiceImpl) Save(attachment model.Attachment) (model.Attachment, error) {
 	attachment.ID = util.GetSnowflakeID()
-	attachment.Status = null.StringFrom(model.ATTACHMENT_STATUS_TEMPORARY)
 	return attachment, redis.GetClient().ESet(attachment.CacheName(), attachment, config.GetTemporaryExpireTime())
 }
 
-func (service AttachmentServiceImpl) Get(id int64) (model.Attachment, error) {
+func (service *AttachmentServiceImpl) Get(id int64) (model.Attachment, error) {
 	attachment, err := service.GetTemporary(id)
 	if err != nil {
 		attachment, err = service.GetFormal(id)
@@ -48,15 +47,15 @@ func (service AttachmentServiceImpl) Get(id int64) (model.Attachment, error) {
 	return attachment, err
 }
 
-func (service AttachmentServiceImpl) GetFormal(id int64) (model.Attachment, error) {
-	attachment, err := service.dao.Get(id)
+func (service *AttachmentServiceImpl) GetFormal(id int64) (model.Attachment, error) {
+	attachment, err := service.repository.Get(id)
 	if err != nil || attachment.ID == 0 {
-		return model.Attachment{}, fmt.Errorf("Failed to get attachment from database with id [%d]", id)
+		return attachment, fmt.Errorf("Failed to get attachment from database with id [%d]", id)
 	}
 	return attachment, nil
 }
 
-func (service AttachmentServiceImpl) GetTemporary(id int64) (model.Attachment, error){
+func (service *AttachmentServiceImpl) GetTemporary(id int64) (model.Attachment, error) {
 	var attachment model.Attachment
 	value, err := redis.GetClient().Get(model.AttachmentCacheName(id))
 	if err != nil {
@@ -69,10 +68,10 @@ func (service AttachmentServiceImpl) GetTemporary(id int64) (model.Attachment, e
 		}
 		return attachment, nil
 	}
-	return attachment, fmt.Errorf("Could not found attachment instance from cache with id [%d]", id)
+	return attachment, fmt.Errorf("Could not found attachment instance from redis with id [%d]", id)
 }
 
-func (service AttachmentServiceImpl) Formal(id int64) (model.Attachment, error) {
+func (service *AttachmentServiceImpl) Formal(id int64) (model.Attachment, error) {
 	attachment, err := service.GetTemporary(id)
 	if err != nil {
 		return attachment, err
@@ -83,8 +82,7 @@ func (service AttachmentServiceImpl) Formal(id int64) (model.Attachment, error) 
 		return attachment, nil
 	}
 
-	attachment.Status = null.StringFrom(model.ATTACHMENT_STATUS_FORMAL)
-	attachment, err = service.dao.Insert(attachment)
+	attachment, err = service.repository.Create(attachment)
 	if err != nil {
 		return attachment, err
 	}
@@ -92,13 +90,13 @@ func (service AttachmentServiceImpl) Formal(id int64) (model.Attachment, error) 
 	return attachment, redis.GetClient().Delete(attachment.CacheName())
 }
 
-func (service AttachmentServiceImpl) Delete(id int64) (int, error) {
+func (service *AttachmentServiceImpl) Delete(id int64) (int, error) {
 	attachment, err := service.GetFormal(id)
 	if err != nil {
 		return 0, err
 	}
 
-	affected, err := service.dao.Delete(id)
+	affected, err := service.repository.Delete(id)
 	if err != nil || affected == 0 {
 		return 0, fmt.Errorf("Failed to remove attachment with id [%d]. Cause by: %s", id, err.Error())
 	}
@@ -131,7 +129,7 @@ func formal(inst *model.Attachment) error {
 
 	inst.StorageAddress = null.StringFrom(getFormalStorageAddress())
 	formalPath := inst.StoragePath()
-	dst, err := os.OpenFile(formalPath, os.O_WRONLY | os.O_CREATE, os.ModePerm)
+	dst, err := os.OpenFile(formalPath, os.O_WRONLY|os.O_CREATE, os.ModePerm)
 	if err != nil {
 		return err
 	}

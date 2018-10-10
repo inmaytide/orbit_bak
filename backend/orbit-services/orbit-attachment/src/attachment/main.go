@@ -11,7 +11,21 @@ import (
 	"os/signal"
 	"sync"
 	"syscall"
+	"attachment/dao"
+	"go.uber.org/dig"
 )
+
+func BuildContainer() *dig.Container {
+	container := dig.New()
+
+	container.Provide(NewConfig)
+	container.Provide(ConnectDatabase)
+	container.Provide(NewPersonRepository)
+	container.Provide(NewPersonService)
+	container.Provide(NewServer)
+
+	return container
+}
 
 func startWebServer() {
 	router := handler.NewRouter()
@@ -30,6 +44,7 @@ func handleSigterm() {
 	go func() {
 		<-c
 		eureka.Deregister()
+		dao.Destroy()
 		os.Exit(1)
 	}()
 }

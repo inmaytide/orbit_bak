@@ -8,6 +8,7 @@ import (
 	"os"
 	"io/ioutil"
 	"time"
+	"log"
 )
 
 var instanceID string
@@ -66,7 +67,7 @@ func heartbeat() {
 
 // Deregister ...
 func Deregister() {
-	fmt.Println("Trying to deregister application...")
+	log.Println("Trying to deregister application...")
 
 	deregisterAction := HttpAction{
 		URL:    statusUrl,
@@ -75,5 +76,5 @@ func Deregister() {
 
 	DoHttpRequest(deregisterAction)
 
-	fmt.Println("Deregistered application, exiting. Check Eureka...")
+	log.Println("Deregistered application, exiting. Check Eureka...")
 }

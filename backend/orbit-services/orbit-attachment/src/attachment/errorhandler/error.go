@@ -2,30 +2,30 @@ package errorhandler
 
 import "log"
 
-func Throws(err error, message string) {
+func Print(err error, message string) {
 	if err != nil {
-		log.Printf("error message => [%s] \n", err.Error())
-		log.Panicln(message)
+		log.Println(message)
+		log.Println(err.Error())
 	}
 }
 
-func Throwsf(err error, message string, v... interface{}) {
+func Printf(err error, message string, v... interface{}) {
 	if err != nil {
-		log.Printf("error message => [%s] \n", err.Error())
-		log.Panicf(message + "\n", v)
+		log.Printf(message + "\n", v)
+		log.Println(err.Error())
 	}
 }
 
-func Termination(err error, message string) {
+func Terminate(err error, message string) {
 	if err != nil {
-		log.Printf("error message => [%s] \n", err.Error())
-		log.Fatalln(message)
+		log.Println(message)
+		log.Fatal(err.Error())
 	}
 }
 
-func Terminationf(err error, message string, v...interface{}) {
+func Terminatef(err error, message string, v...interface{}) {
 	if err != nil {
-		log.Printf("error message => [%s] \n", err.Error())
-		log.Fatalf(message + "\n", v)
+		log.Printf(message + "\n", v)
+		log.Fatal(err.Error())
 	}
 }
