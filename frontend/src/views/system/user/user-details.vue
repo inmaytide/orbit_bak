@@ -159,7 +159,7 @@ export default {
   },
   computed: {
     uploadApi: function () {
-      return attachmentApi.upload(this.$route.params.id);
+      return attachmentApi.upload(this.instance.id);
     },
     avatarSrc: function () {
       return attachmentApi.download(this.avatar);
@@ -172,6 +172,7 @@ export default {
     init () {
       if (this.instance.id === '-1') {
         this.status = form.STATUS_CREATE;
+        this.$http.get(api.newId).then(res => (this.instance.id = res.newId));
       } else {
         this.get(this.instance.id);
       }
@@ -180,9 +181,12 @@ export default {
       this.$router.back();
     },
     submit () {
-      this.submitting = true
+      this.submitting = true;
       this.$refs['basicInformation'].validate().then(isValid => {
         if (isValid) {
+          if (this.$commons.isBlank(this.instance.birthday)) {
+            delete this.instance.birthday;
+          }
           this.$http.post(api.common, this.instance).then(res => {
             this.instance = res;
             this.status = form.STATUS_VIEW;
@@ -195,6 +199,7 @@ export default {
     },
     imageuploaded (res) {
       this.avatar = res.id;
+      this.instance.avatar = this.avatar;
     }
   },
   created () {

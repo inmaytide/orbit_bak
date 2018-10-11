@@ -8,6 +8,7 @@ import com.inmaytide.orbit.commons.service.AbstractService;
 import com.inmaytide.orbit.system.consts.UserStatus;
 import com.inmaytide.orbit.system.domain.User;
 import com.inmaytide.orbit.system.mapper.UserMapper;
+import com.inmaytide.orbit.system.service.AttachmentsClient;
 import com.inmaytide.orbit.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

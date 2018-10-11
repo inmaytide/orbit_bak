@@ -12,12 +12,14 @@ import java.util.Optional;
 public abstract class AbstractService<T extends AbstractEntity> implements BasicService<T> {
 
     @Autowired
-    protected IdGenerator<Long> generator;
+    private IdGenerator<Long> generator;
 
     @Override
     public T save(T t) {
         Assert.nonNull(t.getCreator(), "Creator cannot be null");
-        t.setId(generator.generate());
+        if (t.getId() == null) {
+            t.setId(generator.generate());
+        }
         getMapper().save(t);
         return getMapper().get(t.getId());
     }

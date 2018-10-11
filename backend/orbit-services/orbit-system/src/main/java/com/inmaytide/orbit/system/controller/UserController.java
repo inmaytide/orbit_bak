@@ -1,10 +1,11 @@
 package com.inmaytide.orbit.system.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.inmaytide.orbit.commons.id.IdGenerator;
 import com.inmaytide.orbit.commons.query.Params;
 import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.system.domain.User;
+import com.inmaytide.orbit.system.service.AttachmentsClient;
 import com.inmaytide.orbit.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,12 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private IdGenerator<Long> generator;
+
+    @Autowired
+    private AttachmentsClient client;
+
     @GetMapping("/u/{username}")
     public Mono<User> getByUsername(@PathVariable String username) {
         return service.getByUsername(username).map(Mono::just).orElseThrow(ObjectNotFoundException::new);
@@ -34,8 +41,13 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<User> create(@RequestBody @Validated Mono<User> user) {
-        return user.doOnSuccess(service::assertNotExist).map(service::save);
+    public Mono<User> create(@RequestBody @Validated Mono<User> user, @RequestHeader("Authorization") String token) {
+        return user.doOnSuccess(service::assertNotExist)
+                .doOnSuccess(u -> {
+                    if (u.getAvatar() != null) {
+                        client.asFormal(u.getAvatar(), token);
+                    }
+                }).map(service::save);
     }
 
     @PutMapping
@@ -61,6 +73,11 @@ public class UserController {
     @GetMapping
     public Mono<PageInfo<User>> list(@RequestParam Map<String, Object> params) {
         return Mono.just(service.list(new Params(params)));
+    }
+
+    @GetMapping("generate-new-id")
+    public Mono<Map<String, Long>> generateNewId() {
+        return Mono.just(Map.of("newId", generator.generate()));
     }
 
 

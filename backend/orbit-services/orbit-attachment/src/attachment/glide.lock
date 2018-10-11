@@ -1,0 +1,35 @@
+hash: 35b9e5535d65721afb3a504b0e821e7ba6afccccc4ab6fe831607257ea81b15d
+updated: 2018-10-11T09:46:37.4433353+08:00
+imports:
+- name: github.com/bwmarrin/snowflake
+  version: 68117e6bbede4dd72d70c7a58d73348ead068509
+- name: github.com/dgrijalva/jwt-go
+  version: 06ea1031745cb8b3dab3f6a236daf2b0aa468b7e
+- name: github.com/gorilla/context
+  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
+- name: github.com/gorilla/mux
+  version: e3702bed27f0d39777b0b37b664b6280e8ef8fbf
+- name: github.com/jinzhu/gorm
+  version: 6ed508ec6a4ecb3531899a69cbc746ccf65a4166
+  subpackages:
+  - dialects/postgres
+- name: github.com/jinzhu/inflection
+  version: 04140366298a54a039076d798123ffa108fff46c
+- name: github.com/lib/pq
+  version: 4ded0e9383f75c197b3a2aaa6d590ac52df6fd79
+  subpackages:
+  - hstore
+  - oid
+- name: github.com/mediocregopher/radix.v3
+  version: 5d1c5cfd7dcdd2b6cc0dce501d103ac711e148e2
+  subpackages:
+  - resp
+- name: github.com/satori/go.uuid
+  version: f58768cc1a7a7e77a3bd49e98cdd21419399b6a3
+- name: go.uber.org/dig
+  version: 27eb30e15ef3e7f67cd86f2b65c618e3e308c104
+- name: gopkg.in/guregu/null.v3
+  version: 80515d440932108546bcade467bb7d6968e812e2
+- name: gopkg.in/yaml.v2
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
+testImports: []

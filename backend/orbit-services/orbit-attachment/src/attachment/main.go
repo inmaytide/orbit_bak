@@ -11,48 +11,57 @@ import (
 	"os/signal"
 	"sync"
 	"syscall"
-	"attachment/dao"
 	"go.uber.org/dig"
+	"attachment/dao"
+	"attachment/service"
 )
 
 func BuildContainer() *dig.Container {
-	container := dig.New()
-
-	container.Provide(NewConfig)
-	container.Provide(ConnectDatabase)
-	container.Provide(NewPersonRepository)
-	container.Provide(NewPersonService)
-	container.Provide(NewServer)
-
+	container := dig.New();
+	container.Provide(dao.NewDataSource)
+	container.Provide(dao.NewAttachmentRepository)
+	container.Provide(service.NewAttachmentService)
+	container.Provide(handler.NewAttachmentHandler)
+	container.Provide(handler.NewRoutes)
 	return container
 }
 
-func startWebServer() {
-	router := handler.NewRouter()
-	log.Println("Starting HTTP service at", config.GetPort())
-	err := http.ListenAndServe(fmt.Sprintf(":%s", config.GetPort()), router)
+func startWebServer(context *dig.Container) {
+	err := context.Invoke(func(routes handler.Routes) {
+		router := handler.NewRouter(routes)
+		log.Println("Starting HTTP service at", config.GetPort())
+		err := http.ListenAndServe(fmt.Sprintf(":%s", config.GetPort()), router)
+		if err != nil {
+			log.Println("An errorhandler occured starting HTTP listener at port ", config.GetPort())
+			log.Println("Error: ", err.Error())
+		}
+	})
 	if err != nil {
-		log.Println("An errorhandler occured starting HTTP listener at port ", config.GetPort())
-		log.Println("Error: ", err.Error())
+		log.Println("Failed to start web server")
+		log.Fatal(err)
 	}
 }
 
-func handleSigterm() {
+func handleSigterm(context *dig.Container) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	signal.Notify(c, syscall.SIGTERM)
 	go func() {
 		<-c
 		eureka.Deregister()
-		dao.Destroy()
+		context.Invoke(func(ds *dao.DataSource) {
+			ds.Destroy();
+		})
 		os.Exit(1)
 	}()
 }
 
 func main() {
-	handleSigterm()
+	context := BuildContainer()
 
-	go startWebServer()
+	handleSigterm(context)
+
+	go startWebServer(context)
 
 	eureka.Register()
 

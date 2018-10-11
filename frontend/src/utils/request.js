@@ -15,31 +15,6 @@ function displayError (name = 'unexpected') {
   });
 }
 
-function unauthorized (error) {
-  const token = commons.getToken();
-  if (token === null) {
-    location.href = '/login?m=expired_token';
-    return;
-  }
-
-  const body = {
-    grant_type: 'refresh_token',
-    refresh_token: token.refresh_token,
-    client_id: 'apps',
-    scope: 'all',
-    client_secret: '59a84cbf83227a35'
-  };
-  const data = new FormData();
-  Object.keys(body).forEach(k => data.append(k, body[k]));
-
-  axios.post(CONTEXT_PATH + '/oauth/token', data).then(res => {
-    commons.storeToken(res);
-    axios(error.config);
-  }).catch(() => {
-    location.href = '/login?m=expired_token';
-  });
-}
-
 axios.interceptors.request.use(
   config => {
     const authorization = commons.getAuthorization();
@@ -54,12 +29,12 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => response.data,
   error => {
-    if (error.response.status === 401) {
-      unauthorized(error);
+    const res = error.response ? error.response.data : {};
+    if (error.response.status === 401 && !res.hasOwnProperty('error_description')) {
+      location.href = '/login?m=expired_token';
       return;
     }
 
-    const res = error.response ? error.response.data : {};
     let name = 'unexpected';
     if (res.hasOwnProperty('error_description')) {
       name = res['error_description'];

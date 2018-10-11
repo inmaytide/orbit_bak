@@ -37,8 +37,8 @@ type key struct {
 	N   string `json:"n"`
 }
 
-var verifyKey *rsa.PublicKey;
-var once sync.Once;
+var verifyKey *rsa.PublicKey
+var once sync.Once
 
 func keyfunc(token *jwt.Token) (interface{}, error) {
 	once.Do(func() {
@@ -62,7 +62,6 @@ func keyfunc(token *jwt.Token) (interface{}, error) {
 			E: int(E),
 			N: N,
 		}
-
 	})
 	return verifyKey, nil;
 }

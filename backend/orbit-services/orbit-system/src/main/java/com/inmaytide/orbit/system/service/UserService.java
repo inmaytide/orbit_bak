@@ -34,5 +34,4 @@ public interface UserService extends BasicService<User> {
     default PasswordEncoder getPasswordEncoder() {
         return DEFAULT_PASSWORD_ENCODER;
     }
-
 }

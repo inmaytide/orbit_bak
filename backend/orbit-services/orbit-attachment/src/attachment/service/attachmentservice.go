@@ -28,7 +28,7 @@ type AttachmentServiceImpl struct {
 	repository dao.AttachmentRepository
 }
 
-func NewAttachmentService(repository *dao.AttachmentRepository) AttachmentService {
+func NewAttachmentService(repository dao.AttachmentRepository) AttachmentService {
 	return &AttachmentServiceImpl{
 		repository: repository,
 	}

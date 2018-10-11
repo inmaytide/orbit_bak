@@ -8,11 +8,18 @@ import (
 )
 
 type Route struct {
-	Name        string
-	Method      string
-	Pattern     string
+	Name          string
+	Method        string
+	Pattern       string
 	Authenticated bool
-	HandlerFunc http.HandlerFunc
+	HandlerFunc   http.HandlerFunc
+}
+
+type Routes = []Route
+
+func NewRoutes(attachmentHandler *AttachmentHandler) Routes {
+	routes := buildRoutes(attachmentHandler)
+	return routes
 }
 
 func wrappedHandler(inner http.Handler, authenticated bool) http.Handler {
@@ -35,7 +42,7 @@ func wrappedHandler(inner http.Handler, authenticated bool) http.Handler {
 	})
 }
 
-func NewRouter() *mux.Router {
+func NewRouter(routes Routes) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler
@@ -46,54 +53,56 @@ func NewRouter() *mux.Router {
 	return router
 }
 
-var routes = []Route{
-	{
-		"Index",
-		"GET",
-		"/",
-		false,
-		Index,
-	},
-	{
-		"Info",
-		"GET",
-		"/info",
-		false,
-		Info,
-	},
-	{
-		"Health",
-		"POST",
-		"/health",
-		false,
-		Health,
-	},
-	{
-		"VendorShow",
-		"GET",
-		"/vendors/{productId}",
-		false,
-		VendorShow,
-	},
-	{
-		"UploadAttachment",
-		"POST",
-		"/attachments/{belong}",
-		true,
-		getAttachmentHandlerInstance().UploadAttachment,
-	},
-	{
-		"DownloadAttachment",
-		"GET",
-		"/attachments/{id}",
-		false,
-		getAttachmentHandlerInstance().DownloadAttachment,
-	},
-	{
-		"FormalAttachment",
-		"PATCH",
-		"/attachments/{id}/as-formal",
-		true,
-		getAttachmentHandlerInstance().FormalAttachment,
-	},
+func buildRoutes(attachmentHandler *AttachmentHandler) []Route {
+	return []Route{
+		{
+			"Index",
+			"GET",
+			"/",
+			false,
+			Index,
+		},
+		{
+			"Info",
+			"GET",
+			"/info",
+			false,
+			Info,
+		},
+		{
+			"Health",
+			"POST",
+			"/health",
+			false,
+			Health,
+		},
+		{
+			"VendorShow",
+			"GET",
+			"/vendors/{productId}",
+			false,
+			VendorShow,
+		},
+		{
+			"UploadAttachment",
+			"POST",
+			"/attachments/{belong}",
+			true,
+			attachmentHandler.UploadAttachment,
+		},
+		{
+			"DownloadAttachment",
+			"GET",
+			"/attachments/{id}",
+			false,
+			attachmentHandler.DownloadAttachment,
+		},
+		{
+			"FormalAttachment",
+			"PATCH",
+			"/attachments/{id}/as-formal",
+			true,
+			attachmentHandler.FormalAttachment,
+		},
+	}
 }

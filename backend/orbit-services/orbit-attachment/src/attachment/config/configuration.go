@@ -41,7 +41,7 @@ func loadApplication() {
 	dir, err := os.Getwd()
 	errorhandler.Terminate(err, "Failed to get program root directory")
 
-	content, err := ioutil.ReadFile(dir + "/resources/application.yaml")
+	content, err := ioutil.ReadFile(dir + "\\resources\\application.yaml")
 	errorhandler.Terminate(err, "Failed to read \"application.yaml\" file")
 
 	err = yaml.Unmarshal(content, &application)

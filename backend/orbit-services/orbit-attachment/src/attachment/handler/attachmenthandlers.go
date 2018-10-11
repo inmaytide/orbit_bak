@@ -18,7 +18,7 @@ type AttachmentHandler struct {
 	attachmentService service.AttachmentService
 }
 
-func NewAttachmentHandler(service *service.AttachmentService) *AttachmentHandler {
+func NewAttachmentHandler(service service.AttachmentService) *AttachmentHandler {
 	return &AttachmentHandler{
 		attachmentService: service,
 	}
