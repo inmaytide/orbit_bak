@@ -141,7 +141,7 @@ export default {
 
   .menu-child {
     display: none;
-    z-index: 999;
+    z-index: 1001;
     position: absolute;
     top: 0;
     left: 180px;

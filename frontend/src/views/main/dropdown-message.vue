@@ -10,11 +10,13 @@
 </template>
 
 <script>
+import api from '../../apis/attachments';
+
 export default {
   name: 'commons-dropdown-message',
   data () {
     return {
-      avatar: 'https://tse3-mm.cn.bing.net/th?id=OIP.ft0RpajjsNrcu2aRsa00lAHaHa&w=214&h=214&c=7&o=5&dpr=2&pid=1.7'
+      avatar: this.$commons.isBlank(this.$commons.getUser().avatar) ? '' : api.download(this.$commons.getUser().avatar)
     };
   }
 };

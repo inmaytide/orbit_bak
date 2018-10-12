@@ -9,9 +9,9 @@ const ERROR_NAME_PREFIX = 'errors.';
 
 function displayError (name = 'unexpected') {
   name = ERROR_NAME_PREFIX + name;
-  VUE_INST.$Message.error({
-    duration: 3,
-    content: i18n.t(name)
+  VUE_INST.$Notice.error({
+    title: i18n.t('common.title.error'),
+    desc: i18n.t(name)
   });
 }
 

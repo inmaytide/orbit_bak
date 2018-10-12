@@ -3,8 +3,9 @@
     <div class="container-title-bar">
       <div class="container-title">{{$t('common.title.' + status)}}{{$t('system.user.label.detail')}}</div>
       <div class="container-title-bar-actions">
-        <Button shape="circle" type="info" @click="submit" :loading="submitting">{{$t('common.btn.save')}}</Button>
-        <Button shape="circle" @click="back">{{$t('common.btn.back')}}</Button>
+        <Button shape="circle" type="info" @click="submit" :loading="submitting" v-if="editing">{{$t('common.btn.save')}}</Button>
+        <Button shape="circle" type="info" @click="edit" v-if="!editing">{{$t('common.btn.edit')}}</Button>
+        <Button shape="circle" @click="$router.back()">{{$t('common.btn.back')}}</Button>
       </div>
     </div>
     <div class="form-block">
@@ -12,8 +13,8 @@
         <Col span="4">
           <div class="container-avatar">
             <vue-core-image-upload
-              crop="local"
-              resize="local"
+              :crop="'local'"
+              :resize="'local'"
               :max-file-size="5242880"
               :headers="{Authorization: $commons.getAuthorization()}"
               :url="uploadApi"
@@ -21,7 +22,7 @@
               @imageuploaded="imageuploaded">
 
               <div class="div-avatar" v-if="avatar == null">
-                <Icon type="ios-add" size="38"/>
+                <Icon type="ios-add" size="40"/>
                 <br/>{{$t('system.user.label.upload_avatar')}}
               </div>
               <img class="image-avatar" v-if="avatar != null" :src="avatarSrc"/>
@@ -37,68 +38,73 @@
                                        :show-label="false"
                                        :clearable="false"
                                        style="margin-right: 30px;"
-                                       v-model="instance.org"/>
+                                       v-model="instance.org"
+                                       v-if="editing"/>
+                  <p class="form-field-value" v-if="!editing">{{instance.orgName}}</p>
                 </FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="8">
                 <FormItem :label="$i18n.t('system.user.properties.username')" prop="username">
-                  <Input type="text" v-model="instance.username" :maxlength="16">
-                  </Input>
+                  <Input type="text" v-model="instance.username" :maxlength="16" v-if="editing"/>
+                  <p class="form-field-value" v-if="!editing">{{instance.username}}</p>
                 </FormItem>
               </Col>
               <Col span="8">
                 <FormItem :label="$i18n.t('system.user.properties.name')" prop="name">
-                  <Input type="text" v-model="instance.name" :maxlength="64">
-                  </Input>
+                  <Input type="text" v-model="instance.name" :maxlength="64" v-if="editing" />
+                  <p class="form-field-value" v-if="!editing">{{instance.name}}</p>
                 </FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="8">
                 <FormItem :label="$i18n.t('system.user.properties.birthday')" prop="birthday">
-                  <DatePicker type="date" v-model="instance.birthday" :editable="false"></DatePicker>
+                  <DatePicker type="date" v-model="instance.birthday" :editable="false"  v-if="editing" />
+                  <p class="form-field-value" v-if="!editing">{{instance.birthday}}</p>
                 </FormItem>
               </Col>
               <Col span="8">
                 <FormItem :label="$i18n.t('system.user.properties.email')" prop="email">
-                  <Input type="text" v-model="instance.email" suffix="ios-mail" :maxlength="512">
-                  </Input>
+                  <Input type="text" v-model="instance.email" suffix="ios-mail" :maxlength="512"  v-if="editing"/>
+                  <p class="form-field-value" v-if="!editing">{{instance.email}}</p>
                 </FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="8">
                 <FormItem :label="$i18n.t('system.user.properties.qq')" prop="qq">
-                  <Input type="text" v-model="instance.qq" :maxlength="16">
-                  </Input>
+                  <Input type="text" v-model="instance.qq" :maxlength="16"  v-if="editing" />
+                  <p class="form-field-value" v-if="!editing">{{instance.qq}}</p>
                 </FormItem>
               </Col>
               <Col span="8">
                 <FormItem :label="$i18n.t('system.user.properties.wechat')" prop="wechat">
-                  <Input type="text" v-model="instance.wechat" suffix="ios-chatbubbles-outline" :maxlength="32">
-                  </Input>
+                  <Input type="text" v-model="instance.wechat" suffix="ios-chatbubbles-outline" :maxlength="32"  v-if="editing" />
+                  <p class="form-field-value" v-if="!editing">{{instance.wechat}}</p>
                 </FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="8">
                 <FormItem :label="$i18n.t('system.user.properties.cellphone')" prop="cellphone">
-                  <Input type="text" v-model="instance.cellphone" suffix="ios-phone-portrait" :maxlength="16">
-                  </Input>
+                  <Input type="text" v-model="instance.cellphone" suffix="ios-phone-portrait" :maxlength="16"  v-if="editing" />
+                  <p class="form-field-value" v-if="!editing">{{instance.cellphone}}</p>
                 </FormItem>
               </Col>
               <Col span="8">
                 <FormItem :label="$i18n.t('system.user.properties.telephone')" prop="telephone">
-                  <Input type="text" v-model="instance.telephone" suffix="ios-call" :maxlength="16"/>
+                  <Input type="text" v-model="instance.telephone" suffix="ios-call" :maxlength="16"  v-if="editing"/>
+                  <p class="form-field-value" v-if="!editing">{{instance.telephone}}</p>
                 </FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="16">
                 <FormItem :label="$i18n.t('system.user.properties.remark')" prop="remark">
-                  <Input type="textarea" :rows="3" v-model="instance.remark" :maxlength="512"/>
+                  <Input type="textarea" :rows="3" v-model="instance.remark" :maxlength="512"  v-if="editing"/>
+                  <p class="form-field-value" v-if="!editing">{{instance.remark}}</p>
                 </FormItem>
               </Col>
             </Row>
@@ -163,11 +169,17 @@ export default {
     },
     avatarSrc: function () {
       return attachmentApi.download(this.avatar);
+    },
+    editing: function () {
+      return form.isEditing(this.status);
     }
   },
   methods: {
     get (id) {
-      this.$http.get(api.get(id)).then(res => (this.instance = res));
+      this.$http.get(api.get(id)).then(res => {
+        this.instance = res;
+        this.avatar = res.avatar;
+      });
     },
     init () {
       if (this.instance.id === '-1') {
@@ -177,8 +189,8 @@ export default {
         this.get(this.instance.id);
       }
     },
-    back () {
-      this.$router.back();
+    edit () {
+      this.status = form.STATUS_MODIFY;
     },
     submit () {
       this.submitting = true;
@@ -187,10 +199,15 @@ export default {
           if (this.$commons.isBlank(this.instance.birthday)) {
             delete this.instance.birthday;
           }
-          this.$http.post(api.common, this.instance).then(res => {
+          const action = form.isCreating(this.status) ? this.$http.post : this.$http.put;
+          action(api.common, this.instance).then(res => {
             this.instance = res;
             this.status = form.STATUS_VIEW;
             this.submitting = false;
+            this.$Notice.success({
+              title: this.$i18n.t('common.title.prompt'),
+              desc: this.$i18n.t('common.message.save_success')
+            });
           }).catch(() => (this.submitting = false));
         } else {
           this.submitting = false;
@@ -209,25 +226,25 @@ export default {
 </script>
 <style scoped>
   .container-avatar {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto;
   }
 
   .div-avatar {
     display: block;
     text-align: center;
-    padding-top: 15px;
+    padding-top: 25px;
     font-size: 14px;
     color: #0bb1df;
     background-color: #f8f8f9;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
   }
 
   .image-avatar {
-    height: 100px;
-    width: 100px;
+    height: 120px;
+    width: 120px;
     border: 1px solid #f8f8f9;
   }
 </style>

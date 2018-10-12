@@ -36,7 +36,7 @@ func (inst *DataSource) Destroy() {
 		err := inst.db.Close()
 		errorhandler.Print(err, "Failed to close database connection")
 		if err == nil {
-			log.Println("Database connection destroyed.")
+			log.Println("Database destroyed.")
 		}
 	}
 }

@@ -11,11 +11,13 @@
              :columns="columns"
              :data="pager.list"/>
       <div style="display: flex; justify-content: flex-end; padding-top: 10px;">
-        <Page :total="pager.total"
+        <Page :total="parseInt(pager.total)"
               show-elevator
               show-sizer
               show-total
               size="small"
+              @on-change="changePageNumber"
+              @on-page-size-change="changePageSize"
               :page-size-opts="[10, 20, 50, 100]"/>
       </div>
     </div>
@@ -96,6 +98,14 @@ export default {
         ...conditions
       });
       this.refresh();
+    },
+    changePageNumber (pageNumber) {
+      this.conditions.pageNumber = pageNumber;
+      this.refresh();
+    },
+    changePageSize (pageSize) {
+      this.conditions.pageSize = pageSize;
+      this.changePageNumber(1);
     },
     refresh () {
       this.$http.get(api.common, this.conditions).then(res => {

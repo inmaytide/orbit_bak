@@ -1,13 +1,18 @@
+const __ORBIT_TOKEN_ = '__ORBIT_TOKEN_';
+const __ORBIT_USER_ = '__ORBIT_USER_';
+
+const capitalize = (str) => str.replace(/\b[a-z]/g, s => s.toUpperCase());
+
 export default {
   clearAuthenticated () {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem(__ORBIT_TOKEN_);
+    localStorage.removeItem(__ORBIT_USER_);
   },
   storeToken (token) {
-    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem(__ORBIT_TOKEN_, JSON.stringify(token));
   },
   getToken () {
-    const stored = localStorage.getItem('token');
+    const stored = localStorage.getItem(__ORBIT_TOKEN_);
     if (!this.isBlank(stored)) {
       return JSON.parse(stored);
     }
@@ -15,10 +20,10 @@ export default {
   },
   storeUser (user) {
     delete user.password;// earse password
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem(__ORBIT_USER_, JSON.stringify(user));
   },
   getUser () {
-    const stored = localStorage.getItem('user');
+    const stored = localStorage.getItem(__ORBIT_USER_);
     if (!this.isBlank(stored)) {
       return JSON.parse(stored);
     }
@@ -27,7 +32,7 @@ export default {
   getAuthorization () {
     const token = this.getToken();
     if (token !== null) {
-      return 'Bearer ' + token.access_token;
+      return capitalize(token.token_type) + ' ' + token.access_token;
     }
     return null;
   },
