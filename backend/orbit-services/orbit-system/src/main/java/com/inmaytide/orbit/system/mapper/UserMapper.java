@@ -39,7 +39,7 @@ public interface UserMapper extends BasicMapper<User> {
             "</if>" +
             "<if test=\"conditions.status != null\">" +
             "and status = to_number(#{conditions.status}, '9999999999999999999')" +
-            "</if>" +
+            "</if> order by id desc" +
             "</script>")
     List<User> list(@Param("conditions") Map<String, Object> conditions);
 }

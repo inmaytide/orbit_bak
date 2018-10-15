@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.system.consts.handler;
 
-import com.inmaytide.orbit.system.consts.OrganizationCategory;
 import com.inmaytide.orbit.system.consts.UserStatus;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;

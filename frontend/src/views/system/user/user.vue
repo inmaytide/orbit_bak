@@ -8,6 +8,7 @@
       <Table stripe
              border
              size="small"
+             :height="tableHeight"
              :columns="columns"
              :data="pager.list"/>
       <div style="display: flex; justify-content: flex-end; padding-top: 10px;">
@@ -39,6 +40,7 @@ export default {
         pageNumber: 1
       },
       pager: [],
+      tableHeight: window.innerHeight - 265,
       columns: [
         {
           title: this.$i18n.t('system.user.properties.status'),

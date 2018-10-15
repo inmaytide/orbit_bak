@@ -4,8 +4,9 @@
       <div class="container-title">{{$t('common.title.' + status)}}{{$t('system.user.label.detail')}}</div>
       <div class="container-title-bar-actions">
         <Button shape="circle" type="info" @click="submit" :loading="submitting" v-if="editing">{{$t('common.btn.save')}}</Button>
+        <Button shape="circle" @click="cancel" v-if="editing">{{$t('common.btn.cancel')}}</Button>
         <Button shape="circle" type="info" @click="edit" v-if="!editing">{{$t('common.btn.edit')}}</Button>
-        <Button shape="circle" @click="$router.back()">{{$t('common.btn.back')}}</Button>
+        <Button shape="circle" @click="$router.back()"  v-if="!editing">{{$t('common.btn.back')}}</Button>
       </div>
     </div>
     <div class="form-block">
@@ -191,6 +192,18 @@ export default {
     },
     edit () {
       this.status = form.STATUS_MODIFY;
+    },
+    cancel () {
+      this.$Modal.confirm({
+        title: this.$i18n.t('common.message.confirm_cancel'),
+        onOk: () => {
+          if (form.isCreating(this.status)) {
+            this.$router.back();
+          } else {
+            this.status = form.STATUS_VIEW;
+          }
+        }
+      })
     },
     submit () {
       this.submitting = true;

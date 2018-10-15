@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.system.consts;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Arrays;
@@ -18,7 +19,7 @@ public enum UserStatus {
         this.value = value;
     }
 
-
+    @JsonCreator
     public static UserStatus of(final Integer value) {
         return Arrays.stream(values())
                 .filter(status -> Objects.equals(status.value, value))
