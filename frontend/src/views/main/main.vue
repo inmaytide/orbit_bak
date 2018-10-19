@@ -4,10 +4,10 @@
       <commons-menu :active="active"/>
     </Sider>
     <Layout>
-      <Header style="padding-right: 0!important; height: 100px; width: 100%; position: fixed; z-index: 1000">
+      <Header style="padding-right: 0!important; height: 100px; width: 100%; z-index: 1000">
         <commons-header :active="active" :breadcrumbs="breadcrumbs" />
       </Header>
-      <Content style="margin-top: 100px; height: calc(100% - 100px);">
+      <Content style="height: calc(100% - 100px);">
         <router-view></router-view>
       </Content>
     </Layout>

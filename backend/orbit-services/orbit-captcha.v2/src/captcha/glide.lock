@@ -1,0 +1,33 @@
+hash: 793f42efd6d14a04f3fdaaa999f82428a25126920ea412b4fe92be8246358ba3
+updated: 2018-10-19T11:36:24.4841347+08:00
+imports:
+- name: github.com/golang/freetype
+  version: e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4
+  subpackages:
+  - raster
+  - truetype
+- name: github.com/gorilla/context
+  version: 51ce91d2eaddeca0ef29a71d766bb3634dadf729
+- name: github.com/gorilla/mux
+  version: e3702bed27f0d39777b0b37b664b6280e8ef8fbf
+- name: github.com/mediocregopher/radix.v3
+  version: 9063563cd4f4e9800df2069d19af0fcdd412076a
+  subpackages:
+  - resp
+- name: github.com/mojocn/base64Captcha
+  version: 7d0b78ad1685f79a0fea381c107d77ec1f812500
+- name: github.com/satori/go.uuid
+  version: f58768cc1a7a7e77a3bd49e98cdd21419399b6a3
+- name: go.uber.org/dig
+  version: 27eb30e15ef3e7f67cd86f2b65c618e3e308c104
+  subpackages:
+  - internal/digreflect
+  - internal/dot
+- name: golang.org/x/image
+  version: 991ec62608f3c0da01d400756917825d1e2fd528
+  subpackages:
+  - font
+  - math/fixed
+- name: gopkg.in/yaml.v2
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
+testImports: []

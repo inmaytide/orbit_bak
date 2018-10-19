@@ -203,7 +203,7 @@ export default {
             this.status = form.STATUS_VIEW;
           }
         }
-      })
+      });
     },
     submit () {
       this.submitting = true;
