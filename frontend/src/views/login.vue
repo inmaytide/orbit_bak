@@ -21,7 +21,7 @@
           </FormItem>
           <FormItem prop="captcha">
             <Row>
-              <i-col span="15">
+              <i-col span="15" style="padding-right: 7px;">
                 <i-input v-model="token.captcha"
                          size="large"
                          :maxlength="6"
@@ -156,7 +156,7 @@ export default {
       this.$http.get(api.captcha)
         .then(res => {
           this.token.captcha = '';
-          this.captcha.image = 'data:image/jpeg;base64,' + res.image;
+          this.captcha.image = res.image;
           this.captcha.name = res.captchaName;
         });
     }

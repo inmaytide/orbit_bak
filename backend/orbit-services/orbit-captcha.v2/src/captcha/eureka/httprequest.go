@@ -29,12 +29,11 @@ func DoHttpRequest(action HttpAction) bool {
 
 	if err != nil {
 		log.Printf("Http request failed: %s", err)
-	} else {
-		return true
-		defer response.Body.Close()
+		return false
 	}
 
-	return false
+	defer response.Body.Close()
+	return true
 }
 
 func buildHttpRequest(action HttpAction) *http.Request {

@@ -43,6 +43,7 @@ func Generate() Captcha {
 }
 
 func GenerateAndWriteToHttpResponseWriter(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json;charset=utf-8")
 	err := json.NewEncoder(w).Encode(Generate())
 	if err != nil {
 		log.Println("Failed to write captcha to http response")
@@ -59,6 +60,8 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 
 	body := make(map[string]bool)
 	body["isValid"] = isValid
+
+	w.Header().Set("Content-Type", "application/json;charset=utf-8")
 	err := json.NewEncoder(w).Encode(body)
 	if err != nil {
 		log.Println("Failed to write validate result to http response")

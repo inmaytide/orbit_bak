@@ -77,7 +77,6 @@ func main() {
 
 		eureka.Register(config)
 
-		go eureka.StartHeartbeat()
 	})
 
 	wg := sync.WaitGroup{}

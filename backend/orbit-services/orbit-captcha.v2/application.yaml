@@ -2,7 +2,7 @@ application:
   name: orbit-captcha
   server:
     port: 7006
-eureka: http://orbit-discovery:7000/eureka
+eureka: http://orbit-discovery:7000/eureka,http://127.0.0.1:7000/eureka
 redis:
   addr: redis-server:6379
 captcha:

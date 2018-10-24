@@ -2,7 +2,6 @@ package model
 
 import (
 	"attachment/config"
-	"attachment/redis"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -12,9 +11,9 @@ import (
 	"attachment/util"
 	"crypto/rsa"
 	"math/big"
-	"sync"
 	"encoding/base64"
-	"attachment/errorhandler"
+	"attachment/cache"
+	"strings"
 )
 
 const (
@@ -38,32 +37,42 @@ type key struct {
 }
 
 var verifyKey *rsa.PublicKey
-var once sync.Once
+var env *config.Configuration
+var client *cache.RedisClient
+
+func InitializePermission(configuration *config.Configuration, client_ *cache.RedisClient) {
+	env = configuration
+	client = client_
+	var err error
+	var body, e, n []byte
+	var jwks = jwks{}
+
+	request, _ := http.NewRequest(http.MethodGet, env.Jwt.JwkSetUri, nil)
+
+	if body, err = util.DoRequest(request); err != nil {
+		log.Fatal(err)
+	}
+
+	if err = json.Unmarshal(body, &jwks); err != nil {
+		log.Fatal(err)
+	}
+
+	if e, err = base64.RawURLEncoding.DecodeString(jwks.Keys[0].E); err != nil {
+		log.Fatal(err)
+	}
+
+	if n, err = base64.RawURLEncoding.DecodeString(jwks.Keys[0].N); err != nil {
+		log.Fatal(err)
+	}
+
+	verifyKey = &rsa.PublicKey{
+		E: int(new(big.Int).SetBytes(e).Int64()),
+		N: new(big.Int).SetBytes(n),
+	}
+}
 
 func keyfunc(token *jwt.Token) (interface{}, error) {
-	once.Do(func() {
-		request, _ := http.NewRequest(http.MethodGet, config.GetApplication().Jwt.JwkSetUri, nil)
-		body, err := util.DoRequest(request);
-		errorhandler.Terminate(err, "The authorization service is unavailable right now")
-
-		var jwks = jwks{}
-		err = json.Unmarshal(body, &jwks)
-		errorhandler.Terminate(err, "The authorization service is unavailable right now")
-
-		e, err := base64.RawURLEncoding.DecodeString(jwks.Keys[0].E)
-		E := new(big.Int).SetBytes(e).Int64();
-		errorhandler.Terminate(err, "The authorization service is unavailable right now")
-
-		n, err := base64.RawURLEncoding.DecodeString(jwks.Keys[0].N)
-		N := new(big.Int).SetBytes(n);
-		errorhandler.Terminate(err, "The authorization service is unavailable right now")
-
-		verifyKey = &rsa.PublicKey{
-			E: int(E),
-			N: N,
-		}
-	})
-	return verifyKey, nil;
+	return verifyKey, nil
 }
 
 func getAuthorization(r *http.Request) (string, error) {
@@ -116,7 +125,8 @@ func getUser(authorization string) (User, error) {
 
 	if err != nil {
 		log.Println(err.Error())
-		request, err := http.NewRequest(http.MethodGet, config.GetApi().GetUserByUsername(username), nil)
+		url := env.Api.Base + strings.Replace(env.Api.GetUserByUsername, "{username}", username, -1)
+		request, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			return User{}, err
 		}
@@ -126,7 +136,7 @@ func getUser(authorization string) (User, error) {
 		if err != nil {
 			return user, err
 		}
-		redis.GetClient().ESet(getCacheName(username), user, 86400)
+		client.ESet(getCacheName(username), user, 86400)
 		return user, nil
 	}
 	return user, nil
@@ -134,17 +144,17 @@ func getUser(authorization string) (User, error) {
 
 func getCacheUser(username string) (User, error) {
 	var user = User{}
-	data, err := redis.GetClient().Get(getCacheName(username))
+	data, err := client.Get(getCacheName(username))
 	if err != nil {
 		return user, err
 	}
 	if len(data) == 0 {
-		return user, errors.New("There is no cache for visitor");
+		return user, errors.New("There is no cache for visitor")
 	}
 
 	if data[0] != byte('{') {
 		if len(data) < 8 {
-			return user, errors.New("Incorrect format of cache for visitor");
+			return user, errors.New("Incorrect format of cache for visitor")
 		}
 		data = data[7:]
 	}

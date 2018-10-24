@@ -5,6 +5,7 @@ import (
 	"context"
 	"github.com/gorilla/mux"
 	"net/http"
+	"attachment/eureka"
 )
 
 type Route struct {
@@ -15,13 +16,6 @@ type Route struct {
 	HandlerFunc   http.HandlerFunc
 }
 
-type Routes = []Route
-
-func NewRoutes(attachmentHandler *AttachmentHandler) Routes {
-	routes := buildRoutes(attachmentHandler)
-	return routes
-}
-
 func wrappedHandler(inner http.Handler, authenticated bool) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !authenticated {
@@ -29,11 +23,11 @@ func wrappedHandler(inner http.Handler, authenticated bool) http.Handler {
 		} else {
 			visitor, err := model.VisitorResolver(r)
 			if err != nil {
-				model.WriterForbidden(w, r.RequestURI, err.Error())
+				WriterForbidden(w, r.RequestURI, err.Error())
 				return
 			}
 			if visitor.ID == 0 {
-				model.WriterForbidden(w, r.RequestURI, "Invalid authorization")
+				WriterForbidden(w, r.RequestURI, "Invalid authorization")
 				return
 			}
 			inner.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "visitor", visitor)))
@@ -42,7 +36,7 @@ func wrappedHandler(inner http.Handler, authenticated bool) http.Handler {
 	})
 }
 
-func NewRouter(routes Routes) *mux.Router {
+func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler
@@ -53,56 +47,54 @@ func NewRouter(routes Routes) *mux.Router {
 	return router
 }
 
-func buildRoutes(attachmentHandler *AttachmentHandler) []Route {
-	return []Route{
-		{
-			"Index",
-			"GET",
-			"/",
-			false,
-			Index,
-		},
-		{
-			"Info",
-			"GET",
-			"/info",
-			false,
-			Info,
-		},
-		{
-			"Health",
-			"POST",
-			"/health",
-			false,
-			Health,
-		},
-		{
-			"VendorShow",
-			"GET",
-			"/vendors/{productId}",
-			false,
-			VendorShow,
-		},
-		{
-			"UploadAttachment",
-			"POST",
-			"/attachments/{belong}",
-			true,
-			attachmentHandler.UploadAttachment,
-		},
-		{
-			"DownloadAttachment",
-			"GET",
-			"/attachments/{id}",
-			false,
-			attachmentHandler.DownloadAttachment,
-		},
-		{
-			"FormalAttachment",
-			"PATCH",
-			"/attachments/{id}/as-formal",
-			true,
-			attachmentHandler.FormalAttachment,
-		},
-	}
+var routes = []Route{
+	{
+		"Index",
+		"GET",
+		"/",
+		false,
+		eureka.Index,
+	},
+	{
+		"Info",
+		"GET",
+		"/info",
+		false,
+		eureka.Info,
+	},
+	{
+		"Health",
+		"POST",
+		"/health",
+		false,
+		eureka.Health,
+	},
+	{
+		"VendorShow",
+		"GET",
+		"/vendors/{productId}",
+		false,
+		eureka.VendorShow,
+	},
+	{
+		"UploadAttachment",
+		"POST",
+		"/attachments/{belong}",
+		true,
+		UploadAttachment,
+	},
+	{
+		"DownloadAttachment",
+		"GET",
+		"/attachments/{id}",
+		false,
+		DownloadAttachment,
+	},
+	{
+		"FormalAttachment",
+		"PATCH",
+		"/attachments/{id}/as-formal",
+		true,
+		FormalAttachment,
+	},
 }

@@ -17,8 +17,8 @@ public class DefaultWebResponseExceptionTranslator extends org.springframework.s
 
     @Override
     public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
-        if (e.getCause() instanceof ResponseException) {
-            ResponseException cause = (ResponseException) e.getCause();
+        if (e instanceof ResponseException || e.getCause() instanceof ResponseException) {
+            ResponseException cause = (ResponseException) (e.getCause() == null ? e : e.getCause());
             OAuth2Exception exception = new OAuth2Exception(cause.getCode(), e);
             return new ResponseEntity<>(exception, cause.getHttpStatus());
         }

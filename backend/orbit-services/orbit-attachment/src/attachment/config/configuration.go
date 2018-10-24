@@ -1,25 +1,24 @@
 package config
 
 import (
-	"attachment/errorhandler"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
-	"sync"
-	"strings"
 )
 
-type Api struct {
-	Base               string `yaml:"base"`
-	GetUserByUsername_ string `yaml:"get-user-by-username"`
-}
-
-type Application struct {
-	Port       string `yaml:"port"`
-	Name       string `yaml:"application-name"`
-	Eureka     string `yaml:"eureka"`
-	Datasource string `yaml:"datasource"`
+type Configuration struct {
+	Application struct {
+		Name string `yaml:"name"`
+		Server struct {
+			Port int `yaml:"port"`
+		}
+	}
+	Eureka string `yaml:"eureka"`
+	DataSource struct {
+		Dialect string `yaml:"dialect"`
+		URL     string `yaml:"url"`
+	}
 	Redis struct {
 		Addr     string `yaml:"addr"`
 		Password string `yaml:"password"`
@@ -28,59 +27,36 @@ type Application struct {
 		FormalStorageAddress string `yaml:"formal-storage-address"`
 		TemporaryExpireTime  uint64 `yaml:"temporary-expire-time"`
 	}
-	Api Api
+	Api struct {
+		Base               string `yaml:"base"`
+		GetUserByUsername string `yaml:"get-user-by-username"`
+	}
 	Jwt struct {
 		JwkSetUri string `yaml:"jwk-set-uri"`
 	}
 }
 
-var application Application
-var once sync.Once
-
-func loadApplication() {
+func NewConfiguration() *Configuration {
 	dir, err := os.Getwd()
-	errorhandler.Terminate(err, "Failed to get program root directory")
+	if err != nil {
+		log.Println("Failed to get program root directory")
+		log.Fatal(err)
+	}
 
-	content, err := ioutil.ReadFile(dir + "\\resources\\application.yaml")
-	errorhandler.Terminate(err, "Failed to read \"application.yaml\" file")
+	content, err := ioutil.ReadFile(dir + "\\application.yaml")
+	if err != nil {
+		log.Println("Failed to read \"application.yaml\" file")
+		log.Fatal(err)
+	}
 
-	err = yaml.Unmarshal(content, &application)
-	errorhandler.Terminate(err, "Failed to get program root directory")
+	config := &Configuration{}
+	err = yaml.Unmarshal(content, &config)
+	if err != nil {
+		log.Println("File \"application.yaml\" format is incorrect")
+		log.Fatal(err)
+	}
 
 	log.Println("The configuration file is loaded successfully.")
-}
 
-func GetApplication() Application {
-	once.Do(loadApplication)
-	return application
-}
-
-func GetPort() string {
-	return GetApplication().Port
-}
-
-func GetEurekaServer() string {
-	return GetApplication().Eureka
-}
-
-func GetApplicationName() string {
-	return GetApplication().Name
-}
-
-func GetTemporaryExpireTime() uint64 {
-	return GetApplication().Attachment.TemporaryExpireTime
-}
-
-func GetFormalStorageAddress() string {
-	return GetApplication().Attachment.FormalStorageAddress
-}
-
-func GetApi() Api {
-	return GetApplication().Api
-}
-
-func (api Api) GetUserByUsername(username string) string {
-	var url = api.Base + api.GetUserByUsername_
-	url = strings.Replace(url, "{username}", username, -1)
-	return url
+	return config
 }

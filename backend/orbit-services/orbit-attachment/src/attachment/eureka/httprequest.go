@@ -7,6 +7,17 @@ import (
 	"strings"
 )
 
+type HttpAction struct {
+	Method      string `yaml:"method"`
+	URL         string `yaml:"url"`
+	Body        string `yaml:"body"`
+	Template    string `yaml:"template"`
+	Accept      string `yaml:"accept"`
+	ContentType string `yaml:"contentType"`
+	Title       string `yaml:"title"`
+	StoreCookie string `yaml:"storeCookie"`
+}
+
 func DoHttpRequest(action HttpAction) bool {
 	request := buildHttpRequest(action)
 
@@ -18,12 +29,11 @@ func DoHttpRequest(action HttpAction) bool {
 
 	if err != nil {
 		log.Printf("Http request failed: %s", err)
-	} else {
-		return true
-		defer response.Body.Close()
+		return false
 	}
 
-	return false
+	defer response.Body.Close()
+	return true
 }
 
 func buildHttpRequest(action HttpAction) *http.Request {

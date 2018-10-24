@@ -1,0 +1,18 @@
+application:
+  name: orbit-attachment
+  server:
+    port: 7002
+datasource:
+  dialect: postgres
+  url: user=postgres password=3224781 dbname=orbit_attachment sslmode=disable
+eureka: http://orbit-discovery:7000/eureka
+attachment:
+  formal-storage-address: e:/attachment
+  temporary-expire-time: 86400
+redis:
+  addr: redis-server:6379
+api:
+  base: http://127.0.0.1:7001
+  get-user-by-username: /sys/users/u/{username}
+jwt:
+  jwk-set-uri: http://orbit-authorization:7004/.well-known/jwks.json

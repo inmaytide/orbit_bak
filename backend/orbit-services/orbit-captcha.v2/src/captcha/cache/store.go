@@ -30,5 +30,6 @@ func (s *CaptchaStore) Get(id string, clear bool) string {
 		}
 	}
 
-	return string(value);
+	result := string(value)
+	return result[1:len(result)-1];
 }

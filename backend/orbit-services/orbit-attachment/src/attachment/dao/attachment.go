@@ -11,17 +11,17 @@ type AttachmentRepository interface {
 	Delete(id int64) (int64, error)
 }
 
-type AttachmentRepositoryImpl struct {
+type attachmentRepositoryImpl struct {
 	dataSource *DataSource
 }
 
 func NewAttachmentRepository(ds *DataSource) AttachmentRepository {
-	return &AttachmentRepositoryImpl{
+	return &attachmentRepositoryImpl{
 		dataSource: ds,
 	}
 }
 
-func (repository *AttachmentRepositoryImpl) Get(id int64) (model.Attachment, error) {
+func (repository *attachmentRepositoryImpl) Get(id int64) (model.Attachment, error) {
 	var inst = model.Attachment{}
 	if repository.dataSource.getConnection().Where("id = $1", id).First(&inst).RecordNotFound() {
 		return inst, fmt.Errorf("Can't found attachment with %d", id)
@@ -29,15 +29,15 @@ func (repository *AttachmentRepositoryImpl) Get(id int64) (model.Attachment, err
 	return inst, nil
 }
 
-func (repository *AttachmentRepositoryImpl) Create(inst model.Attachment) (model.Attachment, error) {
-	err := repository.dataSource.getConnection().Create(&inst).Error;
+func (repository *attachmentRepositoryImpl) Create(inst model.Attachment) (model.Attachment, error) {
+	err := repository.dataSource.getConnection().Create(&inst).Error
 	if err != nil {
-		return inst, err;
+		return inst, err
 	}
 	return repository.Get(inst.ID)
 }
 
-func (repository *AttachmentRepositoryImpl) Delete(id int64) (int64, error) {
+func (repository *attachmentRepositoryImpl) Delete(id int64) (int64, error) {
 	if err := repository.dataSource.getConnection().Delete(&model.Attachment{ID: id}).Error; err != nil {
 		return 0, err
 	}

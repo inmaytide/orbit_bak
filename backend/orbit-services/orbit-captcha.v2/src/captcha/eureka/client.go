@@ -18,18 +18,25 @@ type Instance struct {
 	BaseURL        string
 	StatusURL      string
 	RegisterAction HttpAction
+	Registered     bool
 }
 
 var instances []Instance
+var rawTpl []byte
 
-func makeInstance(data []byte, env *config.Configuration, eureka string) Instance {
-	id := strings.Replace(uuid.NewV4().String(), "-", "", -1)
-	baseURL := fmt.Sprintf("%s/apps/%s", eureka, env.Application.Name)
-	tpl := string(data)
+func processTpl(env *config.Configuration, id string) string {
+	tpl := string(rawTpl)
 	tpl = strings.Replace(tpl, "${ip.address}", getLocalIP(), -1)
 	tpl = strings.Replace(tpl, "${port}", fmt.Sprintf("%d", env.Application.Server.Port), -1)
 	tpl = strings.Replace(tpl, "${instanceID}", id, -1)
 	tpl = strings.Replace(tpl, "${application.name}", env.Application.Name, -1)
+	return tpl
+}
+
+func makeInstance(env *config.Configuration, eureka string) Instance {
+	id := strings.Replace(uuid.NewV4().String(), "-", "", -1)
+	baseURL := fmt.Sprintf("%s/apps/%s", eureka, env.Application.Name)
+	tpl := processTpl(env, id)
 	return Instance{
 		ID:        id,
 		BaseURL:   baseURL,
@@ -40,6 +47,7 @@ func makeInstance(data []byte, env *config.Configuration, eureka string) Instanc
 			ContentType: "application/json",
 			Body:        tpl,
 		},
+		Registered: false,
 	}
 }
 
@@ -52,49 +60,53 @@ func Register(env *config.Configuration) {
 
 	servers := strings.Split(env.Eureka, ",")
 	instances = make([]Instance, len(servers))
-	dir, _ := os.Getwd()
-	data, _ := ioutil.ReadFile(dir + "/regtpl.json")
-
-	for i, n := range servers {
-		instances[i] = makeInstance(data, env, n)
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Println("Failed to get program root directory")
+		log.Println(err)
+		return
+	}
+	if rawTpl, err = ioutil.ReadFile(dir + "/regtpl.json"); err != nil {
+		log.Printf("Failed to read %s/regtpl.json file \r\n", dir)
+		log.Println(err)
+		return
 	}
 
-	for _, n := range instances {
-		go (func() {
-			var result bool
-			for {
-				result = DoHttpRequest(n.RegisterAction)
-				if result {
-					break
-				} else {
-					time.Sleep(time.Second * 5)
-				}
-			}
-		})()
+	for i, n := range servers {
+		instances[i] = makeInstance(env, n)
+		go register(instances[i])
 	}
 }
 
-// StartHeartbeat ...
-func StartHeartbeat() {
-	if len(instances) == 0 {
-		return
-	}
-	for _, n := range instances {
-		go func() {
-			for {
-				time.Sleep(time.Second * 30)
-				heartbeat(n)
-			}
-		}()
+func register(instance Instance) {
+	for {
+		if DoHttpRequest(instance.RegisterAction) {
+			instance.Registered = true
+			go heartbeat(instance)
+			// log.Printf("Registered: %s \r\n", instance.BaseURL)
+			break
+		} else {
+			time.Sleep(time.Second * 5)
+		}
 	}
 }
 
 func heartbeat(instance Instance) {
-	heartbeatAction := HttpAction{
-		URL:    instance.StatusURL,
-		Method: "PUT",
+	for {
+		heartbeatAction := HttpAction{
+			URL:    instance.StatusURL,
+			Method: "PUT",
+		}
+		if DoHttpRequest(heartbeatAction) {
+			time.Sleep(time.Second * 30)
+		} else {
+			// log.Printf("Heartbeat failure: %s \r\n", instance.BaseURL)
+			instance.Registered = false
+			register(instance)
+			break
+		}
+
 	}
-	DoHttpRequest(heartbeatAction)
 }
 
 // Deregister ...
@@ -104,7 +116,9 @@ func Deregister() {
 	}
 	log.Println("Trying to deregister application...")
 	for _, n := range instances {
-		deregister(n)
+		if n.Registered {
+			deregister(n)
+		}
 	}
 	log.Println("Deregistered application, exiting. Check Eureka...")
 }

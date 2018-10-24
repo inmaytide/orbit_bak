@@ -14,9 +14,7 @@ import (
 )
 
 const (
-	ATTACHMENT_CACHE_NAME       = "attachment:%d"
-	ATTACHMENT_STATUS_FORMAL    = "FORMAL"
-	ATTACHMENT_STATUS_TEMPORARY = "TEMPORARY"
+	ATTACHMENT_CACHE_NAME = "attachment:%d"
 )
 
 type AttachmentHelper interface {
@@ -34,7 +32,7 @@ type Attachment struct {
 	Belong         null.Int    `json:"belong" gorm:"column:belong"`
 	Size           null.Int    `json:"size" gorm:"column:size"`
 	Creator        null.Int    `json:"creator,string" gorm:"column:creator"`
-	CreatedAt     null.Time   `json:"createTime" gorm:"column:create_time"`
+	CreatedAt      null.Time   `json:"createTime" gorm:"column:create_time"`
 }
 
 func (inst Attachment) StoragePath() string {
