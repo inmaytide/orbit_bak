@@ -1,0 +1,37 @@
+{
+  "label": {
+    "detail": "用户信息",
+    "upload_avatar": "上传头像"
+  },
+  "search": {
+    "keyword-placeholder": "姓名/用户名/手机号码"
+  },
+  "errors": {
+    "invalid_email": "无效的Email地址",
+    "invalid_cellphone": "无效的手机号码",
+    "invalid_telephone": "无效的电话号码",
+    "username_repeat": "用户名已被使用"
+  },
+  "properties": {
+    "org": "所属组织",
+    "username": "用户名",
+    "name": "姓名",
+    "password": "密码",
+    "status": "用户状态",
+    "birthday": "生日",
+    "email": "E-mail",
+    "qq": "QQ",
+    "wechat": "微信",
+    "telephone": "座机号码",
+    "cellphone": "手机号码",
+    "avatar": "头像",
+    "remark": "备注"
+  },
+  "status": {
+    "all": "全部",
+    "enable": "正常",
+    "outwork": "出差中",
+    "disabled": "已禁用",
+    "vacation": "休假中"
+  }
+}

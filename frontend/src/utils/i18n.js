@@ -10,12 +10,10 @@ const locales = {
   'zh-CN': zh
 };
 
-// let lang = navigator.language;
-// if (!lang) {
-//   lang = navigator.browserLanguage;
-// }
-
-const lang = 'en';
+let lang = navigator.language;
+if (!lang) {
+  lang = navigator.browserLanguage;
+}
 
 const i18n = new VueI18n({
   locale: lang,

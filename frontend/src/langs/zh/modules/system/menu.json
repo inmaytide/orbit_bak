@@ -1,7 +1,7 @@
 {
   "block": {
     "title": {
-      "func": "相关功能"
+      "func": "功能"
     }
   },
   "message": {
@@ -12,8 +12,8 @@
     "child": "子菜单"
   },
   "properties": {
-    "name": "菜单名称",
-    "code": "菜单编码",
+    "name": "名称",
+    "code": "编码",
     "parent": "父菜单",
     "sort": "排序",
     "icon": "图标",
@@ -21,6 +21,6 @@
     "description": "说明"
   },
   "errors": {
-    "code_not_repeat": "编码已存在"
+    "code_not_repeat": "编码不能重复"
   }
 }
