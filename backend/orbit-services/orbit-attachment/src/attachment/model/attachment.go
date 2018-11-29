@@ -49,7 +49,7 @@ func (inst Attachment) DownloadDisplayName() string {
 func (inst *Attachment) CacheName() string {
 	// if ID value is invalid, generate a new id for it
 	if inst.ID == 0 {
-		inst.ID = util.GetSnowflakeID();
+		inst.ID = util.GetSnowflakeID()
 	}
 	return AttachmentCacheName(inst.ID)
 }

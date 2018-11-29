@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"attachment/util"
 )
 
 type Configuration struct {
@@ -26,9 +27,10 @@ type Configuration struct {
 	Attachment struct {
 		FormalStorageAddress string `yaml:"formal-storage-address"`
 		TemporaryExpireTime  uint64 `yaml:"temporary-expire-time"`
+		RequestParameter     string `yaml:"request-parameter"`
 	}
 	Api struct {
-		Base               string `yaml:"base"`
+		Base              string `yaml:"base"`
 		GetUserByUsername string `yaml:"get-user-by-username"`
 	}
 	Jwt struct {
@@ -37,26 +39,18 @@ type Configuration struct {
 }
 
 func NewConfiguration() *Configuration {
-	dir, err := os.Getwd()
+	content, err := ioutil.ReadFile(util.GetRoot() + "\\application.yaml")
 	if err != nil {
-		log.Println("Failed to get program root directory")
-		log.Fatal(err)
-	}
-
-	content, err := ioutil.ReadFile(dir + "\\application.yaml")
-	if err != nil {
-		log.Println("Failed to read \"application.yaml\" file")
-		log.Fatal(err)
+		log.Fatal("Failed to read \"application.yaml\" file, Cause by: ", err)
 	}
 
 	config := &Configuration{}
 	err = yaml.Unmarshal(content, &config)
 	if err != nil {
-		log.Println("File \"application.yaml\" format is incorrect")
-		log.Fatal(err)
+		log.Fatal("File \"application.yaml\" format is incorrect, Cause by: ", err)
 	}
 
-	log.Println("The configuration file is loaded successfully.")
+	log.Println("Configuration has been loaded.")
 
 	return config
 }

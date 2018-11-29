@@ -9,6 +9,7 @@ eureka: http://orbit-discovery:7000/eureka
 attachment:
   formal-storage-address: e:/attachment
   temporary-expire-time: 86400
+  request-parameter: files
 redis:
   addr: redis-server:6379
 api:

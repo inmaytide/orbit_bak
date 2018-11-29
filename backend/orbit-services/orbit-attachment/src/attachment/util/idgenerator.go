@@ -20,7 +20,7 @@ func getSnowflakeNode() *snowflake.Node {
 		var err error
 		node, err = snowflake.NewNode(2)
 		if err != nil {
-			log.Fatalf("Can't to generate a snowflake id, err => [%s]", err.Error())
+			log.Fatal("Can't to generate a snowflake id, cause by: ", err.Error())
 		}
 	});
 	return node

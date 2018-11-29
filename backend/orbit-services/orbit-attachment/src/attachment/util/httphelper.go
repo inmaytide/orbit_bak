@@ -9,7 +9,7 @@ import (
 func DoRequest(r *http.Request) ([]byte, error) {
 	response, err := http.DefaultClient.Do(r)
 	if err != nil || response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Remote service is not available, cause by: [%s]", r.URL.RawPath, err.Error())
+		return nil, fmt.Errorf("remote service is not available, cause by: [%s]", err)
 	}
 	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)

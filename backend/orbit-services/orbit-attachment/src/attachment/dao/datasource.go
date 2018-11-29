@@ -23,7 +23,7 @@ func NewDataSource(config *config.Configuration) *DataSource {
 	}
 	return &DataSource{
 		db: db,
-	};
+	}
 }
 
 func (inst *DataSource) getConnection() *gorm.DB {
