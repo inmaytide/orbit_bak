@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: configurations
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:E:\orbit\configurations-repository
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:7000/eureka/
+server:
+  port: 7001
