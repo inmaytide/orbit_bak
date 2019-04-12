@@ -1,8 +1,0 @@
-spring:
-  application:
-    name: orbit-api-gateway
-  cloud:
-    config:
-      uri: http://orbit-configurations:6999/
-      profile: dev
-      label: master

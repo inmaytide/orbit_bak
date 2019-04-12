@@ -1,9 +1,0 @@
-{
-  "unexpected_username": "Your username and password don't match",
-  "bad_credentials": "Your username and password don't match",
-  "bad_captcha": "Incorrect captcha",
-  "expired_token": "Your token has expired, please sign in again",
-  "unexpected": "Unknown error has happened, please contact the administrator or try again later",
-  "field_not_empty": "The field cannot not be empty",
-  "obj_not_found": "Requested data not found."
-}
