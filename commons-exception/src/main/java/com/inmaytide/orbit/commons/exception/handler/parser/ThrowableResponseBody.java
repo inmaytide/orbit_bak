@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.commons.exception.handler.parser;
 
-import com.inmaytide.orbit.commons.exception.DefaultRuntimeException;
+import com.inmaytide.orbit.commons.exception.HttpResponseException;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -81,7 +81,7 @@ public class ThrowableResponseBody implements Serializable {
         return new ThrowableResponseBodyBuilder();
     }
 
-    static class ThrowableResponseBodyBuilder {
+    public static class ThrowableResponseBodyBuilder {
 
         private Throwable throwable;
 
@@ -103,15 +103,15 @@ public class ThrowableResponseBody implements Serializable {
 
         public ThrowableResponseBody build() {
             Assert.notNull(throwable, "There is no exception instance supplied");
-            DefaultRuntimeException e = Optional.of(throwable)
-                    .filter(ex -> ex instanceof DefaultRuntimeException)
-                    .map(ex -> (DefaultRuntimeException) ex)
-                    .orElse(new DefaultRuntimeException(throwable));
+            HttpResponseException e = Optional.of(throwable)
+                    .filter(ex -> ex instanceof HttpResponseException)
+                    .map(ex -> (HttpResponseException) ex)
+                    .orElse(new HttpResponseException(throwable));
 
             ThrowableResponseBody instance = new ThrowableResponseBody();
             instance.setUrl(this.url);
             instance.setMessage(throwable.getMessage());
-            instance.setHttpStatus(e.getHttpStatus());
+            instance.setHttpStatus(e.getStatus().value());
             instance.setCode(e.getCode());
             instance.setTimestamp(e.getTimestamp());
             return instance;

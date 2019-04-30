@@ -1,0 +1,42 @@
+package com.inmaytide.orbit.dto;
+
+import com.inmaytide.orbit.enums.UserStatus;
+
+import java.io.Serializable;
+
+public class UserDto implements Serializable {
+
+    private String username;
+
+    private String password;
+
+    private UserStatus status;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public boolean disabled() {
+        return status == UserStatus.DISABLED;
+    }
+}

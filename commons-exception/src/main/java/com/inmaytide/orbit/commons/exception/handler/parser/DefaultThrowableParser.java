@@ -1,16 +1,17 @@
 package com.inmaytide.orbit.commons.exception.handler.parser;
 
 import com.inmaytide.orbit.commons.exception.BadRequestException;
-import com.inmaytide.orbit.commons.exception.DefaultRuntimeException;
+import com.inmaytide.orbit.commons.exception.HttpResponseException;
 import com.inmaytide.orbit.commons.exception.NotAuthenticatedException;
 import com.inmaytide.orbit.commons.exception.PathNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.validation.FieldError;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,12 +22,14 @@ public class DefaultThrowableParser implements ThrowableParser {
 
     private static final Map<String, Class<? extends Throwable>> MAPPERS = Map.of(
             "org.springframework.security.authentication.AuthenticationCredentialsNotFoundException",
+            NotAuthenticatedException.class,
+            "org.springframework.security.core.userdetails.UsernameNotFoundException",
             NotAuthenticatedException.class
     );
 
     @Override
     public Throwable parse(Throwable e) {
-        if (e instanceof DefaultRuntimeException) {
+        if (e instanceof HttpResponseException) {
             return e;
         }
 
@@ -61,11 +64,20 @@ public class DefaultThrowableParser implements ThrowableParser {
 
     private Throwable map(Throwable e) {
         try {
-            return MAPPERS.get(e.getClass().getName()).getConstructor().newInstance();
-        } catch (Exception e1) {
+            Class<? extends Throwable> cls = MAPPERS.get(e.getClass().getName());
+            return makeInstance(cls, e);
+        } catch (Exception ex) {
             logger.error("Can't parse {} to {}, cause by: ", e.getClass(), MAPPERS.get(e.getClass().getName()));
-            logger.error("", e1);
+            logger.error("", ex);
             return e;
+        }
+    }
+
+    private <E> E makeInstance(Class<E> cls, Throwable cause) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        try {
+            return cls.getConstructor(Throwable.class).newInstance(cause);
+        } catch (NoSuchMethodException e) {
+            return cls.getConstructor().newInstance();
         }
     }
 }

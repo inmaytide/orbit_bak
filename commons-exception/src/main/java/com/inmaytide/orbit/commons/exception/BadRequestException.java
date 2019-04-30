@@ -1,13 +1,17 @@
 package com.inmaytide.orbit.commons.exception;
 
-public class BadRequestException extends DefaultRuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class BadRequestException extends HttpResponseException {
+
+    private static final String DEFAULT_CODE = "err_bad_request";
 
     public BadRequestException() {
-        super(400, "err_bad_request");
+        super(HttpStatus.BAD_REQUEST, DEFAULT_CODE);
     }
 
     public BadRequestException(String message) {
-        super(400, "err_bad_request", message);
+        super(HttpStatus.BAD_REQUEST, DEFAULT_CODE, message);
     }
 
 }

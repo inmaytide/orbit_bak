@@ -36,6 +36,10 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>6.0.2</version>
@@ -43,6 +47,11 @@
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>
             <artifactId>commons-exception</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.inmaytide.orbit</groupId>
+            <artifactId>commons-model</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

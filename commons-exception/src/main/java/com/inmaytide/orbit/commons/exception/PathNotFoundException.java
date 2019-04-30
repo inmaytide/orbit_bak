@@ -1,9 +1,13 @@
 package com.inmaytide.orbit.commons.exception;
 
-public class PathNotFoundException extends DefaultRuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class PathNotFoundException extends HttpResponseException {
+
+    private static final String DEFAULT_CODE = "err_path_not_found";
 
     public PathNotFoundException() {
-        super(404, "err_path_not_found");
+        super(HttpStatus.NOT_FOUND, DEFAULT_CODE);
     }
 
 }
