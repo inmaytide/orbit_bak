@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers("/.well-known/jwks.json").permitAll()
+                .antMatchers("/oauth/.well-known/jwks.json").permitAll()
                 .anyRequest()
                 .authenticated();
     }

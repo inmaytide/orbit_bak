@@ -7,7 +7,7 @@ spring:
     config:
       server:
         native:
-          search-locations: file:E:\orbit\configurations-repository
+          search-locations: file:../orbit/configurations-repository
 eureka:
   client:
     serviceUrl:

@@ -29,7 +29,7 @@ public class DefaultExceptionHandler implements WebExceptionHandler {
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable throwable) {
         var path = exchange.getRequest().getPath().pathWithinApplication().value();
-        log.error("Handing error: {}, {}, {}", throwable.getClass().getName(), throwable.getMessage(), path);
+        log.error("Handing error: {}, {}, {}", throwable.getClass().getSimpleName(), throwable.getMessage(), path);
         return Mono.just(parser.parse(throwable))
                 .transform(mono -> ThrowableTranslator.translate(mono, path))
                 .flatMap(translator -> translator.write(exchange.getResponse()));

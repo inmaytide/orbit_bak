@@ -68,7 +68,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
 @FrameworkEndpoint
 class JwkSetEndpoint {
-    @GetMapping("/.well-known/jwks.json")
+    @GetMapping("/oauth/.well-known/jwks.json")
     @ResponseBody
     public Map<String, Object> getKey() {
         KeyPair keyPair = new KeyStoreKeyFactory(new ClassPathResource("auth.jks"), "59a84cbf83227a35".toCharArray()).getKeyPair("orbit");

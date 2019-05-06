@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.Collections;
+
 public class DefaultUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -22,10 +24,11 @@ public class DefaultUserDetailsService implements UserDetailsService {
             return User.withUsername(username)
                     .password(user.getPassword())
                     .accountLocked(user.disabled())
+                    .authorities(Collections.emptyList())
                     .build();
         } catch (FeignException e) {
             if (e.status() == HttpStatus.NOT_FOUND.value()) {
-                throw new UsernameNotFoundException("Wrong username");
+                throw new UsernameNotFoundException(username);
             }
             throw e;
         }

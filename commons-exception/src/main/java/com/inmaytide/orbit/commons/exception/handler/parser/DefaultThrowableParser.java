@@ -1,9 +1,6 @@
 package com.inmaytide.orbit.commons.exception.handler.parser;
 
-import com.inmaytide.orbit.commons.exception.BadRequestException;
-import com.inmaytide.orbit.commons.exception.HttpResponseException;
-import com.inmaytide.orbit.commons.exception.NotAuthenticatedException;
-import com.inmaytide.orbit.commons.exception.PathNotFoundException;
+import com.inmaytide.orbit.commons.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,8 +20,8 @@ public class DefaultThrowableParser implements ThrowableParser {
     private static final Map<String, Class<? extends Throwable>> MAPPERS = Map.of(
             "org.springframework.security.authentication.AuthenticationCredentialsNotFoundException",
             NotAuthenticatedException.class,
-            "org.springframework.security.core.userdetails.UsernameNotFoundException",
-            NotAuthenticatedException.class
+            "org.springframework.security.oauth2.common.exceptions.InvalidGrantException",
+            BadCredentialsException.class
     );
 
     @Override
