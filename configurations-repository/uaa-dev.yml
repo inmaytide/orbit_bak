@@ -1,0 +1,14 @@
+server:
+  port: 7003
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/uaa
+    username: orbit
+    password: 3224781
+  jpa:
+    show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:7002/uaa/.well-known/jwks.json

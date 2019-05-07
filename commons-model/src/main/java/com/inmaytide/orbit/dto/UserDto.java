@@ -6,11 +6,21 @@ import java.io.Serializable;
 
 public class UserDto implements Serializable {
 
+    private Long id;
+
     private String username;
 
     private String password;
 
     private UserStatus status;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

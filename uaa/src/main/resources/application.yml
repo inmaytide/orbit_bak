@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: uaa
+  liquibase:
+    enabled: true
+    change-log: classpath:db/master.xml
+    check-change-log-location: true
+    liquibase-schema: public
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
