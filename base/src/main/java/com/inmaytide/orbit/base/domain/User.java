@@ -30,6 +30,7 @@ public class User implements Serializable {
 
     private String email;
 
+    @Convert(converter = StatusConverter.class)
     private UserStatus status;
 
     @Column(name = "create_time")
@@ -143,5 +144,18 @@ public class User implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+}
+
+class StatusConverter implements AttributeConverter<UserStatus, Integer> {
+
+    @Override
+    public Integer convertToDatabaseColumn(UserStatus status) {
+        return status.getValue();
+    }
+
+    @Override
+    public UserStatus convertToEntityAttribute(Integer value) {
+        return UserStatus.valueOf(value);
     }
 }
