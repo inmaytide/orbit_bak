@@ -12,5 +12,7 @@ public interface UserService {
 
     User create(User user);
 
+    User modify(User user);
+
     Optional<User> getAuthenticatedUser();
 }

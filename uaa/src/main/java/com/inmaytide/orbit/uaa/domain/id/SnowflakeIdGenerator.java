@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.uaa.domain;
+package com.inmaytide.orbit.uaa.domain.id;
 
 import com.inmaytide.orbit.id.IdGenerator;
 import com.inmaytide.orbit.uaa.ContextHolder;

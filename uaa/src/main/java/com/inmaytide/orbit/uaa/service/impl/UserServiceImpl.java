@@ -1,12 +1,16 @@
 package com.inmaytide.orbit.uaa.service.impl;
 
 import com.inmaytide.orbit.commons.exception.BadCredentialsException;
+import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.enums.UserStatus;
 import com.inmaytide.orbit.uaa.domain.User;
 import com.inmaytide.orbit.uaa.repository.UserRepository;
 import com.inmaytide.orbit.uaa.service.UserService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "users", key = "#username")
     public Optional<User> getByUsername(String username) {
         return repository.findByUsername(username);
     }
@@ -41,6 +46,15 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus(UserStatus.NORMAL);
         return repository.save(user);
+    }
+
+    @Override
+    @CacheEvict(value = "users", key = "#user.username")
+    public User modify(User user) {
+        User original = get(user.getId()).orElseThrow(ObjectNotFoundException::new);
+        BeanUtils.copyProperties(user, original, "password", "status", "createTime", "creator");
+        getAuthenticatedUser().map(User::getId).ifPresent(user::setUpdater);
+        return repository.save(original);
     }
 
     @Override

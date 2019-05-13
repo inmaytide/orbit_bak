@@ -35,4 +35,81 @@
         </sql>
     </changeSet>
 
+    <changeSet id="00000000000000002" author="inmaytide">
+        <createTable tableName="role">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(64)" />
+            <column name="code" type="varchar(64)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="category" type="int" remarks="角色类别（系统自建/用户创建）" />
+            <column name="create_time" type="timestamp" />
+            <column name="creator" type="bigint" />
+            <column name="update_time" type="timestamp" />
+            <column name="updater" type="bigint" />
+            <column name="version" type="int" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <createTable tableName="permission">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(64)" />
+            <column name="code" type="varchar(64)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="parent" type="bigint" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+            <column name="category" type="int" remarks="许可类别（系统自建/用户创建）" />
+            <column name="create_time" type="timestamp" />
+            <column name="creator" type="bigint" />
+            <column name="update_time" type="timestamp" />
+            <column name="updater" type="bigint" />
+            <column name="version" type="int" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <createTable tableName="web_menu">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(128)"/>
+            <column name="parent" type="bigint" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+            <column name="permission" type="bigint" />
+            <column name="url" type="varchar(512)" />
+            <column name="sort" type="int" />
+            <column name="icon" type="varchar(64)" />
+            <column name="create_time" type="timestamp" />
+            <column name="creator" type="bigint" />
+            <column name="update_time" type="timestamp" />
+            <column name="updater" type="bigint" />
+            <column name="version" type="int" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <sql>
+            insert into role(id, name, code, category, create_time, creator)
+                values(574967990966161409, '系统管理员', 'SYS_ADMIN', 0, now(), 574967990966161408);
+            insert into permission(id, name, code, category, create_time, creator)
+                values(574967990966161410, 'Menus', 'MENUS', 0, now(), 574967990966161408);
+            insert into permission(id, name, code, category, create_time, creator)
+                values(574967990966161411, 'Permissions', 'PERMISSIONS', 0, now(), 574967990966161408);
+            insert into permission(id, name, code, category, create_time, creator)
+                values(574967990966161412, 'Users', 'USERS', 0, now(), 574967990966161408);
+            insert into permission(id, name, code, category, create_time, creator, parent)
+                values(574967990966161413, 'Create User', 'USERS-ADD', 0, now(), 574967990966161408, 574967990966161412);
+            insert into permission(id, name, code, category, create_time, creator, parent)
+                values(574967990966161414, 'Edit User', 'USERS-EDIT', 0, now(), 574967990966161408, 574967990966161412);
+
+            insert into web_menu(id, name, permission, sort, icon, creator, create_time)
+                values(574967990966161415, 'Settings', null, 100, 'settings', 574967990966161409, now())
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

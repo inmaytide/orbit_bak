@@ -1,38 +1,31 @@
 package com.inmaytide.orbit.uaa.domain;
 
-import com.inmaytide.orbit.enums.UserStatus;
-import com.inmaytide.orbit.uaa.domain.converters.UserStatusConverter;
+import com.inmaytide.orbit.enums.DataCategory;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "permission", schema = "public")
 @EntityListeners(AuditingEntityListener.class)
-public class User implements Serializable {
+public class Permission {
 
     @Id
     @GeneratedValue(generator = "snowflake")
     @GenericGenerator(name = "snowflake", strategy = "com.inmaytide.orbit.uaa.domain.id.SnowflakeIdGenerator")
     private Long id;
 
-    private String username;
-
-    private String password;
-
     private String name;
 
-    private String cellphone;
+    private String code;
 
-    private String email;
+    private Long parent;
 
-    @Convert(converter = UserStatusConverter.class)
-    private UserStatus status;
+    private DataCategory category;
 
     @Column(name = "create_time")
     @CreatedDate
@@ -57,22 +50,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getName() {
         return name;
     }
@@ -81,28 +58,28 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getCellphone() {
-        return cellphone;
+    public String getCode() {
+        return code;
     }
 
-    public void setCellphone(String cellphone) {
-        this.cellphone = cellphone;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getParent() {
+        return parent;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setParent(Long parent) {
+        this.parent = parent;
     }
 
-    public UserStatus getStatus() {
-        return status;
+    public DataCategory getCategory() {
+        return category;
     }
 
-    public void setStatus(UserStatus status) {
-        this.status = status;
+    public void setCategory(DataCategory category) {
+        this.category = category;
     }
 
     public LocalDateTime getCreateTime() {
@@ -144,10 +121,4 @@ public class User implements Serializable {
     public void setVersion(Integer version) {
         this.version = version;
     }
-
-    @Transient
-    public boolean disabled() {
-        return status == UserStatus.DISABLED;
-    }
 }
-

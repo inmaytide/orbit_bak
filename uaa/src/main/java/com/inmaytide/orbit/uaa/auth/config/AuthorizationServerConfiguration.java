@@ -1,6 +1,8 @@
 package com.inmaytide.orbit.uaa.auth.config;
 
 import com.inmaytide.orbit.uaa.auth.DefaultWebResponseExceptionTranslator;
+import com.inmaytide.orbit.uaa.auth.service.DefaultUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -22,6 +24,9 @@ import java.security.KeyPair;
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    private DefaultUserDetailsService defaultUserDetailsService;
 
     public AuthorizationServerConfiguration(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
@@ -57,7 +62,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager)
+        endpoints.userDetailsService(defaultUserDetailsService)
+                .authenticationManager(authenticationManager)
                 .exceptionTranslator(new DefaultWebResponseExceptionTranslator())
                 .accessTokenConverter(jwtAccessTokenConverter());
     }
