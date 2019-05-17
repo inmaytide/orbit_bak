@@ -103,9 +103,9 @@
             insert into permission(id, name, code, category, create_time, creator)
                 values(574967990966161412, 'Users', 'USERS', 0, now(), 574967990966161408);
             insert into permission(id, name, code, category, create_time, creator, parent)
-                values(574967990966161413, 'Create User', 'USERS-ADD', 0, now(), 574967990966161408, 574967990966161412);
+                values(574967990966161413, 'Create User', 'USERS_ADD', 0, now(), 574967990966161408, 574967990966161412);
             insert into permission(id, name, code, category, create_time, creator, parent)
-                values(574967990966161414, 'Edit User', 'USERS-EDIT', 0, now(), 574967990966161408, 574967990966161412);
+                values(574967990966161414, 'Edit User', 'USERS_EDIT', 0, now(), 574967990966161408, 574967990966161412);
 
             insert into web_menu(id, name, permission, sort, icon, creator, create_time)
                 values(574967990966161415, 'Settings', null, 100, 'settings', 574967990966161409, now())

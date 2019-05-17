@@ -1,11 +1,14 @@
 package com.inmaytide.orbit.uaa.auth.config;
 
 import com.inmaytide.orbit.uaa.auth.DefaultWebResponseExceptionTranslator;
+import com.inmaytide.orbit.uaa.auth.interceptors.CaptchaInterceptor;
+import com.inmaytide.orbit.uaa.auth.interceptors.LoginRestrictionInterceptor;
 import com.inmaytide.orbit.uaa.auth.service.DefaultUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -27,6 +30,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Autowired
     private DefaultUserDetailsService defaultUserDetailsService;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     public AuthorizationServerConfiguration(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
@@ -62,7 +68,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.userDetailsService(defaultUserDetailsService)
+        endpoints
+                .addInterceptor(new LoginRestrictionInterceptor(redisTemplate))
+                .addInterceptor(new CaptchaInterceptor())
+                .userDetailsService(defaultUserDetailsService)
                 .authenticationManager(authenticationManager)
                 .exceptionTranslator(new DefaultWebResponseExceptionTranslator())
                 .accessTokenConverter(jwtAccessTokenConverter());
