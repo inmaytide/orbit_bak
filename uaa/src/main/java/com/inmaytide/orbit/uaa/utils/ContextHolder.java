@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.uaa;
+package com.inmaytide.orbit.uaa.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "users", key = "#user.username")
     public User create(User user) {
         getAuthenticatedUser().map(User::getId).ifPresent(user::setCreator);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -66,5 +67,16 @@ public class UserServiceImpl implements UserService {
             throw new BadCredentialsException();
         }
         return getByUsername(name);
+    }
+
+    @Override
+    @CacheEvict(value = "users", key = "#username")
+    public void disableUser(String username) {
+        getByUsername(username)
+                .filter(u -> u.getStatus() != UserStatus.DISABLED)
+                .ifPresent(user -> {
+                    user.setStatus(UserStatus.DISABLED);
+                    repository.save(user);
+                });
     }
 }

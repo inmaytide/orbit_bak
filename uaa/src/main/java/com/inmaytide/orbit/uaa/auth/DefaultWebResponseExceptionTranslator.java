@@ -1,11 +1,16 @@
 package com.inmaytide.orbit.uaa.auth;
 
 import com.inmaytide.orbit.commons.exception.HttpResponseException;
+import com.inmaytide.orbit.commons.exception.LoginRestrictedException;
 import com.inmaytide.orbit.commons.exception.handler.parser.DefaultThrowableParser;
 import com.inmaytide.orbit.commons.exception.handler.parser.ThrowableParser;
+import com.inmaytide.orbit.uaa.utils.RestrictUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 public class DefaultWebResponseExceptionTranslator extends org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator {
@@ -22,6 +27,10 @@ public class DefaultWebResponseExceptionTranslator extends org.springframework.s
 
     @Override
     public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+        if (!(e instanceof LoginRestrictedException)) {
+            HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+            RestrictUtil.increment(request);
+        }
         return httpResponseExceptionTranslator.translate(e).orElse(super.translate(e));
     }
 

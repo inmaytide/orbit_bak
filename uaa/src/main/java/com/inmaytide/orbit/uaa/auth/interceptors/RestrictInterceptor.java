@@ -6,15 +6,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CaptchaInterceptor implements HandlerInterceptor {
-
+public class RestrictInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (!request.getRequestURI().endsWith("/oauth/token") || !RestrictUtil.neededCaptcha(request)) {
+        if (!request.getRequestURI().endsWith("/oauth/token")) {
             return true;
         }
-
-
+        RestrictUtil.forbidden(request);
         return true;
     }
 }

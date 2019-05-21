@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.uaa.domain.id;
 
 import com.inmaytide.orbit.id.IdGenerator;
-import com.inmaytide.orbit.uaa.ContextHolder;
+import com.inmaytide.orbit.uaa.utils.ContextHolder;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;

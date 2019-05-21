@@ -14,5 +14,7 @@ public interface UserService {
 
     User modify(User user);
 
+    void disableUser(String username);
+
     Optional<User> getAuthenticatedUser();
 }
