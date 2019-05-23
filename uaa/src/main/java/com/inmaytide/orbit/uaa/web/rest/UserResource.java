@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.uaa.rest;
+package com.inmaytide.orbit.uaa.web.rest;
 
 import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
 import com.inmaytide.orbit.uaa.domain.User;
@@ -20,6 +20,7 @@ public class UserResource {
     @GetMapping("/u/{username}")
     public User getByUsername(@PathVariable String username) {
         return service.getByUsername(username)
+                .map(User::erasePassword)
                 .orElseThrow(ObjectNotFoundException::new);
     }
 

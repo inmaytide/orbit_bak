@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.uaa.auth;
 
+import com.inmaytide.orbit.commons.exception.BadCaptchaException;
 import com.inmaytide.orbit.commons.exception.HttpResponseException;
 import com.inmaytide.orbit.commons.exception.LoginRestrictedException;
 import com.inmaytide.orbit.commons.exception.handler.parser.DefaultThrowableParser;
@@ -27,7 +28,7 @@ public class DefaultWebResponseExceptionTranslator extends org.springframework.s
 
     @Override
     public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
-        if (!(e instanceof LoginRestrictedException)) {
+        if (!(e instanceof LoginRestrictedException) && !(e instanceof BadCaptchaException)) {
             HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
             RestrictUtil.increment(request);
         }

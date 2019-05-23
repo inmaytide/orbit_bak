@@ -7,8 +7,8 @@ spring:
         enabled: true
         service-id: configurations
       profile: dev
-      # label: config-gateway
+      label: orbit-dev
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:7000/eureka/
+      defaultZone: http://discovery.orbit.com:7000/eureka/

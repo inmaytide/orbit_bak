@@ -4,34 +4,41 @@
         <span>rbit</span>
     </div>
     <div class="login-form">
-      <form (ngSubmit)="login()" [formGroup]="loginForm" nz-form>
-        <nz-form-item>
-          <nz-form-control>
-            <nz-input-group [nzPrefix]="prefixUser">
-              <input [(ngModel)]="token.username" formControlName="username" nz-input nzSize="small"
-                     placeholder="Username" type="text"/>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-control>
-            <nz-input-group [nzPrefix]="prefixLock">
-              <input [(ngModel)]="token.password" [nzSize]="large" formControlName="password" nz-input
-                     placeholder="Password" type="password"/>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-control>
-            <label formControlName="remember" nz-checkbox>
-              <span>Remember me</span>
-            </label>
-            <a class="login-form-forgot">Forgot password</a>
-            <button [nzType]="'primary'" class="login-form-button" nz-button nzBlock>Log in</button>
-          </nz-form-control>
-        </nz-form-item>
-      </form>
+        <form nz-form (ngSubmit)="login($event)" [formGroup]="loginForm">
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-input-group  nzSize="large" nzPrefixIcon="user">
+                        <input [(ngModel)]="token.username" maxlength="32" formControlName="username" nz-input nzSize="large"
+                            placeholder="Username" type="text" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-input-group  nzSize="large" nzPrefixIcon="lock">
+                        <input [(ngModel)]="token.password"  maxlength="32" nzSize="large" formControlName="password" nz-input
+                            placeholder="Password" type="password" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item *ngIf="neededCaptcha">
+                <nz-form-control>
+                    <nz-input-group nzSize="large" nzPrefixIcon="picture">
+                        <input style="width: 60%;"  maxlength="8" [(ngModel)]="token.captcha" formControlName="captcha" nz-input />
+                        <img [src]="captcha.image" class="captcha"/>
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <label formControlName="remember" nz-checkbox>
+                        <span>Remember me</span>
+                    </label>
+                    <a class="login-form-forgot">Forgot password</a>
+                    <button nzSize="large" [nzType]="'primary'" [disabled]='!loginForm.valid' class="login-form-button" nz-button
+                        nzBlock>Log in</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
     </div>
 </div>
-<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
-<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>

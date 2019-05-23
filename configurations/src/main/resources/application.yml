@@ -1,16 +1,17 @@
 spring:
   application:
     name: configurations
-  profiles:
-    active: native
+  # profiles:
+    # active: native
   cloud:
     config:
       server:
-        native:
-          search-locations: file:../orbit/configurations-repository
+        git:
+          uri: https://github.com/inmaytide/configurations-repositories.git
+          search-paths: configurations
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:7000/eureka/
+      defaultZone: http://discovery.orbit.com:7000/eureka/
 server:
   port: 7001

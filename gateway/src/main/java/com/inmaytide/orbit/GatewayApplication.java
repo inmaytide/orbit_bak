@@ -17,6 +17,7 @@ public class GatewayApplication {
     public RouteLocator customeRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("uaa", ps -> ps.path("/uaa/**").filters(f -> f.rewritePath("/uaa/(?<segment>.*)", "/${segment}")).uri("lb://uaa"))
+                .route("captcha", ps -> ps.path("/captcha/**").uri("lb://captcha"))
                 .build();
     }
 }

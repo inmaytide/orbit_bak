@@ -1,8 +1,7 @@
 package com.inmaytide.orbit.uaa.utils;
 
 import com.inmaytide.orbit.commons.exception.LoginRestrictedException;
-import com.inmaytide.orbit.uaa.auth.config.RestrictLevel;
-import com.inmaytide.orbit.uaa.service.UserService;
+import com.inmaytide.orbit.uaa.auth.config.Restrict;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,6 +15,8 @@ public class RestrictUtil {
 
     private static final String LOGIN_ERROR_COUNT_PREFIX = "login_error_count::";
 
+    private static final String LOGIN_RESTRICT_PREFIX = "login_restrict::";
+
     private static final String P_NAME_USERNAME = "username";
 
     private static final long RESTRICT_TIME = 30;
@@ -24,41 +25,32 @@ public class RestrictUtil {
 
     private static ValueOperations<String, String> valueOperations;
 
+    private static void restrict(String key, Integer value) {
+        Restrict restrict = Restrict.suitable(value);
+        if (restrict.getDuration() > 0) {
+            valueOperations.set(getRestrictKey(key), "disabled", restrict.getDuration(), RESTRICT_TIME_UNIT);
+        }
+    }
+
     public static void increment(HttpServletRequest request) {
         String ip = getIpFromRequest(request);
-        increment(ip);
+        restrict(ip, increment(ip));
 
         String username = request.getParameter(P_NAME_USERNAME);
-        Integer value = increment(username);
-        if (value > RestrictLevel.FORBIDDEN_15.getUpper()) {
-            ContextHolder.getBean(UserService.class).disableUser(username);
-        }
+        restrict(username, increment(username));
     }
 
 
     public static boolean neededCaptcha(HttpServletRequest request) {
         Integer value = getValidValue(request).getValue();
-        return value > RestrictLevel.NORMAL.getUpper();
+        return value >= Restrict.CAPTCHE.getLower();
     }
 
     public static void forbidden(HttpServletRequest request) {
         Map.Entry<String, Integer> entry = getValidValue(request);
-        Integer value = entry.getValue();
-        int forbidTime;
-        if (value > RestrictLevel.CAPTCHE.getUpper() && value <= RestrictLevel.FORBIDDEN_5.getUpper()) {
-            forbidTime = 5;
-        } else if (value > RestrictLevel.FORBIDDEN_5.getUpper() && value <= RestrictLevel.FORBIDDEN_10.getUpper()) {
-            forbidTime = 10;
-        } else if (value > RestrictLevel.FORBIDDEN_10.getUpper() && value <= RestrictLevel.FORBIDDEN_15.getUpper()) {
-            forbidTime = 15;
-        } else if (value > RestrictLevel.FORBIDDEN_15.getUpper()) {
-            throw new LoginRestrictedException("-1");
-        } else {
-            return;
-        }
-        Long expire = getValueOperations().getOperations().getExpire(getCacheKey(entry.getKey()));
-        if (expire != null && RESTRICT_TIME * 60 - expire < forbidTime * 60) {
-            throw new LoginRestrictedException(String.valueOf(forbidTime));
+        Long expire = valueOperations.getOperations().getExpire(getRestrictKey(entry.getKey()));
+        if (expire != null && expire > 0) {
+            throw new LoginRestrictedException(String.format("%d", expire / 60));
         }
     }
 
@@ -68,12 +60,12 @@ public class RestrictUtil {
             return -1;
         }
         Integer value = getValue(key) + 1;
-        getValueOperations().set(getCacheKey(key), String.valueOf(value), RESTRICT_TIME, RESTRICT_TIME_UNIT);
+        getValueOperations().set(getCountKey(key), String.valueOf(value), RESTRICT_TIME, RESTRICT_TIME_UNIT);
         return value;
     }
 
     private static Integer getValue(String key) {
-        String value = getValueOperations().get(getCacheKey(key));
+        String value = getValueOperations().get(getCountKey(key));
         return StringUtils.isBlank(value) ? 0 : NumberUtils.createInteger(value);
     }
 
@@ -87,10 +79,13 @@ public class RestrictUtil {
         return ipValue >= usernameValue ? Map.entry(ip, ipValue) : Map.entry(username, usernameValue);
     }
 
-    private static String getCacheKey(String key) {
+    private static String getCountKey(String key) {
         return LOGIN_ERROR_COUNT_PREFIX + key;
     }
 
+    private static String getRestrictKey(String key) {
+        return LOGIN_RESTRICT_PREFIX + key;
+    }
 
     private static ValueOperations<String, String> getValueOperations() {
         if (valueOperations == null) {

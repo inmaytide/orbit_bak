@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://127.0.0.1:7002",
+    "target": "http://gateway.orbit.com:7002",
     "secure": false,
     "pathRewrite": {
       "^/api": ""

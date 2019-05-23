@@ -1,6 +1,10 @@
 package com.inmaytide.orbit.uaa.auth.interceptors;
 
+import com.inmaytide.orbit.commons.exception.BadCaptchaException;
+import com.inmaytide.orbit.uaa.auth.service.CaptchaService;
+import com.inmaytide.orbit.uaa.domain.dto.CaptchaValidateDto;
 import com.inmaytide.orbit.uaa.utils.RestrictUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,13 +12,36 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CaptchaInterceptor implements HandlerInterceptor {
 
+    private static final String P_NAME_CAPTCHA_NAME = "captcha_name";
+    private static final String P_NAME_CAPTCHA = "captcha";
+
+    private final CaptchaService service;
+
+    public CaptchaInterceptor(CaptchaService service) {
+        this.service = service;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (!request.getRequestURI().endsWith("/oauth/token") || !RestrictUtil.neededCaptcha(request)) {
             return true;
         }
 
+        String captchaName = request.getParameter(P_NAME_CAPTCHA_NAME);
+        check(StringUtils.isNotBlank(captchaName));
+
+        String captcha = request.getParameter(P_NAME_CAPTCHA);
+        check(StringUtils.isNotBlank(captcha));
+
+        CaptchaValidateDto valid = service.validate(captcha, captchaName);
+        check(valid.isValid());
 
         return true;
+    }
+
+    private void check(boolean expression) {
+        if (!expression) {
+            throw new BadCaptchaException();
+        }
     }
 }

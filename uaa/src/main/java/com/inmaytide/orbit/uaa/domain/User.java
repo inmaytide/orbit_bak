@@ -149,5 +149,10 @@ public class User implements Serializable {
     public boolean disabled() {
         return status == UserStatus.DISABLED;
     }
+
+    public User erasePassword() {
+        this.setPassword(null);
+        return this;
+    }
 }
 

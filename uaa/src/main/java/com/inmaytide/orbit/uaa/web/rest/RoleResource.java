@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.uaa.rest;
+package com.inmaytide.orbit.uaa.web.rest;
 
 import com.inmaytide.orbit.uaa.domain.Role;
 import org.springframework.security.access.prepost.PreAuthorize;
