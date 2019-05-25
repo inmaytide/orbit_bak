@@ -8,7 +8,8 @@ spring:
         service-id: configurations
       profile: dev
       label: orbit-dev
+      fail-fast: true
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery.orbit.com:7000/eureka/
+      defaultZone: https://registry.orbit.com:7000/eureka/

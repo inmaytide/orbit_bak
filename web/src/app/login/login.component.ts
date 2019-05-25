@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
             captcha: ['', [this.captchaValidator]],
             remember: [false]
         });
-        this.refreshCaptcha();
     }
 
     passwordValidator = (control: FormControl): { [s: string]: boolean } => {

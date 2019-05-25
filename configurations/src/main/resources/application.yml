@@ -1,8 +1,14 @@
+server:
+  port: 7001
+  ssl:
+    key-store: ${user.home}/.keystore
+    key-store-password: 59a84cbf83227a35
+    key-store-type: PKCS12
+    key-alias: orbit.com
+    protocol: TLSv1.2
 spring:
   application:
     name: configurations
-  # profiles:
-    # active: native
   cloud:
     config:
       server:
@@ -10,8 +16,12 @@ spring:
           uri: https://github.com/inmaytide/configurations-repositories.git
           search-paths: configurations
 eureka:
+  instance:
+    status-page-url: https://${eureka.hostname}:${server.port}/actuator/info
+    health-check-url: https://${eureka.hostname}:${server.port}/actuator/health
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    hostname: gateway.orbit.com
   client:
     serviceUrl:
-      defaultZone: http://discovery.orbit.com:7000/eureka/
-server:
-  port: 7001
+      defaultZone: https://admin:public@registry.orbit.com:7000/eureka/

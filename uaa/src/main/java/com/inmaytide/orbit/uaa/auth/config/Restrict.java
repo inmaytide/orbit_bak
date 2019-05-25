@@ -10,7 +10,7 @@ public enum Restrict {
     NORMAL(0, 0),
     CAPTCHE(2, 0),
     FORBIDDEN_5(5, 5),
-    FORBIDDEN_10(8, 15),
+    FORBIDDEN_15(8, 15),
     FORBIDDEN_30(10, 30),
     FORBIDDEN(15, 365 * 24 * 60 * 10);
 

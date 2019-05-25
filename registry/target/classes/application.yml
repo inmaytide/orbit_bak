@@ -1,8 +1,19 @@
 spring:
   application:
     name: registry
+  security:
+    user:
+      name: admin
+      password: public
 server:
   port: 7000
+  ssl:
+    #keytool -genkeypair -alias orbit.com -storetype PKCS12 -keyalg RSA -validity 365 -keystore .keystore
+    key-store: ${user.home}/.keystore
+    key-store-password: 59a84cbf83227a35
+    key-store-type: PKCS12
+    key-alias: orbit.com
+    protocol: TLSv1.2
 
 eureka:
   instance:
@@ -11,4 +22,4 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: https://${eureka.instance.hostname}:${server.port}/eureka/
