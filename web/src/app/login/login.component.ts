@@ -76,6 +76,7 @@ export class LoginComponent implements OnInit {
         this.http.post(api.login, body)
             .toPromise()
             .then(res => {
+                console.log(res);
                 this.service.storeToken(res);
                 this.http.get(api.getUser(this.token.username))
                     .subscribe(u => {

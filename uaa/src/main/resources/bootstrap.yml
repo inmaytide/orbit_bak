@@ -1,12 +1,15 @@
 spring:
+  profiles:
+    active: dev
   cloud:
     config:
       discovery:
         enabled: true
         service-id: configurations
-      profile: dev
+      profile: ${spring.profiles.active}
       label: orbit-dev
+      fail-fast: true
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery.orbit.com:7000/eureka/
+      defaultZone: https://admin:public@registry.orbit.com:7000/eureka/

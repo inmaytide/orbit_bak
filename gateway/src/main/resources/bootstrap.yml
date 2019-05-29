@@ -12,4 +12,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: https://registry.orbit.com:7000/eureka/
+      defaultZone: https://admin:public@registry.orbit.com:7000/eureka/
