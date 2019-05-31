@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.commons.exception.handler.parser;
+package com.inmaytide.orbit.commons.exception.parser;
 
 @FunctionalInterface
 public interface ThrowableParser {

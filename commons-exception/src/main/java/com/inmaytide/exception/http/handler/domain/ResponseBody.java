@@ -1,6 +1,6 @@
-package com.inmaytide.orbit.commons.exception.handler.parser;
+package com.inmaytide.exception.http.handler.domain;
 
-import com.inmaytide.orbit.commons.exception.HttpResponseException;
+import com.inmaytide.exception.http.HttpResponseException;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;

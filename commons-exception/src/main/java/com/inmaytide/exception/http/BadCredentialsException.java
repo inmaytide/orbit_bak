@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.commons.exception;
+package com.inmaytide.orbit.commons.exception.http;
 
 import org.springframework.http.HttpStatus;
 

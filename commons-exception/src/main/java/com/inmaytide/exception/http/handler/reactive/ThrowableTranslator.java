@@ -1,5 +1,6 @@
-package com.inmaytide.orbit.commons.exception.handler.parser;
+package com.inmaytide.orbit.commons.exception.http.handler.reactive;
 
+import com.inmaytide.orbit.commons.exception.parser.ThrowableResponseBody;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

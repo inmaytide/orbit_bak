@@ -1,6 +1,6 @@
-package com.inmaytide.orbit.commons.exception.handler.parser;
+package com.inmaytide.orbit.commons.exception.parser;
 
-import com.inmaytide.orbit.commons.exception.*;
+import com.inmaytide.orbit.commons.exception.http.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

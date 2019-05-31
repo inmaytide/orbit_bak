@@ -1,9 +1,8 @@
-package com.inmaytide.orbit.commons.exception.handler;
+package com.inmaytide.orbit.commons.exception.http.handler.reactive;
 
-import com.inmaytide.orbit.commons.exception.PathNotFoundException;
-import com.inmaytide.orbit.commons.exception.handler.parser.DefaultThrowableParser;
-import com.inmaytide.orbit.commons.exception.handler.parser.ThrowableParser;
-import com.inmaytide.orbit.commons.exception.handler.parser.ThrowableTranslator;
+import com.inmaytide.orbit.commons.exception.http.PathNotFoundException;
+import com.inmaytide.orbit.commons.exception.parser.DefaultThrowableParser;
+import com.inmaytide.orbit.commons.exception.parser.ThrowableParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.server.ServerRequest;
