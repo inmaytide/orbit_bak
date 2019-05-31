@@ -1,10 +1,10 @@
 package com.inmaytide.orbit.uaa.auth;
 
-import com.inmaytide.orbit.commons.exception.BadCaptchaException;
-import com.inmaytide.orbit.commons.exception.HttpResponseException;
-import com.inmaytide.orbit.commons.exception.LoginRestrictedException;
-import com.inmaytide.orbit.commons.exception.handler.parser.DefaultThrowableParser;
-import com.inmaytide.orbit.commons.exception.handler.parser.ThrowableParser;
+import com.inmaytide.exception.http.BadCaptchaException;
+import com.inmaytide.exception.http.HttpResponseException;
+import com.inmaytide.exception.http.LoginRestrictedException;
+import com.inmaytide.exception.parser.DefaultThrowableParser;
+import com.inmaytide.exception.parser.ThrowableParser;
 import com.inmaytide.orbit.uaa.utils.RestrictUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;

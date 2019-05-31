@@ -76,9 +76,9 @@
             <version>6.0.2</version>
         </dependency>
         <dependency>
-            <groupId>com.inmaytide.orbit</groupId>
+            <groupId>com.inmaytide</groupId>
             <artifactId>commons-exception</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>

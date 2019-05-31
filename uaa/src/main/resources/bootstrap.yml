@@ -1,12 +1,10 @@
 spring:
-  profiles:
-    active: dev
   cloud:
     config:
       discovery:
         enabled: true
         service-id: configurations
-      profile: ${spring.profiles.active}
+      profile: ${spring.profiles.active:dev}
       label: orbit-dev
       fail-fast: true
 eureka:

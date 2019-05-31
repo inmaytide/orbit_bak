@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.uaa.utils;
 
-import com.inmaytide.orbit.commons.exception.LoginRestrictedException;
+import com.inmaytide.exception.http.LoginRestrictedException;
 import com.inmaytide.orbit.uaa.auth.config.Restrict;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;

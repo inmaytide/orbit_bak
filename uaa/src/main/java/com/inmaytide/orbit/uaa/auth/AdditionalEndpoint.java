@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.uaa.auth;
 
-import com.inmaytide.orbit.commons.exception.BadCredentialsException;
+import com.inmaytide.exception.http.BadCredentialsException;
 import com.inmaytide.orbit.uaa.domain.User;
 import com.inmaytide.orbit.uaa.service.UserService;
 import com.nimbusds.jose.jwk.JWKSet;

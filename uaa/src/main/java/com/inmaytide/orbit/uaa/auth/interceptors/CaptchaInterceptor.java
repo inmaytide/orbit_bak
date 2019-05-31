@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.uaa.auth.interceptors;
 
-import com.inmaytide.orbit.commons.exception.BadCaptchaException;
+import com.inmaytide.exception.http.BadCaptchaException;
 import com.inmaytide.orbit.uaa.auth.service.CaptchaService;
 import com.inmaytide.orbit.uaa.domain.dto.CaptchaValidateDto;
 import com.inmaytide.orbit.uaa.utils.RestrictUtil;

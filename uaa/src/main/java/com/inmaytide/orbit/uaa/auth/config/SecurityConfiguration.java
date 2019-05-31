@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.uaa.auth.config;
 
+
 import com.inmaytide.orbit.uaa.auth.service.DefaultUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

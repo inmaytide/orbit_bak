@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.uaa.service.impl;
 
-import com.inmaytide.orbit.commons.exception.BadCredentialsException;
-import com.inmaytide.orbit.commons.exception.ObjectNotFoundException;
+import com.inmaytide.exception.http.BadCredentialsException;
+import com.inmaytide.exception.http.ObjectNotFoundException;
 import com.inmaytide.orbit.enums.UserStatus;
 import com.inmaytide.orbit.uaa.domain.User;
 import com.inmaytide.orbit.uaa.repository.UserRepository;
