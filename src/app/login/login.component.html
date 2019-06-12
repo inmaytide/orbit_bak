@@ -9,7 +9,7 @@
                 <nz-form-control>
                     <nz-input-group  nzSize="large" nzPrefixIcon="user">
                         <input [(ngModel)]="token.username" maxlength="32" formControlName="username" nz-input nzSize="large"
-                            placeholder="Username" type="text" />
+                            placeholder="{{'login.form.username' | translate}}" type="text" />
                     </nz-input-group>
                 </nz-form-control>
             </nz-form-item>
@@ -25,7 +25,7 @@
                 <nz-form-control>
                     <nz-input-group nzSize="large" nzPrefixIcon="picture">
                         <input style="width: 60%;"  maxlength="8" [(ngModel)]="token.captcha" formControlName="captcha" nz-input />
-                        <img [src]="captcha.image" class="captcha" (click)="refreshCaptcha()" title="Click to refresh"/>
+                        <img [src]="captcha.image" class="captcha" (click)="refreshCaptcha()" title="{{'login.captcha.title' | translate}}"/>
                     </nz-input-group>
                 </nz-form-control>
             </nz-form-item>

@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
+import {HeaderComponent} from './header/header.component';
 
 @Component({
   selector: "main",
   template: `
-    <div>呵呵哒克里斯</div>
+    <main-header></main-header>
   `
 })
 export class MainComponent {

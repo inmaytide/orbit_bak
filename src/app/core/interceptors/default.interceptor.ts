@@ -6,13 +6,11 @@ import { Injectable, Injector } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd';
 import { AuthenticateService } from '../passport/authenticate.service';
 
-const NOTIFICATION_TITLE = "系统提醒"
-
 const ERROR_MESSAGES = {
-    503: "后台服务不可用，服务器过载或维护中...",
+    503: "后台服务不可用<br/>服务器过载或维护中...",
     504: "网关连接超时",
     err_bad_credentials: "用户名或密码输入错误",
-    err_login_restricted: (limit: string) => limit === "-1" ? "用户名或密码输入错误次数过多, 访问被拒绝" : `用户名或密码错误次数过多，请${limit}分钟后再试`
+    err_login_restricted: (limit: string) => limit === "-1" ? "用户名或密码输入错误次数过多, 访问被拒绝" : `用户名或密码错误次数过多，分钟后再试`
 }
 
 @Injectable()
@@ -31,7 +29,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // 重写URL，统一加上后台服务端content path
         let url = request.url;
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        if (!url.startsWith("http://") && !url.startsWith("https://") && url.indexOf("/assets/lang")) {
             url = environment.contextPath + url;
         }
         const options: any = {
@@ -61,18 +59,22 @@ export class DefaultInterceptor implements HttpInterceptor {
         let filled = null;
         if (ev.status === 403) {
             if (err.error_description === "err_bad_credentials") {
-                filled = this.notification.warning(NOTIFICATION_TITLE, ERROR_MESSAGES['err_bad_credentials']);
+                filled = this.notification.error(ERROR_MESSAGES['err_bad_credentials'], ``);
             } else if (err.error_description.startsWith("err_login_restricted")) {
                 const limit = err.error_description.replace("err_login_restricted_", "");
-                filled = this.notification.warning(NOTIFICATION_TITLE, ERROR_MESSAGES.err_login_restricted(limit));
+                filled = this.notification.error(ERROR_MESSAGES.err_login_restricted(limit), ``);
             } else if (err.error_description === "err_bad_captcha") {
                 filled = "PROCESSED";
             }
         }
 
+        if (ev.status === 500) {
+            filled = this.notification.error(err.message, ``);
+        }
+
         if (!filled) {
             const message = ERROR_MESSAGES[ev.status] || ev.statusText;
-            this.notification.warning(NOTIFICATION_TITLE, message);
+            this.notification.error(message, ``);
         }
         return throwError(err);
     }

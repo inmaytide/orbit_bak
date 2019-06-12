@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit {
 
     login($event: any) {
         $event.preventDefault();
-
         const body = new FormData();
         Object.keys(this.token).forEach(k => body.append(k, this.token[k]));
         this.http.post(api.login, body)
@@ -86,7 +85,7 @@ export class LoginComponent implements OnInit {
             .catch(err => {
                 if (err.error_description === "err_bad_captcha") {
                     if (this.neededCaptcha) {
-                        this.notification.warning("系统提醒", "验证码输入错误");
+                        this.notification.error("验证码输入错误", ``);
                     } else {
                         this.neededCaptcha = true;
                     }

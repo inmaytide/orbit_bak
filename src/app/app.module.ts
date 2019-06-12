@@ -5,22 +5,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoginComponent } from './login/login.component';
-import { MainComponent } from './main/main.component';
 import { AuthenticateService, AuthenticateFilter } from './core/passport/authenticate.service';
 import { DefaultInterceptor } from './core/interceptors/default.interceptor';
+import { MainModule } from './main/main.module';
 
 registerLocaleData(zh);
 
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent,
-        MainComponent
+        LoginComponent
     ],
     imports: [
         BrowserModule,
@@ -29,7 +30,15 @@ registerLocaleData(zh);
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MainModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         AuthenticateFilter,
@@ -41,3 +50,8 @@ registerLocaleData(zh);
     bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, '/assets/lang/', '.json');
+}

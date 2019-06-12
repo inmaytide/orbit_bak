@@ -1,4 +1,4 @@
-{
+const PROXY_CONFIG = {
   "/api": {
     "target": "https://gateway.orbit.com:7002",
     "secure": false,
@@ -7,3 +7,5 @@
     }
   }
 }
+
+module.exports = PROXY_CONFIG;
