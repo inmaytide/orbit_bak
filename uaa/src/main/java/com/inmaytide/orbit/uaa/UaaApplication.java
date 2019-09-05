@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.uaa;
 
-import com.inmaytide.exception.http.handler.servlet.DefaultExceptionController;
+import com.inmaytide.exception.http.handler.servlet.DefaultExceptionHandler;
 import com.inmaytide.orbit.id.IdGenerator;
 import com.inmaytide.orbit.id.SnowflakeIdGenerator;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,11 +32,10 @@ public class UaaApplication {
         return new SnowflakeIdGenerator(workerId, dataCenterId);
     }
 
-//    @Bean
-//    @Order(-1)
-//    public DefaultExceptionController exceptionHandler() {
-//        return new DefaultExceptionController();
-//    }
-
+    @Bean
+    @Order(-1)
+    public DefaultExceptionHandler exceptionHandler() {
+        return new DefaultExceptionHandler();
+    }
 
 }

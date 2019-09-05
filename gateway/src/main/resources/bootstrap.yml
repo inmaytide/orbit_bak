@@ -5,11 +5,13 @@ spring:
     config:
       discovery:
         enabled: true
-        service-id: configurations
+        service-id: registry
       profile: dev
       label: orbit-dev
       fail-fast: true
+      username: admin
+      password: public
 eureka:
   client:
     service-url:
-      defaultZone: https://admin:public@registry.orbit.com:7000/eureka/
+      defaultZone: https://admin:public@api.orbit.com:7000/eureka/

@@ -10,12 +10,12 @@
     </parent>
     <groupId>com.inmaytide.orbit</groupId>
     <artifactId>uaa</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0.0000</version>
     <name>uaa</name>
 
     <properties>
         <java.version>12</java.version>
-        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
     </properties>
 
     <dependencies>
@@ -78,7 +78,7 @@
         <dependency>
             <groupId>com.inmaytide</groupId>
             <artifactId>commons-exception</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.2.0001</version>
         </dependency>
         <dependency>
             <groupId>com.inmaytide.orbit</groupId>

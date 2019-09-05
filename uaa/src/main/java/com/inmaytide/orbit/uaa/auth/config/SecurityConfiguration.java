@@ -1,7 +1,8 @@
 package com.inmaytide.orbit.uaa.auth.config;
 
-
+import com.inmaytide.exception.http.handler.servlet.DefaultExceptionHandler;
 import com.inmaytide.orbit.uaa.auth.service.DefaultUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,6 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private DefaultExceptionHandler exceptionHandler;
 
     @Bean
     public DefaultUserDetailsService userDetailsService() {
@@ -47,10 +51,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(exceptionHandler::handle)
+                .accessDeniedHandler(exceptionHandler::handle)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/.well-known/jwks.json").permitAll()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .oauth2ResourceServer()
                 .jwt();
