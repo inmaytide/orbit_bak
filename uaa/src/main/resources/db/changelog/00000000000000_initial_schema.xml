@@ -101,6 +101,8 @@
             insert into permission(id, name, code, category, create_time, creator)
                 values(574967990966161411, 'Permissions', 'PERMISSIONS', 0, now(), 574967990966161408);
             insert into permission(id, name, code, category, create_time, creator)
+                values(574967990966161420, 'Roles', 'ROLES', 0, now(), 574967990966161408);
+            insert into permission(id, name, code, category, create_time, creator)
                 values(574967990966161412, 'Users', 'USERS', 0, now(), 574967990966161408);
             insert into permission(id, name, code, category, create_time, creator, parent)
                 values(574967990966161413, 'Create User', 'USERS_ADD', 0, now(), 574967990966161408, 574967990966161412);
@@ -108,7 +110,32 @@
                 values(574967990966161414, 'Edit User', 'USERS_EDIT', 0, now(), 574967990966161408, 574967990966161412);
 
             insert into web_menu(id, name, permission, sort, icon, creator, create_time)
-                values(574967990966161415, 'Settings', null, 100, 'settings', 574967990966161409, now())
+                values(574967990966161415, 'Settings', null, 100, 'settings', 574967990966161408, now());
+            insert into web_menu(id, name, permission, sort, icon, creator, create_time, parent)
+                values(574967990966161416, 'Users', 574967990966161412, 100, 'settings', 574967990966161408, now(), 574967990966161415);
+            insert into web_menu(id, name, permission, sort, icon, creator, create_time, parent)
+                values(574967990966161417, 'Permissions', 574967990966161411, 200, 'settings', 574967990966161408, now(), 574967990966161415);
+            insert into web_menu(id, name, permission, sort, icon, creator, create_time, parent)
+                values(574967990966161418, 'Roles', 574967990966161420, 300, 'settings', 574967990966161408, now(), 574967990966161415);
+            insert into web_menu(id, name, permission, sort, icon, creator, create_time, parent)
+                values(574967990966161419, 'Menus', 574967990966161410, 400, 'settings', 574967990966161408, now(), 574967990966161415);
+        </sql>
+    </changeSet>
+    
+    <changeSet id="00000000000000003" author="inmaytide">
+        <createTable tableName="user_role">
+            <column name="user_id" type="bigint" />
+            <column name="role_id" type="bigint" />
+        </createTable>
+        <createTable tableName="role_permission">
+            <column name="role_id" type="bigint" />
+            <column name="permission_id" type="bigint" />
+        </createTable>
+        <sql>
+            alter table user_role add primary key(user_id, role_id);
+            alter table role_permission add primary key(role_id, permission_id);
+            insert into user_role(user_id, role_id) values(574967990966161408, 574967990966161409);
+            insert into role_permission(role_id, permission_id) select 574967990966161409, id from permission;
         </sql>
     </changeSet>
 

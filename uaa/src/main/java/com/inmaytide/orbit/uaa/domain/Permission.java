@@ -7,12 +7,15 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "permission", schema = "public")
 @EntityListeners(AuditingEntityListener.class)
-public class Permission {
+public class Permission implements Serializable {
+
+    private static final long serialVersionUID = -8578145097258155328L;
 
     @Id
     @GeneratedValue(generator = "snowflake")

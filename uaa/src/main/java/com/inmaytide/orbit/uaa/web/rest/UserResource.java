@@ -2,6 +2,7 @@ package com.inmaytide.orbit.uaa.web.rest;
 
 import com.inmaytide.exception.http.ObjectNotFoundException;
 import com.inmaytide.orbit.uaa.domain.User;
+import com.inmaytide.orbit.uaa.domain.WebMenu;
 import com.inmaytide.orbit.uaa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,9 +32,8 @@ public class UserResource {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody User user, @AuthenticationPrincipal Principal principal) {
+    public User create(@RequestBody User user) {
         return service.create(user);
     }
-
 
 }

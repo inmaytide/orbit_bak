@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    config:
+      name: core
+      fail-fast: true
+      uri: https://api.orbit.com:7000/configurations
+      profile: dev
+      label: orbit-dev
+      username: admin
+      password: public

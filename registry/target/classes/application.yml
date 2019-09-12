@@ -33,7 +33,7 @@ eureka:
     non-secure-port-enabled: false
     secure-port-enabled: true
   client:
-    registerWithEureka: true
+    registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
       defaultZone: https://admin:public@${eureka.instance.hostname}:${server.port}/eureka/

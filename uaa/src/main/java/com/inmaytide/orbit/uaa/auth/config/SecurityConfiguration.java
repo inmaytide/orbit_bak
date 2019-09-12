@@ -60,6 +60,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .oauth2ResourceServer()
+                .accessDeniedHandler(exceptionHandler::handle)
+                .authenticationEntryPoint(exceptionHandler::handle)
                 .jwt();
     }
 }

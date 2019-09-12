@@ -1,8 +1,9 @@
 package com.inmaytide.orbit.uaa.auth.config;
 
+import com.inmaytide.exception.http.handler.servlet.DefaultExceptionHandler;
 import com.inmaytide.orbit.uaa.auth.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.uaa.auth.interceptors.CaptchaInterceptor;
-import com.inmaytide.orbit.uaa.auth.interceptors.RestrictInterceptor;
+import com.inmaytide.orbit.uaa.auth.interceptors.TooManyFailuresInterceptor;
 import com.inmaytide.orbit.uaa.auth.service.CaptchaService;
 import com.inmaytide.orbit.uaa.auth.service.DefaultUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private DefaultUserDetailsService defaultUserDetailsService;
 
     @Autowired
-    private CaptchaService captchaService;
+    private DefaultExceptionHandler exceptionHandler;
 
     public AuthorizationServerConfiguration(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
@@ -55,7 +56,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         clients.inMemory()
                 .withClient("orbit")
                 .authorizedGrantTypes("password", "refresh_token")
-                .secret("$2a$10$h52qlrFszuA1sIEun.XDT.7w.Cl3Ih/g2QXeFJyn7jQV.O41pViAe");
+                .secret("$2a$10$h52qlrFszuA1sIEun.XDT.7w.Cl3Ih/g2QXeFJyn7jQV.O41pViAe")
+                .accessTokenValiditySeconds(5 * 60)
+                .refreshTokenValiditySeconds(24 * 60 * 60 * 30);
     }
 
     @Override
@@ -63,14 +66,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         security.allowFormAuthenticationForClients()
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()")
-                .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
+                .authenticationEntryPoint(exceptionHandler::handle)
+                .accessDeniedHandler(exceptionHandler::handle);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .addInterceptor(new RestrictInterceptor())
-                .addInterceptor(new CaptchaInterceptor(captchaService))
+                .addInterceptor(new CaptchaInterceptor())
+                .addInterceptor(new TooManyFailuresInterceptor())
                 .userDetailsService(defaultUserDetailsService)
                 .authenticationManager(authenticationManager)
                 .exceptionTranslator(new DefaultWebResponseExceptionTranslator())

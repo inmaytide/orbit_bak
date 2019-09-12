@@ -6,6 +6,7 @@ import com.inmaytide.orbit.enums.UserStatus;
 import com.inmaytide.orbit.uaa.domain.User;
 import com.inmaytide.orbit.uaa.repository.UserRepository;
 import com.inmaytide.orbit.uaa.service.UserService;
+import com.inmaytide.orbit.uaa.utils.AuthenticatedHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @CacheEvict(value = "users", key = "#user.username")
     public User create(User user) {
-        getAuthenticatedUser().map(User::getId).ifPresent(user::setCreator);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus(UserStatus.NORMAL);
         return repository.save(user);
@@ -54,19 +54,7 @@ public class UserServiceImpl implements UserService {
     public User modify(User user) {
         User original = get(user.getId()).orElseThrow(ObjectNotFoundException::new);
         BeanUtils.copyProperties(user, original, "password", "status", "createTime", "creator");
-        getAuthenticatedUser().map(User::getId).ifPresent(user::setUpdater);
         return repository.save(original);
-    }
-
-    @Override
-    public Optional<User> getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtAuthenticationToken token = (JwtAuthenticationToken) authentication;
-        String name = Objects.toString(token.getTokenAttributes().get("user_name"), "");
-        if (StringUtils.isBlank(name)) {
-            throw new BadCredentialsException();
-        }
-        return getByUsername(name);
     }
 
     @Override
@@ -79,4 +67,6 @@ public class UserServiceImpl implements UserService {
                     repository.save(user);
                 });
     }
+
+
 }

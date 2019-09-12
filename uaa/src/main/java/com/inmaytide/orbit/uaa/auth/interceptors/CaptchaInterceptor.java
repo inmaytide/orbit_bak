@@ -2,8 +2,8 @@ package com.inmaytide.orbit.uaa.auth.interceptors;
 
 import com.inmaytide.exception.http.BadCaptchaException;
 import com.inmaytide.orbit.uaa.auth.service.CaptchaService;
-import com.inmaytide.orbit.uaa.domain.dto.CaptchaValidateDto;
-import com.inmaytide.orbit.uaa.utils.RestrictUtil;
+import com.inmaytide.orbit.uaa.domain.dto.CaptchaValidate;
+import com.inmaytide.orbit.uaa.utils.ContextHolder;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -17,13 +17,13 @@ public class CaptchaInterceptor implements HandlerInterceptor {
 
     private final CaptchaService service;
 
-    public CaptchaInterceptor(CaptchaService service) {
-        this.service = service;
+    public CaptchaInterceptor() {
+        this.service = ContextHolder.getBean(CaptchaService.class);
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (!request.getRequestURI().endsWith("/oauth/token") || !RestrictUtil.neededCaptcha(request)) {
+        if (!request.getRequestURI().endsWith("/oauth/token") || !LoginFailuresHelper.neededCaptcha(request)) {
             return true;
         }
 
@@ -33,7 +33,7 @@ public class CaptchaInterceptor implements HandlerInterceptor {
         String captcha = request.getParameter(P_NAME_CAPTCHA);
         check(StringUtils.isNotBlank(captcha));
 
-        CaptchaValidateDto valid = service.validate(captcha, captchaName);
+        CaptchaValidate valid = service.validate(captcha, captchaName);
         check(valid.isValid());
 
         return true;

@@ -20,26 +20,12 @@ public class AdditionalEndpoint {
     @Autowired
     private KeyPair keyPair;
 
-    @Autowired
-    private UserService userService;
-
     @GetMapping("/.well-known/jwks.json")
     @ResponseBody
     public Map<String, Object> getKey() {
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAKey key = new RSAKey.Builder(publicKey).build();
         return new JWKSet(key).toJSONObject();
-    }
-
-    @GetMapping("/authenticated")
-    @ResponseBody
-    public User getAuthenticatedUser() {
-        return userService.getAuthenticatedUser().map(this::ensurePassword).orElseThrow(BadCredentialsException::new);
-    }
-
-    private User ensurePassword(User user) {
-        user.setPassword(null);
-        return user;
     }
 
 }

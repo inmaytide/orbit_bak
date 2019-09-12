@@ -2,18 +2,23 @@ package com.inmaytide.orbit.uaa.domain;
 
 import com.inmaytide.orbit.enums.DataCategory;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "role", schema = "public")
 @EntityListeners(AuditingEntityListener.class)
-public class Role implements Serializable  {
+public class Role implements Serializable {
+
+    private static final long serialVersionUID = -7383377298729811783L;
 
     @Id
     @GeneratedValue(generator = "snowflake")
@@ -30,16 +35,24 @@ public class Role implements Serializable  {
     @CreatedDate
     private LocalDateTime createTime;
 
+    @CreatedBy
     private Long creator;
 
     @Column(name = "update_time")
     @LastModifiedDate
     private LocalDateTime updateTime;
 
+    @LastModifiedBy
     private Long updater;
 
     @Version
     private Integer version;
+
+    @Transient
+    private List<Permission> permissions;
+
+    @Transient
+    private List<User> users;
 
     public Long getId() {
         return id;
@@ -111,5 +124,21 @@ public class Role implements Serializable  {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

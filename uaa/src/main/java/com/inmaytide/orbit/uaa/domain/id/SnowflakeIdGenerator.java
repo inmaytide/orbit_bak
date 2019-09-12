@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.uaa.domain.id;
 
-import com.inmaytide.orbit.id.IdGenerator;
+import com.inmaytide.orbit.uaa.client.CoreClient;
 import com.inmaytide.orbit.uaa.utils.ContextHolder;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -10,18 +10,18 @@ import java.io.Serializable;
 
 public class SnowflakeIdGenerator implements IdentifierGenerator {
 
-    private IdGenerator generator;
+    private CoreClient client;
 
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-        return getGenerator().generate();
+        return getClient().newId();
     }
 
-
-    public IdGenerator getGenerator() {
-        if (generator == null) {
-            this.generator = ContextHolder.getBean(IdGenerator.class);
+    private CoreClient getClient() {
+        if (client == null) {
+            this.client = ContextHolder.getBean(CoreClient.class);
         }
-        return generator;
+        return client;
     }
+
 }

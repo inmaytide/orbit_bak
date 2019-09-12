@@ -3,18 +3,23 @@ package com.inmaytide.orbit.uaa.domain;
 import com.inmaytide.orbit.enums.UserStatus;
 import com.inmaytide.orbit.uaa.domain.converters.UserStatusConverter;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "public")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable {
+
+    private static final long serialVersionUID = -2316105324361807081L;
 
     @Id
     @GeneratedValue(generator = "snowflake")
@@ -38,16 +43,21 @@ public class User implements Serializable {
     @CreatedDate
     private LocalDateTime createTime;
 
+    @CreatedBy
     private Long creator;
 
     @Column(name = "update_time")
     @LastModifiedDate
     private LocalDateTime updateTime;
 
+    @LastModifiedBy
     private Long updater;
 
     @Version
     private Integer version;
+
+    @Transient
+    private List<Role> roles;
 
     public Long getId() {
         return id;

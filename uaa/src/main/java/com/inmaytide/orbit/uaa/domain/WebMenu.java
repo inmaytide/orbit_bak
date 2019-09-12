@@ -1,18 +1,23 @@
 package com.inmaytide.orbit.uaa.domain;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "web_menu", schema = "public")
 @EntityListeners(AuditingEntityListener.class)
 public class WebMenu implements Serializable {
+
+    private static final long serialVersionUID = -3107952975536705677L;
 
     @Id
     @GeneratedValue(generator = "snowflake")
@@ -35,16 +40,27 @@ public class WebMenu implements Serializable {
     @CreatedDate
     private LocalDateTime createTime;
 
+    @CreatedBy
     private Long creator;
 
     @Column(name = "update_time")
     @LastModifiedDate
     private LocalDateTime updateTime;
 
+    @LastModifiedBy
     private Long updater;
 
     @Version
     private Integer version;
+
+    @Transient
+    private List<WebMenu> children;
+
+    @Transient
+    private Boolean expand = false;
+
+    @Transient
+    private Integer level;
 
     public Long getId() {
         return id;
@@ -140,5 +156,29 @@ public class WebMenu implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public List<WebMenu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<WebMenu> children) {
+        this.children = children;
+    }
+
+    public Boolean getExpand() {
+        return expand;
+    }
+
+    public void setExpand(Boolean expand) {
+        this.expand = expand;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

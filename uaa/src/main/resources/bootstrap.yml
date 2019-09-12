@@ -1,15 +1,10 @@
 spring:
   cloud:
     config:
-      discovery:
-        enabled: true
-        service-id: registry
+      name: uaa
+      fail-fast: true
+      uri: https://api.orbit.com:7000/configurations
       profile: dev
       label: orbit-dev
-      fail-fast: true
       username: admin
       password: public
-eureka:
-  client:
-    service-url:
-      defaultZone: https://admin:public@api.orbit.com:7000/eureka/
