@@ -1,6 +1,6 @@
 const PROXY_CONFIG = {
   "/api": {
-    "target": "https://gateway.orbit.com:7002",
+    "target": "https://api.orbit.com:7002",
     "secure": false,
     "pathRewrite": {
       "^/api": ""

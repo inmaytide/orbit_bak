@@ -1,3 +1,15 @@
 {
-    "login.form.username": "用户名"
+    "btn.back_to_home": "Back To Home",
+
+    "error.unauthorized": "Not logged in or Token has expired, please log in again",
+    "error.bad_credentials": "The username or password is incorrect",
+    "error.bad_captcha": "The captcha is incorrect",
+    "error.login_refused": "There are too many login failures, please try again later",
+    "error.404": "Sorry, the page you visited does not exist",
+    "error.403": "Sorry, you don't have access to this page",
+
+    "login.form.username": "username",
+    "login.form.password": "password",
+    "login.form.captcha": "captcha",
+    "login.form.button": "Log In"
 }

@@ -1,46 +1,47 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { mergeMap, catchError } from 'rxjs/operators'
-import { environment } from 'src/environments/environment';
-import { Injectable, Injector } from '@angular/core';
-import { NzNotificationService } from 'ng-zorro-antd';
-import { AuthenticateService } from '../passport/authenticate.service';
-
-const ERROR_MESSAGES = {
-    503: "后台服务不可用<br/>服务器过载或维护中...",
-    504: "网关连接超时",
-    err_bad_credentials: "用户名或密码输入错误",
-    err_login_restricted: (limit: string) => limit === "-1" ? "用户名或密码输入错误次数过多, 访问被拒绝" : `用户名或密码错误次数过多，分钟后再试`
-}
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponseBase, HttpErrorResponse} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
+import {mergeMap, catchError} from 'rxjs/operators';
+import {environment} from 'src/environments/environment';
+import {Injectable, Injector} from '@angular/core';
+import {NzMessageService} from 'ng-zorro-antd';
+import {AuthenticateService} from '../passport/authenticate.service';
+import {TranslateService} from '@ngx-translate/core';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
 
-    constructor(private injector: Injector) { }
+    constructor(private injector: Injector,
+                private translate: TranslateService) {
+    }
 
-    private get notification(): NzNotificationService {
-        return this.injector.get(NzNotificationService);
+    private get message(): NzMessageService {
+        return this.injector.get(NzMessageService);
     }
 
     private get authenticate(): AuthenticateService {
         return this.injector.get(AuthenticateService);
     }
 
+    private get router(): Router {
+        return this.injector.get(Router);
+    }
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // 重写URL，统一加上后台服务端content path
         let url = request.url;
-        if (!url.startsWith("http://") && !url.startsWith("https://") && url.indexOf("/assets/lang")) {
+        if (!url.startsWith('http://') && !url.startsWith('https://') && url.indexOf('/assets/lang')) {
             url = environment.contextPath + url;
         }
         const options: any = {
-            url: url
-        }
+            url
+        };
 
         const accessToken = this.authenticate.getAccessToken();
-        if (accessToken !== "") {
-            options.setHeaders = {"Authorization": `Bearer ${accessToken}`}; 
+        if (accessToken !== '') {
+            options.setHeaders = {Authorization: `Bearer ${accessToken}`};
         }
-        
+
         return next.handle(request.clone(options)).pipe(
             mergeMap((event: any) => {
                 // event 为 HttpResponse 时表示请求完成
@@ -54,27 +55,45 @@ export class DefaultInterceptor implements HttpInterceptor {
     }
 
 
-    private showNotification(ev: HttpResponseBase): Observable<any> {
+    private showMessage(ev: HttpResponseBase): Observable<any> {
         const err = (ev as HttpErrorResponse).error;
-        let filled = null;
+        console.log(ev);
+        let processed = false;
         if (ev.status === 403) {
-            if (err.error_description === "err_bad_credentials") {
-                filled = this.notification.error(ERROR_MESSAGES['err_bad_credentials'], ``);
-            } else if (err.error_description.startsWith("err_login_restricted")) {
-                const limit = err.error_description.replace("err_login_restricted_", "");
-                filled = this.notification.error(ERROR_MESSAGES.err_login_restricted(limit), ``);
-            } else if (err.error_description === "err_bad_captcha") {
-                filled = "PROCESSED";
+            processed = true;
+            if (ev.url.endsWith('/oauth/token')) {
+                if (err.error_description === 'err_bad_credentials') {
+                    this.translate.get('error.bad_credentials').subscribe(res => this.message.error(res));
+                } else if (err.error_description === 'err_login_refused') {
+                    this.translate.get('error.login_refused').subscribe(res => this.message.error(res));
+                }
+            } else {
+                this.router.navigateByUrl('/exception/403');
             }
         }
 
         if (ev.status === 500) {
-            filled = this.notification.error(err.message, ``);
+            processed = true;
+            this.message.error(err.message);
         }
 
-        if (!filled) {
-            const message = ERROR_MESSAGES[ev.status] || ev.statusText;
-            this.notification.error(message, ``);
+        if (ev.status === 404) {
+            processed = true;
+            this.router.navigateByUrl('/exception/404');
+        }
+
+        if (ev.status === 401) {
+            processed = true;
+            this.authenticate.clear();
+            this.router.navigateByUrl('/login');
+            this.translate.get('error.unauthorized').subscribe(res => this.message.warning(res));
+
+        }
+
+        if (!processed) {
+            const key = `error.status.${ev.status}`;
+            this.translate.get(key)
+                .subscribe(res => this.message.error(res === key ? ev.statusText : res));
         }
         return throwError(err);
     }
@@ -82,10 +101,9 @@ export class DefaultInterceptor implements HttpInterceptor {
 
     private handleData(ev: HttpResponseBase): Observable<any> {
         if (ev.status >= 200 && ev.status < 300) {
-            console.log(ev);
             return of(ev);
         }
-        return this.showNotification(ev);
+        return this.showMessage(ev);
     }
 
 }
