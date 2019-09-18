@@ -139,4 +139,14 @@
         </sql>
     </changeSet>
 
+    <changeSet id="00000000000000004" author="inmaytide">
+        <addColumn tableName="user">
+            <column name="avatar" type="varchar(256)"/>
+        </addColumn>
+        <sql>
+            update public.user set avatar =
+            'http://192.168.2.126:80/group1/M00/25/FF/wKgCfl13hZKAZLc9AAAdAfjaBLs25.jpeg'
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

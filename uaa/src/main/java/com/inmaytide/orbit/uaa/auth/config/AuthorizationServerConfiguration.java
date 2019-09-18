@@ -4,7 +4,6 @@ import com.inmaytide.exception.http.handler.servlet.DefaultExceptionHandler;
 import com.inmaytide.orbit.uaa.auth.DefaultWebResponseExceptionTranslator;
 import com.inmaytide.orbit.uaa.auth.interceptors.CaptchaInterceptor;
 import com.inmaytide.orbit.uaa.auth.interceptors.TooManyFailuresInterceptor;
-import com.inmaytide.orbit.uaa.auth.service.CaptchaService;
 import com.inmaytide.orbit.uaa.auth.service.DefaultUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 import java.security.KeyPair;
 
@@ -65,7 +63,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.allowFormAuthenticationForClients()
                 .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()")
+                .checkTokenAccess("permitAll()")
                 .authenticationEntryPoint(exceptionHandler::handle)
                 .accessDeniedHandler(exceptionHandler::handle);
     }

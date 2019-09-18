@@ -32,6 +32,8 @@ public class User implements Serializable {
 
     private String name;
 
+    private String avatar;
+
     private String cellphone;
 
     private String email;
@@ -153,6 +155,14 @@ public class User implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Transient
