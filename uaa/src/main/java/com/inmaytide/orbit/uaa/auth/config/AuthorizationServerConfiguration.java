@@ -71,8 +71,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .addInterceptor(new CaptchaInterceptor())
                 .addInterceptor(new TooManyFailuresInterceptor())
+                .addInterceptor(new CaptchaInterceptor())
                 .userDetailsService(defaultUserDetailsService)
                 .authenticationManager(authenticationManager)
                 .exceptionTranslator(new DefaultWebResponseExceptionTranslator())

@@ -2,7 +2,7 @@ package com.inmaytide.orbit.core;
 
 import com.inmaytide.orbit.core.id.generator.IdGenerator;
 import com.inmaytide.orbit.core.id.generator.SnowflakeIdGenerator;
-import com.inmaytide.orbit.core.id.handler.Handler;
+import com.inmaytide.orbit.core.id.rest.IdResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,13 +34,6 @@ public class CoreApplication {
     @Bean
     public IdGenerator idGenerator() {
         return new SnowflakeIdGenerator(workerId, dataCenterId);
-    }
-
-    @Bean
-    public RouterFunction<?> routers(Handler handler) {
-        RouterFunction<?> routers = route(GET("/id"), handler::generate)
-                .and(route(GET("/id/batch"), handler::batchGenerate));
-        return nest(path("/api"), routers);
     }
 
 }

@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: core
   cloud:
     config:
       name: core
