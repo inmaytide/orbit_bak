@@ -1,0 +1,7 @@
+{
+    "status.503": "后台服务不可用，服务器过载或维护中...",
+    "error.status.504": "网关连接超时",
+    "err_bad_credentials": "用户名或密码输入错误",
+    "err_login_restricted": "用户名或密码输入错误次数过多，请稍后后再试",
+    "err_login_restricted_-1": "拒绝访问，请联系管理员"
+}

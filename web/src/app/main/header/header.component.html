@@ -1,0 +1,15 @@
+<div class="inside">
+    <div class="logo" [ngClass]="{collapsed: service.isCollapsed}">
+        <img src="./assets/galaxy.svg">
+        <div>rbit</div>
+    </div>
+    <div>
+        <button style="background-color: #36cfc9; box-shadow:none;" nz-button nzType="primary"
+                (click)="service.toggleCollapsed()">
+            <i nz-icon [nzType]="service.isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+        </button>
+    </div>
+    <div>
+
+    </div>
+</div>
