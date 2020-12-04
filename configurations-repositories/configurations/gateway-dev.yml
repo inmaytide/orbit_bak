@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+          handshake-timeout-millis: 10000
+          close-notify-flush-timeout-millis: 3000
+          close-notify-read-timeout-millis: 0
+server:
+  port: 7002
+  ssl:
+    enabled: true
+    key-store: ${user.home}/.certificates/server.jks
+    key-store-password: 59a84cbf83227a35
+    key-store-type: PKCS12
+    key-alias: 1
+eureka:
+  instance:
+    status-page-url: https://${eureka.hostname}:${server.port}/actuator/info
+    health-check-url: https://${eureka.hostname}:${server.port}/actuator/health
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    hostname: api.orbit.com
+  client:
+    serviceUrl:
+      defaultZone: https://admin:public@api.orbit.com:7000/eureka/

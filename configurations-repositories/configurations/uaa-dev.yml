@@ -1,0 +1,37 @@
+server:
+  port: 7003
+  ssl:
+    key-store: ${user.home}/.certificates/server.jks
+    key-store-password: 59a84cbf83227a35
+    key-store-type: PKCS12
+    key-alias: 1
+    protocol: TLSv1.2
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/uaa
+    username: orbit
+    password: 3224781
+  jpa:
+    show-sql: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://api.orbit.com:7002/uaa/.well-known/jwks.json
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+eureka:
+  instance:
+    status-page-url: https://${eureka.hostname}:${server.port}/actuator/info
+    health-check-url: https://${eureka.hostname}:${server.port}/actuator/health
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    hostname: api.orbit.com
+  client:
+    serviceUrl:
+      defaultZone: https://admin:public@api.orbit.com:7000/eureka/
